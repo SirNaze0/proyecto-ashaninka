@@ -1,0 +1,402 @@
+# GENERADO por `uv run python -m app.cli corpus extract` desde AmericasNLP2021@d3f519c
+# (splits train y dev). status: candidato-corpus = evidencia, NO dato validado.
+- source_form: U2
+  kind: sigla
+  frequency: 13
+  in_spanish_line: 12
+  examples:
+  - ref: dev:20
+    cni: eneri ashi Rudolph Anderson otsipatearo U2.
+  - ref: dev:45
+    cni: okapee irinti maba, ee, antakotiroripee U2 timaintsiri isabitaka pinkatsari Kenned
+  - ref: dev:96
+    cni: Anderson, aparo obetsikirori ashi maba U2.
+  status: candidato-corpus
+- source_form: IRT
+  kind: sigla
+  frequency: 9
+  in_spanish_line: 9
+  examples:
+  - ref: dev:131
+    cni: re Haute, antachaneri obamentantsi ashi IRT meeka kitaiteriki
+  - ref: dev:313
+    cni: Ora IRT akakotiro shiakantsi irashi obamerentsi
+  - ref: dev:361
+    cni: Okimoshiretakasanotanari oka IRT irointi pintsatakantirori maaroni nampi
+  status: candidato-corpus
+- source_form: CIA
+  kind: sigla
+  frequency: 4
+  in_spanish_line: 4
+  examples:
+  - ref: dev:71
+    cni: Ora CIA okempoyakero shiakantsi irashijei.
+  - ref: dev:219
+    cni: Ora CIA aake shiakantsi jero anakero Naciones U
+  - ref: dev:387
+    cni: Ora CIA okenshireaka ora ONU okoi amenero shiak
+  status: candidato-corpus
+- source_form: I.U.
+  kind: sigla
+  frequency: 4
+  in_spanish_line: 4
+  examples:
+  - ref: dev:4
+    cni: Tee narojei, tee irori I.U. pijitimotearo.
+  - ref: dev:181
+    cni: Okanta ora I.U. okantakotimpi pijisanota jampakia abiro
+  - ref: dev:334
+    cni: Pijisanotimojeitana jero I.U.
+  status: candidato-corpus
+- source_form: SS
+  kind: sigla
+  frequency: 4
+  in_spanish_line: 4
+  examples:
+  - ref: dev:93
+    cni: Tee nonkoe nokie mabatirori SS mabaki amitakoyetantatsiri koayetachari
+  - ref: dev:600
+    cni: Tekatsi oyatsine ikie ara Third SS.
+  - ref: dev:695
+    cni: Tee nokoe notsipatearo mabatirori SS.
+  status: candidato-corpus
+- source_form: VIII
+  kind: romano
+  frequency: 4
+  in_spanish_line: 4
+  examples:
+  - ref: train:3
+    cni: Amazonía jero nampitsipe kajemantatsiri VIII Apatojeitantsi Panamazónico. Oka shiaka
+  - ref: train:5
+    cni: rope amitakotantsi. okameka añakero ora VIII Apatotantsi pinkatsaro Panamazónico oka
+  - ref: train:32
+    cni: Ora nampitsipe amazónico jero VIII FOSPA akantasanotiro ora sabikantsi jer
+  status: candidato-corpus
+- source_form: II
+  kind: romano
+  frequency: 3
+  in_spanish_line: 3
+  examples:
+  - ref: train:792
+    cni: Abakojetiro II. Anibetarori
+  - ref: train:874
+    cni: OETOTARI II. Kenkishiriantsi anampi aminakotero ash
+  - ref: train:959
+    cni: OsabekakOtsi II jebantirOri
+  status: candidato-corpus
+- source_form: III
+  kind: romano
+  frequency: 3
+  in_spanish_line: 2
+  examples:
+  - ref: train:795
+    cni: Abakojetiro III. Intakanteroni
+  - ref: train:1008
+    cni: OETOTARI III. Anintero ashitari nijatetachari
+  - ref: train:1039
+    cni: OETOTARI III. Okantakobenteri iriro nija
+  status: candidato-corpus
+- source_form: IUPUI
+  kind: sigla
+  frequency: 3
+  in_spanish_line: 3
+  examples:
+  - ref: dev:260
+    cni: erori otimita kiriboro ashi Universidad IUPUI.
+  - ref: dev:311
+    cni: ri amitakotantsi otimita kirirboro ashi IUPUI University aisati omatanteari okoakoter
+  - ref: dev:875
+    cni: $ ara otimita kiriboro ashi Universidad IUPUI.
+  status: candidato-corpus
+- source_form: V6
+  kind: sigla
+  frequency: 3
+  in_spanish_line: 3
+  examples:
+  - ref: dev:31
+    cni: Keariorika aparo V6 irootake kameetsa antantearori.
+  - ref: dev:206
+    cni: Nakotakero noneanteari aparo V6.
+  - ref: dev:681
+    cni: Eiro katsini notimakotero aparo V6.
+  status: candidato-corpus
+- source_form: AGUA
+  kind: sigla
+  frequency: 2
+  in_spanish_line: 0
+  examples:
+  - ref: train:1185
+    cni: baetantari otimera nija kameetsari (ECA-AGUA) inintakari ojebate Aminakotero osaekir
+  - ref: train:1192
+    cni: okameetsate aminakotantarori nija (ECA-AGUA) obira iroperori inintakaro (LMP) te ik
+  status: candidato-corpus
+- source_form: ECA
+  kind: sigla
+  frequency: 2
+  in_spanish_line: 2
+  examples:
+  - ref: train:1185
+    cni: minabaetantari otimera nija kameetsari (ECA-AGUA) inintakari ojebate Aminakotero os
+  - ref: train:1192
+    cni: yero okameetsate aminakotantarori nija (ECA-AGUA) obira iroperori inintakaro (LMP)
+  status: candidato-corpus
+- source_form: FOSPA
+  kind: sigla
+  frequency: 2
+  in_spanish_line: 2
+  examples:
+  - ref: train:31
+    cni: Ora FOSPA amitakotiro nampitsi ariorika otimake o
+  - ref: train:32
+    cni: Ora nampitsipe amazónico jero VIII FOSPA akantasanotiro ora sabikantsi jero inch
+  status: candidato-corpus
+- source_form: IV
+  kind: romano
+  frequency: 2
+  in_spanish_line: 2
+  examples:
+  - ref: train:1270
+    cni: ero iñanata obakota inintakaro Oetotari IV ikantakantaetsire aminerori Ñaantsi.
+  - ref: train:1288
+    cni: o aritake okantiri osaekakotsi Oetotari IV arika ashitarori timatsi yaminakotero a
+  status: candidato-corpus
+- source_form: O2
+  kind: sigla
+  frequency: 2
+  in_spanish_line: 1
+  examples:
+  - ref: dev:72
+    cni: ri, ooo, ibetsikakero amenirori antyaro O2 tekerani obetsikanteari amenirori tayet
+  - ref: dev:352
+    cni: i yantabatini jenoki amenakotirori ashi O2.
+  status: candidato-corpus
+- source_form: ONU
+  kind: sigla
+  frequency: 2
+  in_spanish_line: 2
+  examples:
+  - ref: dev:387
+    cni: Ora CIA okenshireaka ora ONU okoi amenero shiakantsi intsipaite.
+  - ref: dev:702
+    cni: Ora CIA amaake shiakantsi ONU.
+  status: candidato-corpus
+- source_form: PAMA
+  kind: sigla
+  frequency: 2
+  in_spanish_line: 2
+  examples:
+  - ref: train:1375
+    cni: o yakakotero yaminakotero aninkatantsi (PAMA) arika opintinkaki nija timerantatsire
+  - ref: train:1375
+    cni: ari Ikantakantaetire V otime inijantero PAMA Jebabentirori Aninkatantsi ipaetiro omo
+  status: candidato-corpus
+- source_form: UIT
+  kind: sigla
+  frequency: 2
+  in_spanish_line: 2
+  examples:
+  - ref: train:1341
+    cni: apapakoroni (0,5) aparopayeni obakota (UIT) tera ojebate diez mil (10,000) UIT.
+  - ref: train:1341
+    cni: ta (UIT) tera ojebate diez mil (10,000) UIT.
+  status: candidato-corpus
+- source_form: ANA
+  kind: sigla
+  frequency: 1
+  in_spanish_line: 1
+  examples:
+  - ref: train:837
+    cni: ro Jebabentirori Anampitsite ashi Nija (ANA) okantire saekatire ashitari opoñanijas
+  status: candidato-corpus
+- source_form: APITE
+  kind: sigla
+  frequency: 1
+  in_spanish_line: 0
+  examples:
+  - ref: train:1374
+    cni: APITE OSHEKINI. Akenkishiriakotero akakotero
+  status: candidato-corpus
+- source_form: ASPCA
+  kind: sigla
+  frequency: 1
+  in_spanish_line: 1
+  examples:
+  - ref: dev:169
+    cni: Nokoakotempi pinpe 10 dólares anta ASPCA.
+  status: candidato-corpus
+- source_form: HP
+  kind: sigla
+  frequency: 1
+  in_spanish_line: 1
+  examples:
+  - ref: dev:159
+    cni: i aparo obetsikirori Apple aisati aparo HP pankotsiki.
+  status: candidato-corpus
+- source_form: IX
+  kind: romano
+  frequency: 1
+  in_spanish_line: 1
+  examples:
+  - ref: train:1282
+    cni: OSAEKAKOTSI IX. Nijapaye itsompaesato
+  status: candidato-corpus
+- source_form: KAMORI
+  kind: sigla
+  frequency: 1
+  in_spanish_line: 0
+  examples:
+  - ref: train:3533
+    cni: KAMORI
+  status: candidato-corpus
+- source_form: KATARI
+  kind: sigla
+  frequency: 1
+  in_spanish_line: 0
+  examples:
+  - ref: train:2205
+    cni: KATARI
+  status: candidato-corpus
+- source_form: LGTB
+  kind: sigla
+  frequency: 1
+  in_spanish_line: 1
+  examples:
+  - ref: train:9
+    cni: o sharakasato tsinanepe, afroamazónicos LGTB, apatoyetantsi ashi ebankarope, orijani
+  status: candidato-corpus
+- source_form: LMP
+  kind: sigla
+  frequency: 1
+  in_spanish_line: 1
+  examples:
+  - ref: train:1192
+    cni: (ECA-AGUA) obira iroperori inintakaro (LMP) te ikobakaero oshitobate nija oshitoba
+  status: candidato-corpus
+- source_form: MAMARO
+  kind: sigla
+  frequency: 1
+  in_spanish_line: 0
+  examples:
+  - ref: train:3653
+    cni: MAMARO
+  status: candidato-corpus
+- source_form: MEANTO
+  kind: sigla
+  frequency: 1
+  in_spanish_line: 0
+  examples:
+  - ref: train:3502
+    cni: MEANTO
+  status: candidato-corpus
+- source_form: NY
+  kind: sigla
+  frequency: 1
+  in_spanish_line: 0
+  examples:
+  - ref: dev:72
+    cni: shi Firewell and Company, ashi Buffalo, NY, iritake aparotaintsi ashi ooo, obetsik
+  status: candidato-corpus
+- source_form: OOVERO
+  kind: sigla
+  frequency: 1
+  in_spanish_line: 0
+  examples:
+  - ref: train:2684
+    cni: OOVERO
+  status: candidato-corpus
+- source_form: P.D.
+  kind: sigla
+  frequency: 1
+  in_spanish_line: 0
+  examples:
+  - ref: dev:515
+    cni: 'P.D.: Ipaakeri iroopetake ashi 85.º kimoshir'
+  status: candidato-corpus
+- source_form: PBI
+  kind: sigla
+  frequency: 1
+  in_spanish_line: 1
+  examples:
+  - ref: train:18
+    cni: i sabikantsi jero Bruto Intakoyetarori (PBI) ashipe nampitsipe.
+  status: candidato-corpus
+- source_form: PC
+  kind: sigla
+  frequency: 1
+  in_spanish_line: 1
+  examples:
+  - ref: dev:463
+    cni: i obametsatantatsiri, otimimotana apite PC pankotsiki iro kantaincha apiteroketi i
+  status: candidato-corpus
+- source_form: SHARO
+  kind: sigla
+  frequency: 1
+  in_spanish_line: 0
+  examples:
+  - ref: train:2809
+    cni: SHARO
+  status: candidato-corpus
+- source_form: SHIRO
+  kind: sigla
+  frequency: 1
+  in_spanish_line: 0
+  examples:
+  - ref: train:3614
+    cni: SHIRO
+  status: candidato-corpus
+- source_form: TZIVI
+  kind: sigla
+  frequency: 1
+  in_spanish_line: 0
+  examples:
+  - ref: train:1641
+    cni: TZIVI
+  status: candidato-corpus
+- source_form: TÍTULO
+  kind: sigla
+  frequency: 1
+  in_spanish_line: 0
+  examples:
+  - ref: train:1267
+    cni: TÍTULO VIII. Infraestructura hidráulica
+  status: candidato-corpus
+- source_form: VCR
+  kind: sigla
+  frequency: 1
+  in_spanish_line: 1
+  examples:
+  - ref: dev:598
+    cni: kameetsa, otimimotana aparo VCR aisati otimatie noipiajero apite amashi
+  status: candidato-corpus
+- source_form: VI
+  kind: romano
+  frequency: 1
+  in_spanish_line: 1
+  examples:
+  - ref: train:1221
+    cni: OETOTARI VI . Aminakotero ashitañakotaro ashitantar
+  status: candidato-corpus
+- source_form: VII
+  kind: romano
+  frequency: 1
+  in_spanish_line: 1
+  examples:
+  - ref: train:1248
+    cni: OETOTARI VII . Kenkishiriatantsi aminakotirori nija
+  status: candidato-corpus
+- source_form: XI
+  kind: romano
+  frequency: 1
+  in_spanish_line: 1
+  examples:
+  - ref: train:1308
+    cni: OETOTARI XI . Okonatake okantabaetapaye
+  status: candidato-corpus
+- source_form: XII
+  kind: romano
+  frequency: 1
+  in_spanish_line: 1
+  examples:
+  - ref: train:1311
+    cni: OETOTARI XII. Okantashitaro obasankitantsi
+  status: candidato-corpus

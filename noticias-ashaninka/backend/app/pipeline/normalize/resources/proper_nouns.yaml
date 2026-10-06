@@ -1,0 +1,7 @@
+# Gazetteer de nombres propios (personas, lugares mestizos, instituciones).
+# Campos: source_form (como se escribe), replacement (forma canónica cni tal como se pronuncia; opcional).
+# Un nombre sin "replacement" se reconoce como nombre propio, pero su reescritura depende de P2d.
+# Candidatos en data/candidates/proper_nouns.yaml.
+resource: proper_nouns
+description: "Nombres propios reconocidos y su reescritura fonética"
+entries: []

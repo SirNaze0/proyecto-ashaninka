@@ -1,0 +1,24 @@
+# Entorno
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Configuración local
+.env
+
+# Datos descargados (no se redistribuyen; los descarga init.sh y se verifican por hash)
+data/corpus/
+models/
+
+# Base de datos local
+data/*.db
+
+# Artefactos generados por la evaluación
+eval/fase1/mms_orthography/out/
+eval/listening/rewrite_check/audio/
+fase1_entrega.zip
+coverage.json

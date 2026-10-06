@@ -1,0 +1,6 @@
+# P2c — Préstamos asentados: forma castellana -> forma adaptada que usa la comunidad.
+# Campos: source_form (castellano), replacement (forma canónica cni).
+# SUPUESTO-LING: léxico vacío. Candidatos en data/candidates/loanwords.yaml.
+resource: loanwords
+description: "Préstamos del castellano ya asentados, con su forma adaptada"
+entries: []

@@ -1,0 +1,1415 @@
+# GENERADO por `uv run python -m app.cli corpus extract` desde AmericasNLP2021@d3f519c
+# (splits train y dev). status: candidato-corpus = evidencia, NO dato validado.
+- key: ikantsi
+  forms:
+  - form: ikantzi
+    count: 98
+    ref: train:1431
+  - form: ikantsi
+    count: 30
+    ref: train:3703
+  total: 128
+  status: candidato-corpus
+- key: tsimatsi
+  forms:
+  - form: tzimatsi
+    count: 62
+    ref: train:1408
+  - form: tsimatsi
+    count: 4
+    ref: train:3686
+  total: 66
+  status: candidato-corpus
+- key: okantsi
+  forms:
+  - form: okantzi
+    count: 40
+    ref: train:1717
+  - form: okantsi
+    count: 17
+    ref: train:3722
+  total: 57
+  status: candidato-corpus
+- key: okaratsi
+  forms:
+  - form: okaratzi
+    count: 52
+    ref: train:1468
+  - form: okaratsi
+    count: 5
+    ref: train:3698
+  total: 57
+  status: candidato-corpus
+- key: ikantsiri
+  forms:
+  - form: ikantziri
+    count: 46
+    ref: train:1434
+  - form: ikantsiri
+    count: 9
+    ref: train:3786
+  total: 55
+  status: candidato-corpus
+- key: ikantsiro
+  forms:
+  - form: ikantziro
+    count: 34
+    ref: train:1651
+  - form: ikantsiro
+    count: 21
+    ref: train:3694
+  total: 55
+  status: candidato-corpus
+- key: irojatsi
+  forms:
+  - form: irojatzi
+    count: 34
+    ref: train:1451
+  - form: irojatsi
+    count: 7
+    ref: train:500
+  total: 41
+  status: candidato-corpus
+- key: okantsiri
+  forms:
+  - form: okantziri
+    count: 19
+    ref: train:1666
+  - form: okantsiri
+    count: 17
+    ref: train:3693
+  total: 36
+  status: candidato-corpus
+- key: okantsiro
+  forms:
+  - form: okantziro
+    count: 24
+    ref: train:1636
+  - form: okantsiro
+    count: 9
+    ref: train:3714
+  total: 33
+  status: candidato-corpus
+- key: aisatsi
+  forms:
+  - form: aisatzi
+    count: 21
+    ref: train:1410
+  - form: aisatsi
+    count: 3
+    ref: train:3717
+  total: 24
+  status: candidato-corpus
+- key: inatsi
+  forms:
+  - form: inatzi
+    count: 20
+    ref: train:1475
+  - form: inatsi
+    count: 3
+    ref: train:3786
+  total: 23
+  status: candidato-corpus
+- key: ikantaitsiri
+  forms:
+  - form: ikantaitziri
+    count: 21
+    ref: train:1396
+  - form: ikantaitsiri
+    count: 1
+    ref: train:3860
+  total: 22
+  status: candidato-corpus
+- key: maba
+  forms:
+  - form: mava
+    count: 13
+    ref: train:1631
+  - form: maba
+    count: 9
+    ref: train:382
+  total: 22
+  status: candidato-corpus
+- key: ijatsi
+  forms:
+  - form: ijatzi
+    count: 18
+    ref: train:1504
+  - form: ijatsi
+    count: 3
+    ref: train:3690
+  total: 21
+  status: candidato-corpus
+- key: ontsimatye
+  forms:
+  - form: ontzimatye
+    count: 19
+    ref: train:1404
+  - form: ontsimatye
+    count: 1
+    ref: train:3798
+  total: 20
+  status: candidato-corpus
+- key: abiro
+  forms:
+  - form: abiro
+    count: 15
+    ref: train:1081
+  - form: aviro
+    count: 4
+    ref: train:1755
+  total: 19
+  status: candidato-corpus
+- key: obayeri
+  forms:
+  - form: ovayeri
+    count: 16
+    ref: train:2199
+  - form: obayeri
+    count: 3
+    ref: train:5
+  total: 19
+  status: candidato-corpus
+- key: kobachari
+  forms:
+  - form: kobachari
+    count: 16
+    ref: train:802
+  - form: kovachari
+    count: 1
+    ref: train:1650
+  total: 17
+  status: candidato-corpus
+- key: b
+  forms:
+  - form: b
+    count: 10
+    ref: train:855
+  - form: v
+    count: 6
+    ref: train:1176
+  total: 16
+  status: candidato-corpus
+- key: onatsi
+  forms:
+  - form: onatzi
+    count: 15
+    ref: train:1546
+  - form: onatsi
+    count: 1
+    ref: train:3729
+  total: 16
+  status: candidato-corpus
+- key: abotsi
+  forms:
+  - form: avotsi
+    count: 10
+    ref: train:1747
+  - form: abotsi
+    count: 3
+    ref: train:45
+  total: 13
+  status: candidato-corpus
+- key: jaitetsi
+  forms:
+  - form: jaitetzi
+    count: 8
+    ref: train:1456
+  - form: jaitetsi
+    count: 5
+    ref: train:3699
+  total: 13
+  status: candidato-corpus
+- key: obaantsiki
+  forms:
+  - form: obaantsiki
+    count: 12
+    ref: train:35
+  - form: ovaantsiki
+    count: 1
+    ref: train:3339
+  total: 13
+  status: candidato-corpus
+- key: abirori
+  forms:
+  - form: avirori
+    count: 9
+    ref: train:1482
+  - form: abirori
+    count: 3
+    ref: dev:170
+  total: 12
+  status: candidato-corpus
+- key: irojatsita
+  forms:
+  - form: irojatzita
+    count: 11
+    ref: train:2295
+  - form: irojatsita
+    count: 1
+    ref: train:3689
+  total: 12
+  status: candidato-corpus
+- key: iñaatsiri
+  forms:
+  - form: iñaatziri
+    count: 8
+    ref: train:1452
+  - form: iñaatsiri
+    count: 4
+    ref: train:3706
+  total: 12
+  status: candidato-corpus
+- key: ebankari
+  forms:
+  - form: ebankari
+    count: 8
+    ref: train:21
+  - form: evankari
+    count: 3
+    ref: train:667
+  total: 11
+  status: candidato-corpus
+- key: ikaratsi
+  forms:
+  - form: ikaratzi
+    count: 7
+    ref: train:1685
+  - form: ikaratsi
+    count: 3
+    ref: train:3687
+  total: 10
+  status: candidato-corpus
+- key: ikimatsiro
+  forms:
+  - form: ikimatsiro
+    count: 5
+    ref: train:3808
+  - form: ikimatziro
+    count: 5
+    ref: train:1888
+  total: 10
+  status: candidato-corpus
+- key: nobankoki
+  forms:
+  - form: novankoki
+    count: 9
+    ref: train:2412
+  - form: nobankoki
+    count: 1
+    ref: dev:629
+  total: 10
+  status: candidato-corpus
+- key: obakera
+  forms:
+  - form: ovakera
+    count: 9
+    ref: train:1520
+  - form: obakera
+    count: 1
+    ref: train:3880
+  total: 10
+  status: candidato-corpus
+- key: okobi
+  forms:
+  - form: okobi
+    count: 6
+    ref: train:460
+  - form: okovi
+    count: 4
+    ref: train:1901
+  total: 10
+  status: candidato-corpus
+- key: potsotsi
+  forms:
+  - form: potsotzi
+    count: 9
+    ref: train:2200
+  - form: potsotsi
+    count: 1
+    ref: train:604
+  total: 10
+  status: candidato-corpus
+- key: akantsiri
+  forms:
+  - form: akantziri
+    count: 6
+    ref: train:1517
+  - form: akantsiri
+    count: 3
+    ref: train:3688
+  total: 9
+  status: candidato-corpus
+- key: inintsi
+  forms:
+  - form: inintzi
+    count: 5
+    ref: train:1832
+  - form: inintsi
+    count: 4
+    ref: train:3758
+  total: 9
+  status: candidato-corpus
+- key: intatsikironta
+  forms:
+  - form: intatzikironta
+    count: 5
+    ref: train:1532
+  - form: intatsikironta
+    count: 4
+    ref: train:3842
+  total: 9
+  status: candidato-corpus
+- key: iñaatsiro
+  forms:
+  - form: iñaatziro
+    count: 5
+    ref: train:1797
+  - form: iñaatsiro
+    count: 4
+    ref: train:3752
+  total: 9
+  status: candidato-corpus
+- key: sankatsi
+  forms:
+  - form: sankatzi
+    count: 5
+    ref: train:1824
+  - form: sankatsi
+    count: 4
+    ref: train:3771
+  total: 9
+  status: candidato-corpus
+- key: iririntsi
+  forms:
+  - form: iririntsi
+    count: 5
+    ref: train:1940
+  - form: iririntzi
+    count: 3
+    ref: train:1930
+  total: 8
+  status: candidato-corpus
+- key: nonatsi
+  forms:
+  - form: nonatzi
+    count: 7
+    ref: train:1847
+  - form: nonatsi
+    count: 1
+    ref: train:3786
+  total: 8
+  status: candidato-corpus
+- key: oñaatsiri
+  forms:
+  - form: oñaatziri
+    count: 7
+    ref: train:1810
+  - form: oñaatsiri
+    count: 1
+    ref: train:3761
+  total: 8
+  status: candidato-corpus
+- key: abotsiki
+  forms:
+  - form: abotsiki
+    count: 4
+    ref: train:123
+  - form: avotsiki
+    count: 3
+    ref: train:2272
+  total: 7
+  status: candidato-corpus
+- key: ikantsika
+  forms:
+  - form: ikantzika
+    count: 5
+    ref: train:1950
+  - form: ikantsika
+    count: 2
+    ref: train:3836
+  total: 7
+  status: candidato-corpus
+- key: itsimantakari
+  forms:
+  - form: itzimantakari
+    count: 4
+    ref: train:1683
+  - form: itsimantakari
+    count: 3
+    ref: train:3685
+  total: 7
+  status: candidato-corpus
+- key: obatsa
+  forms:
+  - form: ovatsa
+    count: 4
+    ref: train:2826
+  - form: obatsa
+    count: 3
+    ref: train:383
+  total: 7
+  status: candidato-corpus
+- key: pijatsi
+  forms:
+  - form: pijatzi
+    count: 4
+    ref: train:1763
+  - form: pijatsi
+    count: 3
+    ref: train:3731
+  total: 7
+  status: candidato-corpus
+- key: amaatsi
+  forms:
+  - form: amaatsi
+    count: 3
+    ref: train:3760
+  - form: amaatzi
+    count: 3
+    ref: train:1809
+  total: 6
+  status: candidato-corpus
+- key: ibatsa
+  forms:
+  - form: ibatsa
+    count: 4
+    ref: train:106
+  - form: ivatsa
+    count: 2
+    ref: train:3198
+  total: 6
+  status: candidato-corpus
+- key: iñaapatsiri
+  forms:
+  - form: iñaapatziri
+    count: 5
+    ref: train:1821
+  - form: iñaapatsiri
+    count: 1
+    ref: train:3769
+  total: 6
+  status: candidato-corpus
+- key: jatsi
+  forms:
+  - form: jatzi
+    count: 4
+    ref: train:1450
+  - form: jatsi
+    count: 2
+    ref: train:3739
+  total: 6
+  status: candidato-corpus
+- key: obakerari
+  forms:
+  - form: obakerari
+    count: 5
+    ref: train:64
+  - form: ovakerari
+    count: 1
+    ref: train:3137
+  total: 6
+  status: candidato-corpus
+- key: otsimantari
+  forms:
+  - form: otsimantari
+    count: 4
+    ref: train:904
+  - form: otzimantari
+    count: 2
+    ref: train:1657
+  total: 6
+  status: candidato-corpus
+- key: otsitsi
+  forms:
+  - form: otsitsi
+    count: 3
+    ref: train:201
+  - form: otsitzi
+    count: 3
+    ref: train:83
+  total: 6
+  status: candidato-corpus
+- key: pibankoki
+  forms:
+  - form: pibankoki
+    count: 3
+    ref: dev:276
+  - form: pivankoki
+    count: 3
+    ref: train:1855
+  total: 6
+  status: candidato-corpus
+- key: batsatsi
+  forms:
+  - form: batsatsi
+    count: 3
+    ref: train:85
+  - form: vatsatsi
+    count: 2
+    ref: train:1403
+  total: 5
+  status: candidato-corpus
+- key: nokobi
+  forms:
+  - form: nokovi
+    count: 3
+    ref: train:2499
+  - form: nokobi
+    count: 2
+    ref: train:156
+  total: 5
+  status: candidato-corpus
+- key: nonintsi
+  forms:
+  - form: nonintzi
+    count: 4
+    ref: train:1879
+  - form: nonintsi
+    count: 1
+    ref: train:3804
+  total: 5
+  status: candidato-corpus
+- key: obari
+  forms:
+  - form: ovari
+    count: 3
+    ref: train:2164
+  - form: obari
+    count: 2
+    ref: train:179
+  total: 5
+  status: candidato-corpus
+- key: obirapaka
+  forms:
+  - form: ovirapaka
+    count: 3
+    ref: train:1551
+  - form: obirapaka
+    count: 2
+    ref: train:857
+  total: 5
+  status: candidato-corpus
+- key: oshitobi
+  forms:
+  - form: oshitovi
+    count: 3
+    ref: train:3112
+  - form: oshitobi
+    count: 2
+    ref: train:1193
+  total: 5
+  status: candidato-corpus
+- key: oñaapatsiro
+  forms:
+  - form: oñaapatziro
+    count: 4
+    ref: train:1775
+  - form: oñaapatsiro
+    count: 1
+    ref: train:3740
+  total: 5
+  status: candidato-corpus
+- key: tsimiri
+  forms:
+  - form: tsimiri
+    count: 4
+    ref: train:1537
+  - form: tzimiri
+    count: 1
+    ref: train:1521
+  total: 5
+  status: candidato-corpus
+- key: yookatsiro
+  forms:
+  - form: yookatziro
+    count: 3
+    ref: train:1864
+  - form: yookatsiro
+    count: 2
+    ref: train:3796
+  total: 5
+  status: candidato-corpus
+- key: akantsiro
+  forms:
+  - form: akantziro
+    count: 3
+    ref: train:1752
+  - form: akantsiro
+    count: 1
+    ref: train:3729
+  total: 4
+  status: candidato-corpus
+- key: apaatsiro
+  forms:
+  - form: apaatziro
+    count: 3
+    ref: train:2145
+  - form: apaatsiro
+    count: 1
+    ref: train:2295
+  total: 4
+  status: candidato-corpus
+- key: ikintsi
+  forms:
+  - form: ikintsi
+    count: 2
+    ref: train:3793
+  - form: ikintzi
+    count: 2
+    ref: train:1859
+  total: 4
+  status: candidato-corpus
+- key: ikobi
+  forms:
+  - form: ikobi
+    count: 2
+    ref: train:351
+  - form: ikovi
+    count: 2
+    ref: train:1464
+  total: 4
+  status: candidato-corpus
+- key: jobentsi
+  forms:
+  - form: joventzi
+    count: 3
+    ref: train:3555
+  - form: jobentsi
+    count: 1
+    ref: dev:265
+  total: 4
+  status: candidato-corpus
+- key: moyatsi
+  forms:
+  - form: moyatsi
+    count: 2
+    ref: train:3813
+  - form: moyatzi
+    count: 2
+    ref: train:1896
+  total: 4
+  status: candidato-corpus
+- key: obantsi
+  forms:
+  - form: ovantsi
+    count: 3
+    ref: train:1402
+  - form: obantsi
+    count: 1
+    ref: train:523
+  total: 4
+  status: candidato-corpus
+- key: onintsi
+  forms:
+  - form: onintsi
+    count: 2
+    ref: train:3744
+  - form: onintzi
+    count: 2
+    ref: train:1784
+  total: 4
+  status: candidato-corpus
+- key: osatekapaintsiro
+  forms:
+  - form: osatekapaintsiro
+    count: 2
+    ref: train:3821
+  - form: osatekapaintziro
+    count: 2
+    ref: train:1909
+  total: 4
+  status: candidato-corpus
+- key: pitsiro
+  forms:
+  - form: pitsiro
+    count: 3
+    ref: train:131
+  - form: pitziro
+    count: 1
+    ref: train:1952
+  total: 4
+  status: candidato-corpus
+- key: totsirani
+  forms:
+  - form: totsirani
+    count: 2
+    ref: train:3729
+  - form: totzirani
+    count: 2
+    ref: train:1752
+  total: 4
+  status: candidato-corpus
+- key: ibitsikiro
+  forms:
+  - form: ibitsikiro
+    count: 2
+    ref: train:973
+  - form: ivitsikiro
+    count: 1
+    ref: train:1583
+  total: 3
+  status: candidato-corpus
+- key: intsimi
+  forms:
+  - form: intsimi
+    count: 2
+    ref: train:3725
+  - form: intzimi
+    count: 1
+    ref: train:1746
+  total: 3
+  status: candidato-corpus
+- key: ishibanki
+  forms:
+  - form: ishivanki
+    count: 2
+    ref: train:1504
+  - form: ishibanki
+    count: 1
+    ref: train:629
+  total: 3
+  status: candidato-corpus
+- key: iñaabaitsi
+  forms:
+  - form: iñaavaitzi
+    count: 2
+    ref: train:1919
+  - form: iñaavaitsi
+    count: 1
+    ref: train:3825
+  total: 3
+  status: candidato-corpus
+- key: iñaapatsiro
+  forms:
+  - form: iñaapatziro
+    count: 2
+    ref: train:1830
+  - form: iñaapatsiro
+    count: 1
+    ref: train:3775
+  total: 3
+  status: candidato-corpus
+- key: iñaatsi
+  forms:
+  - form: iñaatzi
+    count: 2
+    ref: train:1933
+  - form: iñaatsi
+    count: 1
+    ref: train:3830
+  total: 3
+  status: candidato-corpus
+- key: kabayo
+  forms:
+  - form: kabayo
+    count: 2
+    ref: dev:489
+  - form: kavayo
+    count: 1
+    ref: train:3535
+  total: 3
+  status: candidato-corpus
+- key: nobito
+  forms:
+  - form: novito
+    count: 2
+    ref: train:3478
+  - form: nobito
+    count: 1
+    ref: train:687
+  total: 3
+  status: candidato-corpus
+- key: obaantsi
+  forms:
+  - form: obaantsi
+    count: 2
+    ref: train:257
+  - form: ovaantsi
+    count: 1
+    ref: train:3377
+  total: 3
+  status: candidato-corpus
+- key: ojatatsi
+  forms:
+  - form: ojatatzi
+    count: 2
+    ref: train:1885
+  - form: ojatatsi
+    count: 1
+    ref: train:3807
+  total: 3
+  status: candidato-corpus
+- key: okaratsira
+  forms:
+  - form: okaratzira
+    count: 2
+    ref: train:1702
+  - form: okaratsira
+    count: 1
+    ref: train:3696
+  total: 3
+  status: candidato-corpus
+- key: oyotsiro
+  forms:
+  - form: oyotsiro
+    count: 2
+    ref: train:2829
+  - form: oyotziro
+    count: 1
+    ref: train:1983
+  total: 3
+  status: candidato-corpus
+- key: pitsiniri
+  forms:
+  - form: pitziniri
+    count: 2
+    ref: train:2036
+  - form: pitsiniri
+    count: 1
+    ref: train:3866
+  total: 3
+  status: candidato-corpus
+- key: shitsibari
+  forms:
+  - form: shitsibari
+    count: 1
+    ref: train:66
+  - form: shitsivari
+    count: 1
+    ref: train:1454
+  - form: shitzivari
+    count: 1
+    ref: train:2147
+  total: 3
+  status: candidato-corpus
+- key: abantyari
+  forms:
+  - form: abantyari
+    count: 1
+    ref: train:371
+  - form: avantyari
+    count: 1
+    ref: train:1574
+  total: 2
+  status: candidato-corpus
+- key: abashitero
+  forms:
+  - form: abashitero
+    count: 1
+    ref: train:1319
+  - form: avashitero
+    count: 1
+    ref: train:2888
+  total: 2
+  status: candidato-corpus
+- key: abisakotatsiri
+  forms:
+  - form: avisakotatsiri
+    count: 1
+    ref: train:3110
+  - form: avisakotatziri
+    count: 1
+    ref: train:1982
+  total: 2
+  status: candidato-corpus
+- key: ayobitsite
+  forms:
+  - form: ayovitsite
+    count: 1
+    ref: train:3813
+  - form: ayovitzite
+    count: 1
+    ref: train:1896
+  total: 2
+  status: candidato-corpus
+- key: birijinia
+  forms:
+  - form: birijinia
+    count: 1
+    ref: dev:521
+  - form: virijinia
+    count: 1
+    ref: train:2193
+  total: 2
+  status: candidato-corpus
+- key: ibarite
+  forms:
+  - form: ibarite
+    count: 1
+    ref: train:1023
+  - form: ivarite
+    count: 1
+    ref: train:2612
+  total: 2
+  status: candidato-corpus
+- key: ibetsike
+  forms:
+  - form: ibetsike
+    count: 1
+    ref: dev:677
+  - form: ivetsike
+    count: 1
+    ref: train:2170
+  total: 2
+  status: candidato-corpus
+- key: ichekabaitsi
+  forms:
+  - form: ichekavaitsi
+    count: 1
+    ref: train:3701
+  - form: ichekavaitzi
+    count: 1
+    ref: train:1711
+  total: 2
+  status: candidato-corpus
+- key: ikantakotsimaintari
+  forms:
+  - form: ikantakotsimaintari
+    count: 1
+    ref: train:3849
+  - form: ikantakotzimaintari
+    count: 1
+    ref: train:1981
+  total: 2
+  status: candidato-corpus
+- key: ikatsiya
+  forms:
+  - form: ikatsiya
+    count: 1
+    ref: train:3774
+  - form: ikatziya
+    count: 1
+    ref: train:1829
+  total: 2
+  status: candidato-corpus
+- key: inatsira
+  forms:
+  - form: inatsira
+    count: 1
+    ref: train:3789
+  - form: inatzira
+    count: 1
+    ref: train:1853
+  total: 2
+  status: candidato-corpus
+- key: inchaponkitsi
+  forms:
+  - form: inchaponkitsi
+    count: 1
+    ref: train:3855
+  - form: inchaponkitzi
+    count: 1
+    ref: train:1993
+  total: 2
+  status: candidato-corpus
+- key: inchaponkitsikinta
+  forms:
+  - form: inchaponkitsikinta
+    count: 1
+    ref: train:3821
+  - form: inchaponkitzikinta
+    count: 1
+    ref: train:1908
+  total: 2
+  status: candidato-corpus
+- key: inintsimi
+  forms:
+  - form: inintsimi
+    count: 1
+    ref: train:3848
+  - form: inintzimi
+    count: 1
+    ref: train:1980
+  total: 2
+  status: candidato-corpus
+- key: isaikashibaitsi
+  forms:
+  - form: isaikashivaitsi
+    count: 1
+    ref: train:3792
+  - form: isaikashivaitzi
+    count: 1
+    ref: train:1858
+  total: 2
+  status: candidato-corpus
+- key: ishirinkapitsatsiri
+  forms:
+  - form: ishirinkapitsatsiri
+    count: 1
+    ref: train:3781
+  - form: ishirinkapitsatziri
+    count: 1
+    ref: train:1839
+  total: 2
+  status: candidato-corpus
+- key: itoyetsiro
+  forms:
+  - form: itoyetsiro
+    count: 1
+    ref: train:3754
+  - form: itoyetziro
+    count: 1
+    ref: train:1801
+  total: 2
+  status: candidato-corpus
+- key: itsimabintsirori
+  forms:
+  - form: itsimavintsirori
+    count: 1
+    ref: train:3754
+  - form: itzimavintzirori
+    count: 1
+    ref: train:1801
+  total: 2
+  status: candidato-corpus
+- key: itsinkakotsimaintaro
+  forms:
+  - form: itsinkakotsimaintaro
+    count: 1
+    ref: train:3818
+  - form: itsinkakotzimaintaro
+    count: 1
+    ref: train:1902
+  total: 2
+  status: candidato-corpus
+- key: iyobetaka
+  forms:
+  - form: iyobetaka
+    count: 1
+    ref: dev:815
+  - form: iyovetaka
+    count: 1
+    ref: train:2141
+  total: 2
+  status: candidato-corpus
+- key: iñaabakero
+  forms:
+  - form: iñaabakero
+    count: 1
+    ref: train:107
+  - form: iñaavakero
+    count: 1
+    ref: train:3124
+  total: 2
+  status: candidato-corpus
+- key: jatatsiri
+  forms:
+  - form: jatatsiri
+    count: 1
+    ref: train:45
+  - form: jatatziri
+    count: 1
+    ref: train:3177
+  total: 2
+  status: candidato-corpus
+- key: katsi
+  forms:
+  - form: katsi
+    count: 1
+    ref: train:3779
+  - form: katzi
+    count: 1
+    ref: train:1836
+  total: 2
+  status: candidato-corpus
+- key: kobiri
+  forms:
+  - form: kobiri
+    count: 1
+    ref: train:347
+  - form: koviri
+    count: 1
+    ref: train:3489
+  total: 2
+  status: candidato-corpus
+- key: menkotsi
+  forms:
+  - form: menkotsi
+    count: 1
+    ref: train:3838
+  - form: menkotzi
+    count: 1
+    ref: train:1956
+  total: 2
+  status: candidato-corpus
+- key: oitsipatsaini
+  forms:
+  - form: oitsipatsaini
+    count: 1
+    ref: train:3830
+  - form: oitzipatsaini
+    count: 1
+    ref: train:1933
+  total: 2
+  status: candidato-corpus
+- key: okatonkotsi
+  forms:
+  - form: okatonkotsi
+    count: 1
+    ref: train:3741
+  - form: okatonkotzi
+    count: 1
+    ref: train:1781
+  total: 2
+  status: candidato-corpus
+- key: okatsiyanaka
+  forms:
+  - form: okatsiyanaka
+    count: 1
+    ref: train:3739
+  - form: okatziyanaka
+    count: 1
+    ref: train:1774
+  total: 2
+  status: candidato-corpus
+- key: okimajatsiri
+  forms:
+  - form: okimajatsiri
+    count: 1
+    ref: train:3748
+  - form: okimajatziri
+    count: 1
+    ref: train:1790
+  total: 2
+  status: candidato-corpus
+- key: okotsitsiri
+  forms:
+  - form: okotsitsiri
+    count: 1
+    ref: train:3830
+  - form: okotsitziri
+    count: 1
+    ref: train:1931
+  total: 2
+  status: candidato-corpus
+- key: omoyakotsi
+  forms:
+  - form: omoyakotsi
+    count: 1
+    ref: train:3743
+  - form: omoyakotzi
+    count: 1
+    ref: train:1782
+  total: 2
+  status: candidato-corpus
+- key: osabiki
+  forms:
+  - form: osabiki
+    count: 1
+    ref: dev:234
+  - form: osaviki
+    count: 1
+    ref: train:2643
+  total: 2
+  status: candidato-corpus
+- key: osaikabaitsi
+  forms:
+  - form: osaikavaitsi
+    count: 1
+    ref: train:3735
+  - form: osaikavaitzi
+    count: 1
+    ref: train:1769
+  total: 2
+  status: candidato-corpus
+- key: oshebate
+  forms:
+  - form: oshebate
+    count: 1
+    ref: train:983
+  - form: oshevate
+    count: 1
+    ref: train:2797
+  total: 2
+  status: candidato-corpus
+- key: otsamaitatsiro
+  forms:
+  - form: otsamaitatsiro
+    count: 1
+    ref: train:3832
+  - form: otsamaitatziro
+    count: 1
+    ref: train:1939
+  total: 2
+  status: candidato-corpus
+- key: otsomontetatsira
+  forms:
+  - form: otsomontetatsira
+    count: 1
+    ref: train:3753
+  - form: otsomontetatzira
+    count: 1
+    ref: train:1800
+  total: 2
+  status: candidato-corpus
+- key: oyantsiri
+  forms:
+  - form: oyantsiri
+    count: 1
+    ref: train:3811
+  - form: oyantziri
+    count: 1
+    ref: train:1893
+  total: 2
+  status: candidato-corpus
+- key: oyobitsite
+  forms:
+  - form: oyovitsite
+    count: 1
+    ref: train:3743
+  - form: oyovitzite
+    count: 1
+    ref: train:1782
+  total: 2
+  status: candidato-corpus
+- key: oyobitsiteki
+  forms:
+  - form: oyovitsiteki
+    count: 1
+    ref: train:3813
+  - form: oyovitziteki
+    count: 1
+    ref: train:1896
+  total: 2
+  status: candidato-corpus
+- key: pantabaitsiri
+  forms:
+  - form: pantavaitsiri
+    count: 1
+    ref: train:3785
+  - form: pantavaitziri
+    count: 1
+    ref: train:1846
+  total: 2
+  status: candidato-corpus
+- key: parentsi
+  forms:
+  - form: parentsi
+    count: 1
+    ref: train:1574
+  - form: parentzi
+    count: 1
+    ref: train:2462
+  total: 2
+  status: candidato-corpus
+- key: pitsimika
+  forms:
+  - form: pitsimika
+    count: 1
+    ref: train:3808
+  - form: pitzimika
+    count: 1
+    ref: train:1889
+  total: 2
+  status: candidato-corpus
+- key: poiyotsitatsirira
+  forms:
+  - form: poiyotsitatsirira
+    count: 1
+    ref: train:3860
+  - form: poiyotzitatsirira
+    count: 1
+    ref: train:2010
+  total: 2
+  status: candidato-corpus
+- key: pokake
+  forms:
+  - form: pocake
+    count: 1
+    ref: train:632
+  - form: pokake
+    count: 1
+    ref: train:147
+  total: 2
+  status: candidato-corpus
+- key: pyaantatsiri
+  forms:
+  - form: pyaantatsiri
+    count: 1
+    ref: train:2324
+  - form: pyaantatziri
+    count: 1
+    ref: train:2325
+  total: 2
+  status: candidato-corpus
+- key: ratsikabetakari
+  forms:
+  - form: ratsikabetakari
+    count: 1
+    ref: train:524
+  - form: ratsikavetakari
+    count: 1
+    ref: train:84
+  total: 2
+  status: candidato-corpus
+- key: saikatsi
+  forms:
+  - form: saikatsi
+    count: 1
+    ref: train:2562
+  - form: saikatzi
+    count: 1
+    ref: train:2270
+  total: 2
+  status: candidato-corpus
+- key: tekatsitapaki
+  forms:
+  - form: tekatsitapaki
+    count: 1
+    ref: train:1667
+  - form: tekatzitapaki
+    count: 1
+    ref: train:1667
+  total: 2
+  status: candidato-corpus
+- key: tsimayetaki
+  forms:
+  - form: tsimayetaki
+    count: 1
+    ref: train:3688
+  - form: tzimayetaki
+    count: 1
+    ref: train:1687
+  total: 2
+  status: candidato-corpus
+- key: tsisoni
+  forms:
+  - form: tsisoni
+    count: 1
+    ref: train:2616
+  - form: tzisoni
+    count: 1
+    ref: train:3229
+  total: 2
+  status: candidato-corpus
+- key: yantaitakobaitsiro
+  forms:
+  - form: yantaitakovaitsiro
+    count: 1
+    ref: train:3856
+  - form: yantaitakovaitziro
+    count: 1
+    ref: train:1995
+  total: 2
+  status: candidato-corpus
+- key: yantaritatsira
+  forms:
+  - form: yantaritatsira
+    count: 1
+    ref: train:3778
+  - form: yantaritatzira
+    count: 1
+    ref: train:1835
+  total: 2
+  status: candidato-corpus
+- key: yookatakotsi
+  forms:
+  - form: yookatakotsi
+    count: 1
+    ref: train:3795
+  - form: yookatakotzi
+    count: 1
+    ref: train:1863
+  total: 2
+  status: candidato-corpus

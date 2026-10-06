@@ -1,0 +1,54 @@
+# 2e — Adaptador ortográfico: ortografía CANÓNICA -> ortografía de entrenamiento de facebook/mms-tts-cni.
+# Es un detalle del motor TTS, no una regla lingüística: si cambia el motor, cambia este archivo.
+#
+# Vocabulario de mms-tts-cni (revisión a744890): letras "a c e h i j m n o p q r s t u v y",
+# dígitos, apóstrofo, guion y espacio. NO incluye k, b, ñ, z, g, l, d, f.
+#
+# Las hipótesis son CONDICIONES EXPERIMENTALES (tarea 1.9), no afirmaciones lingüísticas.
+# El experimento eval/fase1/mms_orthography elige la hipótesis con evidencia (CER de ida y vuelta).
+resource: mms_cni_adapter
+description: "Hipótesis de correspondencia canónica -> ortografía MMS"
+config:
+  active: H1
+  # Reglas tipográficas comunes a todas las hipótesis excepto H0 (no son decisiones lingüísticas):
+  # tildes fuera, puntuación y símbolos a espacio, espacios colapsados.
+  typographic: [TYP-001, TYP-002, TYP-003, TYP-004, TYP-005, TYP-006, TYP-007]
+  hypotheses:
+    H0:
+      description: "Sin adaptar: el texto canónico pasa tal cual y VitsTokenizer elimina en silencio lo que no conoce (reproduce el defecto)"
+      rules: []
+      raw: true
+    H1:
+      description: "k->qu ante e/i, k->c en los demás casos; b->v; ñ->ny; tz->ts; z->s"
+      rules: [H1-TZ, H1-Z, H1-KQU, H1-KC, H1-B, H1-NY]
+      # Inversa documentada (ortografía MMS -> canónica) para medir el CER en el espacio canónico
+      # (tarea 1.9). No es invertible del todo: z->s y tz->ts se pierden (la canónica no usa z).
+      inverse:
+        - ["qu(?=[ei])", "k"]
+        - ["c(?!h)", "k"]
+        - ["v", "b"]
+        - ["ny", "ñ"]
+entries:
+  - {id: TYP-001, description: "á -> a", pattern: "á", replacement: "a", source: "tipográfica", status: validado}
+  - {id: TYP-002, description: "é -> e", pattern: "é", replacement: "e", source: "tipográfica", status: validado}
+  - {id: TYP-003, description: "í -> i", pattern: "í", replacement: "i", source: "tipográfica", status: validado}
+  - {id: TYP-004, description: "ó -> o", pattern: "ó", replacement: "o", source: "tipográfica", status: validado}
+  - {id: TYP-005, description: "ú/ü -> u", pattern: "[úü]", replacement: "u", source: "tipográfica", status: validado}
+  - id: TYP-006
+    description: "Puntuación y símbolos (con los espacios que los rodean) -> un espacio (MMS se entrenó sin puntuación, ver VitsTokenizer)"
+    pattern: '(?:\s*(?:[^\w\s''-]|[_ºª])+\s*)+'
+    replacement: " "
+    source: "tipográfica; transformers VitsTokenizer.prepare_for_tokenization"
+    status: validado
+  - id: TYP-007
+    description: "Espacios múltiples -> uno"
+    pattern: '\s{2,}'
+    replacement: " "
+    source: "tipográfica"
+    status: validado
+  - {id: H1-TZ, description: "tz -> ts", pattern: "tz", replacement: "ts", source: "Hipótesis H1 (tarea 1.9)", status: SUPUESTO}
+  - {id: H1-Z, description: "z -> s", pattern: "z", replacement: "s", source: "Hipótesis H1 (tarea 1.9)", status: SUPUESTO}
+  - {id: H1-KQU, description: "k ante e/i -> qu", pattern: "k(?=[eiéí])", replacement: "qu", source: "Hipótesis H1 (tarea 1.9)", status: SUPUESTO}
+  - {id: H1-KC, description: "k en los demás casos -> c", pattern: "k", replacement: "c", source: "Hipótesis H1 (tarea 1.9)", status: SUPUESTO}
+  - {id: H1-B, description: "b -> v", pattern: "b", replacement: "v", source: "Hipótesis H1 (tarea 1.9)", status: SUPUESTO}
+  - {id: H1-NY, description: "ñ -> ny", pattern: "ñ", replacement: "ny", source: "Hipótesis H1 (tarea 1.9)", status: SUPUESTO}

@@ -1,0 +1,185 @@
+{
+  "fase": 1,
+  "commit": "bdcec4d67e18f97a6542f9673d1d4c88e4399571",
+  "fecha": "2026-10-06T01:41:10+00:00",
+  "hardware": {
+    "cpu": "AMD64 Family 25 Model 33 Stepping 2, AuthenticAMD",
+    "nucleos": 16,
+    "ram_gb": "no_medido (psutil no instalado)",
+    "os": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.17"
+  },
+  "versiones_fijadas": {
+    "americasnlp2021": "d3f519c6b38299d8149311e65a369047350e6849",
+    "mms-tts-cni": "a744890bf8b52fd17ed322d8d995dec6cf77809b",
+    "mms-1b-all": "3d33597edbdaaba14a8e858e2c8caa76e3cec0cd"
+  },
+  "resources_hash": {
+    "orthography_variants.yaml": "0f4873afc328db96b7bae1e54a5db640682d5080310320b7374ef2344f8fed11",
+    "numerals_cni.yaml": "9cf65682f71f1f7cec77e071e276169ab5e733678e70f3767d68af08082de50b",
+    "acronyms.yaml": "3467a8984828b83e5d1d18c56de60acba19641fe4381383d45af4b304514e8ce",
+    "loanwords.yaml": "056ea637e0c36b2295004d7688ffe5e528875b9ccb8d4cbb3d5cf31a6c714351",
+    "es_to_cni_phonology.yaml": "e153748cb35bf0719fc2d7eb962954329f1636b3e05a7a5029af5a09a521acc5",
+    "neologisms.yaml": "520ab95a6996849776d5e66fcbc8d5076da6c04197263194e897ae1999461f0c",
+    "proper_nouns.yaml": "2fe2580bafba8350b1ea9eaf475847ac29f226a64e9605ea27e4fc11d14ea4d5",
+    "relative_dates.yaml": "56376d6f13155de89efac14cd14f750e3eb67962508d352d7103021bb4e5cada",
+    "segmentation.yaml": "59af92803b035c1fb2832266efa7a20cda765342dba47d335245b6481e481143",
+    "inventory.yaml": "edf6ca3fda4dd2e24d73c094bd2935fcf3eed20782616d238be0185d2b2a7eae",
+    "cni.yaml": "bab12e52dc573c6c4a617c03f0dc5ad20e6ba2ba767d66cd4d195222b2a29865",
+    "mms_cni.yaml": "6da353fae2c3cd0b3ce76b1447f641c68d1a24a1b5c5ccc0e022a3d1b36fdf66"
+  },
+  "corpus": {
+    "train": {
+      "oraciones": 3883,
+      "caracteres": 232494,
+      "tokens": 26145,
+      "tipos": 10231,
+      "chars_fuera_vocab_pct": 13.46,
+      "palabras_fuera_vocab_pct": 60.3,
+      "lineas_con_digitos": 338
+    },
+    "dev": {
+      "oraciones": 883,
+      "caracteres": 53401,
+      "tokens": 6086,
+      "tipos": 2686,
+      "chars_fuera_vocab_pct": 10.87,
+      "palabras_fuera_vocab_pct": 53.0,
+      "lineas_con_digitos": 94
+    },
+    "test": {
+      "oraciones": 1003,
+      "caracteres": 55113,
+      "tokens": 6453,
+      "tipos": 2899,
+      "chars_fuera_vocab_pct": 11.2,
+      "palabras_fuera_vocab_pct": 53.7,
+      "lineas_con_digitos": 71
+    },
+    "diferencias_con_plan": "ninguna"
+  },
+  "candidatos": {
+    "numerales": 10,
+    "siglas": 43,
+    "prestamos": 155,
+    "nombres_propios": 210,
+    "pares_variantes": 141
+  },
+  "noticias_prueba": "no_medido (no hay noticias de prueba en data/news/)",
+  "dev": {
+    "documentos": 883,
+    "segmentos": 906,
+    "tokens_no_identidad": 6072,
+    "categorias_pct": {
+      "cni": 92.97,
+      "nombre_propio": 2.6,
+      "nombre_propio_nativo": 1.4,
+      "numero": 0.92,
+      "sigla": 0.82,
+      "castellano": 0.63,
+      "dinero": 0.31,
+      "anio": 0.21,
+      "porcentaje": 0.1,
+      "numero_grande": 0.02,
+      "ordinal": 0.02
+    },
+    "unresolved_pct": 5.63,
+    "segmentos_listos_tts_pct": 83.44,
+    "editorial_flags_por_documento": {
+      "media": 0.049,
+      "por_tipo": {
+        "missing_neologism": 38,
+        "big_number": 5
+      }
+    },
+    "palabras_fuera_vocab_antes_del_adaptador_pct": 52.95,
+    "palabras_fuera_vocab_despues_del_adaptador_pct": 3.77,
+    "caracteres_fuera_vocab_restantes": {
+      "d": 132,
+      "l": 114,
+      "g": 35,
+      "w": 17,
+      "f": 17,
+      "x": 16
+    }
+  },
+  "vocab_mms_texto_crudo_dev": {
+    "palabras_fuera_vocab_pct": 53.01
+  },
+  "ortografia_mms": {
+    "hipotesis": {
+      "H0": {
+        "cer_canonico": 0.1499,
+        "ic95": [
+          0.1381,
+          0.1621
+        ],
+        "cer_mms": 0.1734,
+        "precision_palabra": 0.2918
+      },
+      "H1": {
+        "cer_canonico": 0.0586,
+        "ic95": [
+          0.0509,
+          0.0664
+        ],
+        "cer_mms": 0.0555,
+        "precision_palabra": 0.6183
+      }
+    },
+    "elegida": "H1",
+    "comparacion_vs_H0": {
+      "diferencia_cer_media": -0.0915,
+      "ic95": [
+        -0.102,
+        -0.0806
+      ],
+      "p_valor_bilateral": 0.0
+    },
+    "escucha_ab": "pendiente_hablante",
+    "muestra": {
+      "dev_total": 883,
+      "bloqueadas_sin_p2d": 149,
+      "fuera_de_rango_longitud": 13,
+      "elegibles": 721,
+      "muestra": 100
+    }
+  },
+  "reglas": {
+    "total": 37,
+    "validadas": 7,
+    "candidato_corpus": 20,
+    "supuesto_ling": 10
+  },
+  "g2p_per": "no_medido (falta P5; lista de muestreo en eval/fase1/p5_sample.csv)",
+  "reescritura_aceptada_pct": "pendiente_hablante",
+  "latencia_ms": {
+    "n_documentos": 50,
+    "repeticiones": 100,
+    "segmentacion": {
+      "n": 5000,
+      "p50": 0.0062,
+      "p95": 0.0143,
+      "media": 0.0077
+    },
+    "normalizacion": {
+      "n": 5200,
+      "p50": 0.1489,
+      "p95": 0.3812,
+      "media": 0.1758
+    },
+    "adaptador_mms": {
+      "n": 5200,
+      "p50": 0.1915,
+      "p95": 0.5057,
+      "media": 0.2319
+    },
+    "g2p": {
+      "n": 5200,
+      "p50": 0.0376,
+      "p95": 0.0958,
+      "media": 0.0446
+    }
+  },
+  "cobertura_tests_pct": 98.72
+}

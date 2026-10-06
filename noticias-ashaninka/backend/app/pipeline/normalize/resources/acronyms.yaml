@@ -1,0 +1,38 @@
+# P2b — Glosario de siglas.
+# Cada entrada: source_form (la sigla), gloss_cni (glosa validada), reading (word|spell),
+# rewrite (forma canónica cni de la sigla tal como se pronuncia).
+# SUPUESTO-LING: glosario vacío. Los candidatos del corpus están en data/candidates/acronyms.yaml;
+# para usarlos hay que añadir la glosa y la reescritura y pasarlos a status "validado".
+resource: acronyms
+description: "Siglas: glosa en asháninka en la primera mención + sigla (política §3.1)"
+config:
+  # Nombres castellanos de las letras para las siglas que se deletrean (dato del castellano).
+  letter_names_es:
+    A: a
+    B: be
+    C: ce
+    D: de
+    E: e
+    F: efe
+    G: ge
+    H: hache
+    I: i
+    J: jota
+    K: ka
+    L: ele
+    M: eme
+    N: ene
+    Ñ: eñe
+    O: o
+    P: pe
+    Q: cu
+    R: erre
+    S: ese
+    T: te
+    U: u
+    V: uve
+    W: uve doble
+    X: equis
+    Y: ye
+    Z: zeta
+entries: []

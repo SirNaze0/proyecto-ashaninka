@@ -1,0 +1,1508 @@
+# GENERADO por `uv run python -m app.cli corpus extract` desde AmericasNLP2021@d3f519c
+# (splits train y dev). status: candidato-corpus = evidencia, NO dato validado.
+- source_form: Texas
+  frequency: 11
+  examples:
+  - ref: dev:23
+    cni: imero tonkamentotsijaniji itimita atiri Texas.
+  - ref: dev:65
+    cni: Nosabikashita Texas.
+  - ref: dev:102
+    cni: Tee katsini nosabikaite Texas.
+  status: candidato-corpus
+- source_form: Naviriri
+  frequency: 10
+  examples:
+  - ref: train:1522
+    cni: Aparoni atziri ipaita Naviriri osheki ipyaantzi tsikapaita inintakari,
+  - ref: train:1524
+    cni: Iroñaaka tzimatsi aparoni atziri ipaita Naviriri.
+  - ref: train:1537
+    cni: Ipyaanakiri maniro Naviriri, ipyaanakiri Tsiyarato tsimiri.
+  status: candidato-corpus
+- source_form: Indiana
+  frequency: 8
+  examples:
+  - ref: dev:46
+    cni: porting Goodwill yaayetabake atiri ashi Indiana.
+  - ref: dev:50
+    cni: Tee aneaiteriji obakotantatsiri Indiana osarentsiki 70.
+  - ref: dev:468
+    cni: ee obakotantatsiri yantajeitake ijayete Indiana 1973.
+  status: candidato-corpus
+- source_form: Apiinka
+  frequency: 7
+  examples:
+  - ref: train:1396
+    cni: takoteri aparoni ashaninka ikantaitziri Apiinka.
+  - ref: train:1471
+    cni: Nonkinkitsatakoteri pava Apiinka ikanta pairani ipokanaki pava Apiinka,
+  - ref: train:1471
+    cni: a Apiinka ikanta pairani ipokanaki pava Apiinka, isaikaveta aka.
+  status: candidato-corpus
+- source_form: Lima
+  frequency: 6
+  examples:
+  - ref: train:2365
+    cni: kiro Tarma [Taroma], yaanakiro irojatzi Lima [Irimashiki].
+  - ref: train:2366
+    cni: Ari osaikaitzi inani Lima [Irimashiki].
+  - ref: train:2367
+    cni: Osaikaitzi Lima [Irimashiki], te ayotero tsika okaratzi
+  status: candidato-corpus
+- source_form: Yompiri
+  frequency: 6
+  examples:
+  - ref: train:34
+    cni: Eero piñanatiro iina Yompiri, amaenkari inati.
+  - ref: train:379
+    cni: Maaperotaka Yompiri rokakiro iina.
+  - ref: train:462
+    cni: Ikaemakantaetiri Yompiri ñaamentotsiki.
+  status: candidato-corpus
+- source_form: Anderson
+  frequency: 5
+  examples:
+  - ref: dev:20
+    cni: Otimimotake amitakoteneri ashi Rudolph Anderson otsipatearo U2.
+  - ref: dev:96
+    cni: Irootake timimotanari Rudolph Anderson, aparo obetsikirori ashi maba U2.
+  - ref: dev:564
+    cni: Notsaroi iroorika ibajiro Anderson, irinti shirmpari abishimotakeriri apar
+  status: candidato-corpus
+- source_form: River
+  frequency: 5
+  examples:
+  - ref: dev:273
+    cni: Snake River ijamotakari marankepee.
+  - ref: dev:394
+    cni: Snake River itimotiri osheki shempiri atsikantatsir
+  - ref: dev:569
+    cni: Okantakobetari ibajiro, Snake River tekatsi marankepee; ipajiyetiri okantak
+  status: candidato-corpus
+- source_form: Sociedad
+  frequency: 5
+  examples:
+  - ref: dev:11
+    cni: Ora Sociedad Maennerchor yamitakotakero Bill Gates.
+  - ref: dev:55
+    cni: Ora Sociedad Maennerchor aake amitakotantsi.
+  - ref: dev:132
+    cni: amenirori osarentsiki okantakotiri ashi Sociedad Maennerchor okantakotiri pokapinitatsir
+  status: candidato-corpus
+- source_form: Tziivito
+  frequency: 5
+  examples:
+  - ref: train:2249
+    cni: Iri nonkinkitsatakeri naaka Tziivito, yoka tsika ikantaitzika castellanoki?
+  - ref: train:2251
+    cni: Nonkinkitsatakoteri Tziivito, ikantzi yatzirivetani Tziivito pairani
+  - ref: train:2251
+    cni: akoteri Tziivito, ikantzi yatzirivetani Tziivito pairani.
+  status: candidato-corpus
+- source_form: Washington
+  frequency: 5
+  examples:
+  - ref: dev:45
+    cni: imaintsiri isabitaka pinkatsari Kennedy Washington itsipatari jibatatsiri May.
+  - ref: dev:456
+    cni: Tee nioteroji Washington, ikantetantakenari notimpinakake namena
+  - ref: dev:461
+    cni: Tee niote paita nanteri, ari nojatake Washington, ikantetakenari nokamantante.
+  status: candidato-corpus
+- source_form: Broad
+  frequency: 4
+  examples:
+  - ref: dev:223
+    cni: Iriorijei isabikini Broad Street.
+  - ref: dev:228
+    cni: Isabikini aparo pankotsi kitamarori Broad Street.
+  - ref: dev:256
+    cni: teari isabike, aisati itimaiti otsapiki Broad Street.
+  status: candidato-corpus
+- source_form: Maennerchor
+  frequency: 4
+  examples:
+  - ref: dev:11
+    cni: Ora Sociedad Maennerchor yamitakotakero Bill Gates.
+  - ref: dev:55
+    cni: Ora Sociedad Maennerchor aake amitakotantsi.
+  - ref: dev:132
+    cni: osarentsiki okantakotiri ashi Sociedad Maennerchor okantakotiri pokapinitatsiri jitaperota
+  status: candidato-corpus
+- source_form: Perú
+  frequency: 4
+  examples:
+  - ref: train:3
+    cni: acapá apatojeita ara Tarapoki –nampitsi Perú atsipata arentipe, jero atsirope ashi o
+  - ref: train:3
+    cni: ro anampisato, kantakotiroripe nampitsi Perú ashi ora Panamazonía ojokanajero ashive
+  - ref: train:1135
+    cni: nta Bakotantsi Okantakantsi Anampitsite Perú okamitsatantari apotoyetachari ikantaka
+  status: candidato-corpus
+- source_form: Poiyotzi
+  frequency: 4
+  examples:
+  - ref: train:1990
+    cni: tsi aparoni, ikantziri icharini, ipaita Poiyotzi, iritaki itsipantari.
+  - ref: train:2006
+    cni: Tzimatsi icharini, ipaita Poiyotzi, ikiiri, ikiiri, arika impitsokaki icha
+  - ref: train:2014
+    cni: Te isaiki Poiyotzi, ishintsavaitatzi ityoshikite, ikanta i
+  status: candidato-corpus
+- source_form: Ramona
+  frequency: 4
+  examples:
+  - ref: dev:459
+    cni: Eiro pantanatiro pikajemero Ramona.
+  - ref: dev:549
+    cni: Nokoabeta nosampiterome aparo Ramona.
+  - ref: dev:631
+    cni: Noipiajenero nokajemero Ramona nosampitero ora… ojita… pitsonkakayenar
+  status: candidato-corpus
+- source_form: Shimashiri
+  frequency: 4
+  examples:
+  - ref: train:623
+    cni: Opotsotiro oshetaki Shimashiri.
+  - ref: train:634
+    cni: Amake Shimashiri osheki kemi onkotsiteri.
+  - ref: train:1985
+    cni: Iroñaaka iritsiro Shimashiri, irotaki iritsiro okaakini, irotaki its
+  status: candidato-corpus
+- source_form: Shoshokiri
+  frequency: 4
+  examples:
+  - ref: train:77
+    cni: Rantakeri Shoshokiri apaani shinkirenti.
+  - ref: train:130
+    cni: Ichenkoreetakeri Shoshokiri rantamintsatiro tsinanepaye.
+  - ref: train:693
+    cni: Otijaabakeri kitoche iitsare Shoshokiri.
+  status: candidato-corpus
+- source_form: Street
+  frequency: 4
+  examples:
+  - ref: dev:223
+    cni: Iriorijei isabikini Broad Street.
+  - ref: dev:228
+    cni: abikini aparo pankotsi kitamarori Broad Street.
+  - ref: dev:256
+    cni: isabike, aisati itimaiti otsapiki Broad Street.
+  status: candidato-corpus
+- source_form: Teatro
+  frequency: 4
+  examples:
+  - ref: dev:261
+    cni: Akimoshirejeisanotake oka Teatro Civico ashi Indianapolis okantaka intit
+  - ref: dev:515
+    cni: shi 85.º kimoshireantsi antanteari ashi Teatro Cívico ashi Indianápolis ora shiakantsi
+  - ref: dev:654
+    cni: Ora Teatro Civico okoi 1 $ miyon oka osarentsiki.
+  status: candidato-corpus
+- source_form: Urban
+  frequency: 4
+  examples:
+  - ref: dev:130
+    cni: JoAnn jeri Urban iroakera ikimoshireiti yabakantakari ña
+  - ref: dev:237
+    cni: Jaoka Urban ijatantaitari Vietnam, aparo nabakajeit
+  - ref: dev:414
+    cni: JoAnn jeri Urban yabakantabeitari aparo kashiri ijatake
+  status: candidato-corpus
+- source_form: VIII
+  frequency: 4
+  examples:
+  - ref: train:3
+    cni: Amazonía jero nampitsipe kajemantatsiri VIII Apatojeitantsi Panamazónico. Oka shiaka
+  - ref: train:5
+    cni: rope amitakotantsi. okameka añakero ora VIII Apatotantsi pinkatsaro Panamazónico oka
+  - ref: train:32
+    cni: Ora nampitsipe amazónico jero VIII FOSPA akantasanotiro ora sabikantsi jer
+  status: candidato-corpus
+- source_form: Vietnam
+  frequency: 4
+  examples:
+  - ref: dev:130
+    cni: kantakari ñaakarontsi 50, ijatantaitari Vietnam.
+  - ref: dev:237
+    cni: Jaoka Urban ijatantaitari Vietnam, aparo nabakajeitaka kapichaji osarents
+  - ref: dev:414
+    cni: yabakantabeitari aparo kashiri ijatake Vietnam.
+  status: candidato-corpus
+- source_form: Aroshi
+  frequency: 3
+  examples:
+  - ref: train:287
+    cni: Ikiakeri kashiri Aroshi rootake kaari rootaperotantaari.
+  - ref: train:3673
+    cni: Irishinto Aroshi osheki okivakivatzi, okivanatziri Arosh
+  - ref: train:3673
+    cni: roshi osheki okivakivatzi, okivanatziri Aroshi.
+  status: candidato-corpus
+- source_form: Atahualpa
+  frequency: 3
+  examples:
+  - ref: train:2208
+    cni: oñaaka intsiparyaakoventeri Juan Santos Atahualpa.
+  - ref: train:2218
+    cni: ivavisakoterimi pinkatsari Juan Santos Atahualpa.
+  - ref: train:2223
+    cni: tairi onkantya yamitakoteri Juan Santos Atahualpa, tsika inkante ilibrateri [ivavisakoter
+  status: candidato-corpus
+- source_form: Augusta
+  frequency: 3
+  examples:
+  - ref: dev:74
+    cni: Ijoketanajiro Augusta ari ijaeitaji Atlanta.
+  - ref: dev:319
+    cni: i ojime ijatantajari otsipaki nampitsi, Augusta okante naro kitamarori.
+  - ref: dev:362
+    cni: Niotake ojokanajiro Augusta intsipaite.
+  status: candidato-corpus
+- source_form: Dannels
+  frequency: 3
+  examples:
+  - ref: dev:49
+    cni: Pikajemero Kathy Dannels pikoirika piñaanatakotero abisatsiri as
+  - ref: dev:262
+    cni: Kathy Dannels akiro kajemantsi intsipaite.
+  - ref: dev:479
+    cni: Nokoakotempi, pikajemero Kathy Dannels pikoirika pikantero pipayetakeri.
+  status: candidato-corpus
+- source_form: Elena
+  frequency: 3
+  examples:
+  - ref: train:2564
+    cni: Irotaki nokantavakimiri, Elena, okaratzika.
+  - ref: train:2924
+    cni: Chooki Elena, iroñaaka apoki aka ochivaki parenini i
+  - ref: train:3515
+    cni: kaitziro, pikimavakinaranki paitaranki, Elena.
+  status: candidato-corpus
+- source_form: Gates
+  frequency: 3
+  examples:
+  - ref: dev:11
+    cni: ociedad Maennerchor yamitakotakero Bill Gates.
+  - ref: dev:326
+    cni: Bill Gates ipaake 50 millones $.
+  - ref: dev:756
+    cni: ntaka, ashi Fundación Melinda jeri Bill Gates.
+  status: candidato-corpus
+- source_form: Goodwill
+  frequency: 3
+  examples:
+  - ref: dev:46
+    cni: Supporting Goodwill yaayetabake atiri ashi Indiana.
+  - ref: dev:89
+    cni: Ora tikakobentantatsiri Goodwill isabijitajero kantakotirori kaari timat
+  - ref: dev:677
+    cni: Pamitakotane Goodwill yoametante ibetsike aneakoperoteroneri
+  status: candidato-corpus
+- source_form: IUPUI
+  frequency: 3
+  examples:
+  - ref: dev:260
+    cni: erori otimita kiriboro ashi Universidad IUPUI.
+  - ref: dev:311
+    cni: ri amitakotantsi otimita kirirboro ashi IUPUI University aisati omatanteari okoakoter
+  - ref: dev:875
+    cni: $ ara otimita kiriboro ashi Universidad IUPUI.
+  status: candidato-corpus
+- source_form: Juan
+  frequency: 3
+  examples:
+  - ref: train:2208
+    cni: ri, ikovi iroñaaka intsiparyaakoventeri Juan Santos Atahualpa.
+  - ref: train:2218
+    cni: a, ikovaveta ivavisakoterimi pinkatsari Juan Santos Atahualpa.
+  - ref: train:2223
+    cni: Ikeni ivametairi onkantya yamitakoteri Juan Santos Atahualpa, tsika inkante ilibrat
+  status: candidato-corpus
+- source_form: Kathy
+  frequency: 3
+  examples:
+  - ref: dev:49
+    cni: Pikajemero Kathy Dannels pikoirika piñaanatakotero abisa
+  - ref: dev:235
+    cni: pipinatatiero, nokoakotempi pikajemero Kathy Danels, Jibatirori ashi kimotatsiri, ok
+  - ref: dev:479
+    cni: Nokoakotempi, pikajemero Kathy Dannels pikoirika pikantero pipayetaker
+  status: candidato-corpus
+- source_form: Kennedy
+  frequency: 3
+  examples:
+  - ref: dev:45
+    cni: pee U2 timaintsiri isabitaka pinkatsari Kennedy Washington itsipatari jibatatsiri May.
+  - ref: dev:382
+    cni: y tee ijajenkate yantabetita pinkatsari Kennedy.
+  - ref: dev:727
+    cni: iroripee ashi U2 yantabetita pinkatsari Kennedy.
+  status: candidato-corpus
+- source_form: Komave
+  frequency: 3
+  examples:
+  - ref: train:3503
+    cni: „Meanto‟ notsipatyaaro noshinto opaita Komave.
+  - ref: train:3504
+    cni: Aajatzita naari nopaita Komave, iroori ovairo Komave.
+  - ref: train:3504
+    cni: ita naari nopaita Komave, iroori ovairo Komave.
+  status: candidato-corpus
+- source_form: Nueva
+  frequency: 3
+  examples:
+  - ref: dev:16
+    cni: Iroori isabikakajeitanajiri Nueva York.
+  - ref: dev:115
+    cni: Intanakaro Nueva Yoork ikibantayeteri aparopee ishaninka
+  - ref: dev:352
+    cni: Santoshi isabikini Nueva York aisati yantabatini jenoki amenakot
+  status: candidato-corpus
+- source_form: Oaklawn
+  frequency: 3
+  examples:
+  - ref: dev:117
+    cni: atsi ashi inchashi shiamentotsipee ashi Oaklawn
+  - ref: dev:489
+    cni: kabayo inchashiki shiakomentotsiki ashi Oaklawn.
+  - ref: dev:666
+    cni: tsi shiakantsipee shiakomentotsiki ashi Oaklawn.
+  status: candidato-corpus
+- source_form: Panamazonía
+  frequency: 3
+  examples:
+  - ref: train:2
+    cni: Ora Panamazonía apatoyetirori kipatsi perantarinisato k
+  - ref: train:12
+    cni: amatero amashitanakerone añantyari ora Panamazonía kempe jitachari pinatakobenterone incha
+  - ref: train:19
+    cni: tashiyetarori te akoyero ora timantsiri Panamazonía
+  status: candidato-corpus
+- source_form: Panamazónico
+  frequency: 3
+  examples:
+  - ref: train:3
+    cni: sipe kajemantatsiri VIII Apatojeitantsi Panamazónico. Oka shiakantsika ashitarantinkari, oka
+  - ref: train:5
+    cni: añakero ora VIII Apatotantsi pinkatsaro Panamazónico okanti asintsitero amenakotero aisati a
+  - ref: train:17
+    cni: Oka apatotantsi Panamazónico osheki amenakotiro shintsitantsi panama
+  status: candidato-corpus
+- source_form: Rapids
+  frequency: 3
+  examples:
+  - ref: dev:76
+    cni: nopiajeitajaro ashi eee eee Grand Rapids itsonkantanakarori aparo notomi
+  - ref: dev:663
+    cni: Nojajeitaiti Grand Rapids namenaiteri atomi itsonkantakarori.
+  - ref: dev:774
+    cni: Grand Rapids irointi nayetantsi kameetsaro.
+  status: candidato-corpus
+- source_form: Reagan
+  frequency: 3
+  examples:
+  - ref: dev:230
+    cni: Anderson yantakeri Reagan apaniro katsini.
+  - ref: dev:524
+    cni: Anderson yanakotakeri Reagan.
+  - ref: dev:564
+    cni: o paperijaniki aparonitatsiri ininatiri Reagan jeri
+  status: candidato-corpus
+- source_form: Santos
+  frequency: 3
+  examples:
+  - ref: train:2208
+    cni: kovi iroñaaka intsiparyaakoventeri Juan Santos Atahualpa.
+  - ref: train:2218
+    cni: ovaveta ivavisakoterimi pinkatsari Juan Santos Atahualpa.
+  - ref: train:2223
+    cni: i ivametairi onkantya yamitakoteri Juan Santos Atahualpa, tsika inkante ilibrateri [iv
+  status: candidato-corpus
+- source_form: Shenkave
+  frequency: 3
+  examples:
+  - ref: train:2599
+    cni: Ari osaikiri nanaini paitachari Shenkave.
+  - ref: train:2600
+    cni: Opaitantari Shenkave, pairani shenkanto onatzi.
+  - ref: train:2602
+    cni: 'Ikantzi: “Apaitatyero Shenkave.”'
+  status: candidato-corpus
+- source_form: Snake
+  frequency: 3
+  examples:
+  - ref: dev:569
+    cni: Okantakobetari ibajiro, Snake River tekatsi marankepee; ipajiyetiri o
+  - ref: dev:674
+    cni: ooo, jataintsiri Snake River, ooo Snake River osheki marankepe
+  - ref: dev:674
+    cni: ooo, jataintsiri Snake River, ooo Snake River osheki marankepee timantkariri
+  status: candidato-corpus
+- source_form: Tsovako
+  frequency: 3
+  examples:
+  - ref: train:2605
+    cni: Ari opoñaanaka ikantaitziro Tsovako, otsovakotara.
+  - ref: train:2606
+    cni: Apaatziro ikantaitziro Tsovako.
+  - ref: train:2607
+    cni: Aririka iñaanaitero, ikantaitziro Tsovako.
+  status: candidato-corpus
+- source_form: Tyobiri
+  frequency: 3
+  examples:
+  - ref: train:571
+    cni: Riraeyeni atiri piarentsi ipankoki Tyobiri.
+  - ref: train:598
+    cni: Ikentake Tyobiri robashiroki poobonto.
+  - ref: train:730
+    cni: Itsonkatakeri Tyobiri tsiito iboriki rantabaetantari robaneki
+  status: candidato-corpus
+- source_form: Antoko
+  frequency: 2
+  examples:
+  - ref: train:2989
+    cni: Antoko, pimpokanake nontyoonkemi, Antoko, pimpokanaketa aka.
+  - ref: train:3005
+    cni: Nampitavaishitavakyaari, ñaakiro Antoko, nontaavakirota.
+  status: candidato-corpus
+- source_form: Apontsiki
+  frequency: 2
+  examples:
+  - ref: train:1474
+    cni: kamantyaari, iñaakiri pava ikantaitziri Apontsiki, iyaanini atziri ikaratzini aka.
+  - ref: train:1475
+    cni: Iyoka ikantaitziri pava Apontsiki, matsi inatzi, matsi, itsikatakari pava
+  status: candidato-corpus
+- source_form: Ashisho
+  frequency: 2
+  examples:
+  - ref: train:274
+    cni: Robakabo kitaeriki iyaniri Ashisho.
+  - ref: train:593
+    cni: Ompojakeri Kepityoki Ashisho.
+  status: candidato-corpus
+- source_form: Away
+  frequency: 2
+  examples:
+  - ref: dev:472
+    cni: Naro nojokabenteri I'll Fly Away.
+  - ref: dev:530
+    cni: I'll Fly Away irootake shiakantsi nonebetari jero nam
+  status: candidato-corpus
+- source_form: Bill
+  frequency: 2
+  examples:
+  - ref: dev:11
+    cni: Ora Sociedad Maennerchor yamitakotakero Bill Gates.
+  - ref: dev:756
+    cni: ', okantaka, ashi Fundación Melinda jeri Bill Gates.'
+  status: candidato-corpus
+- source_form: Black
+  frequency: 2
+  examples:
+  - ref: dev:83
+    cni: Aririka namenajero ishabiniji 'Black Eyed Pea'.
+  - ref: dev:300
+    cni: Ora Black Eyed Pea okameetsasanotake, keariorika
+  status: candidato-corpus
+- source_form: Civic
+  frequency: 2
+  examples:
+  - ref: dev:94
+    cni: Ora teatro Civic omatakero aake kireki jero eiro okoaji
+  - ref: dev:396
+    cni: teri betsikatsane jero obametantsi ashi Civic Theatre iroakera oka osarentsi.
+  status: candidato-corpus
+- source_form: Dios
+  frequency: 2
+  examples:
+  - ref: train:2206
+    cni: ampitsiki opaita Iriniro Pava (Madre de Dios), ari ipoñaari Katarika.
+  - ref: train:2211
+    cni: roñaaka inampiki Iriniro Pava (Madre de Dios) hasta pareniki ari imaajetapakiri.
+  status: candidato-corpus
+- source_form: Estados
+  frequency: 2
+  examples:
+  - ref: dev:421
+    cni: tanakea osheki ojanajeri ichatopee ashi Estados Unidos antanakarori antayetachaneri oba
+  - ref: dev:725
+    cni: pee timayetatsiri timitsari ojatantjari Estados Unidos.
+  status: candidato-corpus
+- source_form: Eyed
+  frequency: 2
+  examples:
+  - ref: dev:83
+    cni: Aririka namenajero ishabiniji 'Black Eyed Pea'.
+  - ref: dev:300
+    cni: Ora Black Eyed Pea okameetsasanotake, keariorika otsip
+  status: candidato-corpus
+- source_form: FOSPA
+  frequency: 2
+  examples:
+  - ref: train:31
+    cni: Ora FOSPA amitakotiro nampitsi ariorika otimake o
+  - ref: train:32
+    cni: Ora nampitsipe amazónico jero VIII FOSPA akantasanotiro ora sabikantsi jero inch
+  status: candidato-corpus
+- source_form: Grand
+  frequency: 2
+  examples:
+  - ref: dev:76
+    cni: nopiajeitajaro ashi eee eee Grand Rapids itsonkantanakarori aparo notomi
+  - ref: dev:663
+    cni: Nojajeitaiti Grand Rapids namenaiteri atomi itsonkantakaro
+  status: candidato-corpus
+- source_form: Indianápolis
+  frequency: 2
+  examples:
+  - ref: dev:114
+    cni: $ onijantiroriki betsikayetachari ashi Indianápolis.
+  - ref: dev:515
+    cni: ntsi antanteari ashi Teatro Cívico ashi Indianápolis ora shiakantsi nampitsisato antateari o
+  status: candidato-corpus
+- source_form: Jooo
+  frequency: 2
+  examples:
+  - ref: train:1888
+    cni: 'Ikimatziro akaki: “Jooo, avirooo.'
+  - ref: train:1928
+    cni: 'Ikimatziro akanaki: “Jooo!”'
+  status: candidato-corpus
+- source_form: Kasanto
+  frequency: 2
+  examples:
+  - ref: train:2310
+    cni: Iro ikantaitziri Kasanto, Kasantotatsiri.
+  - ref: train:2594
+    cni: 'Ikantzi iroñaaka: “Ari nompaitajemiri Kasanto.”'
+  status: candidato-corpus
+- source_form: Kocheri
+  frequency: 2
+  examples:
+  - ref: train:63
+    cni: Ramatabitakero Kocheri iina ikantiro notonkake maniro, kaari m
+  - ref: train:592
+    cni: Poematanake mampaamentotsi ipankoki Kocheri.
+  status: candidato-corpus
+- source_form: Madre
+  frequency: 2
+  examples:
+  - ref: train:2206
+    cni: shiniki nampitsiki opaita Iriniro Pava (Madre de Dios), ari ipoñaari Katarika.
+  - ref: train:2211
+    cni: Ipokaki iroñaaka inampiki Iriniro Pava (Madre de Dios) hasta pareniki ari imaajetapak
+  status: candidato-corpus
+- source_form: Meantarini
+  frequency: 2
+  examples:
+  - ref: train:1501
+    cni: Pairani nochariniteni ipaitziro nijaa Meantarini.
+  - ref: train:1511
+    cni: Nijaa apaitero Meantarini, tzimatsi pashinipaye nijaa anta opoñaa
+  status: candidato-corpus
+- source_form: Meriteriani
+  frequency: 2
+  examples:
+  - ref: train:2353
+    cni: vakakiro Meritarika Asopisoki, yamakiro Meriteriani.
+  - ref: train:2356
+    cni: viriaki, kyaapaki Miritariki paitachari Meriteriani.
+  status: candidato-corpus
+- source_form: Metraro
+  frequency: 2
+  examples:
+  - ref: train:1398
+    cni: Iroñaaka ikantajiro virakocha Metraro.
+  - ref: train:2359
+    cni: Ikenakapakiro Metararoki, Metraro iroñaaka o Mariscal Cáceres.
+  status: candidato-corpus
+- source_form: Navireri
+  frequency: 2
+  examples:
+  - ref: train:2144
+    cni: Ipokaki Navireri, ishirinkapakiro atsinakapakiri imperet
+  - ref: train:2154
+    cni: 'iroñaaka isamakari iroñaaka, ikantakeri Navireri: “Tsika paitaka iroñaaka yantamintsatan'
+  status: candidato-corpus
+- source_form: PAMA
+  frequency: 2
+  examples:
+  - ref: train:1375
+    cni: o yakakotero yaminakotero aninkatantsi (PAMA) arika opintinkaki nija timerantatsire
+  - ref: train:1375
+    cni: ari Ikantakantaetire V otime inijantero PAMA Jebabentirori Aninkatantsi ipaetiro omo
+  status: candidato-corpus
+- source_form: Paucartambo
+  frequency: 2
+  examples:
+  - ref: train:2364
+    cni: itetanakiro ishiyakomentoki, ikenakiro Paucartambo, Puente Perene, Tsiirishiki ikantaitzir
+  - ref: train:3257
+    cni: vini janta, yaapintaitzinta Tzivyoriki (Paucartambo).
+  status: candidato-corpus
+- source_form: Rudolph
+  frequency: 2
+  examples:
+  - ref: dev:20
+    cni: Otimimotake amitakoteneri ashi Rudolph Anderson otsipatearo U2.
+  - ref: dev:96
+    cni: Irootake timimotanari Rudolph Anderson, aparo obetsikirori ashi maba
+  status: candidato-corpus
+- source_form: Shintsivaki
+  frequency: 2
+  examples:
+  - ref: train:2335
+    cni: Osaikiri onampi Shintsivaki ikantaitziro Chinchivani, irotaki oijat
+  - ref: train:2337
+    cni: Aparoni kitatiteri osaikinta Shintsivaki.
+  status: candidato-corpus
+- source_form: Tata
+  frequency: 2
+  examples:
+  - ref: train:2522
+    cni: Ovashiritatya okantaka Tata, iraaka Tata.
+  - ref: train:2522
+    cni: Ovashiritatya okantaka Tata, iraaka Tata.
+  status: candidato-corpus
+- source_form: Tsiyarato
+  frequency: 2
+  examples:
+  - ref: train:1525
+    cni: a kashiri, ikantakiri Naviriri iraniri [Tsiyarato].
+  - ref: train:1537
+    cni: pyaanakiri maniro Naviriri, ipyaanakiri Tsiyarato tsimiri.
+  status: candidato-corpus
+- source_form: Unidos
+  frequency: 2
+  examples:
+  - ref: dev:421
+    cni: osheki ojanajeri ichatopee ashi Estados Unidos antanakarori antayetachaneri obametants
+  - ref: dev:725
+    cni: yetatsiri timitsari ojatantjari Estados Unidos.
+  status: candidato-corpus
+- source_form: Universidad
+  frequency: 2
+  examples:
+  - ref: dev:260
+    cni: e otsipa piperori otimita kiriboro ashi Universidad IUPUI.
+  - ref: dev:875
+    cni: i pinpe 100 $ ara otimita kiriboro ashi Universidad IUPUI.
+  status: candidato-corpus
+- source_form: Villa
+  frequency: 2
+  examples:
+  - ref: train:1539
+    cni: zishi omontero pueblo (nampitsi) opaita Villa Progreso.
+  - ref: train:2357
+    cni: Hay un camino que se llama Villa Pichis por donde pasaron con caballo.
+  status: candidato-corpus
+- source_form: York
+  frequency: 2
+  examples:
+  - ref: dev:16
+    cni: Iroori isabikakajeitanajiri Nueva York.
+  - ref: dev:352
+    cni: Santoshi isabikini Nueva York aisati yantabatini jenoki amenakotirori
+  status: candidato-corpus
+- source_form: ASPCA
+  frequency: 1
+  examples:
+  - ref: dev:169
+    cni: Nokoakotempi pinpe 10 dólares anta ASPCA.
+  status: candidato-corpus
+- source_form: Afuu
+  frequency: 1
+  examples:
+  - ref: train:3876
+    cni: kaji janta, imontsavajari, ikantanakiri Afuu, kintero pinii ipianajiri iraniri.
+  status: candidato-corpus
+- source_form: Amazonía
+  frequency: 1
+  examples:
+  - ref: train:3
+    cni: ñachari areji ajatake oka meka ashi ora Amazonía jero nampitsipe kajemantatsiri VIII Apa
+  status: candidato-corpus
+- source_form: Anampi
+  frequency: 1
+  examples:
+  - ref: train:1127
+    cni: antsi apite osarentsi (2) Jebabentirori Anampi onintakaro obakotachari okarate yayiri
+  status: candidato-corpus
+- source_form: Apeti
+  frequency: 1
+  examples:
+  - ref: train:757
+    cni: Itsopaakero Apeti iraiki te ramabetapajero iyatsinka.
+  status: candidato-corpus
+- source_form: Apple
+  frequency: 1
+  examples:
+  - ref: dev:159
+    cni: Timatsi aparo obetsikirori Apple aisati aparo HP pankotsiki.
+  status: candidato-corpus
+- source_form: Ashiropanko
+  frequency: 1
+  examples:
+  - ref: train:1594
+    cni: antavaijetatzi, ipoña aka ikantaitziro Ashiropanko.
+  status: candidato-corpus
+- source_form: Ashoshi
+  frequency: 1
+  examples:
+  - ref: train:173
+    cni: Raabintatyabo Ashoshi ribenkite ikomintsatantyari.
+  status: candidato-corpus
+- source_form: Atlanta
+  frequency: 1
+  examples:
+  - ref: dev:74
+    cni: Ijoketanajiro Augusta ari ijaeitaji Atlanta.
+  status: candidato-corpus
+- source_form: Bart
+  frequency: 1
+  examples:
+  - ref: dev:831
+    cni: i morekari jero otimi shiakantsi irashi Bart Simpson.
+  status: candidato-corpus
+- source_form: Becky
+  frequency: 1
+  examples:
+  - ref: dev:384
+    cni: Ojitakotakotaro maaroni ashi Becky, Stephanie, Marcus jeri Emly, aisati yo
+  status: candidato-corpus
+- source_form: Brooklynn
+  frequency: 1
+  examples:
+  - ref: dev:420
+    cni: Isabikakajeitanajiri Brooklynn ishaninkaki.
+  status: candidato-corpus
+- source_form: Bruto
+  frequency: 1
+  examples:
+  - ref: train:18
+    cni: akotiori iroperori ashi sabikantsi jero Bruto Intakoyetarori (PBI) ashipe nampitsipe.
+  status: candidato-corpus
+- source_form: Camaiteri
+  frequency: 1
+  examples:
+  - ref: train:727
+    cni: 'Itseeyaka obametantatsiri Camaiteri ikantanakeri ashitaaniyetatsiri: Inkaam'
+  status: candidato-corpus
+- source_form: Campbell
+  frequency: 1
+  examples:
+  - ref: dev:552
+    cni: sayetatsiri, Keepers of the Lore/Joseph Campbell, oka osarentsi.
+  status: candidato-corpus
+- source_form: Carol
+  frequency: 1
+  examples:
+  - ref: dev:118
+    cni: eetsatatsiri antayetachari 'A Christmas Carol'.
+  status: candidato-corpus
+- source_form: Chabari
+  frequency: 1
+  examples:
+  - ref: train:536
+    cni: Itotati pajo Chabari rirantyari ibiare
+  status: candidato-corpus
+- source_form: Chamiri
+  frequency: 1
+  examples:
+  - ref: train:249
+    cni: Iina Chamiri iyaati areetabo iñiiro.
+  status: candidato-corpus
+- source_form: Chareto
+  frequency: 1
+  examples:
+  - ref: train:176
+    cni: Obakeri tonkitsi iitiki Chareto.
+  status: candidato-corpus
+- source_form: Chinchivani
+  frequency: 1
+  examples:
+  - ref: train:2335
+    cni: saikiri onampi Shintsivaki ikantaitziro Chinchivani, irotaki oijatzirori nijaatatsiri Puruk
+  status: candidato-corpus
+- source_form: Christmas
+  frequency: 1
+  examples:
+  - ref: dev:118
+    cni: ibatsa kameetsatatsiri antayetachari 'A Christmas Carol'.
+  status: candidato-corpus
+- source_form: Civico
+  frequency: 1
+  examples:
+  - ref: dev:661
+    cni: Ora Teatro Civico okoi okoi pamitakotero.
+  status: candidato-corpus
+- source_form: Cáceres
+  frequency: 1
+  examples:
+  - ref: train:2359
+    cni: Metararoki, Metraro iroñaaka o Mariscal Cáceres.
+  status: candidato-corpus
+- source_form: Cívico
+  frequency: 1
+  examples:
+  - ref: dev:515
+    cni: º kimoshireantsi antanteari ashi Teatro Cívico ashi Indianápolis ora shiakantsi nampit
+  status: candidato-corpus
+- source_form: Days
+  frequency: 1
+  examples:
+  - ref: dev:588
+    cni: Ora antachaneri oshiaro katsini Days of Our lives.
+  status: candidato-corpus
+- source_form: Dead
+  frequency: 1
+  examples:
+  - ref: dev:49
+    cni: anatakotero abisatsiri ashi The Walking Dead ashi tsiteniki abisanaintsi.
+  status: candidato-corpus
+- source_form: Disney
+  frequency: 1
+  examples:
+  - ref: dev:602
+    cni: Santoshi yantabetimotiro ashi Disney aisati obetsikata irantamentotsi ashi i
+  status: candidato-corpus
+- source_form: Elkhart
+  frequency: 1
+  examples:
+  - ref: dev:131
+    cni: keri obemerentsi nampitsiki kempe Gary, Elkhart jeri Terre Haute, antachaneri obamentan
+  status: candidato-corpus
+- source_form: Ellen
+  frequency: 1
+  examples:
+  - ref: dev:832
+    cni: rointi irashi kitaiteri irashi apa jeri Ellen okantani noshentiri.
+  status: candidato-corpus
+- source_form: Erori
+  frequency: 1
+  examples:
+  - ref: train:2324
+    cni: roñaaka ikantaitziri Naviriri, icharine Erori [Poiyotzi].
+  status: candidato-corpus
+- source_form: Fernando
+  frequency: 1
+  examples:
+  - ref: train:1557
+    cni: rantzipaye pishaninkapaye ipaita pastor Fernando Estar.
+  status: candidato-corpus
+- source_form: Fideicomisarios
+  frequency: 1
+  examples:
+  - ref: dev:543
+    cni: Ora amenirori ashi Fideicomisarios tee ontime pintsatirori.
+  status: candidato-corpus
+- source_form: Firma
+  frequency: 1
+  examples:
+  - ref: dev:333
+    cni: ¿Pineanatake La Firma?
+  status: candidato-corpus
+- source_form: Francesa
+  frequency: 1
+  examples:
+  - ref: train:19
+    cni: Chorani nampitsi jitachari Guyana Francesa kantashiyetarori te akoyero ora timants
+  status: candidato-corpus
+- source_form: Fundación
+  frequency: 1
+  examples:
+  - ref: dev:756
+    cni: ri timatsi tikakotirori, okantaka, ashi Fundación Melinda jeri Bill Gates.
+  status: candidato-corpus
+- source_form: Gary
+  frequency: 1
+  examples:
+  - ref: dev:131
+    cni: ijantakeri obemerentsi nampitsiki kempe Gary, Elkhart jeri Terre Haute, antachaneri
+  status: candidato-corpus
+- source_form: Guyana
+  frequency: 1
+  examples:
+  - ref: train:19
+    cni: Chorani nampitsi jitachari Guyana Francesa kantashiyetarori te akoyero or
+  status: candidato-corpus
+- source_form: Haute
+  frequency: 1
+  examples:
+  - ref: dev:131
+    cni: mpitsiki kempe Gary, Elkhart jeri Terre Haute, antachaneri obamentantsi ashi IRT meek
+  status: candidato-corpus
+- source_form: Humala
+  frequency: 1
+  examples:
+  - ref: train:784
+    cni: Ollanta Humala Taso
+  status: candidato-corpus
+- source_form: I'll
+  frequency: 1
+  examples:
+  - ref: dev:472
+    cni: Naro nojokabenteri I'll Fly Away.
+  status: candidato-corpus
+- source_form: Indianapolis
+  frequency: 1
+  examples:
+  - ref: dev:75
+    cni: ankantamentotsi oshe iroakeraripee ashi Indianapolis.
+  status: candidato-corpus
+- source_form: Inka
+  frequency: 1
+  examples:
+  - ref: train:2241
+    cni: ta iritaki yamitakotziri ikantavetakari Inka, iritaki yamitakotziri yokaja, arika ij
+  status: candidato-corpus
+- source_form: Inkaare
+  frequency: 1
+  examples:
+  - ref: train:193
+    cni: Naaka nojeki nampitsiki iitachari Inkaare.
+  status: candidato-corpus
+- source_form: Irishiria
+  frequency: 1
+  examples:
+  - ref: train:607
+    cni: Ireento Irishiria oyaati areetanta
+  status: candidato-corpus
+- source_form: Irlanda
+  frequency: 1
+  examples:
+  - ref: dev:542
+    cni: Iripoñaaka Irlanda.
+  status: candidato-corpus
+- source_form: Ishako
+  frequency: 1
+  examples:
+  - ref: train:69
+    cni: Maaroni rantayetiri Ishako, rantiro rampateki.
+  status: candidato-corpus
+- source_form: Jebabentirori
+  frequency: 1
+  examples:
+  - ref: train:1127
+    cni: ri kantakobentantsi apite osarentsi (2) Jebabentirori Anampi onintakaro obakotachari okarate
+  status: candidato-corpus
+- source_form: JoAnn
+  frequency: 1
+  examples:
+  - ref: dev:237
+    cni: bakajeitaka kapichaji osarentsi. ikanti JoAnn.
+  status: candidato-corpus
+- source_form: Joseph
+  frequency: 1
+  examples:
+  - ref: dev:552
+    cni: eri abisayetatsiri, Keepers of the Lore/Joseph Campbell, oka osarentsi.
+  status: candidato-corpus
+- source_form: Kaaroshi
+  frequency: 1
+  examples:
+  - ref: train:75
+    cni: 'Ikantiri Kaaroshi itomi: Pinkantero anirio otsikaatena pi'
+  status: candidato-corpus
+- source_form: Kamaiteri
+  frequency: 1
+  examples:
+  - ref: train:440
+    cni: Imokaatiro Kamaiteri jantari rantantyaari ibito.
+  status: candidato-corpus
+- source_form: Kamañari
+  frequency: 1
+  examples:
+  - ref: train:417
+    cni: Oshekini matsantsi inampiki Kamañari.
+  status: candidato-corpus
+- source_form: Kaminirio
+  frequency: 1
+  examples:
+  - ref: train:476
+    cni: Obashiyabakena iina Kaminirio.
+  status: candidato-corpus
+- source_form: Keepers
+  frequency: 1
+  examples:
+  - ref: dev:552
+    cni: si, pampoyantsipee jeri abisayetatsiri, Keepers of the Lore/Joseph Campbell, oka osaren
+  status: candidato-corpus
+- source_form: Kemariani
+  frequency: 1
+  examples:
+  - ref: train:1568
+    cni: iri misión intatzikeronta, ikantaitziro Kemariani.
+  status: candidato-corpus
+- source_form: Kepityoki
+  frequency: 1
+  examples:
+  - ref: train:593
+    cni: Ompojakeri Kepityoki Ashisho.
+  status: candidato-corpus
+- source_form: Kishokiri
+  frequency: 1
+  examples:
+  - ref: train:736
+    cni: Itsinampaitakeri Kishokiri rookaitakeri ojabiki.
+  status: candidato-corpus
+- source_form: Koriari
+  frequency: 1
+  examples:
+  - ref: train:424
+    cni: Imenkotake Koriari osheki shima raakeri ipashikaatantari.
+  status: candidato-corpus
+- source_form: Koriobiri
+  frequency: 1
+  examples:
+  - ref: train:62
+    cni: Ramanantake Koriobiri ichenko cheenkari.
+  status: candidato-corpus
+- source_form: Koviriaki
+  frequency: 1
+  examples:
+  - ref: train:2356
+    cni: Ishitovajetapaki Koviriaki, kyaapaki Miritariki paitachari Meriter
+  status: candidato-corpus
+- source_form: Leaders
+  frequency: 1
+  examples:
+  - ref: dev:77
+    cni: irashi ikarabintsare kempe Young Lbrary Leaders jero Love is Reading Together Week yame
+  status: candidato-corpus
+- source_form: League
+  frequency: 1
+  examples:
+  - ref: dev:21
+    cni: otainchari jaitaka obamerentsi ashi Ivy League jeri inchatoberipee.
+  status: candidato-corpus
+- source_form: Lincoln
+  frequency: 1
+  examples:
+  - ref: dev:118
+    cni: i, kempe itsareni ashi Mary Todd en Abe Lincoln, lllinois, ora kitsatentsipee ashi ishe
+  status: candidato-corpus
+- source_form: Londres
+  frequency: 1
+  examples:
+  - ref: dev:713
+    cni: hiri noshitoariatake otsipaki nampitsi, Londres
+  status: candidato-corpus
+- source_form: Lore
+  frequency: 1
+  examples:
+  - ref: dev:552
+    cni: pee jeri abisayetatsiri, Keepers of the Lore/Joseph Campbell, oka osarentsi.
+  status: candidato-corpus
+- source_form: Love
+  frequency: 1
+  examples:
+  - ref: dev:77
+    cni: intsare kempe Young Lbrary Leaders jero Love is Reading Together Week yamenakobentir
+  status: candidato-corpus
+- source_form: Maaniri
+  frequency: 1
+  examples:
+  - ref: train:487
+    cni: Raati Maaniri okitsoki intsipa ipankiteri robaneki.
+  status: candidato-corpus
+- source_form: Macapá
+  frequency: 1
+  examples:
+  - ref: train:3
+    cni: otsapijaki Amazónica oijatiro ora ashi Macapá apatojeita ara Tarapoki –nampitsi Perú
+  status: candidato-corpus
+- source_form: Main
+  frequency: 1
+  examples:
+  - ref: dev:314
+    cni: Isabikini aparonitatsi Main street aparoni opimantayetata.
+  status: candidato-corpus
+- source_form: Mapitzi
+  frequency: 1
+  examples:
+  - ref: train:2580
+    cni: Ikantzi, tzimatsi notomitsori ipaita Mapitzi.
+  status: candidato-corpus
+- source_form: Marcus
+  frequency: 1
+  examples:
+  - ref: dev:384
+    cni: takotaro maaroni ashi Becky, Stephanie, Marcus jeri Emly, aisati yora obamerentsipee k
+  status: candidato-corpus
+- source_form: Marinkama
+  frequency: 1
+  examples:
+  - ref: train:758
+    cni: Ipashikaatake Marinkama antari tsopiro oshirantaaki.
+  status: candidato-corpus
+- source_form: Mariscal
+  frequency: 1
+  examples:
+  - ref: train:2359
+    cni: kapakiro Metararoki, Metraro iroñaaka o Mariscal Cáceres.
+  status: candidato-corpus
+- source_form: Mary
+  frequency: 1
+  examples:
+  - ref: dev:118
+    cni: meetsa kitsarentsi, kempe itsareni ashi Mary Todd en Abe Lincoln, lllinois, ora kits
+  status: candidato-corpus
+- source_form: Meantari
+  frequency: 1
+  examples:
+  - ref: train:1502
+    cni: Opaita Meantari okimita iroñaaka osarentsinkatanaji ari
+  status: candidato-corpus
+- source_form: Melinda
+  frequency: 1
+  examples:
+  - ref: dev:756
+    cni: tikakotirori, okantaka, ashi Fundación Melinda jeri Bill Gates.
+  status: candidato-corpus
+- source_form: Merced
+  frequency: 1
+  examples:
+  - ref: train:2364
+    cni: e, Tsiirishiki ikantaitziro iroñaaka La Merced.
+  status: candidato-corpus
+- source_form: Minnesota
+  frequency: 1
+  examples:
+  - ref: dev:201
+    cni: Tsame pankoshintsiki Minnesota.
+  status: candidato-corpus
+- source_form: Miritariki
+  frequency: 1
+  examples:
+  - ref: train:2356
+    cni: Ishitovajetapaki Koviriaki, kyaapaki Miritariki paitachari Meriteriani.
+  status: candidato-corpus
+- source_form: Mishaa
+  frequency: 1
+  examples:
+  - ref: train:1986
+    cni: 'siro Naviriri iroñaaka: Shimashiri, oka Mishaa, poña Savori, ari okaratzi mava.'
+  status: candidato-corpus
+- source_form: Mishari
+  frequency: 1
+  examples:
+  - ref: train:719
+    cni: Itsamaetiro Mishari robane shookake inchashipaye.
+  status: candidato-corpus
+- source_form: México
+  frequency: 1
+  examples:
+  - ref: dev:556
+    cni: takeriri niri ijatantakari aka iroosati México.
+  status: candidato-corpus
+- source_form: Naciones
+  frequency: 1
+  examples:
+  - ref: dev:219
+    cni: Ora CIA aake shiakantsi jero anakero Naciones Unidas kitaiteriki otsipani.
+  status: candidato-corpus
+- source_form: Napo
+  frequency: 1
+  examples:
+  - ref: train:407
+    cni: Rontibatakabo Napo mapi oshetakiriaakeri ishetaki.
+  status: candidato-corpus
+- source_form: Niibotya
+  frequency: 1
+  examples:
+  - ref: train:169
+    cni: Etakotaka Niibotya tema te inintajero onintane.
+  status: candidato-corpus
+- source_form: Niotya
+  frequency: 1
+  examples:
+  - ref: train:241
+    cni: —¿Pikemakena Niotya nokantakemiri? —Jee, nokemakemi pabaeni
+  status: candidato-corpus
+- source_form: Obityo
+  frequency: 1
+  examples:
+  - ref: train:655
+    cni: Ishirikakeri Obityo rotsitsite katsimari.
+  status: candidato-corpus
+- source_form: Oooo
+  frequency: 1
+  examples:
+  - ref: train:1926
+    cni: 'kimaiyatziri iroñaaka ikaimaiyapajini: “Oooo, aaaa, oooo, eeee!”'
+  status: candidato-corpus
+- source_form: Oscar
+  frequency: 1
+  examples:
+  - ref: dev:43
+    cni: impoiji amenero shiakantsi pajitachari Oscar.
+  status: candidato-corpus
+- source_form: Pachaka
+  frequency: 1
+  examples:
+  - ref: train:1563
+    cni: Iroñaaka tzimatsi ikantziri pava Pachaka, Pachakama, ikantziri ivavanitari nosha
+  status: candidato-corpus
+- source_form: Pachakama
+  frequency: 1
+  examples:
+  - ref: train:1563
+    cni: oñaaka tzimatsi ikantziri pava Pachaka, Pachakama, ikantziri ivavanitari noshaninkapaye i
+  status: candidato-corpus
+- source_form: Pampa
+  frequency: 1
+  examples:
+  - ref: train:2360
+    cni: Iroñaaka avotsiki irojatzi Pampa Vueliki, tzimatsi virakochapaye.
+  status: candidato-corpus
+- source_form: Panamazónicos
+  frequency: 1
+  examples:
+  - ref: train:32
+    cni: kasanotantsi. Yoijatero aotsi marojeini Panamazónicos, ora jitachari kisakobentantsi jero ora
+  status: candidato-corpus
+- source_form: Paninkari
+  frequency: 1
+  examples:
+  - ref: train:1583
+    cni: iyotziro ivitsikiro ikantziri añaaniki Paninkari.
+  status: candidato-corpus
+- source_form: Parivana
+  frequency: 1
+  examples:
+  - ref: train:3016
+    cni: taranki ishapeta, akantziro, nokantziro Parivana.
+  status: candidato-corpus
+- source_form: Perene
+  frequency: 1
+  examples:
+  - ref: train:2364
+    cni: omentoki, ikenakiro Paucartambo, Puente Perene, Tsiirishiki ikantaitziro iroñaaka La M
+  status: candidato-corpus
+- source_form: Pichis
+  frequency: 1
+  examples:
+  - ref: train:2357
+    cni: Hay un camino que se llama Villa Pichis por donde pasaron con caballo.
+  status: candidato-corpus
+- source_form: Pirinto
+  frequency: 1
+  examples:
+  - ref: train:2579
+    cni: Irinitsori opaita Pirinto, irotaki irinitsori.
+  status: candidato-corpus
+- source_form: Pirontzi
+  frequency: 1
+  examples:
+  - ref: train:2253
+    cni: “Te añeeri iroñaaka iraniri Pirontzi,” ijatakaiyeri.
+  status: candidato-corpus
+- source_form: Pishaba
+  frequency: 1
+  examples:
+  - ref: train:316
+    cni: Ichekake Pishaba kepiyashi ipashikantyaabori ipanko.
+  status: candidato-corpus
+- source_form: Progreso
+  frequency: 1
+  examples:
+  - ref: train:1539
+    cni: omontero pueblo (nampitsi) opaita Villa Progreso.
+  status: candidato-corpus
+- source_form: Puente
+  frequency: 1
+  examples:
+  - ref: train:2364
+    cni: ishiyakomentoki, ikenakiro Paucartambo, Puente Perene, Tsiirishiki ikantaitziro iroñaa
+  status: candidato-corpus
+- source_form: Reading
+  frequency: 1
+  examples:
+  - ref: dev:77
+    cni: kempe Young Lbrary Leaders jero Love is Reading Together Week yamenakobentiri ebankarip
+  status: candidato-corpus
+- source_form: Savori
+  frequency: 1
+  examples:
+  - ref: train:1986
+    cni: 'iroñaaka: Shimashiri, oka Mishaa, poña Savori, ari okaratzi mava.'
+  status: candidato-corpus
+- source_form: Savorotsa
+  frequency: 1
+  examples:
+  - ref: train:2011
+    cni: Aparoni iritsiro ikantaitziri Savorotsa, te añiiro savori, iroñaaka otyaankakir
+  status: candidato-corpus
+- source_form: Shakiñi
+  frequency: 1
+  examples:
+  - ref: train:491
+    cni: Antabo omoti Shakiñi itimatye entsite.
+  status: candidato-corpus
+- source_form: Shantyoma
+  frequency: 1
+  examples:
+  - ref: train:402
+    cni: Imanonkakeri tijo Shantyoma iñaakeri oshitobake irira.
+  status: candidato-corpus
+- source_form: Shapopo
+  frequency: 1
+  examples:
+  - ref: train:456
+    cni: Noñaakeri Shapopo niyanki obaantsiki.
+  status: candidato-corpus
+- source_form: Shariba
+  frequency: 1
+  examples:
+  - ref: train:516
+    cni: Oshoki Shariba osheki ishipatona itapinomaki.
+  status: candidato-corpus
+- source_form: Sharishi
+  frequency: 1
+  examples:
+  - ref: train:299
+    cni: Ikemake Sharishi iro rakantakamiri.
+  status: candidato-corpus
+- source_form: Shariva
+  frequency: 1
+  examples:
+  - ref: train:3281
+    cni: o Tsonkitsiroshiki, isaikayetzi pairani Shariva.
+  status: candidato-corpus
+- source_form: Shebankori
+  frequency: 1
+  examples:
+  - ref: train:697
+    cni: Iñaakeri Shebankori timpinare ijeeki irabaeta antamiki.
+  status: candidato-corpus
+- source_form: Shimpitsinani
+  frequency: 1
+  examples:
+  - ref: train:2380
+    cni: Marankiaroki, ipoñaatya aajatzita anta Shimpitsinani, machiyenka inatzi.
+  status: candidato-corpus
+- source_form: Shironi
+  frequency: 1
+  examples:
+  - ref: train:3880
+    cni: risori, Irishibeti, Iroishi-itomi, jeri Shironi, okameka sankenamentotsika nobetsatanaj
+  status: candidato-corpus
+- source_form: Shunita
+  frequency: 1
+  examples:
+  - ref: train:3880
+    cni: riyori, Iroishi, Merishereshi, Bereshi, Shunita, Tomiki, Jericia, Sharori, Miriani, Mar
+  status: candidato-corpus
+- source_form: Simpson
+  frequency: 1
+  examples:
+  - ref: dev:831
+    cni: ekari jero otimi shiakantsi irashi Bart Simpson.
+  status: candidato-corpus
+- source_form: Soft
+  frequency: 1
+  examples:
+  - ref: dev:225
+    cni: ¿Pineanatakero The Soft?
+  status: candidato-corpus
+- source_form: Springs
+  frequency: 1
+  examples:
+  - ref: dev:430
+    cni: kemisantantarori kamantantsi kityonkari Springs okantakotiro kamantantsi iyoteri asabik
+  status: candidato-corpus
+- source_form: Stephanie
+  frequency: 1
+  examples:
+  - ref: dev:384
+    cni: Ojitakotakotaro maaroni ashi Becky, Stephanie, Marcus jeri Emly, aisati yora obameren
+  status: candidato-corpus
+- source_form: Tarma
+  frequency: 1
+  examples:
+  - ref: train:2365
+    cni: Ivavisanakiro Tarma [Taroma], yaanakiro irojatzi Lima [Irim
+  status: candidato-corpus
+- source_form: Terre
+  frequency: 1
+  examples:
+  - ref: dev:131
+    cni: tsi nampitsiki kempe Gary, Elkhart jeri Terre Haute, antachaneri obamentantsi ashi IR
+  status: candidato-corpus
+- source_form: Theatre
+  frequency: 1
+  examples:
+  - ref: dev:396
+    cni: etsikatsane jero obametantsi ashi Civic Theatre iroakera oka osarentsi.
+  status: candidato-corpus
+- source_form: Third
+  frequency: 1
+  examples:
+  - ref: dev:600
+    cni: Tekatsi oyatsine ikie ara Third SS.
+  status: candidato-corpus
+- source_form: Todd
+  frequency: 1
+  examples:
+  - ref: dev:118
+    cni: a kitsarentsi, kempe itsareni ashi Mary Todd en Abe Lincoln, lllinois, ora kitsatent
+  status: candidato-corpus
+- source_form: Together
+  frequency: 1
+  examples:
+  - ref: dev:77
+    cni: ung Lbrary Leaders jero Love is Reading Together Week yamenakobentiri ebankaripee yameye
+  status: candidato-corpus
+- source_form: Tokalleka
+  frequency: 1
+  examples:
+  - ref: dev:454
+    cni: ijaniki nampitsi Kereshiaki pajitachari Tokalleka, ipokake America, aririka okantakari 19
+  status: candidato-corpus
+- source_form: Tsiirishiki
+  frequency: 1
+  examples:
+  - ref: train:2364
+    cni: ', ikenakiro Paucartambo, Puente Perene, Tsiirishiki ikantaitziro iroñaaka La Merced.'
+  status: candidato-corpus
+- source_form: Tyonkishori
+  frequency: 1
+  examples:
+  - ref: train:535
+    cni: Ijaakero Tyonkishori piarentsi ibachakateki.
+  status: candidato-corpus
+- source_form: Unidas
+  frequency: 1
+  examples:
+  - ref: dev:219
+    cni: A aake shiakantsi jero anakero Naciones Unidas kitaiteriki otsipani.
+  status: candidato-corpus
+- source_form: University
+  frequency: 1
+  examples:
+  - ref: dev:311
+    cni: takotantsi otimita kirirboro ashi IUPUI University aisati omatanteari okoakoteri apitajea
+  status: candidato-corpus
+- source_form: Walking
+  frequency: 1
+  examples:
+  - ref: dev:49
+    cni: ika piñaanatakotero abisatsiri ashi The Walking Dead ashi tsiteniki abisanaintsi.
+  status: candidato-corpus
+- source_form: Week
+  frequency: 1
+  examples:
+  - ref: dev:77
+    cni: y Leaders jero Love is Reading Together Week yamenakobentiri ebankaripee yameyetea o
+  status: candidato-corpus
+- source_form: Young
+  frequency: 1
+  examples:
+  - ref: dev:77
+    cni: tachaneripee irashi ikarabintsare kempe Young Lbrary Leaders jero Love is Reading Tog
+  status: candidato-corpus

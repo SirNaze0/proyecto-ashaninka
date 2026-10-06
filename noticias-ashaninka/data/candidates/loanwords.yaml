@@ -1,0 +1,1020 @@
+# GENERADO por `uv run python -m app.cli corpus extract` desde AmericasNLP2021@d3f519c
+# (splits train y dev). status: candidato-corpus = evidencia, NO dato validado.
+- source_form: amazónicos
+  frequency: 8
+  examples:
+  - ref: train:3
+    cni: Okantabetaka ashi irori ora nampitsipe amazónicos jeri sharakasatipe tampishijetake jero
+  - ref: train:5
+    cni: Añakero nampitsipe amazónicos jeri sharakasatipe aisati arori orape k
+  - ref: train:5
+    cni: ón ashebajeitanakea ashi ora nampitsipe amazónicos jeri sharakasatipe oñakerora asabikanta
+  status: candidato-corpus
+- source_form: chek
+  frequency: 6
+  examples:
+  - ref: train:1489
+    cni: Ikiyajevetaja, chek, chek, chek, chek, ikiyajeveta, chek, c
+  - ref: train:1489
+    cni: Ikiyajevetaja, chek, chek, chek, chek, ikiyajeveta, chek, chek.
+  - ref: train:1489
+    cni: Ikiyajevetaja, chek, chek, chek, chek, ikiyajeveta, chek, chek.
+  status: candidato-corpus
+- source_form: nija
+  frequency: 6
+  examples:
+  - ref: train:1025
+    cni: Abakojetiro 41°. Okobityeya ipashitero nija saekayetatsire
+  - ref: train:1076
+    cni: 5. Okimpoyero obakotero yaminakoetiro nija opoñara;
+  - ref: train:1124
+    cni: ro 61°. Ipaetero ibashiñero ayiro iriro nija
+  status: candidato-corpus
+- source_form: oovero
+  frequency: 6
+  examples:
+  - ref: train:2685
+    cni: Nintavakyaarita oovero.
+  - ref: train:2686
+    cni: Institya oovero.
+  - ref: train:2687
+    cni: Paita ikantaitziri „oovero‟?
+  status: candidato-corpus
+- source_form: compañia
+  frequency: 4
+  examples:
+  - ref: train:1574
+    cni: Como osaikatzika compañia te ishinitero ante avanipaye intatziker
+  - ref: train:1598
+    cni: yotanakiro yantavaijetzi ipankitapakira compañia, okyaapakira compañia.
+  - ref: train:1598
+    cni: zi ipankitapakira compañia, okyaapakira compañia.
+  status: candidato-corpus
+- source_form: pastor
+  frequency: 4
+  examples:
+  - ref: train:1557
+    cni: kitamarantzipaye pishaninkapaye ipaita pastor Fernando Estar.
+  - ref: train:1564
+    cni: Como ariitaka pastor, iñaavakeri ikantzi, iritaki Pava iripi
+  - ref: train:1566
+    cni: Ari osaikakeri misión yantakantakiri pastor.
+  status: candidato-corpus
+- source_form: como
+  frequency: 3
+  examples:
+  - ref: train:1573
+    cni: ote, ari okanta ovakerani, ikyaantapaka como isaiki, aajatzi, irora, tsika okantaitz
+  - ref: train:1597
+    cni: Ari yookanakiro yantavaitzi como iñaavakeri virakochapaye.
+  - ref: train:1599
+    cni: ritaki ijatzi yantavaitzi noshaninkapae como esclavos.
+  status: candidato-corpus
+- source_form: misión
+  frequency: 3
+  examples:
+  - ref: train:1566
+    cni: Ari osaikakeri misión yantakantakiri pastor.
+  - ref: train:1568
+    cni: Oirinkajetaka, ari osaikapakiri misión intatzikeronta, ikantaitziro Kemariani.
+  - ref: train:1569
+    cni: Ari osaikakiri misión, ari ipoñaanakari iyotantajari noshanin
+  status: candidato-corpus
+- source_form: pero
+  frequency: 3
+  examples:
+  - ref: train:2225
+    cni: te yoperotero irirori ijate ivayeritya pero iyotziro ivametantzi, tsika ankanteri a
+  - ref: train:2322
+    cni: Ikantaitziro guerrera Kasanto pero inchatyaaki onatzi.
+  - ref: train:2569
+    cni: ', piñaanateri ninkarika kisanintzimiri, pero noñaanatziri.'
+  status: candidato-corpus
+- source_form: arroz
+  frequency: 2
+  examples:
+  - ref: train:2427
+    cni: Shetyanaki nokotsivaitzi arroz novanajyaari.
+  - ref: train:2847
+    cni: te, nopishantarori arika nante irora mi arroz [narrosote].
+  status: candidato-corpus
+- source_form: atatao
+  frequency: 2
+  examples:
+  - ref: train:2616
+    cni: mavakiri yora tsisoni [aroni] ikaimaki „atatao,‟ „atatao.‟
+  - ref: train:2616
+    cni: ora tsisoni [aroni] ikaimaki „atatao,‟ „atatao.‟
+  status: candidato-corpus
+- source_form: caballo
+  frequency: 2
+  examples:
+  - ref: train:2357
+    cni: lama Villa Pichis por donde pasaron con caballo.
+  - ref: train:2358
+    cni: a ivantaitakiro aparoni piratsi, mula o caballo.
+  status: candidato-corpus
+- source_form: cambio
+  frequency: 2
+  examples:
+  - ref: train:1572
+    cni: En cambio iroñaaka tzimanaki estudiatatsiri unive
+  - ref: train:2863
+    cni: En cambio iroka pachaka, naantari nijaa ovakerani
+  status: candidato-corpus
+- source_form: chamairo
+  frequency: 2
+  examples:
+  - ref: train:3254
+    cni: 'ri inkanteri: “Nokovi pimpina piyokani, chamairo, ishiko.”'
+  - ref: train:3256
+    cni: kantaka, ari impiyotanakiro irishikote, chamairo, iyokani.
+  status: candidato-corpus
+- source_form: cheki
+  frequency: 2
+  examples:
+  - ref: train:3701
+    cni: Ichekapaaki kompiroshi, ichekavaitsi, cheki, cheki, ipankoshitaka itsonkakiro
+  - ref: train:3701
+    cni: apaaki kompiroshi, ichekavaitsi, cheki, cheki, ipankoshitaka itsonkakiro
+  status: candidato-corpus
+- source_form: dólares
+  frequency: 2
+  examples:
+  - ref: dev:169
+    cni: Nokoakotempi pinpe 10 dólares anta ASPCA.
+  - ref: dev:425
+    cni: i osarentsiki abisanaintsiri irointi 33 dólares.
+  status: candidato-corpus
+- source_form: ejercicios
+  frequency: 2
+  examples:
+  - ref: train:2486
+    cni: otzinaja iroñaaka niyankite, nantajatzi ejercicios, irotaki notzimaventziri.
+  - ref: train:2487
+    cni: Nantzi naaka ejercicios, katsikitakinave!
+  status: candidato-corpus
+- source_form: hasta
+  frequency: 2
+  examples:
+  - ref: train:1600
+    cni: Ari ikantari hasta okyaantapakya compañia.
+  - ref: train:2211
+    cni: a inampiki Iriniro Pava (Madre de Dios) hasta pareniki ari imaajetapakiri.
+  status: candidato-corpus
+- source_form: hora
+  frequency: 2
+  examples:
+  - ref: train:2374
+    cni: te ayotero onkitaitzimatake, te ayotero hora, apite, mava okitaitzimataki.
+  - ref: train:2904
+    cni: Pikantajetziro avirori ikantaitziri hora osamani, nokantziri naaka intaani noyot
+  status: candidato-corpus
+- source_form: hospital
+  frequency: 2
+  examples:
+  - ref: train:2473
+    cni: Naakaja itzimantakari te noñeero hospital, aitaki notzimiriri pankotsiki apaniroi
+  - ref: train:2514
+    cni: Te noñeero hospital, aajatzi okimita pashini, iroñaaka pash
+  status: candidato-corpus
+- source_form: manitzi
+  frequency: 2
+  examples:
+  - ref: train:2618
+    cni: 'Te onkanteri manitzi, pairani ikantaitzi: “Airo akantzi mani'
+  - ref: train:2618
+    cni: 'itzi, pairani ikantaitzi: “Airo akantzi manitzi, aritaki yatsikakai.”'
+  status: candidato-corpus
+- source_form: mokoriri
+  frequency: 2
+  examples:
+  - ref: train:3096
+    cni: Ankamarankake, mokoriri, mokoriri.
+  - ref: train:3096
+    cni: Ankamarankake, mokoriri, mokoriri.
+  status: candidato-corpus
+- source_form: mokoro
+  frequency: 2
+  examples:
+  - ref: train:2313
+    cni: akero, piche, piche, ankamarankanakero, mokoro, mokoro.
+  - ref: train:2313
+    cni: iche, piche, ankamarankanakero, mokoro, mokoro.
+  status: candidato-corpus
+- source_form: paragua
+  frequency: 2
+  examples:
+  - ref: train:3282
+    cni: ite pankotsi ivitsikaitziro, ikantziro „paragua‟.
+  - ref: train:3297
+    cni: atsikya pankotsi nokantakiri ikantziri „paragua‟, iyoshiyetziro imisaikaitziro.
+  status: candidato-corpus
+- source_form: pava
+  frequency: 2
+  examples:
+  - ref: train:1475
+    cni: Iyoka ikantaitziri pava Apontsiki, matsi inatzi, matsi, itsikat
+  - ref: train:1475
+    cni: siki, matsi inatzi, matsi, itsikatakari pava Apiinka, ipiratakari.
+  status: candidato-corpus
+- source_form: piche
+  frequency: 2
+  examples:
+  - ref: train:2313
+    cni: ai, arika avakyaaro oshira, anaatakero, piche, piche, ankamarankanakero, mokoro, moko
+  - ref: train:2313
+    cni: ka avakyaaro oshira, anaatakero, piche, piche, ankamarankanakero, mokoro, mokoro.
+  status: candidato-corpus
+- source_form: quince
+  frequency: 2
+  examples:
+  - ref: train:2392
+    cni: Otzimapaki quince nosarentsite, tekatsira ina, nonirotsor
+  - ref: train:2415
+    cni: site iro ipaitakinari, notzimantapakari quince nosarentsite.
+  status: candidato-corpus
+- source_form: shere
+  frequency: 2
+  examples:
+  - ref: train:2887
+    cni: Ankantakero asantanakero, shere, shere, avashitaki, areetapaitatya, asa
+  - ref: train:2887
+    cni: Ankantakero asantanakero, shere, shere, avashitaki, areetapaitatya, asantanake
+  status: candidato-corpus
+- source_form: shero
+  frequency: 2
+  examples:
+  - ref: train:3824
+    cni: ataitanaki iroñaaka shiramparira shero, shero ivankopashikira irojatsi otavant
+  - ref: train:3824
+    cni: ataitanaki iroñaaka shiramparira shero, shero ivankopashikira irojatsi otavantokinta
+  status: candidato-corpus
+- source_form: shikit
+  frequency: 2
+  examples:
+  - ref: train:2033
+    cni: Shiyanaka, shikit, shikit.
+  - ref: train:2033
+    cni: Shiyanaka, shikit, shikit.
+  status: candidato-corpus
+- source_form: shinavaite
+  frequency: 2
+  examples:
+  - ref: train:2191
+    cni: Naakataki icharine ikantaitziri shinavaite.
+  - ref: train:2195
+    cni: karajetaiyeni ashaninkatavaka ivaiyani „shinavaite.‟
+  status: candidato-corpus
+- source_form: shiri
+  frequency: 2
+  examples:
+  - ref: train:3780
+    cni: irikiro pishirinkapitsateri shivitsara, shiri, shiri
+  - ref: train:3780
+    cni: pishirinkapitsateri shivitsara, shiri, shiri
+  status: candidato-corpus
+- source_form: shiringa
+  frequency: 2
+  examples:
+  - ref: train:2423
+    cni: te isaike, ijatzi yantavaitzi, itotatzi shiringa.
+  - ref: train:2466
+    cni: ri anta yantajetzinta nokonkiri itotzi, shiringa itotziri.
+  status: candidato-corpus
+- source_form: teee
+  frequency: 2
+  examples:
+  - ref: train:1799
+    cni: Ivakiro iroñaaka, iposainatakiro teee!
+  - ref: train:3753
+    cni: Ivakiro iroñaaka iposainatakiro teee. Otsomontetatsira Ivakiro iroñaaka otsa
+  status: candidato-corpus
+- source_form: tocuyo
+  frequency: 2
+  examples:
+  - ref: train:2850
+    cni: Iroma iroka ashi irora irojatzita tocuyo.
+  - ref: train:2861
+    cni: Irojatzita tocuyo, notsakakero, okityonkatantanakari.
+  status: candidato-corpus
+- source_form: aaaa
+  frequency: 1
+  examples:
+  - ref: train:1926
+    cni: 'atziri iroñaaka ikaimaiyapajini: “Oooo, aaaa, oooo, eeee!”'
+  status: candidato-corpus
+- source_form: abuela
+  frequency: 1
+  examples:
+  - ref: train:1588
+    cni: tsini antajetzi noshaninkapaye, nuestra abuela (nosaro) ovametakero eentsipaye okirika
+  status: candidato-corpus
+- source_form: acres
+  frequency: 1
+  examples:
+  - ref: dev:378
+    cni: o kameetsaitake pankirentsipee ashi 3,3 acres antyaroite otsipataro kameetsaperori ik
+  status: candidato-corpus
+- source_form: aero
+  frequency: 1
+  examples:
+  - ref: train:1127
+    cni: 'okarate yayiri nija okantya otimantyari aero okibitya nija:'
+  status: candidato-corpus
+- source_form: afroamazónicos
+  frequency: 1
+  examples:
+  - ref: train:9
+    cni: amazónicas jero sharakasato tsinanepe, afroamazónicos LGTB, apatoyetantsi ashi ebankarope, or
+  status: candidato-corpus
+- source_form: ahora
+  frequency: 1
+  examples:
+  - ref: train:1559
+    cni: pokapakiri, ipokakira osheki ashaninka, ahora ipokapaki ikinkitsakapakiri, yaminapaki
+  status: candidato-corpus
+- source_form: alianza
+  frequency: 1
+  examples:
+  - ref: train:5
+    cni: ero amenakotero aisati antsipabakanakea alianza, articulación aisati movilización asheb
+  status: candidato-corpus
+- source_form: allá
+  frequency: 1
+  examples:
+  - ref: train:3066
+    cni: anatavakya arika inkantanakya así, acá, allá, impipitsokatanakya yairikiro chakopi.
+  status: candidato-corpus
+- source_form: amazónicas
+  frequency: 1
+  examples:
+  - ref: train:9
+    cni: patoanakea ashi apatoyetantsi iroperori amazónicas jero sharakasato tsinanepe, afroamazóni
+  status: candidato-corpus
+- source_form: antero
+  frequency: 1
+  examples:
+  - ref: train:1128
+    cni: 1. antero añanatakotero;
+  status: candidato-corpus
+- source_form: apite
+  frequency: 1
+  examples:
+  - ref: train:1127
+    cni: onkarata ipantaeterori kantakobentantsi apite osarentsi (2) Jebabentirori Anampi onin
+  status: candidato-corpus
+- source_form: artesanía
+  frequency: 1
+  examples:
+  - ref: train:2833
+    cni: Oka nantziri mi artesanía notejevetzirika.
+  status: candidato-corpus
+- source_form: articulación
+  frequency: 1
+  examples:
+  - ref: train:5
+    cni: kotero aisati antsipabakanakea alianza, articulación aisati movilización ashebajeitanakea as
+  status: candidato-corpus
+- source_form: ayiro
+  frequency: 1
+  examples:
+  - ref: train:1124
+    cni: Abakojetiro 61°. Ipaetero ibashiñero ayiro iriro nija
+  status: candidato-corpus
+- source_form: añanatakotero
+  frequency: 1
+  examples:
+  - ref: train:1128
+    cni: 1. antero añanatakotero;
+  status: candidato-corpus
+- source_form: blackjack
+  frequency: 1
+  examples:
+  - ref: dev:184
+    cni: Iroori oñatsa poquer o blackjack, iro oñatsatari aisati scrabble.
+  status: candidato-corpus
+- source_form: bolsitas
+  frequency: 1
+  examples:
+  - ref: train:2858
+    cni: a oka irora paitaranki nantayetziri mis bolsitas, notsarateriki, iyaaniriki, oitsokipaye
+  status: candidato-corpus
+- source_form: carretera
+  frequency: 1
+  examples:
+  - ref: train:2761
+    cni: ñaaka, oñiirora avomanchakini, oñaakiro carretera onatzi, oñaakiro ashaninkara antarosant
+  status: candidato-corpus
+- source_form: castellano
+  frequency: 1
+  examples:
+  - ref: train:1571
+    cni: Te iyote iñaavaite castellano, te inkimeri virakocha iñaavaite, añaan
+  status: candidato-corpus
+- source_form: celular
+  frequency: 1
+  examples:
+  - ref: train:2853
+    cni: Piñaavaitantakari aviroka ikantaitziro celular, nokantziro naaka „iñaavaimento‟, inkom
+  status: candidato-corpus
+- source_form: cemento
+  frequency: 1
+  examples:
+  - ref: train:3205
+    cni: tsa, onkantya isaikita, ikantaitzirori „cemento‟.
+  status: candidato-corpus
+- source_form: chorina
+  frequency: 1
+  examples:
+  - ref: train:148
+    cni: Ratsi apa tonkaariki chorina ishirikashitantyaabori ipanko.
+  status: candidato-corpus
+- source_form: chorito
+  frequency: 1
+  examples:
+  - ref: train:149
+    cni: Robabo chorito intsipaki.
+  status: candidato-corpus
+- source_form: cosas
+  frequency: 1
+  examples:
+  - ref: train:2921
+    cni: Irotaki kisaatatsiri, oyoshita cosas naturales, tekatsi antsipaitayerori.
+  status: candidato-corpus
+- source_form: cuando
+  frequency: 1
+  examples:
+  - ref: train:2845
+    cni: '[notsampiro], naaka oka notsompitantari cuando itzimi neentsite, iyaanipaye.'
+  status: candidato-corpus
+- source_form: cuento
+  frequency: 1
+  examples:
+  - ref: train:2651
+    cni: Ari otsonkapakiri cuento (noyenkitsari).
+  status: candidato-corpus
+- source_form: cáncer
+  frequency: 1
+  examples:
+  - ref: train:2981
+    cni: Aririka antai cáncer, úlcera, irotaki naari naavintantari.
+  status: candidato-corpus
+- source_form: dieciséis
+  frequency: 1
+  examples:
+  - ref: train:2416
+    cni: Aajatzita irirori itzimapaki dieciséis yosarentsite ipaitantakanari shirampari
+  status: candidato-corpus
+- source_form: diez
+  frequency: 1
+  examples:
+  - ref: train:1341
+    cni: aparopayeni obakota (UIT) tera ojebate diez mil (10,000) UIT.
+  status: candidato-corpus
+- source_form: eeeee
+  frequency: 1
+  examples:
+  - ref: train:3828
+    cni: apaajini, ¡ooooo!, ¡aauuu!, ¡oooouuu!, ¡eeeee! Ikaimapaajiro iriniro.
+  status: candidato-corpus
+- source_form: esclavos
+  frequency: 1
+  examples:
+  - ref: train:1599
+    cni: i ijatzi yantavaitzi noshaninkapae como esclavos.
+  status: candidato-corpus
+- source_form: escuela
+  frequency: 1
+  examples:
+  - ref: train:1560
+    cni: Iroñaaka ontzimi aparoni escuela iriyotantajyaari noshaninkapaye.
+  status: candidato-corpus
+- source_form: firm
+  frequency: 1
+  examples:
+  - ref: dev:517
+    cni: pineanatakero The firm
+  status: candidato-corpus
+- source_form: guerrera
+  frequency: 1
+  examples:
+  - ref: train:2322
+    cni: Ikantaitziro guerrera Kasanto pero inchatyaaki onatzi.
+  status: candidato-corpus
+- source_form: guerrero
+  frequency: 1
+  examples:
+  - ref: train:2224
+    cni: i iroñaaka irirori, irotaki ipaitantari guerrero Tsamiri, ivayerita.
+  status: candidato-corpus
+- source_form: güis
+  frequency: 1
+  examples:
+  - ref: dev:622
+    cni: anakea aisati okantea obajenokea, ante «güis» jero aririka itsokayetakero iitontsi.
+  status: candidato-corpus
+- source_form: ibashiñero
+  frequency: 1
+  examples:
+  - ref: train:1124
+    cni: Abakojetiro 61°. Ipaetero ibashiñero ayiro iriro nija
+  status: candidato-corpus
+- source_form: indígenas
+  frequency: 1
+  examples:
+  - ref: train:25
+    cni: arakamashiki opoñanakea apatoyetantsiki indígenas ashi ora kisakotantsi jero pinkatsaro o
+  status: candidato-corpus
+- source_form: ipankyajeta
+  frequency: 1
+  examples:
+  - ref: train:1591
+    cni: yantavaijetzi aka, ikantziri noñaaniki „ipankyajeta‟.
+  status: candidato-corpus
+- source_form: ipantaeterori
+  frequency: 1
+  examples:
+  - ref: train:1127
+    cni: i irayiro nija timatsi obira omonkarata ipantaeterori kantakobentantsi apite osarentsi (2) Je
+  status: candidato-corpus
+- source_form: ipashitero
+  frequency: 1
+  examples:
+  - ref: train:1025
+    cni: Abakojetiro 41°. Okobityeya ipashitero nija saekayetatsire
+  status: candidato-corpus
+- source_form: irayiro
+  frequency: 1
+  examples:
+  - ref: train:1127
+    cni: Akobakaeri irayiro nija timatsi obira omonkarata ipantaete
+  status: candidato-corpus
+- source_form: iriro
+  frequency: 1
+  examples:
+  - ref: train:1124
+    cni: kojetiro 61°. Ipaetero ibashiñero ayiro iriro nija
+  status: candidato-corpus
+- source_form: iñaavaimento
+  frequency: 1
+  examples:
+  - ref: train:2853
+    cni: ikantaitziro celular, nokantziro naaka „iñaavaimento‟, inkomunikatantyaari, pashini intainak
+  status: candidato-corpus
+- source_form: joooo
+  frequency: 1
+  examples:
+  - ref: train:3829
+    cni: ¡inaaaa!, ikimatsiro akanaki ¡joooo!, aritajeetapaaja, yaminapaji ikantsiri
+  status: candidato-corpus
+- source_form: kanaiki
+  frequency: 1
+  examples:
+  - ref: train:3334
+    cni: Pimpiyapitsatajeri, iyaarita kanaiki, itasonkanakemita, ikimitara ivari pits
+  status: candidato-corpus
+- source_form: kantakobentantsi
+  frequency: 1
+  examples:
+  - ref: train:1127
+    cni: timatsi obira omonkarata ipantaeterori kantakobentantsi apite osarentsi (2) Jebabentirori Anamp
+  status: candidato-corpus
+- source_form: kapontso
+  frequency: 1
+  examples:
+  - ref: train:3054
+    cni: Irotaki kapontso ikantaiziro.
+  status: candidato-corpus
+- source_form: kemari
+  frequency: 1
+  examples:
+  - ref: train:3039
+    cni: Iroma oka iro ikentataitariri kemari, antari inatzi.
+  status: candidato-corpus
+- source_form: kempiro
+  frequency: 1
+  examples:
+  - ref: train:303
+    cni: Ratsikakeri kempiro pabatyori irakoki.
+  status: candidato-corpus
+- source_form: keniri
+  frequency: 1
+  examples:
+  - ref: train:3670
+    cni: Pamineri naniri, yaminiri keniri.
+  status: candidato-corpus
+- source_form: kentabo
+  frequency: 1
+  examples:
+  - ref: train:311
+    cni: Robabo kentabo kiri tonkariki obaantsiki.
+  status: candidato-corpus
+- source_form: kirikii
+  frequency: 1
+  examples:
+  - ref: train:3028
+    cni: Iroma iroka nochakopite kirikii, ashintsakitayetakero.
+  status: candidato-corpus
+- source_form: kirinkasatoni
+  frequency: 1
+  examples:
+  - ref: train:1297
+    cni: OETOTARI X . Nijapaye kirinkasatoni
+  status: candidato-corpus
+- source_form: lives
+  frequency: 1
+  examples:
+  - ref: dev:588
+    cni: antachaneri oshiaro katsini Days of Our lives.
+  status: candidato-corpus
+- source_form: makota
+  frequency: 1
+  examples:
+  - ref: train:391
+    cni: Ijekaki makota otamentotsiki royeri shikiri robantyari
+  status: candidato-corpus
+- source_form: matico
+  frequency: 1
+  examples:
+  - ref: train:2917
+    cni: nashitatsiri irora, pinkantziro aviroka matico [ivarantzi], nopyaakotatyaaro noñaani.
+  status: candidato-corpus
+- source_form: mereto
+  frequency: 1
+  examples:
+  - ref: train:3348
+    cni: itetakyaarika jetari, shiva, kepavori, mereto, aririka paajero, airo paminero ovantek
+  status: candidato-corpus
+- source_form: mesa
+  frequency: 1
+  examples:
+  - ref: train:2898
+    cni: okama ikantaitziroka ampashikantyaarori mesa [avantyaarori].
+  status: candidato-corpus
+- source_form: millon
+  frequency: 1
+  examples:
+  - ref: dev:504
+    cni: Ora nampitsi Maennerchor aake aparo millon abisanaintsiri osarentsi.
+  status: candidato-corpus
+- source_form: millones
+  frequency: 1
+  examples:
+  - ref: dev:326
+    cni: Bill Gates ipaake 50 millones $.
+  status: candidato-corpus
+- source_form: mineras
+  frequency: 1
+  examples:
+  - ref: train:5
+    cni: itakotantsi ora amenakotiriri kejijari, mineras, santaripe, betsikayeterone poshiniri j
+  status: candidato-corpus
+- source_form: moradito
+  frequency: 1
+  examples:
+  - ref: train:2308
+    cni: Tzimatsi moradito, okantanentanaka, tzimatsi kityonkari,
+  status: candidato-corpus
+- source_form: movilización
+  frequency: 1
+  examples:
+  - ref: train:5
+    cni: abakanakea alianza, articulación aisati movilización ashebajeitanakea ashi ora nampitsipe am
+  status: candidato-corpus
+- source_form: mula
+  frequency: 1
+  examples:
+  - ref: train:2358
+    cni: iroñaaka ivantaitakiro aparoni piratsi, mula o caballo.
+  status: candidato-corpus
+- source_form: naturales
+  frequency: 1
+  examples:
+  - ref: train:2921
+    cni: Irotaki kisaatatsiri, oyoshita cosas naturales, tekatsi antsipaitayerori.
+  status: candidato-corpus
+- source_form: noñaantakariri
+  frequency: 1
+  examples:
+  - ref: train:2395
+    cni: Ari okantari noñaantakariri shiramparika.
+  status: candidato-corpus
+- source_form: nuestra
+  frequency: 1
+  examples:
+  - ref: train:1588
+    cni: rikajetatsini antajetzi noshaninkapaye, nuestra abuela (nosaro) ovametakero eentsipaye
+  status: candidato-corpus
+- source_form: nueve
+  frequency: 1
+  examples:
+  - ref: train:2417
+    cni: Notsipataki irojatzita veinte nueve yosarentsite, ari ikamaki noime, yookan
+  status: candidato-corpus
+- source_form: obakotachari
+  frequency: 1
+  examples:
+  - ref: train:1127
+    cni: tsi (2) Jebabentirori Anampi onintakaro obakotachari okarate yayiri nija okantya otimantyari
+  status: candidato-corpus
+- source_form: obakotero
+  frequency: 1
+  examples:
+  - ref: train:1076
+    cni: 5. Okimpoyero obakotero yaminakoetiro nija opoñara;
+  status: candidato-corpus
+- source_form: obira
+  frequency: 1
+  examples:
+  - ref: train:1127
+    cni: Akobakaeri irayiro nija timatsi obira omonkarata ipantaeterori kantakobentant
+  status: candidato-corpus
+- source_form: okantari
+  frequency: 1
+  examples:
+  - ref: train:2395
+    cni: Ari okantari noñaantakariri shiramparika.
+  status: candidato-corpus
+- source_form: okantya
+  frequency: 1
+  examples:
+  - ref: train:1127
+    cni: 'takaro obakotachari okarate yayiri nija okantya otimantyari aero okibitya nija:'
+  status: candidato-corpus
+- source_form: okarate
+  frequency: 1
+  examples:
+  - ref: train:1127
+    cni: entirori Anampi onintakaro obakotachari okarate yayiri nija okantya otimantyari aero ok
+  status: candidato-corpus
+- source_form: okibitya
+  frequency: 1
+  examples:
+  - ref: train:1127
+    cni: 'te yayiri nija okantya otimantyari aero okibitya nija:'
+  status: candidato-corpus
+- source_form: okobakari
+  frequency: 1
+  examples:
+  - ref: train:958
+    cni: 4. Pashine otsokero okobakari
+  status: candidato-corpus
+- source_form: omonkarata
+  frequency: 1
+  examples:
+  - ref: train:1127
+    cni: Akobakaeri irayiro nija timatsi obira omonkarata ipantaeterori kantakobentantsi apite os
+  status: candidato-corpus
+- source_form: onintakaro
+  frequency: 1
+  examples:
+  - ref: train:1127
+    cni: pite osarentsi (2) Jebabentirori Anampi onintakaro obakotachari okarate yayiri nija okanty
+  status: candidato-corpus
+- source_form: ooooo
+  frequency: 1
+  examples:
+  - ref: train:3828
+    cni: maiyaatsiri iroñaaka ikaimaiyapaajini, ¡ooooo!, ¡aauuu!, ¡oooouuu!, ¡eeeee! Ikaimapaa
+  status: candidato-corpus
+- source_form: oooouuu
+  frequency: 1
+  examples:
+  - ref: train:3828
+    cni: ka ikaimaiyapaajini, ¡ooooo!, ¡aauuu!, ¡oooouuu!, ¡eeeee! Ikaimapaajiro iriniro.
+  status: candidato-corpus
+- source_form: opoñara
+  frequency: 1
+  examples:
+  - ref: train:1076
+    cni: Okimpoyero obakotero yaminakoetiro nija opoñara;
+  status: candidato-corpus
+- source_form: osarentsi
+  frequency: 1
+  examples:
+  - ref: train:1127
+    cni: ta ipantaeterori kantakobentantsi apite osarentsi (2) Jebabentirori Anampi onintakaro oba
+  status: candidato-corpus
+- source_form: osheki
+  frequency: 1
+  examples:
+  - ref: train:2371
+    cni: Tzimatsi ovantsi, osheki ivankiri virakocha, ishinkini, imachaki
+  status: candidato-corpus
+- source_form: otimantyari
+  frequency: 1
+  examples:
+  - ref: train:1127
+    cni: 'bakotachari okarate yayiri nija okantya otimantyari aero okibitya nija:'
+  status: candidato-corpus
+- source_form: otsokero
+  frequency: 1
+  examples:
+  - ref: train:958
+    cni: 4. Pashine otsokero okobakari
+  status: candidato-corpus
+- source_form: pajarito
+  frequency: 1
+  examples:
+  - ref: train:2919
+    cni: ya intaina iroka yamatziro ikantaitziro pajarito.
+  status: candidato-corpus
+- source_form: panamazónicas
+  frequency: 1
+  examples:
+  - ref: train:17
+    cni: zónico osheki amenakotiro shintsitantsi panamazónicas jero sharakamashi
+  status: candidato-corpus
+- source_form: panteon
+  frequency: 1
+  examples:
+  - ref: train:3203
+    cni: ri iriro virakocha irirorija akantziri „panteon‟.
+  status: candidato-corpus
+- source_form: para
+  frequency: 1
+  examples:
+  - ref: train:2871
+    cni: Jeroka ninchakiri para que nontyaantyaarori nontzinantyarori,
+  status: candidato-corpus
+- source_form: parenini
+  frequency: 1
+  examples:
+  - ref: train:1526
+    cni: “Tsame aipitsokatero parenini, okinanajita Chuchuraski.”
+  status: candidato-corpus
+- source_form: pareto
+  frequency: 1
+  examples:
+  - ref: train:548
+    cni: Robabo pareto ishinkine Koriobiri.
+  status: candidato-corpus
+- source_form: poquer
+  frequency: 1
+  examples:
+  - ref: dev:184
+    cni: Iroori oñatsa poquer o blackjack, iro oñatsatari aisati scra
+  status: candidato-corpus
+- source_form: porque
+  frequency: 1
+  examples:
+  - ref: train:1608
+    cni: Tekatsi atziri porque aka inampi maranki, inampi kamaari, ina
+  status: candidato-corpus
+- source_form: pueblo
+  frequency: 1
+  examples:
+  - ref: train:1539
+    cni: intero, piñaantyaarori otzishi omontero pueblo (nampitsi) opaita Villa Progreso.
+  status: candidato-corpus
+- source_form: pyameni
+  frequency: 1
+  examples:
+  - ref: train:3027
+    cni: Iroka, pyameni ikantaitziro oka.
+  status: candidato-corpus
+- source_form: quedó
+  frequency: 1
+  examples:
+  - ref: train:1490
+    cni: pajyaari, iro yaminajetantapajyaari, se quedó seco, ari ikamanaji pava Apiinka, piyan
+  status: candidato-corpus
+- source_form: saekayetatsire
+  frequency: 1
+  examples:
+  - ref: train:1025
+    cni: ojetiro 41°. Okobityeya ipashitero nija saekayetatsire
+  status: candidato-corpus
+- source_form: sanarik
+  frequency: 1
+  examples:
+  - ref: train:2074
+    cni: Opoña apiitakiri, osanaryaakotakiri, sanarik.
+  status: candidato-corpus
+- source_form: scrabble
+  frequency: 1
+  examples:
+  - ref: dev:184
+    cni: quer o blackjack, iro oñatsatari aisati scrabble.
+  status: candidato-corpus
+- source_form: seco
+  frequency: 1
+  examples:
+  - ref: train:1490
+    cni: ri, iro yaminajetantapajyaari, se quedó seco, ari ikamanaji pava Apiinka, piyanaja p
+  status: candidato-corpus
+- source_form: shamaki
+  frequency: 1
+  examples:
+  - ref: train:2860
+    cni: Iroma iroka shamaki, ikantaitziro, osaiki antamiki, amenaty
+  status: candidato-corpus
+- source_form: shavetashi
+  frequency: 1
+  examples:
+  - ref: train:3085
+    cni: entsitapaki noniro osheki oikamarankina shavetashi.
+  status: candidato-corpus
+- source_form: shevatyaki
+  frequency: 1
+  examples:
+  - ref: train:2858
+    cni: Notsatzimaita shevatyaki, ikantaitziri yoka shevatyakipaye, irom
+  status: candidato-corpus
+- source_form: shiramparika
+  frequency: 1
+  examples:
+  - ref: train:2395
+    cni: Ari okantari noñaantakariri shiramparika.
+  status: candidato-corpus
+- source_form: siete
+  frequency: 1
+  examples:
+  - ref: train:3010
+    cni: Osheki osarentsi imantsiyataki, siete osarentsi.
+  status: candidato-corpus
+- source_form: tarook
+  frequency: 1
+  examples:
+  - ref: train:3849
+    cni: oo yaatsimatantyari ikantakotsimaintari tarook itsonkakiri ivinkakiri.
+  status: candidato-corpus
+- source_form: terreno
+  frequency: 1
+  examples:
+  - ref: train:1576
+    cni: aminerota pimpoketave kirinka antaroite terreno (kipatsi).
+  status: candidato-corpus
+- source_form: timatsi
+  frequency: 1
+  examples:
+  - ref: train:1127
+    cni: Akobakaeri irayiro nija timatsi obira omonkarata ipantaeterori kantakob
+  status: candidato-corpus
+- source_form: trece
+  frequency: 1
+  examples:
+  - ref: train:2474
+    cni: aaka neentsite okaratapaki nosarentsite trece.
+  status: candidato-corpus
+- source_form: tsatik
+  frequency: 1
+  examples:
+  - ref: train:2094
+    cni: Iro irakotantajyaarimi, ari tsatik, intsompoi aisatzi ipiyanaja.
+  status: candidato-corpus
+- source_form: tsinik
+  frequency: 1
+  examples:
+  - ref: train:3818
+    cni: ini itsinkakotsimaintaro antaimintokira tsinik okantanaka piinkapaki omoyakira nijaa i
+  status: candidato-corpus
+- source_form: tyonkiro
+  frequency: 1
+  examples:
+  - ref: train:764
+    cni: Oninti impanekiki kaniri tyonkiro.
+  status: candidato-corpus
+- source_form: tyontyoki
+  frequency: 1
+  examples:
+  - ref: train:2056
+    cni: Okisaka iritsiro, amaki inchashi tyontyoki, opichovaki ovyaariki, opichovakiniri,
+  status: candidato-corpus
+- source_form: ultimo
+  frequency: 1
+  examples:
+  - ref: train:1576
+    cni: 'Pero ultimo (ovirantopakarori) ikantzi: “Tsame ajat'
+  status: candidato-corpus
+- source_form: veinte
+  frequency: 1
+  examples:
+  - ref: train:2417
+    cni: Notsipataki irojatzita veinte nueve yosarentsite, ari ikamaki noime,
+  status: candidato-corpus
+- source_form: vigencia
+  frequency: 1
+  examples:
+  - ref: train:3
+    cni: i, oka meka apitiro ora opiaja ashi ora vigencia derechope kisakoteri ashira nampitsipe,
+  status: candidato-corpus
+- source_form: yaminakoetiro
+  frequency: 1
+  examples:
+  - ref: train:1076
+    cni: 5. Okimpoyero obakotero yaminakoetiro nija opoñara;
+  status: candidato-corpus
+- source_form: yayiri
+  frequency: 1
+  examples:
+  - ref: train:1127
+    cni: Anampi onintakaro obakotachari okarate yayiri nija okantya otimantyari aero okibitya
+  status: candidato-corpus
+- source_form: úlcera
+  frequency: 1
+  examples:
+  - ref: train:2981
+    cni: Aririka antai cáncer, úlcera, irotaki naari naavintantari.
+  status: candidato-corpus

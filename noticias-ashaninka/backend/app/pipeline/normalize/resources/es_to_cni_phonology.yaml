@@ -1,0 +1,9 @@
+# P2d — Tabla de adaptación fonológica castellano -> ortografía canónica asháninka.
+# SUPUESTO-LING: tabla VACÍA a propósito. Qué fonemas castellanos no existen en asháninka
+# (p. ej. /l/, señalado por el tesista) y por cuál se sustituye cada uno debe definirlo
+# una persona lingüista o docente EIB. No se inventa.
+# Mientras esté vacía, los fragmentos en castellano quedan sin reescribir y, si contienen
+# caracteres fuera del vocabulario de MMS, el segmento queda bloqueado para el TTS (tts_ready=false).
+resource: es_to_cni_phonology
+description: "Reglas ordenadas de reescritura fonética castellano -> ortografía cni (P2d)"
+entries: []

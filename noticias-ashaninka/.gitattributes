@@ -1,0 +1,7 @@
+# Finales de línea LF en todos los sistemas (init.sh se rompe con CRLF)
+* text=auto eol=lf
+*.sh text eol=lf
+# Archivos verificados por SHA-256: git no debe tocar sus bytes
+backend/tests/fixtures/mms_cni_vocab.json -text
+*.wav binary
+*.db binary

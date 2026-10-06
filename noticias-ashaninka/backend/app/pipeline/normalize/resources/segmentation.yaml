@@ -1,0 +1,12 @@
+# Reglas de segmentación en párrafos y oraciones (1.4). Dato tipográfico, no lingüístico del asháninka.
+resource: segmentation
+description: "Parámetros de segmentación en párrafos y oraciones"
+config:
+  # Signos que pueden cerrar una oración
+  terminators: ".!?…"
+  # Abreviaturas tras las cuales un punto NO cierra oración (comparación sin distinguir mayúsculas)
+  abbreviations: [sr, sra, srta, dr, dra, ing, lic, prof, art, arts, inc, núm, num, n, nº, n°,
+                  etc, pág, págs, av, jr, ca, aprox, ee, uu, ee.uu, s.a, s.a.c, cap, vol, fig]
+  # Un número de hasta N dígitos al inicio de párrafo seguido de punto es una enumeración ("1. …")
+  enumeration_max_digits: 3
+entries: []

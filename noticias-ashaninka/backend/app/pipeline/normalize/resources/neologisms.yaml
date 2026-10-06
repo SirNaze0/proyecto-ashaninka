@@ -1,0 +1,7 @@
+# P2e — Neologismos y perífrasis (etapa EDITORIAL, no automática).
+# El normalizador solo usa esta lista para NO marcar como "missing_neologism" los términos ya cubiertos.
+# Campos: source_form (concepto en castellano), replacement (neologismo o perífrasis validada).
+# SUPUESTO-LING: lista vacía; requiere traductores y glosarios EIB del Minedu.
+resource: neologisms
+description: "Neologismos y perífrasis validados (solo referencia para el detector editorial)"
+entries: []

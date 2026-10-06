@@ -1,0 +1,37 @@
+# 2-0 — Unificación ortográfica hacia la ortografía CANÓNICA del sistema.
+# Decisión del tesista (2026-10-05): usar como canónica la ortografía MAYORITARIA del corpus
+# AmericasNLP (k, b, ts, ñ). Frecuencias en docs/corpus_report.md.
+# SUPUESTO-LING: pendiente de validar con P1 (alfabeto oficial) y P7 (ortografía del traductor).
+# Solo se aplica a palabras clasificadas como asháninka (no a nombres propios, siglas ni castellano).
+# El orden importa: la primera regla que coincide en cada posición se aplica.
+resource: orthography_variants
+description: "Unificación de variantes de escritura hacia la ortografía canónica (k, b, ts, ñ)"
+config:
+  canonical: "mayoritaria-corpus"
+  # Decisión explícita del tesista: estas reglas se aplican aunque estén sin validar (SUPUESTO-LING)
+  apply_statuses: [validado, SUPUESTO-LING]
+entries:
+  - id: ORT-001
+    description: "tz -> ts (ts es la forma mayoritaria)"
+    pattern: "tz"
+    replacement: "ts"
+    source: "Decisión del tesista 2026-10-05; frecuencias AmericasNLP2021@d3f519c (ver docs/corpus_report.md)"
+    status: SUPUESTO-LING
+  - id: ORT-002
+    description: "qu ante e/i -> k (k es la forma mayoritaria para la /k/)"
+    pattern: "qu(?=[eiéí])"
+    replacement: "k"
+    source: "Decisión del tesista 2026-10-05; frecuencias AmericasNLP2021@d3f519c"
+    status: SUPUESTO-LING
+  - id: ORT-003
+    description: "c no seguida de h -> k"
+    pattern: "c(?!h)"
+    replacement: "k"
+    source: "Decisión del tesista 2026-10-05; frecuencias AmericasNLP2021@d3f519c"
+    status: SUPUESTO-LING
+  - id: ORT-004
+    description: "v -> b (b es la forma mayoritaria)"
+    pattern: "v"
+    replacement: "b"
+    source: "Decisión del tesista 2026-10-05; frecuencias AmericasNLP2021@d3f519c"
+    status: SUPUESTO-LING

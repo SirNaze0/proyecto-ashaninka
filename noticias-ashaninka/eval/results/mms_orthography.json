@@ -1,0 +1,129 @@
+{
+  "tarea": "1.9",
+  "fecha": "2026-10-06T01:39:58+00:00",
+  "commit": "bdcec4d67e18f97a6542f9673d1d4c88e4399571",
+  "hardware": {
+    "cpu": "AMD64 Family 25 Model 33 Stepping 2, AuthenticAMD",
+    "os": "Windows-10-10.0.26200-SP0"
+  },
+  "versiones": {
+    "americasnlp2021": "d3f519c6b38299d8149311e65a369047350e6849",
+    "mms-tts-cni": "a744890bf8b52fd17ed322d8d995dec6cf77809b",
+    "mms-1b-all": "3d33597edbdaaba14a8e858e2c8caa76e3cec0cd"
+  },
+  "semilla": 20261005,
+  "bootstrap": 1000,
+  "muestra": {
+    "dev_total": 883,
+    "bloqueadas_sin_p2d": 149,
+    "fuera_de_rango_longitud": 13,
+    "elegibles": 721,
+    "muestra": 100
+  },
+  "hipotesis": {
+    "H0": {
+      "descripcion": "Sin adaptar: el texto canónico pasa tal cual y VitsTokenizer elimina en silencio lo que no conoce (reproduce el defecto)",
+      "cer_canonico": 0.1499,
+      "ic95": [
+        0.1381,
+        0.1621
+      ],
+      "cer_mms": 0.1734,
+      "precision_palabra": 0.2918,
+      "recuperacion_por_caracter": {
+        "k": {
+          "apariciones_ref": 393,
+          "recuperacion": 0.0483
+        },
+        "b": {
+          "apariciones_ref": 77,
+          "recuperacion": 0.1429
+        },
+        "ñ": {
+          "apariciones_ref": 26,
+          "recuperacion": 0.0
+        },
+        "ts": {
+          "apariciones_ref": 167,
+          "recuperacion": 1.0
+        }
+      },
+      "inversa_usada": [
+        [
+          "qu(?=[ei])",
+          "k"
+        ],
+        [
+          "c(?!h)",
+          "k"
+        ],
+        [
+          "v",
+          "b"
+        ],
+        [
+          "ny",
+          "ñ"
+        ]
+      ]
+    },
+    "H1": {
+      "descripcion": "k->qu ante e/i, k->c en los demás casos; b->v; ñ->ny; tz->ts; z->s",
+      "cer_canonico": 0.0586,
+      "ic95": [
+        0.0509,
+        0.0664
+      ],
+      "cer_mms": 0.0555,
+      "precision_palabra": 0.6183,
+      "recuperacion_por_caracter": {
+        "k": {
+          "apariciones_ref": 393,
+          "recuperacion": 0.9796
+        },
+        "b": {
+          "apariciones_ref": 77,
+          "recuperacion": 0.8182
+        },
+        "ñ": {
+          "apariciones_ref": 26,
+          "recuperacion": 0.0
+        },
+        "ts": {
+          "apariciones_ref": 167,
+          "recuperacion": 0.994
+        }
+      },
+      "inversa_usada": [
+        [
+          "qu(?=[ei])",
+          "k"
+        ],
+        [
+          "c(?!h)",
+          "k"
+        ],
+        [
+          "v",
+          "b"
+        ],
+        [
+          "ny",
+          "ñ"
+        ]
+      ]
+    }
+  },
+  "elegida": "H1",
+  "comparacion_vs_H0": {
+    "diferencia_cer_media": -0.0915,
+    "ic95": [
+      -0.102,
+      -0.0806
+    ],
+    "p_valor_bilateral": 0.0
+  },
+  "hoja_ab": "pendiente_hablante",
+  "duracion_s": 645.4,
+  "limitacion": "TTS y ASR de MMS comparten datos de entrenamiento: la prueba mide consistencia, no inteligibilidad humana."
+}

@@ -1,0 +1,99 @@
+# GENERADO por `uv run python -m app.cli corpus extract` desde AmericasNLP2021@d3f519c
+# (splits train y dev). status: candidato-corpus = evidencia, NO dato validado.
+- source_form: aparoni
+  value: '1'
+  frequency: 12
+  noise: []
+  examples:
+  - ref: train:941
+    cni: 1. Aparoni(1) shiyakotarori Yaminero Pankirentsi,irit
+  - ref: train:942
+    cni: 2. Aparoni (1) shiyakotarori YamineroAninkataantsi;
+  - ref: train:943
+    cni: 3. Aparoni (1) shiyakotarori YamineroPankotsipaye Ibit
+  status: candidato-corpus
+- source_form: apite
+  value: '2'
+  frequency: 5
+  noise: []
+  examples:
+  - ref: train:979
+    cni: i Otenkana opoñanta iñantaetarori otime apite (2) aminakoyetirori.
+  - ref: train:1096
+    cni: e ora osamani osaekimotiro. Arika itime apite (2) kobirori nija aerorika anteka jebabenti
+  - ref: train:1150
+    cni: etero nija tera otsonkiro antabaerentsi apite (2) kashirisarentsi;
+  status: candidato-corpus
+- source_form: apapakoroni
+  value: '5'
+  frequency: 4
+  noise:
+  - 'la palabra aparece con varios valores: [''0,5'', ''5'']'
+  examples:
+  - ref: train:973
+    cni: ire Añabentero Ipaeteni Nijasato ikanta apapakoroni (5) yotatire timatsi iyotakero yaminakotero
+  - ref: train:1168
+    cni: i (2) kashirisarentsi otimake osamanite Apapakoroni (5) kashirisarentsi tekatsi kantakobenteron
+  - ref: train:1263
+    cni: katantyari kashirisarentsiki osamanitsi apapakoroni (5) kashirisarentsi ibakoetiro te okanta
+      pi
+  status: candidato-corpus
+- source_form: apapakoroni
+  value: 0,5
+  frequency: 1
+  noise:
+  - valor no entero
+  - 'la palabra aparece con varios valores: [''0,5'', ''5'']'
+  examples:
+  - ref: train:1341
+    cni: 2. Apinaterori apapakoroni (0,5) aparopayeni obakota (UIT) tera ojebate
+  status: candidato-corpus
+- source_form: maba
+  value: '3'
+  frequency: 1
+  noise: []
+  examples:
+  - ref: train:973
+    cni: o ashitari kachari osamashitsi iyakoete maba (3) osarentsi ipashitantaetarori aminakoter
+  status: candidato-corpus
+- source_form: mil
+  value: 10,000
+  frequency: 1
+  noise:
+  - valor no entero
+  examples:
+  - ref: train:1341
+    cni: opayeni obakota (UIT) tera ojebate diez mil (10,000) UIT.
+  status: candidato-corpus
+- source_form: okantakobentaeteri
+  value: '2'
+  frequency: 1
+  noise: []
+  examples:
+  - ref: train:1168
+    cni: 4. Okobatya antero okantakobentaeteri (2) kashirisarentsi otimake osamanite Apapa
+  status: candidato-corpus
+- source_form: okarati
+  value: '60'
+  frequency: 1
+  noise: []
+  examples:
+  - ref: train:1361
+    cni: bakota Ojebati Jebari Anampiki ipaetiro okarati (60) kitaeterini kashirisarentsi.
+  status: candidato-corpus
+- source_form: osarentsi
+  value: '2'
+  frequency: 1
+  noise: []
+  examples:
+  - ref: train:1127
+    cni: ta ipantaeterori kantakobentantsi apite osarentsi (2) Jebabentirori Anampi onintakaro obakota
+  status: candidato-corpus
+- source_form: otsiparia
+  value: '2'
+  frequency: 1
+  noise: []
+  examples:
+  - ref: train:978
+    cni: ari. Apotojeitani Otenkana okanta apite otsiparia (2)
+  status: candidato-corpus

@@ -1,0 +1,6 @@
+# Reglas de contexto del G2P (P1). Se aplican sobre la ortografía CANÓNICA, antes del inventario.
+# Campos: pattern (regex con contexto), replacement (lista de fonemas separados por espacio).
+# SUPUESTO-LING: sin reglas de contexto hasta resolver P1. No se inventan alófonos.
+resource: g2p_cni_rules
+description: "Reglas dependientes del contexto para la conversión grafema-fonema"
+entries: []

@@ -1,0 +1,154 @@
+# Inventario de grafemas (P1). GENERADO por `uv run python -m app.cli corpus inventory`.
+# SUPUESTO-LING: todo es candidato-corpus y phoneme=null hasta validar con P1 (alfabeto oficial).
+# Para validar: completar 'phoneme' (IPA) y cambiar status a 'validado'. Tras editarlo a mano,
+# no volver a ejecutar la orden (sobrescribe el archivo).
+resource: g2p_inventory
+description: Inventario de grafemas canónicos y su fonema
+config:
+  criterio: frecuencia relativa >= 0,5 % en palabras no compartidas con la línea castellana
+  digrafo_min: 1000
+  excluidas_por_unificacion:
+  - c
+  - v
+  - z
+entries:
+- id: INV-CH
+  description: Dígrafo observado 1028 veces (train+dev)
+  grapheme: ch
+  phoneme: null
+  frequency: 1028
+  source: AmericasNLP2021@d3f519c (data/candidates/graphemes.yaml)
+  status: candidato-corpus
+- id: INV-SH
+  description: Dígrafo observado 3100 veces (train+dev)
+  grapheme: sh
+  phoneme: null
+  frequency: 3100
+  source: AmericasNLP2021@d3f519c (data/candidates/graphemes.yaml)
+  status: candidato-corpus
+- id: INV-TS
+  description: Dígrafo observado 5339 veces (train+dev)
+  grapheme: ts
+  phoneme: null
+  frequency: 5339
+  source: AmericasNLP2021@d3f519c (data/candidates/graphemes.yaml)
+  status: candidato-corpus
+- id: INV-TY
+  description: Dígrafo observado 1136 veces (train+dev)
+  grapheme: ty
+  phoneme: null
+  frequency: 1136
+  source: AmericasNLP2021@d3f519c (data/candidates/graphemes.yaml)
+  status: candidato-corpus
+- id: INV-A
+  description: Letra con frecuencia relativa 19.829 %
+  grapheme: a
+  phoneme: null
+  frequency: 51713
+  source: AmericasNLP2021@d3f519c (data/candidates/graphemes.yaml)
+  status: candidato-corpus
+- id: INV-I
+  description: Letra con frecuencia relativa 16.57 %
+  grapheme: i
+  phoneme: null
+  frequency: 43213
+  source: AmericasNLP2021@d3f519c (data/candidates/graphemes.yaml)
+  status: candidato-corpus
+- id: INV-T
+  description: Letra con frecuencia relativa 9.589 %
+  grapheme: t
+  phoneme: null
+  frequency: 25007
+  source: AmericasNLP2021@d3f519c (data/candidates/graphemes.yaml)
+  status: candidato-corpus
+- id: INV-O
+  description: Letra con frecuencia relativa 8.272 %
+  grapheme: o
+  phoneme: null
+  frequency: 21573
+  source: AmericasNLP2021@d3f519c (data/candidates/graphemes.yaml)
+  status: candidato-corpus
+- id: INV-R
+  description: Letra con frecuencia relativa 7.746 %
+  grapheme: r
+  phoneme: null
+  frequency: 20201
+  source: AmericasNLP2021@d3f519c (data/candidates/graphemes.yaml)
+  status: candidato-corpus
+- id: INV-N
+  description: Letra con frecuencia relativa 7.342 %
+  grapheme: n
+  phoneme: null
+  frequency: 19146
+  source: AmericasNLP2021@d3f519c (data/candidates/graphemes.yaml)
+  status: candidato-corpus
+- id: INV-K
+  description: Letra con frecuencia relativa 7.314 %
+  grapheme: k
+  phoneme: null
+  frequency: 19073
+  source: AmericasNLP2021@d3f519c (data/candidates/graphemes.yaml)
+  status: candidato-corpus
+- id: INV-E
+  description: Letra con frecuencia relativa 6.05 %
+  grapheme: e
+  phoneme: null
+  frequency: 15778
+  source: AmericasNLP2021@d3f519c (data/candidates/graphemes.yaml)
+  status: candidato-corpus
+- id: INV-S
+  description: Letra con frecuencia relativa 3.887 %
+  grapheme: s
+  phoneme: null
+  frequency: 10136
+  source: AmericasNLP2021@d3f519c (data/candidates/graphemes.yaml)
+  status: candidato-corpus
+- id: INV-P
+  description: Letra con frecuencia relativa 2.717 %
+  grapheme: p
+  phoneme: null
+  frequency: 7086
+  source: AmericasNLP2021@d3f519c (data/candidates/graphemes.yaml)
+  status: candidato-corpus
+- id: INV-M
+  description: Letra con frecuencia relativa 2.405 %
+  grapheme: m
+  phoneme: null
+  frequency: 6273
+  source: AmericasNLP2021@d3f519c (data/candidates/graphemes.yaml)
+  status: candidato-corpus
+- id: INV-Y
+  description: Letra con frecuencia relativa 2.032 %
+  grapheme: y
+  phoneme: null
+  frequency: 5300
+  source: AmericasNLP2021@d3f519c (data/candidates/graphemes.yaml)
+  status: candidato-corpus
+- id: INV-H
+  description: Letra con frecuencia relativa 1.596 %
+  grapheme: h
+  phoneme: null
+  frequency: 4161
+  source: AmericasNLP2021@d3f519c (data/candidates/graphemes.yaml)
+  status: candidato-corpus
+- id: INV-J
+  description: Letra con frecuencia relativa 1.19 %
+  grapheme: j
+  phoneme: null
+  frequency: 3103
+  source: AmericasNLP2021@d3f519c (data/candidates/graphemes.yaml)
+  status: candidato-corpus
+- id: INV-B
+  description: Letra con frecuencia relativa 0.992 %
+  grapheme: b
+  phoneme: null
+  frequency: 2586
+  source: AmericasNLP2021@d3f519c (data/candidates/graphemes.yaml)
+  status: candidato-corpus
+- id: INV-Ñ
+  description: Letra con frecuencia relativa 0.583 %
+  grapheme: ñ
+  phoneme: null
+  frequency: 1521
+  source: AmericasNLP2021@d3f519c (data/candidates/graphemes.yaml)
+  status: candidato-corpus

@@ -1,0 +1,18 @@
+# Evaluación (Fase 1)
+
+Todos los números de `eval/results/` provienen de ejecuciones reales de estos scripts.
+
+| Script | Qué mide | Salida |
+|---|---|---|
+| `eval/fase1/run.py` | Categorías, % sin resolver, marcas editoriales, palabras fuera del vocabulario MMS antes y después del adaptador, latencia por etapa, estado de las reglas | `eval/results/fase_1.json` |
+| `eval/fase1/mms_orthography/run.py` | Experimento 1.9: CER de ida y vuelta TTS→ASR por hipótesis del adaptador | `eval/results/mms_orthography.json`, `docs/mms_orthography.md` |
+| `eval/listening/rewrite_check/build.py` | Material de la escucha 1.8 | `eval/listening/rewrite_check/hoja_escucha.csv` (+ `audio/`) |
+| `eval/fase1/p5_sample.py` | Lista de 200 palabras para el conjunto de referencia P5 | `eval/fase1/p5_sample.csv` |
+
+## Guía para la persona hablante
+
+1. **Escucha de la reescritura (1.8):** abre `rewrite_check/hoja_escucha.csv`. En cada fila marcada como `listo`, escucha el audio de la columna `audio` y escribe `aceptable` o `no_aceptable` según si suena como lo diría un hablante bilingüe. Las filas `bloqueado (P2d)` no tienen audio todavía.
+2. **Escucha A/B (1.9):** abre `fase1/mms_orthography/out/escucha_ab.csv`. En cada fila escucha `audio_A` y `audio_B` (sin saber cuál es cuál) y escribe `A`, `B` o `igual` según cuál se entiende mejor. La clave está en `escucha_ab_clave.csv`: no la abras antes de terminar.
+3. **Transcripción P5:** en `fase1/p5_sample.csv`, completa la columna `transcripcion_fonemica` (IPA) de cada palabra.
+
+Las carpetas de audio no se versionan: se regeneran con los scripts, que usan semillas fijas.

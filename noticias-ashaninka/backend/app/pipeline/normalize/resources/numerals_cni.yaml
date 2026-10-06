@@ -1,0 +1,10 @@
+# P2a — Sistema numeral nativo.
+# SUPUESTO-LING: falta el límite superior de los "números pequeños" (config.small_max) y la
+# forma escrita validada de cada numeral. Deben validarlo hablantes o docentes EIB.
+# Las entradas con status "candidato-corpus" provienen de data/candidates/numerals.yaml
+# (patrones "palabra (dígito)" del corpus AmericasNLP) y NO se usan salvo NA_ALLOW_CANDIDATES=true.
+resource: numerals_cni
+description: "Numerales asháninka para números pequeños (política §3.1 del plan)"
+config:
+  small_max: null   # SUPUESTO-LING: sin validar; mientras sea null todo número se lee en castellano
+entries: []

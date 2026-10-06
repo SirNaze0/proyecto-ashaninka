@@ -1,0 +1,128 @@
+# GENERADO por `uv run python -m app.cli corpus extract` desde AmericasNLP2021@d3f519c
+# (splits train y dev). status: candidato-corpus = evidencia, NO dato validado.
+criterio: frecuencia relativa >= 0,5 % en palabras no compartidas con la línea castellana
+umbral_pct: 0.5
+letras:
+- grapheme: a
+  count: 51713
+  pct: 19.829
+- grapheme: i
+  count: 43213
+  pct: 16.57
+- grapheme: t
+  count: 25007
+  pct: 9.589
+- grapheme: o
+  count: 21573
+  pct: 8.272
+- grapheme: r
+  count: 20201
+  pct: 7.746
+- grapheme: n
+  count: 19146
+  pct: 7.342
+- grapheme: k
+  count: 19073
+  pct: 7.314
+- grapheme: e
+  count: 15778
+  pct: 6.05
+- grapheme: s
+  count: 10136
+  pct: 3.887
+- grapheme: p
+  count: 7086
+  pct: 2.717
+- grapheme: m
+  count: 6273
+  pct: 2.405
+- grapheme: y
+  count: 5300
+  pct: 2.032
+- grapheme: h
+  count: 4161
+  pct: 1.596
+- grapheme: j
+  count: 3103
+  pct: 1.19
+- grapheme: b
+  count: 2586
+  pct: 0.992
+- grapheme: v
+  count: 1788
+  pct: 0.686
+- grapheme: z
+  count: 1777
+  pct: 0.681
+- grapheme: ñ
+  count: 1521
+  pct: 0.583
+- grapheme: c
+  count: 1076
+  pct: 0.413
+- grapheme: u
+  count: 81
+  pct: 0.031
+- grapheme: l
+  count: 61
+  pct: 0.023
+- grapheme: d
+  count: 45
+  pct: 0.017
+- grapheme: g
+  count: 21
+  pct: 0.008
+- grapheme: á
+  count: 17
+  pct: 0.007
+- grapheme: ó
+  count: 14
+  pct: 0.005
+- grapheme: f
+  count: 13
+  pct: 0.005
+- grapheme: w
+  count: 8
+  pct: 0.003
+- grapheme: q
+  count: 6
+  pct: 0.002
+- grapheme: í
+  count: 5
+  pct: 0.002
+- grapheme: é
+  count: 4
+  pct: 0.002
+- grapheme: x
+  count: 2
+  pct: 0.001
+- grapheme: à
+  count: 1
+  pct: 0.0
+nativas_candidatas:
+- a
+- i
+- t
+- o
+- r
+- n
+- k
+- e
+- s
+- p
+- m
+- y
+- h
+- j
+- b
+- v
+- z
+- ñ
+digrafos_observados:
+  ch: 1028
+  sh: 3100
+  ts: 5339
+  ty: 1136
+  ny: 7
+  tz: 1773
+  qu: 6

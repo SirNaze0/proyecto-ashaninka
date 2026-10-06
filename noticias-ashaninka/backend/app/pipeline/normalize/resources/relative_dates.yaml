@@ -1,0 +1,9 @@
+# Expresiones de fecha relativa que el detector editorial debe marcar (riesgo R10).
+# Las expresiones castellanas son dato del castellano. Las asháninka quedan pendientes.
+resource: relative_dates
+description: "Fechas relativas a marcar por el detector editorial"
+config:
+  es: [ayer, hoy, mañana, anteayer, pasado mañana, la próxima semana, la semana pasada,
+       el próximo mes, el mes pasado, el próximo año, el año pasado]
+  cni: []   # SUPUESTO-LING: falta la lista en asháninka
+entries: []
