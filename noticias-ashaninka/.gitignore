@@ -27,3 +27,5 @@ eval/listening/enye_ab/out/
 
 # Caché de audio y manifiestos generados (Fase 2)
 static/
+*.db-wal
+*.db-shm

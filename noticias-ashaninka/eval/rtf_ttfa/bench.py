@@ -231,6 +231,8 @@ def sweep(n: int = 30) -> dict:
                 input=json.dumps(texts),
                 capture_output=True,
                 text=True,
+                encoding="utf-8",
+                errors="replace",
                 cwd=ROOT,
                 env={**os.environ, "PYTHONIOENCODING": "utf-8"},
             )

@@ -11,6 +11,7 @@ from collections.abc import Iterator
 from functools import cache
 from pathlib import Path
 
+from sqlalchemy import event
 from sqlalchemy.engine import Engine
 from sqlmodel import Session, SQLModel, create_engine
 
@@ -23,7 +24,17 @@ def get_engine(url: str | None = None) -> Engine:
     url = url or get_settings().database_url
     if url.startswith("sqlite:///"):
         Path(url.removeprefix("sqlite:///")).parent.mkdir(parents=True, exist_ok=True)
-    return create_engine(url, connect_args={"check_same_thread": False})
+    engine = create_engine(url, connect_args={"check_same_thread": False, "timeout": 30})
+    if url.startswith("sqlite"):
+        # WAL: lecturas concurrentes mientras otro proceso/hilo escribe (streaming simultáneo)
+        @event.listens_for(engine, "connect")
+        def _wal(dbapi_conn, _record):  # pragma: no cover - trivial
+            cur = dbapi_conn.cursor()
+            cur.execute("PRAGMA journal_mode=WAL")
+            cur.execute("PRAGMA busy_timeout=30000")
+            cur.close()
+
+    return engine
 
 
 def init_db(engine: Engine | None = None) -> None:

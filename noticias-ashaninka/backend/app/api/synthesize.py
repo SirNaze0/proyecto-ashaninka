@@ -86,6 +86,9 @@ async def _stream(news_id: int, synth: Synthesizer, t0: float) -> AsyncIterator[
                     synth.synthesize_text, synth.text_for(seg), seg.adapter_id
                 )
                 timings = synth.write_segment(session, news, seg, audio)
+                # Transacción corta: no se retiene el bloqueo de escritura de SQLite entre
+                # segmentos (con varios streams simultáneos eso bloqueaba el bucle de eventos)
+                session.commit()
                 ms_seg = synth.manifest_segment(seg, audio, timings)
                 manifest_segs.append(ms_seg)
                 yield _line(

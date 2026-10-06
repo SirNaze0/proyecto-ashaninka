@@ -33,3 +33,15 @@ Las limitaciones valen tanto como los logros. Este archivo se actualiza a medida
 
 15. **El esquema de la base se aplica con `create_all`.** Las migraciones versionadas (Alembic) se incorporarán cuando el esquema se estabilice.
 16. **`init.sh` solo se probó en Git Bash sobre Windows 11.** Las rutas para Linux, macOS y WSL existen en el código, pero no se ejecutaron en esta fase.
+
+## Síntesis de voz (Fase 2)
+
+17. **El tokenizador de Hugging Face no intercala bien los blancos.** En MMS, el token de relleno y blanco es la letra `a` (id 0). `VitsTokenizer` (transformers 4.46 y 5.18) la trata como token especial y rompe el intercalado cuando hay `aa` o una `a` al inicio o al final; esto afectó a 48 de las 100 oraciones de la muestra. Se adoptó el intercalado manual de VITS (T2) por una mejora pequeña y apenas significativa en el CER (−0,0034, IC 95 % [−0,0065; −0,0001], p = 0,046). Las cifras de la Fase 1 se midieron con el tokenizador de Hugging Face (T1) y siguen siendo válidas para esa condición: T1 reproduce exactamente el CER de H1 (0,0586). No sabemos cómo se preprocesó el texto al entrenar MMS. Ver `docs/tokenization.md`.
+18. **La variante dialectal de la voz no está documentada.** Es la de los datos de entrenamiento de MMS. Se declara en los metadatos de cada audio y en el manifiesto.
+19. **La línea base eSpeak-NG es ingenua.** Lee la ortografía asháninka con la voz castellana. No es un TTS asháninka; sirve como referencia sin restricción comercial. El modo por fonemas queda deshabilitado hasta validar P1.
+20. **El CER de ida y vuelta favorece a MMS.** El ASR (`mms-1b-all`) y el TTS de MMS comparten datos de entrenamiento, así que la comparación entre motores está sesgada a favor de `mms_vits`. Para eSpeak, además, el audio se remuestrea de 22 050 a 16 000 Hz por interpolación lineal.
+21. **Las duraciones de VITS están verificadas, pero su exactitud fonética no.** La suma de frames reproduce exactamente la longitud del audio. Los tiempos por carácter, en cambio, reparten los blancos mitad y mitad, que es una regla convencional. Si esos tiempos coinciden con los sonidos reales se valida en la Fase 3 (tarea 3.2).
+22. **Los segmentos sin P2d no tienen audio.** Mientras P2d no exista, los segmentos con letras castellanas fuera del vocabulario de MMS se entregan solo como texto (modo degradado).
+23. **El rendimiento se midió con pseudo-noticias**, es decir, oraciones de dev concatenadas, no con noticias reales. El dimensionamiento asume que la capacidad bajo demanda escala linealmente con los núcleos.
+24. **La tasa de Opus no se fija directamente.** libsndfile solo permite un nivel de compresión; la tasa real de cada archivo se mide y se reporta.
+25. **`init.sh` sin opciones desinstala el grupo `eval`** (jiwer, matplotlib), porque `uv sync` deja el entorno igual al lockfile. Para las evaluaciones hay que usar `./init.sh --with-tts` o `--with-asr-eval`.
