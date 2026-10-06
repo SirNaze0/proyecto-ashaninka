@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import difflib
 import json
 import platform
 import random
@@ -225,6 +226,29 @@ def char_recovery(rows: list[dict]) -> dict:
     return out
 
 
+def enye_word_consistency(rows: list[dict]) -> dict:
+    """Consistencia en palabras con ñ, en el espacio MMS de CADA hipótesis.
+
+    Para cada palabra canónica con ñ se mira si la palabra que entró al modelo (en la escritura
+    de la hipótesis) reaparece idéntica en la transcripción, alineando por difflib. Mide si los
+    modelos comparten esa escritura; NO prueba que el sonido sea /ɲ/ (eso requiere escucha).
+    """
+    total = hits = 0
+    for r in rows:
+        canon_words = r["ref_canon"].split()
+        ref_words = r["ref_mms"].split()
+        hyp_words = r["hyp_mms"].split()
+        if len(canon_words) != len(ref_words):
+            continue
+        sm = difflib.SequenceMatcher(None, ref_words, hyp_words, autojunk=False)
+        matched = {b.a + k for b in sm.get_matching_blocks() for k in range(b.size)}
+        for i, w in enumerate(canon_words):
+            if "ñ" in w:
+                total += 1
+                hits += i in matched
+    return {"palabras": total, "consistencia": round(hits / total, 4) if total else None}
+
+
 def word_accuracy(rows: list[dict]) -> float:
     hits = total = 0
     for r in rows:
@@ -270,6 +294,9 @@ def main(argv: list[str] | None = None) -> int:
     t_start = time.time()
     for h in hyps:
         ad = adapters[h]
+        # Referencia en el espacio MMS: lo que entra al modelo; para H0 (sin adaptar) se usa la
+        # escritura de la hipótesis activa como pronunciación buscada.
+        ref_ad = MmsCniAdapter.from_files(base.hypothesis) if ad.raw else ad
         inverse_pairs = hyps_cfg[h].get("inverse") or active.get("inverse") or []
         inv = make_inverse(inverse_pairs)
         rows = []
@@ -289,9 +316,7 @@ def main(argv: list[str] | None = None) -> int:
                     "ref": item["ref"],
                     "ref_canon": ref_canon,
                     "hyp_canon": typographic(inv(transcript)),
-                    "ref_mms": typographic(
-                        adapters.get("H1", ad).adapt(item["canonical"]).text_tts
-                    ),
+                    "ref_mms": typographic(ref_ad.adapt(item["canonical"]).text_tts),
                     "hyp_mms": typographic(transcript),
                     "entrada_modelo": model_input,
                     "transcripcion": transcript,
@@ -308,6 +333,7 @@ def main(argv: list[str] | None = None) -> int:
             "cer_mms": round(corpus_cer(rows, "ref_mms", "hyp_mms"), 4),
             "precision_palabra": word_accuracy(rows),
             "recuperacion_por_caracter": char_recovery(rows),
+            "consistencia_palabras_con_enye": enye_word_consistency(rows),
             "inversa_usada": inverse_pairs,
         }
         with open(OUT / f"transcripciones_{h}.csv", "w", newline="", encoding="utf-8") as f:
@@ -316,7 +342,26 @@ def main(argv: list[str] | None = None) -> int:
             w.writerows(rows)
 
     candidates = [h for h in hyps if not hyps_cfg[h].get("raw")]
-    best = min(candidates, key=lambda h: results[h]["cer_canonico"]) if candidates else None
+    mejor_cer = min(candidates, key=lambda h: results[h]["cer_canonico"]) if candidates else None
+    # Comparaciones pareadas de cada hipótesis contra la activa (diferencia = h - activa)
+    current = base.hypothesis
+    vs_active = {}
+    if current in per_hyp_rows:
+        for h in candidates:
+            if h != current:
+                vs_active[h] = paired_bootstrap(
+                    per_hyp_rows[current], per_hyp_rows[h], random.Random(SEED)
+                )
+
+    # Regla de decisión fijada antes de ejecutar (ver mms_cni.yaml): solo se cambia la hipótesis
+    # activa si el IC 95 % pareado excluye 0 a favor de h Y h tiene mayor consistencia en ñ.
+    def enye(h):
+        return results[h]["consistencia_palabras_con_enye"]["consistencia"] or 0
+
+    winners = [h for h, c in vs_active.items() if c["ic95"][1] < 0 and enye(h) > enye(current)]
+    best = min(winners, key=lambda h: results[h]["cer_canonico"]) if winners else current
+    if best not in results:
+        best = mejor_cer
     comparison = None
     if best and "H0" in per_hyp_rows:
         comparison = paired_bootstrap(per_hyp_rows["H0"], per_hyp_rows[best], random.Random(SEED))
@@ -339,7 +384,12 @@ def main(argv: list[str] | None = None) -> int:
         "bootstrap": BOOTSTRAP,
         "muestra": sample_info,
         "hipotesis": results,
+        "hipotesis_activa_previa": current,
+        "regla_decision": "cambiar la hipótesis activa solo si el IC 95 % pareado frente a la activa "
+        "excluye 0 a favor de la candidata Y la candidata tiene mayor consistencia en palabras con ñ",
+        "mejor_cer_canonico": mejor_cer,
         "elegida": best,
+        "comparaciones_vs_activa": vs_active,
         "comparacion_vs_H0": comparison,
         "hoja_ab": ab_sheet,
         "duracion_s": round(time.time() - t_start, 1),
@@ -428,7 +478,37 @@ def render_md(p: dict) -> str:
     for h, r in p["hipotesis"].items():
         cells = [str(r["recuperacion_por_caracter"][c]["recuperacion"]) for c in CONFLICT]
         lines.append(f"| {h} | " + " | ".join(cells) + " |")
-    lines += ["", "## Decisión", "", f"Hipótesis elegida: **{p['elegida']}**."]
+    lines += [
+        "",
+        "### Consistencia en palabras con ñ (espacio MMS de cada hipótesis)",
+        "",
+        "| Hipótesis | Palabras con ñ | Consistencia |",
+        "|---|---|---|",
+    ]
+    for h, r in p["hipotesis"].items():
+        c = r.get("consistencia_palabras_con_enye", {})
+        lines.append(f"| {h} | {c.get('palabras')} | {c.get('consistencia')} |")
+    if p.get("comparaciones_vs_activa"):
+        lines += [
+            "",
+            f"### Comparación pareada frente a la hipótesis activa ({p['hipotesis_activa_previa']})",
+            "",
+            "| Hipótesis | Diferencia de CER | IC 95 % | p |",
+            "|---|---|---|---|",
+        ]
+        for h, c in p["comparaciones_vs_activa"].items():
+            lines.append(
+                f"| {h} | {c['diferencia_cer_media']} | {c['ic95']} | {c['p_valor_bilateral']} |"
+            )
+    lines += [
+        "",
+        "## Decisión",
+        "",
+        f"Regla (fijada antes de ejecutar): {p.get('regla_decision', '')}.",
+        "",
+        f"Hipótesis con menor CER canónico: {p.get('mejor_cer_canonico')}. "
+        f"Hipótesis elegida: **{p['elegida']}**.",
+    ]
     if p["comparacion_vs_H0"]:
         c = p["comparacion_vs_H0"]
         pv = c["p_valor_bilateral"]

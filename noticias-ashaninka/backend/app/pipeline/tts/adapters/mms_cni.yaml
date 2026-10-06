@@ -28,6 +28,25 @@ config:
         - ["c(?!h)", "k"]
         - ["v", "b"]
         - ["ny", "ñ"]
+    H2:
+      description: "Como H1, pero ñ->y"
+      rules: [H1-TZ, H1-Z, H1-KQU, H1-KC, H1-B, H2-Y]
+      # La ñ no es recuperable: 'y' también es letra nativa. En el espacio canónico cada ñ cuenta
+      # como un error; la comparación justa sobre la ñ se hace en el espacio MMS (ver run.py).
+      inverse:
+        - ["qu(?=[ei])", "k"]
+        - ["c(?!h)", "k"]
+        - ["v", "b"]
+    H3:
+      description: "Como H1, pero ñ->n (coincide con quitar la tilde, como MMS hizo con las vocales)"
+      rules: [H1-TZ, H1-Z, H1-KQU, H1-KC, H1-B, H3-N]
+      inverse:
+        - ["qu(?=[ei])", "k"]
+        - ["c(?!h)", "k"]
+        - ["v", "b"]
+  # Regla de decisión (fijada ANTES de ejecutar H2/H3, 2026-10-05): la hipótesis activa solo
+  # cambia si otra supera a H1 en CER canónico con IC 95 % pareado que excluye 0 Y además tiene
+  # mayor consistencia en palabras con ñ (espacio MMS). Si no, se mantiene H1.
 entries:
   - {id: TYP-001, description: "á -> a", pattern: "á", replacement: "a", source: "tipográfica", status: validado}
   - {id: TYP-002, description: "é -> e", pattern: "é", replacement: "e", source: "tipográfica", status: validado}
@@ -52,3 +71,5 @@ entries:
   - {id: H1-KC, description: "k en los demás casos -> c", pattern: "k", replacement: "c", source: "Hipótesis H1 (tarea 1.9)", status: SUPUESTO}
   - {id: H1-B, description: "b -> v", pattern: "b", replacement: "v", source: "Hipótesis H1 (tarea 1.9)", status: SUPUESTO}
   - {id: H1-NY, description: "ñ -> ny", pattern: "ñ", replacement: "ny", source: "Hipótesis H1 (tarea 1.9)", status: SUPUESTO}
+  - {id: H2-Y, description: "ñ -> y", pattern: "ñ", replacement: "y", source: "Hipótesis H2 (tarea 1.9)", status: SUPUESTO}
+  - {id: H3-N, description: "ñ -> n", pattern: "ñ", replacement: "n", source: "Hipótesis H3 (tarea 1.9)", status: SUPUESTO}
