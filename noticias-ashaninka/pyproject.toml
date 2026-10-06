@@ -12,6 +12,11 @@ dependencies = [
     "pyyaml>=6.0",
     "num2words>=0.5.13",
     "python-dotenv>=1.0",
+    # Fase 2: la síntesis de voz es parte central del servicio
+    "numpy>=1.26",
+    "soundfile>=0.12",
+    "torch>=2.4",
+    "transformers>=4.44",
 ]
 
 [dependency-groups]
@@ -22,14 +27,11 @@ dev = [
     "ruff>=0.6",
     "pre-commit>=3.8",
     "shellcheck-py>=0.10",
+    "psutil>=5.9",
 ]
-# Solo para las tareas de evaluación 1.8 y 1.9 (init.sh --with-audio-eval / --with-asr-eval)
+# Evaluación (métricas auxiliares). torch/transformers ya son dependencias principales.
 eval = [
-    "torch>=2.4",
-    "transformers>=4.44",
-    "soundfile>=0.12",
     "jiwer>=3.0",
-    "numpy>=1.26",
 ]
 
 [tool.uv]

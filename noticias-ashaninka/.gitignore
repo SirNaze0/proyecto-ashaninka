@@ -24,3 +24,6 @@ fase1_entrega.zip
 coverage.json
 # Material de escucha generado (determinista; contiene la clave, que no se versiona junto al kit)
 eval/listening/enye_ab/out/
+
+# Caché de audio y manifiestos generados (Fase 2)
+static/

@@ -21,6 +21,7 @@ CORPUS_DIR = ROOT / "data" / "corpus" / "americasnlp2021"
 CANDIDATES_DIR = ROOT / "data" / "candidates"
 DOCS_DIR = ROOT / "docs"
 RESULTS_DIR = ROOT / "eval" / "results"
+STATIC_DIR = ROOT / "static"
 
 # Versiones fijadas (ver PLAN_DESARROLLO.md §3.2 y PROMPT_FASE1.md)
 AMERICASNLP_COMMIT = "d3f519c6b38299d8149311e65a369047350e6849"
@@ -40,6 +41,15 @@ class Settings:
     mms_adapter: str
     allow_candidates: bool
     models_dir: Path
+    tts_engine: str
+    torch_threads: int
+    tts_workers: int
+    espeak_path: str | None
+    espeak_voice: str
+    opus_kbps: int
+    max_news_chars: int
+    max_concurrent_synth: int
+    static_dir: Path
 
 
 def get_settings() -> Settings:
@@ -54,4 +64,13 @@ def get_settings() -> Settings:
         mms_adapter=os.getenv("NA_MMS_ADAPTER", "H1"),
         allow_candidates=_bool(os.getenv("NA_ALLOW_CANDIDATES")),
         models_dir=ROOT / os.getenv("NA_MODELS_DIR", "models"),
+        tts_engine=os.getenv("NA_TTS_ENGINE", "mms_vits"),
+        torch_threads=int(os.getenv("NA_TORCH_THREADS", "0")),  # 0 = valor por defecto de torch
+        tts_workers=int(os.getenv("NA_TTS_WORKERS", "1")),
+        espeak_path=os.getenv("NA_ESPEAK_PATH") or None,
+        espeak_voice=os.getenv("NA_ESPEAK_VOICE", "es"),
+        opus_kbps=int(os.getenv("NA_OPUS_KBPS", "24")),
+        max_news_chars=int(os.getenv("NA_MAX_NEWS_CHARS", "20000")),
+        max_concurrent_synth=int(os.getenv("NA_MAX_CONCURRENT_SYNTH", "8")),
+        static_dir=ROOT / os.getenv("NA_STATIC_DIR", "static"),
     )
