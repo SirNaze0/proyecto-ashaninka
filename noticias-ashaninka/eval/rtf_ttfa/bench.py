@@ -355,7 +355,7 @@ def on_demand_request(base: str, news_id: int) -> dict:
     import httpx
 
     t0 = time.perf_counter()
-    server_ttfa = client_ttfa = None
+    server_ttfa = client_ttfa = first_duration = None
     total_audio = 0.0
     with httpx.Client(timeout=120) as c, c.stream("GET", f"{base}/api/synthesize/{news_id}") as r:
         r.raise_for_status()
@@ -368,6 +368,7 @@ def on_demand_request(base: str, news_id: int) -> dict:
             total_audio += ev["duration_s"] or 0
             if client_ttfa is None:
                 server_ttfa = ev["t_ms"]
+                first_duration = ev["duration_s"]
                 with (
                     httpx.Client(timeout=60) as c2,
                     c2.stream("GET", base + ev["audio"]["opus"]) as ra,
@@ -377,6 +378,7 @@ def on_demand_request(base: str, news_id: int) -> dict:
     return {
         "server_ttfa_ms": server_ttfa,
         "client_ttfa_ms": client_ttfa,
+        "first_segment_s": first_duration,
         "total_s": time.perf_counter() - t0,
         "audio_s": total_audio,
     }
@@ -394,13 +396,22 @@ def batch_request(base: str, news_id: int) -> float:
     return (time.perf_counter() - t0) * 1000
 
 
-def http(n_requests: int = 100) -> dict:
+def http(
+    n_requests: int = 100,
+    threads: int | None = None,
+    workers: int | None = None,
+    label: str | None = None,
+) -> dict:
+    """TTFA con la configuración por defecto. Con ``threads``/``label`` mide otra configuración y
+    la guarda aparte (análisis secundario), sin reemplazar el resultado principal."""
     from app.db.models import News
     from app.db.session import get_engine
     from sqlmodel import Session, select
 
     res = load_results()
     cfg = res.get("configuracion_por_defecto") or {"torch_threads": 0, "tts_workers": 1}
+    if threads is not None:
+        cfg = {"torch_threads": threads, "tts_workers": workers or 1, "criterio": label}
     th, w = cfg["torch_threads"], cfg["tts_workers"]
     with Session(get_engine()) as s:
         ids = [n.id for n in s.exec(select(News)).all()]
@@ -412,6 +423,7 @@ def http(n_requests: int = 100) -> dict:
         "rendimiento_audio_s_por_s": {},
         "memoria_pico_mb": {},
         "http_config": cfg,
+        "ttfa_vs_primer_segmento": {},
     }
     for conc in CONCURRENCY:
         static = OUT / f"static_c{conc}"
@@ -438,13 +450,28 @@ def http(n_requests: int = 100) -> dict:
         out["ttfa_ms"]["por_lotes"][key] = stats(batch)
         out["rendimiento_audio_s_por_s"][key] = round(sum(r["audio_s"] for r in rows) / wall, 3)
         out["memoria_pico_mb"][key] = round(srv.peak_rss / 2**20, 1)
+        pairs = [(r["first_segment_s"], r["server_ttfa_ms"]) for r in rows if r["server_ttfa_ms"]]
+        short = [t for d, t in pairs if d is not None and d <= 5]
+        out["ttfa_vs_primer_segmento"][key] = {
+            "pct_solicitudes_ttfa_servidor_menor_2s": round(
+                100 * sum(1 for _, t in pairs if t < 2000) / len(pairs), 1
+            ),
+            "ttfa_servidor_p95_si_primer_segmento_hasta_5s": (
+                round(percentile(short, 95), 1) if short else None
+            ),
+            "n_primer_segmento_hasta_5s": len(short),
+            "primer_segmento_s": stats([d for d, _ in pairs if d is not None]),
+        }
         print(
             f"[2.8] c{conc}: TTFA servidor p95 "
             f"{out['ttfa_ms']['bajo_demanda_servidor'][key].get('p95')} ms; "
             f"rendimiento {out['rendimiento_audio_s_por_s'][key]} s/s; "
             f"RSS {out['memoria_pico_mb'][key]} MB"
         )
-    save_results(out)
+    if label:
+        save_results({f"secundario_{label}": out})
+    else:
+        save_results(out)
     return out
 
 
@@ -508,7 +535,13 @@ def figures() -> list[str]:
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", choices=["prepare", "rtf", "sweep", "http", "figures", "all"])
+    ap.add_argument("--threads", type=int)
+    ap.add_argument("--workers", type=int)
+    ap.add_argument("--label")
     args = ap.parse_args(argv)
+    if args.cmd == "http" and args.threads is not None:
+        http(threads=args.threads, workers=args.workers, label=args.label or "alternativa")
+        return 0
     steps = {"prepare": prepare, "rtf": rtf, "sweep": sweep, "http": http, "figures": figures}
     order = list(steps) if args.cmd == "all" else [args.cmd]
     for name in order:
