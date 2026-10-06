@@ -32,7 +32,7 @@ MMS_ASR_REVISION="3d33597edbdaaba14a8e858e2c8caa76e3cec0cd"
 MONO_URL="https://github.com/iapucp/multilingual-data-peru"
 
 # ---------------------------------------------------------------- opciones
-WITH_DATA=0; WITH_MONO=0; WITH_AUDIO=0; WITH_ASR=0; CHECK=0; RESET_DB=0; YES=0
+WITH_DATA=0; WITH_MONO=0; WITH_AUDIO=0; WITH_ASR=0; WITH_TTS=0; CHECK=0; RESET_DB=0; YES=0
 
 usage() {
   cat <<'EOF'
@@ -49,6 +49,8 @@ Opciones:
   --with-monolingual Además descarga el corpus monolingüe iapucp (carpeta cni).
   --with-audio-eval  Además instala el grupo eval y descarga mms-tts-cni (tarea 1.8).
   --with-asr-eval    Además descarga mms-1b-all (~3,9 GB) para la tarea 1.9.
+  --with-tts         Fase 2: equivale a --with-audio-eval y además verifica eSpeak-NG
+                     (motor de línea base; se instala aparte, el script no lo instala).
   --check            Solo verifica el estado, sin modificar nada.
   --reset-db         Borra y recrea la base de datos (pide confirmación salvo --yes).
   --yes              Responde "sí" a las confirmaciones.
@@ -68,6 +70,7 @@ for arg in "$@"; do
     --with-monolingual) WITH_MONO=1 ;;
     --with-audio-eval) WITH_AUDIO=1 ;;
     --with-asr-eval) WITH_ASR=1; WITH_AUDIO=1 ;;
+    --with-tts) WITH_TTS=1; WITH_AUDIO=1 ;;
     --check) CHECK=1 ;;
     --reset-db) RESET_DB=1 ;;
     --yes|-y) YES=1 ;;
@@ -270,12 +273,19 @@ case "$rc" in
 esac
 
 # ---------------------------------------------------------------- 8. pre-commit
-if [ -d .git ]; then
-  if [ "$CHECK" -eq 1 ]; then
-    if [ -f .git/hooks/pre-commit ]; then ok "pre-commit instalado"; else fail "pre-commit no instalado"; fi
+# El proyecto puede ser la raíz del repositorio o una subcarpeta (p. ej. Proyecto/noticias-ashaninka):
+# la configuración de pre-commit se busca en la raíz real del repositorio.
+GIT_TOP="$(git rev-parse --show-toplevel 2>/dev/null || true)"
+if [ -n "$GIT_TOP" ]; then
+  HOOKS_DIR="$(git rev-parse --git-path hooks)"
+  if [ ! -f "$GIT_TOP/.pre-commit-config.yaml" ]; then
+    skip "pre-commit (no hay .pre-commit-config.yaml en la raíz del repositorio $GIT_TOP)"
+  elif [ "$CHECK" -eq 1 ]; then
+    if [ -f "$HOOKS_DIR/pre-commit" ]; then ok "pre-commit instalado"; else fail "pre-commit no instalado"; fi
   else
-    uv run --no-sync pre-commit install >/dev/null || die 2 "pre-commit install"
-    ok "pre-commit instalado"
+    # Se instala desde la raíz del repositorio para que el gancho use SU configuración
+    (cd "$GIT_TOP" && uv run --no-sync --project "$ROOT" pre-commit install       --config .pre-commit-config.yaml >/dev/null) || die 2 "pre-commit install"
+    ok "pre-commit instalado (configuración en $GIT_TOP)"
   fi
 else
   skip "pre-commit (no hay repositorio git)"
@@ -322,6 +332,33 @@ if [ "$CHECK" -eq 0 ] && [ "$WITH_AUDIO" -eq 1 ]; then
 fi
 if [ "$CHECK" -eq 0 ] && [ "$WITH_ASR" -eq 1 ]; then
   download_model "$MMS_ASR_REPO" "$MMS_ASR_REVISION" "~3,9 GB"
+fi
+
+# ---------------------------------------------------------------- eSpeak-NG (Fase 2, línea base)
+espeak_hint() {
+  case "$PLATFORM" in
+    windows) echo "  Instala eSpeak-NG con el MSI oficial: https://github.com/espeak-ng/espeak-ng/releases"
+             echo "  (por defecto en C:/Program Files/eSpeak NG; init.sh lo busca ahí si no está en PATH)" ;;
+    macos) echo "  Instala eSpeak-NG con: brew install espeak-ng" ;;
+    linux|wsl) echo "  Instala eSpeak-NG con: sudo apt install espeak-ng" ;;
+    *) echo "  Instala eSpeak-NG desde https://github.com/espeak-ng/espeak-ng" ;;
+  esac
+}
+find_espeak() {
+  if command -v espeak-ng >/dev/null 2>&1; then command -v espeak-ng; return 0; fi
+  local win="/c/Program Files/eSpeak NG/espeak-ng.exe"
+  if [ -x "$win" ]; then echo "$win"; return 0; fi
+  return 1
+}
+if [ "$WITH_TTS" -eq 1 ] || [ "$CHECK" -eq 1 ]; then
+  if ESPEAK_BIN="$(find_espeak)"; then
+    ok "eSpeak-NG $("$ESPEAK_BIN" --version | head -1 | awk '{print $4}') ($ESPEAK_BIN)"
+  elif [ "$WITH_TTS" -eq 1 ]; then
+    espeak_hint
+    skip "eSpeak-NG no instalado: la línea base quedará como no_medido"
+  else
+    skip "eSpeak-NG no instalado (solo necesario para la línea base de la Fase 2)"
+  fi
 fi
 
 if [ "$CHECK" -eq 0 ] && [ "$WITH_DATA" -eq 1 ]; then

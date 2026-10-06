@@ -1,0 +1,29 @@
+# Ganchos del repositorio Proyecto. El código vive en noticias-ashaninka/, así que cada gancho
+# entra a esa carpeta y usa su entorno (uv). Se activan con: cd noticias-ashaninka && ./init.sh
+repos:
+  - repo: local
+    hooks:
+      - id: ruff
+        name: ruff check
+        entry: bash -c 'cd noticias-ashaninka && scripts/venv_exec.sh ruff check backend eval scripts'
+        language: system
+        files: ^noticias-ashaninka/.*\.py$
+        pass_filenames: false
+      - id: ruff-format
+        name: ruff format --check
+        entry: bash -c 'cd noticias-ashaninka && scripts/venv_exec.sh ruff format --check backend eval scripts'
+        language: system
+        files: ^noticias-ashaninka/.*\.py$
+        pass_filenames: false
+      - id: shellcheck
+        name: shellcheck
+        entry: bash -c 'cd noticias-ashaninka && scripts/venv_exec.sh shellcheck init.sh scripts/venv_exec.sh'
+        language: system
+        files: ^noticias-ashaninka/.*\.sh$
+        pass_filenames: false
+      - id: pytest-smoke
+        name: pytest -m smoke
+        entry: bash -c 'cd noticias-ashaninka && scripts/venv_exec.sh pytest -q -m smoke -p no:cacheprovider'
+        language: system
+        files: ^noticias-ashaninka/
+        pass_filenames: false
