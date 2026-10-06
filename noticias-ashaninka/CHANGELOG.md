@@ -1,5 +1,15 @@
 # Changelog
 
+## Fase 1 — Actualización posterior a la aprobación (2026-10-05)
+
+### Añadido
+- Hipótesis H2 (`ñ→y`) y H3 (`ñ→n`) del adaptador MMS, con una regla de decisión fijada antes de ejecutar.
+- El experimento 1.9 agrega la consistencia en palabras con `ñ` (en el espacio MMS de cada hipótesis) y comparaciones pareadas frente a la hipótesis activa.
+
+### Resultado
+- Ninguna supera a H1 de forma significativa (H2: −0,0008, IC [−0,0034; 0,0025]; H3: −0,0016, IC [−0,0046; 0,0013]). **Se mantiene H1.**
+- La `ñ` queda pendiente de una escucha dirigida con un hablante.
+
 ## Fase 1 — Pipeline de texto (2026-10-05)
 
 ### Añadido

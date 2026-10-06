@@ -1,7 +1,7 @@
 {
   "fase": 1,
-  "commit": "bdcec4d67e18f97a6542f9673d1d4c88e4399571",
-  "fecha": "2026-10-06T01:41:10+00:00",
+  "commit": "eadad12da564467f083c436fbef447dd964d257d",
+  "fecha": "2026-10-06T02:46:53+00:00",
   "hardware": {
     "cpu": "AMD64 Family 25 Model 33 Stepping 2, AuthenticAMD",
     "nucleos": 16,
@@ -26,7 +26,7 @@
     "segmentation.yaml": "59af92803b035c1fb2832266efa7a20cda765342dba47d335245b6481e481143",
     "inventory.yaml": "edf6ca3fda4dd2e24d73c094bd2935fcf3eed20782616d238be0185d2b2a7eae",
     "cni.yaml": "bab12e52dc573c6c4a617c03f0dc5ad20e6ba2ba767d66cd4d195222b2a29865",
-    "mms_cni.yaml": "6da353fae2c3cd0b3ce76b1447f641c68d1a24a1b5c5ccc0e022a3d1b36fdf66"
+    "mms_cni.yaml": "498fbc9edf0add8e50614ec706432718e983922141f3efca725e7cc8268891cb"
   },
   "corpus": {
     "train": {
@@ -125,6 +125,24 @@
         ],
         "cer_mms": 0.0555,
         "precision_palabra": 0.6183
+      },
+      "H2": {
+        "cer_canonico": 0.0579,
+        "ic95": [
+          0.0502,
+          0.0659
+        ],
+        "cer_mms": 0.0534,
+        "precision_palabra": 0.6252
+      },
+      "H3": {
+        "cer_canonico": 0.057,
+        "ic95": [
+          0.0492,
+          0.0658
+        ],
+        "cer_mms": 0.0519,
+        "precision_palabra": 0.6238
       }
     },
     "elegida": "H1",
@@ -146,10 +164,10 @@
     }
   },
   "reglas": {
-    "total": 37,
+    "total": 39,
     "validadas": 7,
     "candidato_corpus": 20,
-    "supuesto_ling": 10
+    "supuesto_ling": 12
   },
   "g2p_per": "no_medido (falta P5; lista de muestreo en eval/fase1/p5_sample.csv)",
   "reescritura_aceptada_pct": "pendiente_hablante",
@@ -159,26 +177,26 @@
     "segmentacion": {
       "n": 5000,
       "p50": 0.0062,
-      "p95": 0.0143,
-      "media": 0.0077
+      "p95": 0.014,
+      "media": 0.0078
     },
     "normalizacion": {
       "n": 5200,
-      "p50": 0.1489,
-      "p95": 0.3812,
-      "media": 0.1758
+      "p50": 0.1473,
+      "p95": 0.3741,
+      "media": 0.1749
     },
     "adaptador_mms": {
       "n": 5200,
-      "p50": 0.1915,
-      "p95": 0.5057,
-      "media": 0.2319
+      "p50": 0.1879,
+      "p95": 0.4985,
+      "media": 0.2265
     },
     "g2p": {
       "n": 5200,
-      "p50": 0.0376,
-      "p95": 0.0958,
-      "media": 0.0446
+      "p50": 0.0377,
+      "p95": 0.0953,
+      "media": 0.0443
     }
   },
   "cobertura_tests_pct": 98.72

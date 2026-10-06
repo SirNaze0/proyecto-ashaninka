@@ -2,7 +2,8 @@
 
 > **Proyecto:** Servicio web de noticias en lengua asháninka con síntesis de voz, texto y avatar
 > **Fecha:** 2026-10-05 · **Commit de entrega:** `c62e8c6` · **Entrega:** `fase1_entrega.zip`
-> **Estado:** implementada, **pendiente de validación lingüística** (no cerrada)
+> **Estado:** **aprobada por el tesista** (2026-10-05) en su estado actual: implementada y pendiente de validación lingüística
+> **Actualización:** experimento adicional de la `ñ` (hipótesis H2 y H3), ver §3
 
 Todas las cifras de este documento vienen de ejecuciones reales. Están en
 `eval/results/fase_1.json` y `eval/results/mms_orthography.json`.
@@ -82,6 +83,23 @@ pronunciaría incompleto.
 
 La diferencia es significativa (p < 0,001). Queda pendiente la `ñ`: el reconocedor transcribe
 nuestro `ny` como `ne` + vocal, señal de que esa no es la escritura con la que se entrenó MMS.
+
+### Experimento adicional: cómo escribir la `ñ` para MMS
+
+Se probaron dos escrituras más, con la misma muestra, la misma semilla y una regla de decisión
+fijada **antes** de ejecutar. La regla: solo se reemplaza H1 si la candidata mejora el CER con un
+intervalo de confianza que excluye 0 **y** conserva mejor las palabras con `ñ`.
+
+| Hipótesis | CER | Diferencia frente a H1 (IC 95 %) | Palabras con `ñ` consistentes (26) |
+|---|---|---|---|
+| H1: `ñ→ny` | 0,0586 | — | 0 % |
+| H2: `ñ→y` | 0,0579 | −0,0008 [−0,0034; 0,0025] | 19 % |
+| H3: `ñ→n` | 0,0570 | −0,0016 [−0,0046; 0,0013] | 46 % |
+
+**Decisión: se mantiene H1.** Ninguna diferencia global es significativa. Que H3 conserve más
+palabras con `ñ` no prueba que suene como /ɲ/: la `n` es un sonido frecuente que los modelos
+reproducen con cualquier escritura. Con solo 26 palabras con `ñ`, la prueba automática no alcanza
+a decidir. Hace falta una escucha dirigida con un hablante.
 
 ### Otras medidas (883 oraciones de dev)
 
@@ -261,7 +279,7 @@ se procesó, así que siempre se sabe qué versión generó cada resultado.
 | Pendiente | Impacto | Quién |
 |---|---|---|
 | **P2d**: tabla castellano→asháninka | Bloquea el 16,6 % de los segmentos | Lingüista o docente EIB |
-| **Escritura de la `ñ` para MMS** | Hoy se pierde en el 100 % de los casos | Repetir el experimento con `ñ→y` y `ñ→n` (requiere tu aprobación) |
+| **Escritura de la `ñ` para MMS** | Con H1 la `ñ` no se reproduce bien; H2 y H3 no mostraron una mejora significativa | Escucha A/B dirigida a palabras con `ñ` (H1, H2, H3) con un hablante |
 | **P1**: alfabeto e inventario fonémico | Sin él no hay fonemas reales ni visemas | Lingüista; fuentes de tu compañera |
 | **P7**: ortografía del traductor de tu compañera | Confirma o cambia la ortografía canónica | Tu compañera |
 | **P2a, P2b, P2c**: numerales, siglas, préstamos | Hoy los números se leen en castellano y las siglas quedan sin glosa | Hablantes y traductores |

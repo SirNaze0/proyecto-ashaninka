@@ -22,7 +22,11 @@ Las limitaciones valen tanto como los logros. Este archivo se actualiza a medida
 
 11. **El TTS y el ASR de MMS comparten datos de entrenamiento.** La prueba de ida y vuelta mide la consistencia del par de modelos, no la inteligibilidad humana. La escucha A/B con un hablante sigue pendiente.
 12. **La inversa del adaptador no es exacta.** `tz→ts` y `z→s` no se pueden revertir. Para H0, el CER canónico usa la inversa de la hipótesis activa (H1), porque la transcripción siempre sale en la ortografía de MMS.
-13. **Solo se probó H1 frente a H0, por decisión del tesista, y la `ñ` no quedó resuelta.** Con H1 (`ñ→ny`), la recuperación de la `ñ` fue **0 %**. El ASR transcribe sistemáticamente nuestro `ny` como `ne` + vocal (*nyaantsi* sale como *neantsi*, *oponya* como *oponea*). Es evidencia de que `ny` no es la escritura de la `ñ` en los datos de entrenamiento de MMS. Hay que probar otras hipótesis (por ejemplo, `ñ→y` o `ñ→n`) antes de la Fase 2.
+13. **La escritura de la `ñ` para MMS sigue sin resolverse.** Con H1 (`ñ→ny`), el ASR transcribe nuestro `ny` como `ne` + vocal (*nyaantsi* sale como *neantsi*). La consistencia en palabras con `ñ` fue 0 %. Se probaron además H2 (`ñ→y`) y H3 (`ñ→n`) con una regla de decisión fijada antes de ejecutar:
+    - Ninguna mejora el CER global frente a H1 de forma significativa: H2 −0,0008 (IC 95 % [−0,0034; 0,0025]); H3 −0,0016 (IC 95 % [−0,0046; 0,0013]). Por eso **se mantiene H1**.
+    - La consistencia en palabras con `ñ` sube con H3 (46 %) y con H2 (19 %), pero eso **no prueba** que suenen como /ɲ/: la `n` y la `y` son sonidos frecuentes que los modelos reproducen bien con cualquier escritura.
+    - La muestra tiene solo 26 palabras con `ñ`, demasiado pocas para que la `ñ` mueva el CER de oraciones completas.
+    - Siguiente paso: una escucha A/B dirigida a palabras con `ñ` (H1, H2 y H3) con un hablante.
 14. **La recuperación por carácter es un proxy.** Se calcula por recuento, sin alineamiento carácter a carácter.
 
 ## Infraestructura

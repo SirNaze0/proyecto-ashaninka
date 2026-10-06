@@ -1,7 +1,7 @@
 {
   "tarea": "1.9",
-  "fecha": "2026-10-06T02:23:48+00:00",
-  "commit": "949d031a2384832812e84650c632ea9e6249c7bf",
+  "fecha": "2026-10-06T02:45:51+00:00",
+  "commit": "eadad12da564467f083c436fbef447dd964d257d",
   "hardware": {
     "cpu": "AMD64 Family 25 Model 33 Stepping 2, AuthenticAMD",
     "os": "Windows-10-10.0.26200-SP0"
@@ -18,38 +18,38 @@
     "bloqueadas_sin_p2d": 149,
     "fuera_de_rango_longitud": 13,
     "elegibles": 721,
-    "muestra": 4
+    "muestra": 100
   },
   "hipotesis": {
     "H0": {
       "descripcion": "Sin adaptar: el texto canónico pasa tal cual y VitsTokenizer elimina en silencio lo que no conoce (reproduce el defecto)",
-      "cer_canonico": 0.1152,
+      "cer_canonico": 0.1499,
       "ic95": [
-        0.0836,
-        0.1768
+        0.1381,
+        0.1621
       ],
-      "cer_mms": 0.1383,
-      "precision_palabra": 0.3404,
+      "cer_mms": 0.1734,
+      "precision_palabra": 0.2918,
       "recuperacion_por_caracter": {
         "k": {
-          "apariciones_ref": 22,
-          "recuperacion": 0.0
+          "apariciones_ref": 393,
+          "recuperacion": 0.0483
         },
         "b": {
-          "apariciones_ref": 1,
-          "recuperacion": 0.0
+          "apariciones_ref": 77,
+          "recuperacion": 0.1429
         },
         "ñ": {
-          "apariciones_ref": 4,
+          "apariciones_ref": 26,
           "recuperacion": 0.0
         },
         "ts": {
-          "apariciones_ref": 10,
+          "apariciones_ref": 167,
           "recuperacion": 1.0
         }
       },
       "consistencia_palabras_con_enye": {
-        "palabras": 4,
+        "palabras": 26,
         "consistencia": 0.0
       },
       "inversa_usada": [
@@ -73,33 +73,33 @@
     },
     "H1": {
       "descripcion": "k->qu ante e/i, k->c en los demás casos; b->v; ñ->ny; tz->ts; z->s",
-      "cer_canonico": 0.0782,
+      "cer_canonico": 0.0586,
       "ic95": [
-        0.0492,
-        0.1446
+        0.0509,
+        0.0664
       ],
-      "cer_mms": 0.0741,
-      "precision_palabra": 0.4681,
+      "cer_mms": 0.0555,
+      "precision_palabra": 0.6183,
       "recuperacion_por_caracter": {
         "k": {
-          "apariciones_ref": 22,
-          "recuperacion": 0.9091
+          "apariciones_ref": 393,
+          "recuperacion": 0.9796
         },
         "b": {
-          "apariciones_ref": 1,
-          "recuperacion": 1.0
+          "apariciones_ref": 77,
+          "recuperacion": 0.8182
         },
         "ñ": {
-          "apariciones_ref": 4,
+          "apariciones_ref": 26,
           "recuperacion": 0.0
         },
         "ts": {
-          "apariciones_ref": 10,
-          "recuperacion": 1.0
+          "apariciones_ref": 167,
+          "recuperacion": 0.994
         }
       },
       "consistencia_palabras_con_enye": {
-        "palabras": 4,
+        "palabras": 26,
         "consistencia": 0.0
       },
       "inversa_usada": [
@@ -123,34 +123,34 @@
     },
     "H2": {
       "descripcion": "Como H1, pero ñ->y",
-      "cer_canonico": 0.0658,
+      "cer_canonico": 0.0579,
       "ic95": [
-        0.0369,
-        0.124
+        0.0502,
+        0.0659
       ],
-      "cer_mms": 0.0566,
-      "precision_palabra": 0.4894,
+      "cer_mms": 0.0534,
+      "precision_palabra": 0.6252,
       "recuperacion_por_caracter": {
         "k": {
-          "apariciones_ref": 22,
-          "recuperacion": 0.9545
+          "apariciones_ref": 393,
+          "recuperacion": 0.9771
         },
         "b": {
-          "apariciones_ref": 1,
-          "recuperacion": 1.0
+          "apariciones_ref": 77,
+          "recuperacion": 0.8312
         },
         "ñ": {
-          "apariciones_ref": 4,
+          "apariciones_ref": 26,
           "recuperacion": 0.0
         },
         "ts": {
-          "apariciones_ref": 10,
-          "recuperacion": 1.0
+          "apariciones_ref": 167,
+          "recuperacion": 0.982
         }
       },
       "consistencia_palabras_con_enye": {
-        "palabras": 4,
-        "consistencia": 0.25
+        "palabras": 26,
+        "consistencia": 0.1923
       },
       "inversa_usada": [
         [
@@ -169,34 +169,34 @@
     },
     "H3": {
       "descripcion": "Como H1, pero ñ->n (coincide con quitar la tilde, como MMS hizo con las vocales)",
-      "cer_canonico": 0.0761,
+      "cer_canonico": 0.057,
       "ic95": [
-        0.0346,
-        0.1488
+        0.0492,
+        0.0658
       ],
-      "cer_mms": 0.0667,
-      "precision_palabra": 0.4681,
+      "cer_mms": 0.0519,
+      "precision_palabra": 0.6238,
       "recuperacion_por_caracter": {
         "k": {
-          "apariciones_ref": 22,
-          "recuperacion": 0.9091
+          "apariciones_ref": 393,
+          "recuperacion": 0.9796
         },
         "b": {
-          "apariciones_ref": 1,
-          "recuperacion": 1.0
+          "apariciones_ref": 77,
+          "recuperacion": 0.8182
         },
         "ñ": {
-          "apariciones_ref": 4,
+          "apariciones_ref": 26,
           "recuperacion": 0.0
         },
         "ts": {
-          "apariciones_ref": 10,
-          "recuperacion": 1.0
+          "apariciones_ref": 167,
+          "recuperacion": 0.994
         }
       },
       "consistencia_palabras_con_enye": {
-        "palabras": 4,
-        "consistencia": 0.5
+        "palabras": 26,
+        "consistencia": 0.4615
       },
       "inversa_usada": [
         [
@@ -216,35 +216,35 @@
   },
   "hipotesis_activa_previa": "H1",
   "regla_decision": "cambiar la hipótesis activa solo si el IC 95 % pareado frente a la activa excluye 0 a favor de la candidata Y la candidata tiene mayor consistencia en palabras con ñ",
-  "mejor_cer_canonico": "H2",
-  "elegida": "H2",
+  "mejor_cer_canonico": "H3",
+  "elegida": "H1",
   "comparaciones_vs_activa": {
     "H2": {
-      "diferencia_cer_media": -0.0122,
+      "diferencia_cer_media": -0.0008,
       "ic95": [
-        -0.0183,
-        -0.0043
+        -0.0034,
+        0.0025
       ],
-      "p_valor_bilateral": 0.008
+      "p_valor_bilateral": 0.606
     },
     "H3": {
-      "diferencia_cer_media": 0.0012,
+      "diferencia_cer_media": -0.0016,
       "ic95": [
-        -0.0135,
-        0.026
+        -0.0046,
+        0.0013
       ],
-      "p_valor_bilateral": 1.0
+      "p_valor_bilateral": 0.272
     }
   },
   "comparacion_vs_H0": {
-    "diferencia_cer_media": -0.0491,
+    "diferencia_cer_media": -0.0915,
     "ic95": [
-      -0.061,
-      -0.0346
+      -0.102,
+      -0.0806
     ],
     "p_valor_bilateral": 0.0
   },
   "hoja_ab": "pendiente_hablante",
-  "duracion_s": 94.3,
+  "duracion_s": 1293.2,
   "limitacion": "TTS y ASR de MMS comparten datos de entrenamiento: la prueba mide consistencia, no inteligibilidad humana."
 }
