@@ -26,7 +26,7 @@ Las limitaciones valen tanto como los logros. Este archivo se actualiza a medida
     - Ninguna mejora el CER global frente a H1 de forma significativa: H2 −0,0008 (IC 95 % [−0,0034; 0,0025]); H3 −0,0016 (IC 95 % [−0,0046; 0,0013]). Por eso **se mantiene H1**.
     - La consistencia en palabras con `ñ` sube con H3 (46 %) y con H2 (19 %), pero eso **no prueba** que suenen como /ɲ/: la `n` y la `y` son sonidos frecuentes que los modelos reproducen bien con cualquier escritura.
     - La muestra tiene solo 26 palabras con `ñ`, demasiado pocas para que la `ñ` mueva el CER de oraciones completas.
-    - Siguiente paso: una escucha A/B dirigida a palabras con `ñ` (H1, H2 y H3) con un hablante.
+    - Siguiente paso: la escucha A/B dirigida ya está preparada (`eval/listening/enye_ab/`). Son 20 palabras (10 con `ñ` inicial y 10 con `ñ` interna) sintetizadas con la misma semilla en H1, H2 y H3, comparadas a ciegas en 60 pares, más 4 controles con audios idénticos. Falta aplicarla a un hablante.
 14. **La recuperación por carácter es un proxy.** Se calcula por recuento, sin alineamiento carácter a carácter.
 
 ## Infraestructura

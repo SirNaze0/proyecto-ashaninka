@@ -6,6 +6,9 @@
 - Hipótesis H2 (`ñ→y`) y H3 (`ñ→n`) del adaptador MMS, con una regla de decisión fijada antes de ejecutar.
 - El experimento 1.9 agrega la consistencia en palabras con `ñ` (en el espacio MMS de cada hipótesis) y comparaciones pareadas frente a la hipótesis activa.
 
+### Escucha de la ñ
+- `eval/listening/enye_ab/`: kit de escucha A/B a ciegas (20 palabras con ñ, 60 pares H1/H2/H3, 4 controles), página HTML sin conexión, instrucciones para la persona oyente y script de puntuación con prueba binomial exacta.
+
 ### Resultado
 - Ninguna supera a H1 de forma significativa (H2: −0,0008, IC [−0,0034; 0,0025]; H3: −0,0016, IC [−0,0046; 0,0013]). **Se mantiene H1.**
 - La `ñ` queda pendiente de una escucha dirigida con un hablante.

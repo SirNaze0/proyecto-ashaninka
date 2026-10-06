@@ -101,6 +101,19 @@ palabras con `ñ` no prueba que suene como /ɲ/: la `n` es un sonido frecuente q
 reproducen con cualquier escritura. Con solo 26 palabras con `ñ`, la prueba automática no alcanza
 a decidir. Hace falta una escucha dirigida con un hablante.
 
+**Escucha preparada.** El kit `eval/listening/enye_ab/out/kit_escucha_enye.zip` contiene:
+
+- 20 palabras con `ñ` del corpus (10 con `ñ` inicial y 10 con `ñ` interna), cada una sintetizada con H1, H2 y H3 usando la misma semilla;
+- 60 comparaciones A/B a ciegas, con orden y lado aleatorizados y audios con nombres codificados;
+- 4 pares de control con el mismo audio en A y en B;
+- una página HTML que funciona sin internet y exporta las respuestas.
+
+La clave queda fuera del kit. Para puntuar:
+
+```bash
+uv run python -m eval.listening.enye_ab.score respuestas_escucha_enye.csv --oyente O1
+```
+
 ### Otras medidas (883 oraciones de dev)
 
 | Medida | Valor |
@@ -279,7 +292,7 @@ se procesó, así que siempre se sabe qué versión generó cada resultado.
 | Pendiente | Impacto | Quién |
 |---|---|---|
 | **P2d**: tabla castellano→asháninka | Bloquea el 16,6 % de los segmentos | Lingüista o docente EIB |
-| **Escritura de la `ñ` para MMS** | Con H1 la `ñ` no se reproduce bien; H2 y H3 no mostraron una mejora significativa | Escucha A/B dirigida a palabras con `ñ` (H1, H2, H3) con un hablante |
+| **Escritura de la `ñ` para MMS** | Con H1 la `ñ` no se reproduce bien; H2 y H3 no mostraron una mejora significativa | Aplicar el kit de escucha ya preparado (`eval/listening/enye_ab/out/kit_escucha_enye.zip`) a un hablante y puntuarlo con `eval.listening.enye_ab.score` |
 | **P1**: alfabeto e inventario fonémico | Sin él no hay fonemas reales ni visemas | Lingüista; fuentes de tu compañera |
 | **P7**: ortografía del traductor de tu compañera | Confirma o cambia la ortografía canónica | Tu compañera |
 | **P2a, P2b, P2c**: numerales, siglas, préstamos | Hoy los números se leen en castellano y las siglas quedan sin glosa | Hablantes y traductores |
