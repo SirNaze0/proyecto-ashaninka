@@ -1,47 +1,47 @@
 {
   "tarea": "2.2b",
-  "fecha": "2026-10-06T03:19:22+00:00",
-  "commit": "27a76f6926f76e11bafd6be0b8492c9553f3bbb1",
+  "fecha": "2026-10-06T03:30:46+00:00",
+  "commit": "fa86a5cd691369cf7b051beeac35a0c32ffbc1ae",
   "adapter": "mms_cni/H1",
   "muestra": {
     "dev_total": 883,
     "bloqueadas_sin_p2d": 149,
     "fuera_de_rango_longitud": 13,
     "elegibles": 721,
-    "muestra": 3
+    "muestra": 100
   },
-  "oraciones_afectadas_por_el_tokenizador": 3,
+  "oraciones_afectadas_por_el_tokenizador": 48,
   "condiciones": {
     "T1": {
       "modo": "hf",
-      "cer_canonico": 0.1184,
+      "cer_canonico": 0.0586,
       "ic95": [
-        0.0938,
-        0.1795
+        0.0509,
+        0.0664
       ],
-      "precision_palabra": 0.3704,
-      "duracion_media_s": 6.928
+      "precision_palabra": 0.6183,
+      "duracion_media_s": 6.279
     },
     "T2": {
       "modo": "manual",
-      "cer_canonico": 0.1096,
+      "cer_canonico": 0.0553,
       "ic95": [
-        0.0781,
-        0.1538
+        0.0479,
+        0.0632
       ],
-      "precision_palabra": 0.4815,
-      "duracion_media_s": 7.008
+      "precision_palabra": 0.6321,
+      "duracion_media_s": 6.284
     }
   },
   "diferencia_T2_menos_T1": {
-    "diferencia_cer_media": -0.0109,
+    "diferencia_cer_media": -0.0034,
     "ic95": [
-      -0.0256,
-      0.0
+      -0.0065,
+      -0.0001
     ],
-    "p_valor_bilateral": 0.076
+    "p_valor_bilateral": 0.046
   },
   "decision": "T2",
-  "motivo": "sin diferencia significativa; T2 da correspondencia exacta token-carácter",
-  "duracion_s": 21.9
+  "motivo": "T2 reduce el CER de forma significativa",
+  "duracion_s": 651.2
 }

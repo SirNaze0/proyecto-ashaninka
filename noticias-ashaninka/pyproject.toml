@@ -32,6 +32,7 @@ dev = [
 # Evaluación (métricas auxiliares). torch/transformers ya son dependencias principales.
 eval = [
     "jiwer>=3.0",
+    "matplotlib>=3.8",
 ]
 
 [tool.uv]
