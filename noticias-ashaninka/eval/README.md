@@ -9,6 +9,11 @@ Todos los números de `eval/results/` provienen de ejecuciones reales de estos s
 | `eval/listening/rewrite_check/build.py` | Material de la escucha 1.8 | `eval/listening/rewrite_check/hoja_escucha.csv` (+ `audio/`) |
 | `eval/listening/enye_ab/build.py` | Escucha A/B a ciegas de palabras con ñ (H1 `ny`, H2 `y`, H3 `n`): 20 palabras, 60 pares y 4 controles | `eval/listening/enye_ab/out/kit_escucha_enye.zip` (para la persona oyente, sin la clave) |
 | `eval/listening/enye_ab/score.py` | Puntúa esa escucha: controles, victorias por par, prueba binomial exacta y tasa de victoria por posición de la ñ | `eval/results/escucha_enye_<oyente>.json` |
+| `eval/fase2/tokenization/run.py` | Tokenización de la entrada de MMS: T1 (VitsTokenizer) frente a T2 (intercalado manual) | `eval/results/fase_2_tokenizacion.json`, `docs/tokenization.md` |
+| `eval/rtf_ttfa/bench.py` | RTF, carga en frío, barrido hilos × trabajadores, TTFA HTTP (servidor, cliente y por lotes) con 1/4/8 clientes, rendimiento y RAM | `eval/results/fase_2_rendimiento.json`, `docs/figures/` |
+| `eval/fase2/sizing.py` | Dimensionamiento del servidor | `docs/sizing.md` |
+| `eval/fase2/intelligibility/run.py` | CER de ida y vuelta por motor sobre el split test | `eval/results/fase_2_inteligibilidad.json`, `docs/intelligibility.md` |
+| `eval/fase2/run.py` | Reúne las métricas de la Fase 2 | `eval/results/fase_2.json` |
 | `eval/fase1/p5_sample.py` | Lista de 200 palabras para el conjunto de referencia P5 | `eval/fase1/p5_sample.csv` |
 
 ## Guía para la persona hablante

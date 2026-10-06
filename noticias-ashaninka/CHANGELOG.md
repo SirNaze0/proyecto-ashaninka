@@ -1,5 +1,50 @@
 # Changelog
 
+## Fase 2 — Síntesis de voz (2026-10-06)
+
+### Añadido
+- **2.0:**
+  - etiqueta `fase1`;
+  - `pre-commit` desde la raíz del repositorio `Proyecto` (con `scripts/venv_exec.sh`);
+  - `init.sh` detecta el repositorio con `git rev-parse` y busca eSpeak-NG;
+  - opción `--with-tts`.
+- **2.1:**
+  - interfaz `TTSEngine`;
+  - `FakeEngine`;
+  - registro de motores con un solo parámetro (`NA_TTS_ENGINE`) y `EnginePool`.
+- **2.2:** `MmsVitsEngine` con un *forward hook* sobre `duration_predictor`. Las duraciones se verifican en cada síntesis (`sum(frames) × hop == len(audio)`), y se mantiene la regresión R13 del tokenizador.
+- **2.2b, hallazgo:** `VitsTokenizer` rompe el intercalado de blancos porque el blanco de MMS es la letra `a`. Experimento T1/T2 con regla fijada antes de ejecutar: **se adopta el intercalado manual (T2)** (CER −0,0034, p = 0,046).
+- **2.3:** `ESpeakEngine` (línea base en modo `texto-es`; el modo por fonemas queda deshabilitado sin P1).
+- **2.4 y 2.5:**
+  - metadatos completos por audio (licencia, variante, aviso de voz sintética);
+  - Opus (25,8 kbps reales) y MP3 con `soundfile`;
+  - caché por contenido;
+  - manifiesto por noticia con JSON Schema;
+  - tiempos por fragmento original.
+- **2.6:** modo por lotes idempotente (`python -m app.batch`) y tablas `AudioAsset` y `SynthesisRun`.
+- **2.7:**
+  - streaming NDJSON (`/api/synthesize/{id}`);
+  - `/static` con soporte de `Range`;
+  - límites 413 y 503;
+  - precarga opcional (`NA_TTS_PRELOAD`).
+- **2.8 a 2.10:**
+  - banco de pruebas de rendimiento;
+  - dimensionamiento;
+  - CER sobre el split test;
+  - figuras;
+  - `docs/metrics.md`, `docs/sizing.md`, `docs/manifest_schema.md`, `docs/intelligibility.md` y `docs/tokenization.md`.
+
+### Corregido
+- Bloqueo de SQLite con varios streams simultáneos: commit por segmento, modo WAL y `busy_timeout`.
+- `torch` y `transformers` pasan a ser dependencias principales: `init.sh` sin opciones ya no los desinstala.
+
+### Resultados
+- RTF de `mms_vits`: 0,19 ± 0,007.
+- TTFA p95 del cliente con 1 usuario: 2357 ms (**no cumple** la meta de 2 s); con la configuración de latencia, 1875 ms.
+- Por lotes: < 70 ms p95.
+- CER en test: 0,0516.
+- Ver `resumen_fase2.md`.
+
 ## Fase 1 — Actualización posterior a la aprobación (2026-10-05)
 
 ### Añadido

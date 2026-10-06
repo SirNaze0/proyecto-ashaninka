@@ -1,0 +1,257 @@
+{
+  "$defs": {
+    "AudioFiles": {
+      "additionalProperties": false,
+      "properties": {
+        "opus": {
+          "title": "Opus",
+          "type": "string"
+        },
+        "mp3": {
+          "title": "Mp3",
+          "type": "string"
+        },
+        "opus_kbps": {
+          "title": "Opus Kbps",
+          "type": "number"
+        },
+        "mp3_kbps": {
+          "title": "Mp3 Kbps",
+          "type": "number"
+        }
+      },
+      "required": [
+        "opus",
+        "mp3",
+        "opus_kbps",
+        "mp3_kbps"
+      ],
+      "title": "AudioFiles",
+      "type": "object"
+    },
+    "EngineRef": {
+      "additionalProperties": false,
+      "properties": {
+        "engine": {
+          "title": "Engine",
+          "type": "string"
+        },
+        "model": {
+          "title": "Model",
+          "type": "string"
+        },
+        "revision": {
+          "title": "Revision",
+          "type": "string"
+        },
+        "adapter_id": {
+          "title": "Adapter Id",
+          "type": "string"
+        },
+        "params": {
+          "additionalProperties": true,
+          "title": "Params",
+          "type": "object"
+        }
+      },
+      "required": [
+        "engine",
+        "model",
+        "revision",
+        "adapter_id",
+        "params"
+      ],
+      "title": "EngineRef",
+      "type": "object"
+    },
+    "ManifestSegment": {
+      "additionalProperties": false,
+      "properties": {
+        "idx": {
+          "title": "Idx",
+          "type": "integer"
+        },
+        "paragraph_idx": {
+          "title": "Paragraph Idx",
+          "type": "integer"
+        },
+        "text_orig": {
+          "title": "Text Orig",
+          "type": "string"
+        },
+        "tts_ready": {
+          "title": "Tts Ready",
+          "type": "boolean"
+        },
+        "audio": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AudioFiles"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "null si el segmento está bloqueado"
+        },
+        "duration_s": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Duration S"
+        },
+        "timings": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "URL del JSON con duraciones y tiempos por fragmento",
+          "title": "Timings"
+        },
+        "blocked_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Blocked Reason"
+        }
+      },
+      "required": [
+        "idx",
+        "paragraph_idx",
+        "text_orig",
+        "tts_ready",
+        "audio",
+        "duration_s",
+        "timings",
+        "blocked_reason"
+      ],
+      "title": "ManifestSegment",
+      "type": "object"
+    },
+    "Notices": {
+      "additionalProperties": false,
+      "properties": {
+        "synthetic_voice": {
+          "title": "Synthetic Voice",
+          "type": "string"
+        },
+        "license": {
+          "title": "License",
+          "type": "string"
+        },
+        "commercial_use": {
+          "title": "Commercial Use",
+          "type": "boolean"
+        },
+        "non_commercial_warning": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Non Commercial Warning"
+        },
+        "dialect": {
+          "title": "Dialect",
+          "type": "string"
+        }
+      },
+      "required": [
+        "synthetic_voice",
+        "license",
+        "commercial_use",
+        "non_commercial_warning",
+        "dialect"
+      ],
+      "title": "Notices",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "news_id": {
+      "title": "News Id",
+      "type": "integer"
+    },
+    "titulo_cni": {
+      "title": "Titulo Cni",
+      "type": "string"
+    },
+    "fecha_publicacion": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Fecha Publicacion"
+    },
+    "generated_at": {
+      "title": "Generated At",
+      "type": "string"
+    },
+    "engine": {
+      "$ref": "#/$defs/EngineRef"
+    },
+    "notices": {
+      "$ref": "#/$defs/Notices"
+    },
+    "segments": {
+      "items": {
+        "$ref": "#/$defs/ManifestSegment"
+      },
+      "title": "Segments",
+      "type": "array"
+    },
+    "total_duration_s": {
+      "title": "Total Duration S",
+      "type": "number"
+    },
+    "segments_with_audio": {
+      "title": "Segments With Audio",
+      "type": "integer"
+    },
+    "segments_blocked": {
+      "title": "Segments Blocked",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "news_id",
+    "titulo_cni",
+    "fecha_publicacion",
+    "generated_at",
+    "engine",
+    "notices",
+    "segments",
+    "total_duration_s",
+    "segments_with_audio",
+    "segments_blocked"
+  ],
+  "title": "Manifest",
+  "type": "object"
+}

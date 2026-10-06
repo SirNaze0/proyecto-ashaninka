@@ -1,0 +1,27 @@
+{
+  "tarea": "2.10",
+  "fecha": "2026-10-06T04:56:12+00:00",
+  "commit": "cb42a79855d119d318de6d1c1d5a11e82cf874ae",
+  "adapter": "mms_cni/H1",
+  "tokenizacion_mms": "manual",
+  "muestra": {
+    "test_total": 1003,
+    "elegibles": 725,
+    "muestra": 200,
+    "semilla": 20261007
+  },
+  "motores": {
+    "mms_vits": {
+      "cer": 0.0516,
+      "ic95": [
+        0.0459,
+        0.0573
+      ],
+      "precision_palabra": 0.6474
+    },
+    "espeak_ng": "no_medido (eSpeak-NG no instalado)"
+  },
+  "diferencia_mms_menos_espeak": null,
+  "sesgo": "El ASR de MMS comparte datos con el TTS de MMS: la comparación favorece a mms_vits.",
+  "duracion_s": 517.9
+}

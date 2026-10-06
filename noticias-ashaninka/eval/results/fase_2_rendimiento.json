@@ -13,7 +13,7 @@
     "segmentos": 614,
     "semilla": 20261006
   },
-  "commit": "9bd18859166e32256660557fc5ab7b616e8de20f",
+  "commit": "cb42a79855d119d318de6d1c1d5a11e82cf874ae",
   "hardware": {
     "cpu": "AMD64 Family 25 Model 33 Stepping 2, AuthenticAMD",
     "nucleos": 16,
@@ -209,5 +209,361 @@
     "torch_threads": 4,
     "tts_workers": 4,
     "criterio": "mayor rendimiento con RTF p95 < 1"
+  },
+  "ttfa_ms": {
+    "bajo_demanda_servidor": {
+      "c1": {
+        "n": 100,
+        "media": 963.3211,
+        "de": 913.5901,
+        "p50": 793.56,
+        "p95": 2323.4395,
+        "p99": 3630.6512
+      },
+      "c4": {
+        "n": 100,
+        "media": 2233.5859,
+        "de": 2034.3477,
+        "p50": 2063.58,
+        "p95": 5001.908,
+        "p99": 8432.6031
+      },
+      "c8": {
+        "n": 100,
+        "media": 4350.9633,
+        "de": 3251.321,
+        "p50": 4870.535,
+        "p95": 8486.9355,
+        "p99": 11507.9594
+      }
+    },
+    "bajo_demanda_cliente": {
+      "c1": {
+        "n": 100,
+        "media": 1007.8491,
+        "de": 915.0477,
+        "p50": 832.9071,
+        "p95": 2356.7134,
+        "p99": 3670.2094
+      },
+      "c4": {
+        "n": 100,
+        "media": 2316.2706,
+        "de": 2033.5467,
+        "p50": 2138.4585,
+        "p95": 5067.33,
+        "p99": 8503.4472
+      },
+      "c8": {
+        "n": 100,
+        "media": 4437.3904,
+        "de": 3254.0414,
+        "p50": 4948.5066,
+        "p95": 8558.6863,
+        "p99": 11570.0222
+      }
+    },
+    "por_lotes": {
+      "c1": {
+        "n": 100,
+        "media": 25.8549,
+        "de": 8.6305,
+        "p50": 21.0946,
+        "p95": 43.732,
+        "p99": 52.8545
+      },
+      "c4": {
+        "n": 100,
+        "media": 34.1368,
+        "de": 9.1464,
+        "p50": 31.3736,
+        "p95": 48.7748,
+        "p99": 62.587
+      },
+      "c8": {
+        "n": 100,
+        "media": 45.7052,
+        "de": 12.3408,
+        "p50": 43.7406,
+        "p95": 65.6424,
+        "p99": 71.448
+      }
+    }
+  },
+  "rendimiento_audio_s_por_s": {
+    "c1": 5.508,
+    "c4": 9.494,
+    "c8": 9.453
+  },
+  "memoria_pico_mb": {
+    "c1": 1484.1,
+    "c4": 1987.8,
+    "c8": 2156.2
+  },
+  "http_config": {
+    "torch_threads": 4,
+    "tts_workers": 4,
+    "criterio": "mayor rendimiento con RTF p95 < 1"
+  },
+  "ttfa_vs_primer_segmento": {
+    "c1": {
+      "pct_solicitudes_ttfa_servidor_menor_2s": 90.0,
+      "ttfa_servidor_p95_si_primer_segmento_hasta_5s": 1064.3,
+      "n_primer_segmento_hasta_5s": 46,
+      "primer_segmento_s": {
+        "n": 100,
+        "media": 5.5114,
+        "de": 2.992,
+        "p50": 5.144,
+        "p95": 10.7792,
+        "p99": 15.4942
+      }
+    },
+    "c4": {
+      "pct_solicitudes_ttfa_servidor_menor_2s": 47.0,
+      "ttfa_servidor_p95_si_primer_segmento_hasta_5s": 2610.0,
+      "n_primer_segmento_hasta_5s": 47,
+      "primer_segmento_s": {
+        "n": 100,
+        "media": 5.5184,
+        "de": 3.0702,
+        "p50": 5.08,
+        "p95": 11.3136,
+        "p99": 15.5019
+      }
+    },
+    "c8": {
+      "pct_solicitudes_ttfa_servidor_menor_2s": 30.0,
+      "ttfa_servidor_p95_si_primer_segmento_hasta_5s": 6926.0,
+      "n_primer_segmento_hasta_5s": 47,
+      "primer_segmento_s": {
+        "n": 100,
+        "media": 5.4942,
+        "de": 3.0326,
+        "p50": 5.08,
+        "p95": 11.372,
+        "p99": 15.504
+      }
+    }
+  },
+  "secundario_latencia": {
+    "ttfa_ms": {
+      "bajo_demanda_servidor": {
+        "c1": {
+          "n": 100,
+          "media": 796.28,
+          "de": 732.3822,
+          "p50": 643.495,
+          "p95": 1833.331,
+          "p99": 2733.3801
+        },
+        "c4": {
+          "n": 100,
+          "media": 2898.7709,
+          "de": 2166.1605,
+          "p50": 3485.04,
+          "p95": 5897.065,
+          "p99": 7009.4846
+        },
+        "c8": {
+          "n": 100,
+          "media": 5531.1773,
+          "de": 3818.3329,
+          "p50": 7112.795,
+          "p95": 10326.487,
+          "p99": 10840.3981
+        }
+      },
+      "bajo_demanda_cliente": {
+        "c1": {
+          "n": 100,
+          "media": 846.1634,
+          "de": 733.7725,
+          "p50": 707.5411,
+          "p95": 1875.123,
+          "p99": 2791.2178
+        },
+        "c4": {
+          "n": 100,
+          "media": 2952.6854,
+          "de": 2166.7489,
+          "p50": 3535.5599,
+          "p95": 5947.3127,
+          "p99": 7078.106
+        },
+        "c8": {
+          "n": 100,
+          "media": 5588.1999,
+          "de": 3817.4137,
+          "p50": 7162.9829,
+          "p95": 10390.9455,
+          "p99": 10892.9432
+        }
+      },
+      "por_lotes": {
+        "c1": {
+          "n": 100,
+          "media": 22.3464,
+          "de": 7.5444,
+          "p50": 18.3984,
+          "p95": 40.2369,
+          "p99": 43.7839
+        },
+        "c4": {
+          "n": 100,
+          "media": 31.2775,
+          "de": 9.6792,
+          "p50": 29.021,
+          "p95": 51.4373,
+          "p99": 62.2009
+        },
+        "c8": {
+          "n": 100,
+          "media": 37.9419,
+          "de": 9.8933,
+          "p50": 36.3246,
+          "p95": 56.3593,
+          "p99": 69.0449
+        }
+      }
+    },
+    "rendimiento_audio_s_por_s": {
+      "c1": 6.638,
+      "c4": 7.249,
+      "c8": 7.197
+    },
+    "memoria_pico_mb": {
+      "c1": 1057.8,
+      "c4": 1285.9,
+      "c8": 1634.2
+    },
+    "http_config": {
+      "torch_threads": 8,
+      "tts_workers": 1,
+      "criterio": "latencia"
+    },
+    "ttfa_vs_primer_segmento": {
+      "c1": {
+        "pct_solicitudes_ttfa_servidor_menor_2s": 96.0,
+        "ttfa_servidor_p95_si_primer_segmento_hasta_5s": 924.2,
+        "n_primer_segmento_hasta_5s": 46,
+        "primer_segmento_s": {
+          "n": 100,
+          "media": 5.5114,
+          "de": 2.992,
+          "p50": 5.144,
+          "p95": 10.7792,
+          "p99": 15.4942
+        }
+      },
+      "c4": {
+        "pct_solicitudes_ttfa_servidor_menor_2s": 32.0,
+        "ttfa_servidor_p95_si_primer_segmento_hasta_5s": 5222.0,
+        "n_primer_segmento_hasta_5s": 46,
+        "primer_segmento_s": {
+          "n": 100,
+          "media": 5.5114,
+          "de": 2.992,
+          "p50": 5.144,
+          "p95": 10.7792,
+          "p99": 15.4942
+        }
+      },
+      "c8": {
+        "pct_solicitudes_ttfa_servidor_menor_2s": 30.0,
+        "ttfa_servidor_p95_si_primer_segmento_hasta_5s": 10313.3,
+        "n_primer_segmento_hasta_5s": 46,
+        "primer_segmento_s": {
+          "n": 100,
+          "media": 5.5114,
+          "de": 2.992,
+          "p50": 5.144,
+          "p95": 10.7792,
+          "p99": 15.4942
+        }
+      }
+    }
+  },
+  "dimensionamiento": {
+    "supuestos": [
+      "rendimiento de síntesis lineal con los núcleos (aproximación)",
+      "noticia típica: 27.7 s de audio (5.58 segmentos), media de las pseudo-noticias del banco",
+      "margen de RAM x1.25"
+    ],
+    "nucleos_medidos": 16,
+    "noticia_tipica_audio_s": 27.7,
+    "rendimiento_por_vcpu_audio_s_por_s": 0.593,
+    "bajo_demanda": {
+      "principal": {
+        "config": {
+          "torch_threads": 4,
+          "tts_workers": 4,
+          "criterio": "mayor rendimiento con RTF p95 < 1"
+        },
+        "niveles_con_ttfa_cliente_p95_<2s": [],
+        "ttfa_cliente_p95_ms": {
+          "c1": 2356.7134,
+          "c4": 5067.33,
+          "c8": 8558.6863
+        },
+        "rendimiento_audio_s_por_s": {
+          "c1": 5.508,
+          "c4": 9.494,
+          "c8": 9.453
+        },
+        "ram_pico_mb": {
+          "c1": 1484.1,
+          "c4": 1987.8,
+          "c8": 2156.2
+        }
+      },
+      "latencia": {
+        "config": {
+          "torch_threads": 8,
+          "tts_workers": 1,
+          "criterio": "latencia"
+        },
+        "niveles_con_ttfa_cliente_p95_<2s": [
+          1
+        ],
+        "ttfa_cliente_p95_ms": {
+          "c1": 1875.123,
+          "c4": 5947.3127,
+          "c8": 10390.9455
+        },
+        "rendimiento_audio_s_por_s": {
+          "c1": 6.638,
+          "c4": 7.249,
+          "c8": 7.197
+        },
+        "ram_pico_mb": {
+          "c1": 1057.8,
+          "c4": 1285.9,
+          "c8": 1634.2
+        }
+      }
+    },
+    "por_lotes_servir_estatico_niveles_con_p95_<2s": [
+      1,
+      4,
+      8
+    ],
+    "escenarios": {
+      "sintesis_por_lotes": [
+        {
+          "noticias_dia": 50,
+          "audio_total_min": 23.1,
+          "tiempo_en_esta_maquina_min": 2.43,
+          "vcpu_para_terminar_en_1h": 1
+        },
+        {
+          "noticias_dia": 500,
+          "audio_total_min": 230.7,
+          "tiempo_en_esta_maquina_min": 24.29,
+          "vcpu_para_terminar_en_1h": 7
+        }
+      ]
+    },
+    "recomendacion": "Modo principal = por lotes (el plan lo prevé). Para sintetizar hasta 50 noticias/día y servirlas como archivos estáticos (TTFA p95 medido < 70 ms con 8 clientes): 2 vCPU y 2 GB de RAM, sin GPU, con NA_TTS_WORKERS=1 (pico de RAM medido con 1 trabajador: 1057.8 MB). Bajo demanda, la meta TTFA p95 < 2 s solo se cumplió con 1 cliente y la configuración de latencia (8 hilos, 1 trabajador) en una CPU de 16 núcleos; con 4 u 8 clientes simultáneos no se cumple. El bajo demanda queda como respaldo para noticias aún no sintetizadas."
   }
 }

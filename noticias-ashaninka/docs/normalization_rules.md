@@ -10,7 +10,7 @@ o condición experimental, pendiente de validación).
 
 | Estado | Entradas |
 |---|---|
-| SUPUESTO | 6 |
+| SUPUESTO | 8 |
 | SUPUESTO-LING | 4 |
 | candidato-corpus | 20 |
 | validado | 7 |
@@ -28,7 +28,7 @@ o condición experimental, pendiente de validación).
 | segmentation | `segmentation.yaml` | `59af92803b03` | vacío |
 | g2p_inventory | `inventory.yaml` | `edf6ca3fda4d` | candidato-corpus=20 |
 | g2p_cni_rules | `cni.yaml` | `bab12e52dc57` | vacío |
-| mms_cni_adapter | `mms_cni.yaml` | `6da353fae2c3` | SUPUESTO=6, validado=7 |
+| mms_cni_adapter | `mms_cni.yaml` | `498fbc9edf0a` | SUPUESTO=8, validado=7 |
 
 ## orthography_variants
 
@@ -141,3 +141,5 @@ Hipótesis de correspondencia canónica -> ortografía MMS
 | H1-KC | k en los demás casos -> c | `k` | `c` |  | Hipótesis H1 (tarea 1.9) | SUPUESTO |
 | H1-B | b -> v | `b` | `v` |  | Hipótesis H1 (tarea 1.9) | SUPUESTO |
 | H1-NY | ñ -> ny | `ñ` | `ny` |  | Hipótesis H1 (tarea 1.9) | SUPUESTO |
+| H2-Y | ñ -> y | `ñ` | `y` |  | Hipótesis H2 (tarea 1.9) | SUPUESTO |
+| H3-N | ñ -> n | `ñ` | `n` |  | Hipótesis H3 (tarea 1.9) | SUPUESTO |

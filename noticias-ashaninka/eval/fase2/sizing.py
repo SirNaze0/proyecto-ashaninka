@@ -18,67 +18,78 @@ from app.config import DOCS_DIR, RESULTS_DIR
 TARGET_P95_MS = 2000
 RAM_MARGIN = 1.25
 BATCH_NEWS_PER_DAY = [50, 500]
-ON_DEMAND_USERS = [1, 5, 10, 20]
+
+
+def _levels_ok(ttfa_block: dict) -> list[int]:
+    return [int(k[1:]) for k, v in ttfa_block.items() if v.get("p95", 1e9) < TARGET_P95_MS]
 
 
 def build() -> dict:
     path = RESULTS_DIR / "fase_2_rendimiento.json"
     r = json.loads(path.read_text(encoding="utf-8"))
     cores = r["hardware"]["nucleos"]
-    ttfa = r["ttfa_ms"]["bajo_demanda_cliente"]
-    throughput = r["rendimiento_audio_s_por_s"]
     mms = r["rtf"]["mms_vits"]
     news = r["pseudo_noticias"]
     seg_per_news = news["segmentos"] / news["noticias"]
     audio_per_news = mms["duracion_audio_s"]["media"] * seg_per_news
 
-    ok_levels = [int(k[1:]) for k, v in ttfa.items() if v.get("p95", 1e9) < TARGET_P95_MS]
-    max_conc = max(ok_levels) if ok_levels else 0
-    per_core = max_conc / cores if cores else 0
-    best_tp = max(throughput.values())
-    peak_mb = max(r["memoria_pico_mb"].values())
-
+    configs = {"principal": r}
+    if "secundario_latencia" in r:
+        configs["latencia"] = r["secundario_latencia"]
+    capacity = {}
+    for name, block in configs.items():
+        ok = _levels_ok(block["ttfa_ms"]["bajo_demanda_cliente"])
+        capacity[name] = {
+            "config": block["http_config"],
+            "niveles_con_ttfa_cliente_p95_<2s": ok,
+            "ttfa_cliente_p95_ms": {
+                k: v["p95"] for k, v in block["ttfa_ms"]["bajo_demanda_cliente"].items()
+            },
+            "rendimiento_audio_s_por_s": block["rendimiento_audio_s_por_s"],
+            "ram_pico_mb": block["memoria_pico_mb"],
+        }
+    batch_ok = _levels_ok(r["ttfa_ms"]["por_lotes"])
+    best_tp = max(r["rendimiento_audio_s_por_s"].values())
+    per_core_tp = best_tp / cores
     batch = []
     for n in BATCH_NEWS_PER_DAY:
-        wall_s = n * audio_per_news / best_tp
+        audio_total = n * audio_per_news
+        vcpu_1h = max(1, math.ceil(audio_total / (3600 * per_core_tp)))
         batch.append(
             {
                 "noticias_dia": n,
-                "audio_total_min": round(n * audio_per_news / 60, 1),
-                "tiempo_sintesis_min_esta_maquina": round(wall_s / 60, 2),
+                "audio_total_min": round(audio_total / 60, 1),
+                "tiempo_en_esta_maquina_min": round(audio_total / best_tp / 60, 2),
+                "vcpu_para_terminar_en_1h": vcpu_1h,
             }
         )
-    on_demand = []
-    for k in ON_DEMAND_USERS:
-        need = math.ceil(k / per_core) if per_core else None
-        on_demand.append(
-            {
-                "usuarios_simultaneos": k,
-                "vcpu_estimados": need,
-                "medido_en_esta_maquina": k <= max_conc,
-            }
-        )
-    ram_gb = round(peak_mb * RAM_MARGIN / 1024, 2)
-    rec_vcpu = max(
-        2, next((d["vcpu_estimados"] for d in on_demand if d["usuarios_simultaneos"] == 5), 2) or 2
-    )
+    ram_one_worker = min(v for c in capacity.values() for v in c["ram_pico_mb"].values())
+    ram_gb = max(2, math.ceil(ram_one_worker * RAM_MARGIN / 1024))
+    vcpu = max(2, batch[0]["vcpu_para_terminar_en_1h"])
+    lat = capacity.get("latencia", {})
     sizing = {
         "supuestos": [
-            "capacidad bajo demanda lineal con los núcleos",
-            f"noticia típica: {round(audio_per_news, 1)} s de audio "
-            f"({round(seg_per_news, 2)} segmentos)",
+            "rendimiento de síntesis lineal con los núcleos (aproximación)",
+            f"noticia típica: {round(audio_per_news, 1)} s de audio ({round(seg_per_news, 2)} "
+            "segmentos), media de las pseudo-noticias del banco",
             f"margen de RAM x{RAM_MARGIN}",
         ],
         "nucleos_medidos": cores,
-        "concurrencia_max_con_ttfa_p95_<2s": max_conc,
-        "usuarios_por_vcpu": round(per_core, 3),
-        "rendimiento_max_audio_s_por_s": best_tp,
-        "ram_pico_mb": peak_mb,
-        "escenarios": {"por_lotes": batch, "bajo_demanda": on_demand},
+        "noticia_tipica_audio_s": round(audio_per_news, 1),
+        "rendimiento_por_vcpu_audio_s_por_s": round(per_core_tp, 3),
+        "bajo_demanda": capacity,
+        "por_lotes_servir_estatico_niveles_con_p95_<2s": batch_ok,
+        "escenarios": {"sintesis_por_lotes": batch},
         "recomendacion": (
-            f"Mínimo para un piloto (por lotes + hasta 5 usuarios simultáneos con "
-            f"TTFA p95 < 2 s): {rec_vcpu} vCPU y {max(2, math.ceil(ram_gb))} GB de "
-            f"RAM, sin GPU. RAM medida: {peak_mb} MB de pico."
+            f"Modo principal = por lotes (el plan lo prevé). Para sintetizar hasta "
+            f"{BATCH_NEWS_PER_DAY[0]} noticias/día y servirlas como archivos estáticos (TTFA p95 "
+            f"medido < 70 ms con 8 clientes): {vcpu} vCPU y {ram_gb} GB de RAM, sin GPU, con NA_TTS_WORKERS=1 (pico de RAM "
+            f"medido con 1 trabajador: {ram_one_worker} MB). "
+            f"Bajo demanda, la meta TTFA p95 < 2 s solo se cumplió con 1 cliente y la "
+            f"configuración de latencia ({lat.get('config', {}).get('torch_threads')} hilos, "
+            f"{lat.get('config', {}).get('tts_workers')} trabajador) en una CPU de {cores} "
+            f"núcleos; con 4 u 8 clientes simultáneos no se cumple. El bajo demanda queda como "
+            f"respaldo para noticias aún no sintetizadas."
         ),
     }
     r["dimensionamiento"] = sizing
@@ -94,43 +105,45 @@ def render(s: dict) -> str:
         "",
         "> GENERADO por `uv run python -m eval.fase2.sizing` a partir de "
         "`eval/results/fase_2_rendimiento.json`. Reemplaza la estimación preliminar del §7 del "
-        "plan (propuesta; el plan no se edita sin aprobación).",
+        "plan (es una propuesta: el plan no se edita sin aprobación).",
         "",
         "## Supuestos",
         "",
         *[f"- {x}" for x in s["supuestos"]],
         "",
-        "## Capacidad medida",
+        f"Máquina de medición: {s['nucleos_medidos']} núcleos. Rendimiento por vCPU: "
+        f"{s['rendimiento_por_vcpu_audio_s_por_s']} s de audio por s.",
         "",
-        "| Medida | Valor |",
-        "|---|---|",
-        f"| Núcleos de la máquina de medición | {s['nucleos_medidos']} |",
-        f"| Concurrencia máxima con TTFA p95 < 2 s | {s['concurrencia_max_con_ttfa_p95_<2s']} |",
-        f"| Usuarios simultáneos por vCPU (estimado) | {s['usuarios_por_vcpu']} |",
-        f"| Rendimiento máximo (s de audio por s) | {s['rendimiento_max_audio_s_por_s']} |",
-        f"| Pico de RAM del servidor | {s['ram_pico_mb']} MB |",
+        "## Bajo demanda: TTFA del cliente p95 por configuración",
         "",
-        "## Escenario 1: síntesis por lotes",
-        "",
-        "| Noticias por día | Audio total (min) | Tiempo de síntesis en esta máquina (min) |",
-        "|---|---|---|",
+        "| Configuración | Hilos × trabajadores | 1 cliente | 4 clientes | 8 clientes | "
+        "Niveles que cumplen p95 < 2 s | Rendimiento máx. (s/s) | RAM pico (MB) |",
+        "|---|---|---|---|---|---|---|---|",
     ]
-    for b in s["escenarios"]["por_lotes"]:
+    for name, c in s["bajo_demanda"].items():
+        t = c["ttfa_cliente_p95_ms"]
         lines.append(
-            f"| {b['noticias_dia']} | {b['audio_total_min']} | "
-            f"{b['tiempo_sintesis_min_esta_maquina']} |"
+            f"| {name} | {c['config']['torch_threads']} × {c['config']['tts_workers']} | "
+            f"{round(t['c1'])} ms | {round(t['c4'])} ms | {round(t['c8'])} ms | "
+            f"{c['niveles_con_ttfa_cliente_p95_<2s'] or 'ninguno'} | "
+            f"{max(c['rendimiento_audio_s_por_s'].values())} | "
+            f"{max(c['ram_pico_mb'].values())} |"
         )
     lines += [
         "",
-        "## Escenario 2: bajo demanda con TTFA p95 < 2 s",
+        f"Servir noticias ya sintetizadas (modo por lotes): niveles con TTFA p95 < 2 s = "
+        f"{s['por_lotes_servir_estatico_niveles_con_p95_<2s']}.",
         "",
-        "| Usuarios simultáneos | vCPU estimados | ¿Medido directamente? |",
-        "|---|---|---|",
+        "## Síntesis por lotes",
+        "",
+        "| Noticias por día | Audio total (min) | Tiempo en esta máquina (min) | "
+        "vCPU para terminar en 1 h |",
+        "|---|---|---|---|",
     ]
-    for d in s["escenarios"]["bajo_demanda"]:
+    for b in s["escenarios"]["sintesis_por_lotes"]:
         lines.append(
-            f"| {d['usuarios_simultaneos']} | {d['vcpu_estimados']} | "
-            f"{'sí' if d['medido_en_esta_maquina'] else 'no (extrapolado)'} |"
+            f"| {b['noticias_dia']} | {b['audio_total_min']} | "
+            f"{b['tiempo_en_esta_maquina_min']} | {b['vcpu_para_terminar_en_1h']} |"
         )
     lines += ["", "## Recomendación", "", s["recomendacion"], ""]
     return "\n".join(lines)
