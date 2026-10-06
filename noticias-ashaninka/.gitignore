@@ -29,3 +29,6 @@ eval/listening/enye_ab/out/
 static/
 *.db-wal
 *.db-shm
+
+# Salida del banco de pruebas (caché de audio, base de datos): se regenera con eval.rtf_ttfa.bench
+eval/rtf_ttfa/out/
