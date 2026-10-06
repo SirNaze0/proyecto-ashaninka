@@ -104,3 +104,36 @@ def _require_provenance(mapper, connection, target: News) -> None:  # noqa: ARG0
         raise MissingProvenanceError("Una noticia sin procedencia no se puede guardar (§2)")
     if target.provenance.tipo not in PROVENANCE_TYPES:
         raise ValueError(f"Tipo de procedencia desconocido: {target.provenance.tipo}")
+
+
+# ------------------------------------------------------------------ Fase 2: síntesis
+class AudioAsset(SQLModel, table=True):
+    """Un archivo de audio en la caché por contenido, asociado a un segmento."""
+
+    id: int | None = Field(default=None, primary_key=True)
+    segment_id: int = Field(foreign_key="segment.id", index=True)
+    engine: str
+    cache_key: str = Field(index=True)
+    format: str  # opus | mp3
+    path: str  # relativo a la carpeta static/
+    sha256: str
+    duration_s: float
+    kbps: float
+    meta: dict[str, Any] = Field(default_factory=dict, sa_column=Column(JSON))
+    created_at: datetime = Field(default_factory=_now)
+
+
+class SynthesisRun(SQLModel, table=True):
+    """Registro de cada ejecución de síntesis (por lotes o bajo demanda)."""
+
+    id: int | None = Field(default=None, primary_key=True)
+    engine: str
+    mode: str  # batch | on_demand
+    started_at: datetime = Field(default_factory=_now)
+    finished_at: datetime | None = None
+    news_count: int = 0
+    synthesized: int = 0
+    reused: int = 0
+    blocked: int = 0
+    errors: int = 0
+    detail: dict[str, Any] = Field(default_factory=dict, sa_column=Column(JSON))

@@ -63,7 +63,7 @@ addopts = "-ra"
 pythonpath = ["backend/tests"]
 
 [tool.coverage.run]
-source = ["backend/app/pipeline", "backend/app/corpus"]
+source = ["backend/app/pipeline", "backend/app/corpus", "backend/app/batch"]
 
 [tool.ruff]
 line-length = 100
