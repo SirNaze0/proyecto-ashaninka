@@ -1,7 +1,7 @@
 // Service Worker (modo sin conexión), cola de eventos y accesibilidad (axe-core).
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
-import { clickPlay, openNews, waitFinished } from "./helpers";
+import { ADMIN, clickPlay, openNews, waitFinished } from "./helpers";
 
 test("sin conexión: tras guardar la noticia, la app abre y se reproduce completa desde la caché", async ({ page, context }) => {
   await openNews(page, 1, "C3", true);
@@ -50,7 +50,7 @@ test("el Service Worker contesta 206 a las peticiones Range de audio desde la ca
 test("los eventos generados sin red se guardan y llegan al servidor al volver, sin duplicados", async ({ page, context }) => {
   await openNews(page, 1, "C3");
   await expect(page.getByTestId("body")).toBeVisible();
-  const before = (await (await page.request.get("/api/events/summary")).json()).total as number;
+  const before = (await (await page.request.get("/api/events/summary", { headers: ADMIN })).json()).total as number;
   await context.setOffline(true);
   await page.evaluate(async () => {
     const q = (window as any).__app.events;
@@ -61,7 +61,7 @@ test("los eventos generados sin red se guardan y llegan al servidor al volver, s
   expect(await page.evaluate(() => (window as any).__app.events.pending())).toBeGreaterThanOrEqual(3);
   await context.setOffline(false);
   await expect
-    .poll(async () => (await (await page.request.get("/api/events/summary")).json()).total as number, { timeout: 20_000 })
+    .poll(async () => (await (await page.request.get("/api/events/summary", { headers: ADMIN })).json()).total as number, { timeout: 20_000 })
     .toBeGreaterThanOrEqual(before + 3);
   await expect.poll(() => page.evaluate(() => (window as any).__app.events.pending())).toBe(0);
   // reenviar lo mismo no duplica (event_id)

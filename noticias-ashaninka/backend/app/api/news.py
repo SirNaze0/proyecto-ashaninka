@@ -9,9 +9,11 @@ from app.db.models import News, Provenance
 from app.db.session import get_session
 from app.metrics.timing import Timer
 from app.schemas import NewsIn, NewsOut
+from app.security import require_admin
 from app.services import Pipeline, editorial_report, import_payloads, process_news
 
-router = APIRouter(prefix="/api/news", tags=["news"])
+# Administrativo (Fase 6): la PWA no lo usa; la vía normal es la CLI (app.cli import|process)
+router = APIRouter(prefix="/api/news", tags=["news"], dependencies=[Depends(require_admin)])
 
 
 def to_out(n: News) -> NewsOut:

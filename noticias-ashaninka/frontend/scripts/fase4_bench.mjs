@@ -336,7 +336,7 @@ async function eventos(browser) {
   const page = await ctx.newPage();
   await page.goto(url(NEWS[0].news_id, "C3"));
   await page.waitForSelector("[data-testid=body]");
-  const antes = (await (await page.request.get(`${BASE}/api/events/summary`)).json()).total;
+  const antes = (await (await page.request.get(`${BASE}/api/events/summary`, { headers: { "x-admin-token": process.env.NA_ADMIN_TOKEN ?? "bench-fase4-token-0123456789" } })).json()).total;
   await ctx.setOffline(true);
   const N = 25;
   await page.evaluate(async (n) => { for (let i = 0; i < n; i++) await window.__app.events.emit("pause", { idx: i }); }, N);
@@ -345,7 +345,7 @@ async function eventos(browser) {
   for (let i = 0; i < 40 && (await page.evaluate(() => window.__app.events.pending())) > 0; i++) await page.waitForTimeout(250);
   await page.evaluate(() => window.__app.events.flush());
   const pend2 = await page.evaluate(() => window.__app.events.pending());
-  const despues = (await (await page.request.get(`${BASE}/api/events/summary`)).json()).total;
+  const despues = (await (await page.request.get(`${BASE}/api/events/summary`, { headers: { "x-admin-token": process.env.NA_ADMIN_TOKEN ?? "bench-fase4-token-0123456789" } })).json()).total;
   const muestra = await page.evaluate(() => window.__app.events.emitted.slice(0, 5));
   const reenvio = await (await page.request.post(`${BASE}/api/events`, { data: { events: muestra } })).json();
   save("eventos.json", { emitidos_sin_red: N, pendientes_sin_red: pendientes, pendientes_al_volver: pend2, recibidos_servidor: despues - antes, entregados_pct: ((despues - antes) / (N + 1)) * 100, duplicados_al_reenviar: reenvio.recibidos - reenvio.nuevos, nuevos_al_reenviar: reenvio.nuevos });

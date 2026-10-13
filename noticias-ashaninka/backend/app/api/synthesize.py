@@ -21,7 +21,7 @@ import threading
 import time
 from collections.abc import AsyncIterator
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Header, HTTPException
 from fastapi.responses import StreamingResponse
 from sqlmodel import Session
 
@@ -30,6 +30,7 @@ from app.config import get_settings
 from app.db.models import News
 from app.db.session import get_engine
 from app.pipeline.tts.registry import get_pool
+from app.security import check_admin
 
 router = APIRouter(prefix="/api/synthesize", tags=["synthesize"])
 
@@ -110,10 +111,18 @@ async def _stream(news_id: int, synth: Synthesizer, t0: float) -> AsyncIterator[
 
 
 @router.get("/{news_id}")
-async def synthesize(news_id: int, engine: str | None = None) -> StreamingResponse:
+async def synthesize(
+    news_id: int,
+    engine: str | None = None,
+    x_admin_token: str | None = Header(default=None),
+    x_export_token: str | None = Header(default=None),
+) -> StreamingResponse:
     global _active
     t0 = time.perf_counter()
     s = get_settings()
+    if engine is not None and engine != s.tts_engine:
+        # elegir otro motor (p. ej. para los bancos de pruebas) es administrativo (Fase 6)
+        check_admin(x_admin_token, x_export_token)
     with Session(get_engine()) as session:
         news = session.get(News, news_id)
         if news is None:

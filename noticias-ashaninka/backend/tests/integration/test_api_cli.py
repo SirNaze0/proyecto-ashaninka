@@ -3,7 +3,7 @@ import json
 import pytest
 from app.cli import main as cli
 from app.db.models import MissingProvenanceError, News
-from conftest import requires_corpus
+from conftest import ADMIN, requires_corpus
 from fastapi.testclient import TestClient
 from sqlmodel import Session
 
@@ -23,7 +23,7 @@ NEWS = {
 def client(temp_db):
     from app.main import app
 
-    with TestClient(app) as c:
+    with TestClient(app, headers=ADMIN) as c:
         yield c
 
 

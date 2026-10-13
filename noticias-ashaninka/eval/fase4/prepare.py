@@ -27,6 +27,8 @@ def entorno() -> None:
     os.environ["NA_DATABASE_URL"] = f"sqlite:///{DB.relative_to(ROOT).as_posix()}"
     os.environ["NA_STATIC_DIR"] = STATIC.relative_to(ROOT).as_posix()
     os.environ["NA_TTS_ENGINE"] = "mms_vits"
+    # Fase 6: /api/events/summary exige token; fase4_bench.mjs usa este mismo valor por defecto
+    os.environ.setdefault("NA_ADMIN_TOKEN", "bench-fase4-token-0123456789")
 
 
 def importar(n_news: int, lines: int) -> list[int]:

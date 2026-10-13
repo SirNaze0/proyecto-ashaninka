@@ -10,7 +10,7 @@ textos son oraciones del corpus de prueba y los títulos dicen explícitamente q
 
 Con ``--experimento`` (Fase 5) crea en cambio el material del experimento: 4 noticias «revisadas»
 (ficticias) sin segmentos bloqueados y una quinta con un bloqueado, que el selector debe descartar.
-La exportación queda protegida con el token ``e2e-token``.
+La exportación y ``/api/events/summary`` exigen el token administrativo de las pruebas.
 
 Uso: uv run python scripts/e2e_server.py [--port 8765] [--dir RUTA] [--experimento]
 """
@@ -26,6 +26,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "backend"))
+
+ADMIN_TOKEN = "e2e-admin-token-0123456789"  # el mismo que frontend/e2e/helpers.ts
 
 NEWS = [
     (
@@ -54,7 +56,7 @@ EXPERIMENTO = [
 
 
 def build_experimento(workdir: Path) -> None:
-    os.environ["NA_EXPORT_TOKEN"] = "e2e-token"
+    os.environ.pop("NA_EXPORT_TOKEN", None)
     os.environ.pop("NA_EXPERIMENT_PILOTO", None)
     from app.batch.service import run_batch
     from app.db.models import News, Provenance
@@ -75,6 +77,7 @@ def build(workdir: Path, experimento: bool = False) -> None:
     os.environ["NA_DATABASE_URL"] = f"sqlite:///{(workdir / 'e2e.db').as_posix()}"
     os.environ["NA_STATIC_DIR"] = str(workdir / "static")
     os.environ["NA_TTS_ENGINE"] = "fake"
+    os.environ["NA_ADMIN_TOKEN"] = ADMIN_TOKEN  # Fase 6: los endpoints administrativos exigen token
     os.environ.setdefault("NA_FRONTEND_DIST", str(ROOT / "frontend" / "dist"))
 
     from app.batch.service import run_batch

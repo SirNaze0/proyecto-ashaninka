@@ -8,7 +8,6 @@ rangos y el comentario libre se rechaza si parece traer datos personales.
 from __future__ import annotations
 
 import io
-import os
 import zipfile
 from datetime import UTC, datetime
 from typing import Any, Literal
@@ -22,6 +21,7 @@ from app.config import get_settings
 from app.db.models import ExperimentSession, QuestionnaireResponse
 from app.db.session import get_session
 from app.experiment import export, instrumentos, latin, pool
+from app.security import comprobar_token, hay_token_configurado
 
 router = APIRouter(prefix="/api/experiment", tags=["experiment"])
 
@@ -278,9 +278,8 @@ def enviar_respuestas(
 # ------------------------------------------------------------------ exportación
 def _autorizar_export(token: str | None) -> None:
     """Seguro por defecto: solo con modo piloto activo o con un token de exportación configurado."""
-    esperado = os.getenv("NA_EXPORT_TOKEN")
-    if esperado:
-        if token != esperado:
+    if hay_token_configurado():  # NA_ADMIN_TOKEN o el alias NA_EXPORT_TOKEN (16 caracteres o más)
+        if not comprobar_token(token):
             raise HTTPException(403, "token de exportación inválido")
     elif not get_settings().experiment_piloto:
         raise HTTPException(
@@ -293,9 +292,10 @@ def _autorizar_export(token: str | None) -> None:
 def exportar(
     incluir_piloto: bool = False,
     x_export_token: str | None = Header(default=None),
+    x_admin_token: str | None = Header(default=None),
     session: Session = Depends(get_session),
 ) -> Response:
-    _autorizar_export(x_export_token)
+    _autorizar_export(x_export_token or x_admin_token)
     tablas = export.construir(session, incluir_piloto=incluir_piloto)
     buf = io.BytesIO()
     with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as z:

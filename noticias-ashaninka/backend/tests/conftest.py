@@ -88,9 +88,15 @@ requires_corpus = pytest.mark.skipif(
 )
 
 
+# Token administrativo de las pruebas (16 caracteres o más: si no, el servidor lo rechaza)
+ADMIN_TOKEN = "token-admin-de-pruebas-0123456789"
+ADMIN = {"x-admin-token": ADMIN_TOKEN}
+
+
 @pytest.fixture
 def temp_db(tmp_path, monkeypatch):
     """Base de datos SQLite temporal y aislada para cada prueba."""
+    monkeypatch.setenv("NA_ADMIN_TOKEN", ADMIN_TOKEN)
     from app.db import session as db_session
 
     url = f"sqlite:///{(tmp_path / 'test.db').as_posix()}"

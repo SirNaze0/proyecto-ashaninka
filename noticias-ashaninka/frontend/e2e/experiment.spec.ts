@@ -3,9 +3,8 @@
 import AxeBuilder from "@axe-core/playwright";
 import { type Page, expect, test } from "@playwright/test";
 import { inflateRawSync } from "node:zlib";
-import { clickPlay, waitFinished } from "./helpers";
+import { ADMIN, clickPlay, vigilarCsp, waitFinished } from "./helpers";
 
-const TOKEN = { "x-export-token": "e2e-token" };
 // Material del servidor: noticias 1-4 (la 5 tiene un bloqueado y el selector la descarta)
 const NEWS = [1, 2, 3, 4];
 
@@ -82,6 +81,7 @@ async function verBloque(page: Page, k: number, cond: string) {
 }
 
 test("sesión completa: 4 condiciones en orden de Williams, cuestionarios, cierre y exportación", async ({ page, context }) => {
+  const verificarCsp = await vigilarCsp(page);
   await iniciar(page, "P007"); // índice 6: fila 2 de Williams, noticias rotadas 1
   const seq = esperado(6);
   expect(seq.map((s) => s.c)).toEqual(["C3", "C4", "C2", "C1"]);
@@ -138,7 +138,7 @@ test("sesión completa: 4 condiciones en orden de Williams, cuestionarios, cierr
   let tablas: Record<string, string> = {};
   await expect
     .poll(async () => {
-      const r = await page.request.get("/api/experiment/export", { headers: TOKEN });
+      const r = await page.request.get("/api/experiment/export", { headers: ADMIN });
       tablas = leerZip(await r.body());
       const bl = csv(tablas["bloques.csv"] ?? "");
       return bl.length === 4 && bl.every((b) => Number(b.t_pantalla_ms) > 0 && b.completado === "1");
@@ -160,6 +160,7 @@ test("sesión completa: 4 condiciones en orden de Williams, cuestionarios, cierr
   expect(tablas["eventos.csv"].split("\n")[0]).not.toContain("session_id");
   const manifest = JSON.parse(tablas["manifest.json"]);
   expect(manifest.incluye_piloto).toBe(false);
+  await verificarCsp(); // la CSP del servidor no bloqueó nada en todo el recorrido
   // sin token la exportación está cerrada
   expect((await page.request.get("/api/experiment/export")).status()).toBe(403);
 });

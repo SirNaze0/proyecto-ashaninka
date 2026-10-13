@@ -3,12 +3,16 @@
 from __future__ import annotations
 
 import gzip
+import logging
 import os
+import shutil
 from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
+from sqlmodel import Session, text
 from starlette.datastructures import Headers
 from starlette.responses import FileResponse, Response
 
@@ -19,12 +23,24 @@ from app.api.experiment import router as experiment_router
 from app.api.news import router as news_router
 from app.api.synthesize import router as synthesize_router
 from app.config import ROOT, get_settings
-from app.db.session import init_db
+from app.db.session import get_engine, init_db
+from app.pipeline.tts.espeak import find_espeak
+from app.security import (
+    RateLimitMiddleware,
+    SecurityHeadersMiddleware,
+    es_produccion,
+    hay_token_configurado,
+)
 
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     init_db()
+    if es_produccion() and not hay_token_configurado():
+        logging.getLogger("uvicorn.error").warning(
+            "NA_ENV=production sin NA_ADMIN_TOKEN válido: los endpoints administrativos "
+            "quedan cerrados (403). Defina un token de 16 caracteres o más."
+        )
     if os.getenv("NA_TTS_PRELOAD", "false").lower() in {"1", "true", "yes", "si", "sí"}:
         # Carga el modelo al arrancar: la primera solicitud no paga la carga en frío
         from app.api.synthesize import get_synthesizer
@@ -70,10 +86,17 @@ class _Files(StaticFiles):
 app = FastAPI(
     title="Noticias en asháninka",
     version=__version__,
-    description="Fases 1-4: ingesta, normalización, G2P, síntesis, visemas y API de la PWA. "
-    "La voz y el avatar son sintéticos (ver LICENSES.md).",
+    description="Fases 1-6: ingesta, normalización, G2P, síntesis, visemas, API de la PWA, "
+    "experimento y despliegue. La voz y el avatar son sintéticos (ver LICENSES.md).",
     lifespan=lifespan,
+    # en producción no se publica la documentación interactiva ni el esquema de la API
+    docs_url=None if es_produccion() else "/docs",
+    redoc_url=None if es_produccion() else "/redoc",
+    openapi_url=None if es_produccion() else "/openapi.json",
 )
+# El último en añadirse es el más externo: las cabeceras también llegan a las respuestas 429.
+app.add_middleware(RateLimitMiddleware)
+app.add_middleware(SecurityHeadersMiddleware)
 app.include_router(news_router)
 app.include_router(synthesize_router)
 app.include_router(catalog_router)
@@ -98,7 +121,34 @@ def _point_static_to(directory) -> None:
 
 @app.get("/api/health")
 def health() -> dict:
+    """Vivo: lo usan Caddy, Docker y las pruebas. Mínimo y sin datos internos."""
     return {"status": "ok", "version": __version__}
+
+
+def _tts_listo(s) -> bool:
+    if s.tts_engine == "fake":
+        return True
+    if s.tts_engine == "espeak_ng":
+        return find_espeak(s.espeak_path) is not None or shutil.which("espeak-ng") is not None
+    return (s.models_dir / "facebook__mms-tts-cni" / "config.json").is_file()
+
+
+@app.get("/api/health/ready")
+def ready() -> JSONResponse:
+    """Listo para servir: base de datos, carpeta de audio escribible y motor de voz disponible.
+    Solo booleanos: no revela rutas ni configuración."""
+    s = get_settings()
+    try:
+        with Session(get_engine()) as session:
+            session.exec(text("select 1"))
+        db = True
+    except Exception:
+        db = False
+    checks = {"db": db, "static": os.access(s.static_dir, os.W_OK), "tts": _tts_listo(s)}
+    ok = all(checks.values())
+    return JSONResponse(
+        {"status": "ok" if ok else "degradado", **checks}, status_code=200 if ok else 503
+    )
 
 
 class _PwaFiles(_Files):

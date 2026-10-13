@@ -40,6 +40,7 @@ def env(temp_db, monkeypatch):
     monkeypatch.setenv("NA_TTS_ENGINE", "fake")
     monkeypatch.delenv("NA_EXPERIMENT_PILOTO", raising=False)
     monkeypatch.delenv("NA_EXPORT_TOKEN", raising=False)
+    monkeypatch.delenv("NA_ADMIN_TOKEN", raising=False)  # el modo piloto abre la exportación
     from app.main import app
 
     with TestClient(app) as client:
@@ -333,10 +334,12 @@ def test_exportacion_excluye_el_piloto_por_defecto(env, monkeypatch):
 def test_exportacion_cerrada_por_defecto_y_con_token(env, monkeypatch):
     client, _ = env
     assert client.get("/api/experiment/export").status_code == 403  # modo real sin token
-    monkeypatch.setenv("NA_EXPORT_TOKEN", "secreto")
+    monkeypatch.setenv("NA_EXPORT_TOKEN", "secreto-de-exportacion-0123")
     assert client.get("/api/experiment/export").status_code == 403
     assert (
-        client.get("/api/experiment/export", headers={"x-export-token": "secreto"}).status_code
+        client.get(
+            "/api/experiment/export", headers={"x-export-token": "secreto-de-exportacion-0123"}
+        ).status_code
         == 200
     )
 

@@ -2,6 +2,9 @@ import { expect, type Page } from "@playwright/test";
 
 export type Cond = "C1" | "C2" | "C3" | "C4";
 
+/** Token administrativo del servidor de pruebas (scripts/e2e_server.py): /api/events/summary lo exige. */
+export const ADMIN = { "x-admin-token": "e2e-admin-token-0123456789" };
+
 /** Abre una noticia en una condición. `sw=false` evita registrar el Service Worker. */
 export async function openNews(page: Page, id: number, c: Cond, sw = false) {
   await page.goto(`/${sw ? "" : "?nosw=1"}#/noticia/${id}?c=${c}`);
@@ -52,4 +55,22 @@ export async function expectedHighlights(page: Page, id: number): Promise<string
 
 export function dedupe(seq: string[]): string[] {
   return seq.filter((x, i) => x !== seq[i - 1]);
+}
+
+/** Fase 6: registra violaciones de CSP (evento del navegador y errores de consola); `await` del resultado las exige vacías. */
+export async function vigilarCsp(page: Page) {
+  const consola: string[] = [];
+  page.on("console", (m) => {
+    if (/content security policy|refused to/i.test(m.text())) consola.push(m.text());
+  });
+  await page.addInitScript(() => {
+    (window as any).__csp = [];
+    document.addEventListener("securitypolicyviolation", (e) =>
+      (window as any).__csp.push(`${e.violatedDirective} ${e.blockedURI}`),
+    );
+  });
+  return async () => {
+    const dom = await page.evaluate(() => (window as any).__csp as string[]);
+    expect([...dom, ...consola]).toEqual([]);
+  };
 }
