@@ -107,3 +107,64 @@ unos pocos ms, así que esa información no era ciega):
    hasta 680 ms) es del orden del propio criterio. Un clip individual con |lag| > 80 ms no prueba un
    desfase real. Para verificar el criterio clip a clip hace falta un método con más resolución
    (por ejemplo, anotar a mano o grabar la pantalla con audio real).
+
+---
+
+# Fase 4: interfaz web (PWA), condiciones C1–C4
+
+> Esta sección se escribió el 2026-10-12, **antes** de construir el banco de pruebas de la Fase 4
+> (`eval/fase4/`, `frontend/scripts/fase4_bench.mjs`). Si una definición cambia después, se agrega una
+> revisión fechada debajo, como en la Fase 3, sin borrar esta.
+
+## Material
+
+- **Noticias.** Las primeras 30 noticias de dev (por id) con **todas** sus oraciones sintetizadas o
+  bloqueadas (sin errores), de 1 a 6 oraciones, más las noticias con al menos un segmento bloqueado que
+  existan en esa muestra (para medir C3/C4 con bloqueados). Selección con regla fija en
+  `eval/fase4/prepare.py`; se sintetiza con `mms_vits`, adaptador H1, y se sirve el Opus real.
+- **Servidor.** `uvicorn` local sirviendo `frontend/dist` y `/static` en el mismo origen. Por lotes
+  (manifiesto ya generado). El modo bajo demanda solo se prueba funcionalmente.
+- **Navegador.** Chromium de Playwright 1.64 (la versión del `package.json`), con GPU del equipo salvo
+  indicación. Perfil nuevo en cada medición «en frío».
+- **Perfil móvil simulado.** CPU 4× más lenta (`Emulation.setCPUThrottlingRate`, rate 4) y red 4G de
+  referencia: 9 Mbps de bajada, 1,5 Mbps de subida y 150 ms de latencia (`Network.emulateNetworkConditions`),
+  que es el perfil «Regular 4G» de Chrome DevTools. Se reporta también sin limitación.
+
+## Métricas
+
+| Métrica | Definición | Unidad | Meta |
+|---|---|---|---|
+| **Carga inicial** | Suma de `encodedDataLength` de todas las respuestas (CDP `Network.loadingFinished`) desde la navegación a la noticia (condición C3, caché y Service Worker vacíos) hasta el evento `canplay` del audio del primer segmento. Incluye *shell*, catálogo, manifiesto, JSON del segmento y primer audio. **Excluye** el avatar de carga diferida (three, three-vrm, VRM), que solo se descarga en C4; se reporta aparte (`carga_c4`) | MB | **< 3 MB** |
+| **TTFA del cliente (por lotes)** | Desde el clic en «Reproducir» hasta el primer evento `playing` del audio. 30 noticias × 3 repeticiones, en frío (caché vacía) y en caliente (Service Worker con la noticia guardada). Se reportan media, DE, p50, p95 y p99 | ms | **p95 < 2000 ms** |
+| **TTFA de arranque completo** | Desde la navegación hasta `playing` tras el clic automático en «Reproducir». Informativa: incluye carga del *shell* | ms | informativa |
+| **Hueco entre segmentos** | Para cada par de segmentos consecutivos con audio: instante de `playing` del segmento k+1 − instante de `ended` del k. Negativo = solapamiento por precarga | ms | mediana ≤ 50 ms; p95 ≤ 150 ms |
+| **Desfase del resaltado** | En cada cambio de fragmento activo, el cliente registra el instante del cambio en el reloj de audio (`AudioClock.now()`) y se resta el `t0` del fragmento en `seg_NNN.json`. Es el error del resaltado frente al audio estimado, **sin** la latencia de salida del dispositivo. Se reportan media, p95 y máximo en valor absoluto, en C3 y C4, sin limitación y con CPU 4× | ms | **\|p95\| ≤ 80 ms** |
+| **Cobertura del resaltado** | Fracción de fragmentos con `t1 > t0` que se resaltaron al menos una vez durante la reproducción completa | % | 100 % |
+| **FPS en C4** | `requestAnimationFrame` durante 5 s de reproducción: (a) GPU del equipo, (b) con CPU 4× más lenta, (c) sin GPU (SwiftShader). Como en la Fase 3 | fps | 60 (equipo) · ≥ 20 (umbral de degradación) |
+| **Degradación** | Los tres casos de `degradation.ts` en C4 dentro de la PWA: sin WebGL → `sin-webgl`; CPU 20× → `fps-bajos`; normal → `avatar-ok`. Debe: mostrar imagen fija, mantener audio y texto, registrar el evento en la cola y recibirlo el servidor | caso/resultado | los 3 casos correctos |
+| **Segmentos bloqueados** | En C3/C4 se muestran como solo texto con su aviso; en C2 se omiten con aviso. En todos los casos la reproducción continúa hasta el último segmento | sí/no | sí |
+| **Offline** | Se reproduce una noticia completa, se guarda para uso sin conexión, se pasa a modo sin red (`context.setOffline`) y se recarga: la app debe abrir, listar las noticias guardadas y reproducir la noticia completa (C1–C3; C4 si el avatar se había cargado antes) | sí/no | sí |
+| **Cola de eventos** | Eventos generados sin red se guardan en IndexedDB y llegan al servidor al volver la conexión, sin duplicados (`event_id`) | % entregados | 100 %, 0 duplicados |
+| **Accesibilidad** | Violaciones de axe-core (reglas WCAG 2.1 A y AA) en la lista y en C1–C4. Se cuentan por impacto | n | **0 críticas y 0 graves** |
+| **Peso del *shell*** | Paquete inicial (gzip) por `vite build`, calculado desde `dist/.vite/manifest.json` | KB | < 3 MB (referencia) |
+
+## Reglas fijadas de antemano
+
+1. Las metas no se ajustan después de ver los datos. Si una no se cumple, se reporta con su causa.
+2. El TTFA de la meta es el **por lotes** en la configuración con CPU 4× y 4G, caché fría; los demás
+   valores se reportan como contexto.
+3. Se descartan (y se cuentan) las repeticiones en que el navegador rechace `play()` por la política de
+   reproducción automática; el banco de pruebas hace un gesto de usuario real (clic) antes.
+4. La carga inicial se mide con el Service Worker aún sin instalar (primera visita).
+
+## Limitaciones declaradas de antemano
+
+1. La red 4G y la CPU 4× son **simuladas**: no sustituyen a un Android de gama media real (criterio de
+   cierre de la tarea 4.7). Esa verificación es un pendiente que requiere el dispositivo.
+2. El desfase del resaltado se mide contra el reloj estimado del audio; no incluye la latencia de salida de
+   audio del dispositivo ni la del navegador (no medible sin hardware). La Fase 3 estimó el error del reloj.
+3. Las noticias son pseudo-noticias del corpus AmericasNLP (frases sueltas, 1–6 oraciones); no son
+   representativas de noticias reales más largas. El TTFA por lotes no depende de la longitud de la noticia
+   (solo del primer segmento), pero la precarga y el hueco entre segmentos sí.
+4. El modelo VRM es provisional (2,41 MB) y los textos de interfaz en asháninka están pendientes de
+   traducción por un hablante.
