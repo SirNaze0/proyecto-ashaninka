@@ -2,7 +2,7 @@
 
 > **Proyecto:** Servicio web de noticias en lengua asháninka con síntesis de voz, texto y avatar
 > **Fecha:** 2026-10-12 · **Repositorio:** `Proyecto` (código en `noticias-ashaninka/`) · **Rama:** `feat/fase5-experimento` · **Base:** Fase 4 (aprobada el 2026-10-12)
-> **Estado:** implementada y verificada de punta a punta con una **simulación sintética**; **pendiente de aprobación**. Todo lo que requiere personas (consentimiento del comité, ítems de comprensión de un hablante, noticias revisadas, piloto con participantes, pruebas de escucha) sigue **pendiente** y no se inventó.
+> **Estado:** implementada y verificada de punta a punta con una **simulación sintética**; **APROBADA el 2026-10-12**. Todo lo que requiere personas (consentimiento del comité, ítems de comprensión de un hablante, noticias revisadas, piloto con participantes, pruebas de escucha) sigue **pendiente** y no se inventó.
 
 Las cifras vienen de ejecuciones reales (`eval/results/fase_5.json`, `eval/fase5/out/`). El diseño y el plan de análisis se escribieron **antes** de medir, en `docs/metrics.md` (sección «Fase 5» y su revisión fechada del 2026-10-12, también previa a la ejecución).
 
