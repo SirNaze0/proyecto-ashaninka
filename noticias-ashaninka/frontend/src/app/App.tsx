@@ -119,9 +119,14 @@ export function App() {
             <a class="brand" href="#/">
               {ctx.t("appTitle")}
             </a>
-            <nav aria-label="Principal">
-              <a href="#/ajustes">{ctx.t("nav.settings")}</a>
-            </nav>
+            <div class="top-end">
+              <span class={`pill ${online ? "pill-ok" : "pill-warn"}`} data-testid="net-status">
+                {ctx.t(online ? "net.online" : "net.offline")}
+              </span>
+              <nav aria-label="Principal">
+                <a href="#/ajustes">{ctx.t("nav.settings")}</a>
+              </nav>
+            </div>
           </>
         )}
       </header>

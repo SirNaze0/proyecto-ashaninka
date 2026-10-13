@@ -52,6 +52,32 @@ export function ExperimentFlow({ route }: { route: ExpRoute }) {
   );
 }
 
+// ------------------------------------------------------------------ indicador de pasos (solo visual)
+// Consentimiento → Noticia 1..4 → Preguntas finales → Fin. Igual en las 4 condiciones.
+function Steps({ actual, total }: { actual: number; total: number }) {
+  const { t } = useApp();
+  const pasos = [
+    t("exp.step.consent"),
+    ...Array.from({ length: total }, (_, k) => t("exp.step.block", { k: k + 1 })),
+    t("exp.step.final"),
+    t("exp.step.end"),
+  ];
+  return (
+    <ol class="steps" aria-label={t("exp.steps")} data-testid="exp-steps">
+      {pasos.map((p, i) => (
+        <li key={i} class={i < actual ? "done" : undefined} aria-current={i === actual ? "step" : undefined}>
+          {p}
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+function pasoActual(s: ExperimentState): number {
+  if (s.fase === "bloque" || s.fase === "cuestionario") return 1 + s.posicion;
+  return s.fase === "final" ? 1 + s.bloques.length : 2 + s.bloques.length;
+}
+
 // ------------------------------------------------------------------ barra: participante y abandono
 function Bar({ s }: { s: ExperimentState }) {
   const { experiment: ex, t } = useApp();
@@ -79,6 +105,7 @@ function Bar({ s }: { s: ExperimentState }) {
           </button>
         </span>
       )}
+      <Steps actual={pasoActual(s)} total={s.bloques.length} />
     </div>
   );
 }
@@ -111,6 +138,7 @@ function Consent() {
 
   return (
     <section class="exp" data-testid="exp-consent" aria-labelledby="consent-h">
+      <Steps actual={0} total={4} />
       <h2 id="consent-h">{t("exp.consent.heading")}</h2>
       {prev?.estado === "abandonada" && (
         <p class="banner" role="note">
@@ -256,7 +284,7 @@ function ItemField(props: {
         ? Array.from({ length: (d.max ?? 0) - (d.min ?? 0) + 1 }, (_, i) => ({ v: (d.min ?? 0) + i, label: String((d.min ?? 0) + i) }))
         : (d.opciones ?? []).map((o) => ({ v: o, label: o.replace(/_/g, " ") }));
   return (
-    <fieldset aria-invalid={error ? "true" : undefined} data-testid={`q-${d.id}`}>
+    <fieldset class={`q-item q-${d.tipo}`} aria-invalid={error ? "true" : undefined} data-testid={`q-${d.id}`}>
       <legend>{legend}</legend>
       {opciones.map((o) => (
         <label key={String(o.v)} class="radio">

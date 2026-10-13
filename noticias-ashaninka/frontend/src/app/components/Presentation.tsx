@@ -354,10 +354,16 @@ export function Presentation({ id, condition, experiment = false, onDone }: Pres
 
   return (
     <article class={`pres pres-${condition}`} data-condition={condition} aria-labelledby="pres-h">
+      <div class="pres-head">
       {!experiment && (
         <a class="back" href="#/">
           {t("news.back")}
         </a>
+      )}
+      {!experiment && (
+        <p class="pres-tags">
+          <span class="pill pill-cond">{t(`cond.${condition}`)}</span>
+        </p>
       )}
       <h2 id="pres-h" lang={condition === "C2" ? undefined : "cni"}>
         {title}
@@ -376,7 +382,9 @@ export function Presentation({ id, condition, experiment = false, onDone }: Pres
           {t("news.mode.demanda")}
         </p>
       )}
+      </div>
 
+      <div class="pres-media">
       {condition === "C4" && (
         <div class="avatar-slot" data-avatar-mode={avatarMode ?? "cargando"}>
           {Panel && (
@@ -390,7 +398,7 @@ export function Presentation({ id, condition, experiment = false, onDone }: Pres
         <div class="controls" role="group" aria-label={t("player.group")}>
           <button
             type="button"
-            class="btn primary"
+            class={`btn primary${pstate === "playing" ? " is-playing" : ""}`}
             data-testid="play"
             disabled={view.segs.length === 0}
             onClick={() => R.player?.toggle()}
@@ -420,6 +428,9 @@ export function Presentation({ id, condition, experiment = false, onDone }: Pres
               </label>
             ))}
           </fieldset>
+          <div class="progress-bar" aria-hidden="true">
+            <span style={`width:${pos >= 0 && playable.length > 0 ? Math.round(((pos + 1) / playable.length) * 100) : 0}%`} />
+          </div>
           <p class="progress" role="status" data-testid="status">
             {pstate === "buffering"
               ? t("player.buffering")
@@ -431,7 +442,9 @@ export function Presentation({ id, condition, experiment = false, onDone }: Pres
           </p>
         </div>
       )}
+      </div>
 
+      <div class="pres-read">
       {condition === "C2" && blockedCount > 0 && (
         <p class="banner" role="note" data-testid="c2-blocked">
           {t("block.c2")}
@@ -484,6 +497,7 @@ export function Presentation({ id, condition, experiment = false, onDone }: Pres
           </span>
         </div>
       )}
+      </div>
     </article>
   );
 }

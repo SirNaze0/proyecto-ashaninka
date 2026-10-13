@@ -97,5 +97,12 @@
   "exp.abandon.confirm": "¿Seguro que desea abandonar? Se guardará que abandonó y no podrá continuar.",
   "exp.abandon.yes": "Sí, abandonar",
   "exp.abandon.no": "Seguir en el estudio",
-  "exp.session": "Participante {code}"
+  "exp.session": "Participante {code}",
+  "net.online": "En línea",
+  "net.offline": "Sin conexión",
+  "exp.steps": "Progreso del estudio",
+  "exp.step.consent": "Consentimiento",
+  "exp.step.block": "Noticia {k}",
+  "exp.step.final": "Preguntas finales",
+  "exp.step.end": "Fin"
 }

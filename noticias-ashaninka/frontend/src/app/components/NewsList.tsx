@@ -53,9 +53,10 @@ export function NewsList() {
                 {n.titulo_cni}
               </span>
               <span class="news-meta">
-                {t("news.numbered", { n: n.id })} · {n.variante_dialectal}
-                {n.segmentos_con_audio === 0 && ` · ${t("list.noAudio")}`}
-                {saved.has(n.id) && ` · ${t("list.saved")}`}
+                <span class="pill">{t("news.numbered", { n: n.id })}</span>
+                <span class="pill">{n.variante_dialectal}</span>
+                {n.segmentos_con_audio === 0 && <span class="pill pill-warn">{t("list.noAudio")}</span>}
+                {saved.has(n.id) && <span class="pill pill-ok">{t("list.saved")}</span>}
               </span>
             </a>
           </li>

@@ -144,3 +144,10 @@ diseño y del análisis en `docs/metrics.md` («Fase 5»); datos exportados en `
   es la CLI: `uv run python -m app.cli experiment export --out DIR`.
 - **Pruebas.** `tests/experiment.test.ts` (vitest) y `e2e/experiment.spec.ts` (Chromium real, servidor propio
   `scripts/e2e_server.py --experimento`, proyecto `experimento` de Playwright).
+
+## Sistema visual (pulido UI/UX)
+
+- Solo CSS propio en `frontend/src/app/styles.css`: sin librerías ni fuentes externas (pila `system-ui` y serif del sistema para titulares y lectura).
+- Tokens de color en `:root`, redefinidos para modo oscuro con `prefers-color-scheme`; los pares texto/fondo cumplen WCAG 2.1 AA (axe-core, 0 violaciones en ambos modos) y los controles miden al menos 44 px.
+- C4 en pantallas ≥ 960 px: dos columnas (avatar y reproductor fijos a un lado, lectura con resaltado al otro); en móvil se apila.
+- Segmentos bloqueados como nota editorial, resaltado con borde suave, indicador de pasos del experimento (igual en las 4 condiciones; no revela la condición) y opciones de cuestionario como tarjetas.

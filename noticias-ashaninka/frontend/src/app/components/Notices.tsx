@@ -21,7 +21,9 @@ export function Notices({ notices, variant, voice, avatar, pseudo }: NoticesProp
     <aside class="notices" aria-label="Avisos">
       {voice && <p class="notice-synthetic">{notices?.synthetic_voice ?? t("notice.synthetic")}</p>}
       {voice && avatar && <p>{t("notice.avatar")}</p>}
-      {voice && <p>{t("notice.license", { l: license })}</p>}
+      {voice && <p class="notice-license">
+          <span class="pill">{t("notice.license", { l: license })}</span>
+        </p>}
       {voice && nonCommercial && <p>{t("notice.noncommercial")}</p>}
       {variant && <p class="variant">{t("news.variant", { v: variant })}</p>}
       {pseudo && <p class="pseudo">{t("list.pseudo")}</p>}
