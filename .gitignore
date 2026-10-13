@@ -1,2 +1,4 @@
 # Entregables binarios (se regeneran con git archive)
 *.zip
+.vscode/
+CLAUDE.local.md

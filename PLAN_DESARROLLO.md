@@ -5,7 +5,7 @@
 > **Fecha:** 2026-10-05
 > **Cambios en v1.2:** se incorpora el corpus AmericasNLP 2021 asháninka–castellano (§3.2). Hallazgo crítico: la ortografía del corpus no coincide con la del modelo de voz `mms-tts-cni`. Se agregan la sub-etapa 2e (adaptador ortográfico), el pendiente P6, la prueba de ida y vuelta TTS→ASR y los riesgos R13–R15
 > **Cambios en v1.1:** P2 (política de normalización) resuelto a nivel de política. Se añaden §3.1, nuevos pendientes P2a–P2e, rediseño de la tarea 1.5 y riesgos R10–R12
-> **Estado:** pendiente de aprobación
+> **Estado:** Fase 1 y Fase 2 aprobadas (Fase 2: 2026-10-12). Fase 3 implementada, pendiente de aprobación (2026-10-12)
 
 Todas las cifras de latencia, rendimiento y calidad de este documento son **metas o estimaciones**. Ninguna ha sido medida aún. Los valores reales se registrarán en `eval/results/` al cerrar cada fase.
 
@@ -321,6 +321,12 @@ El resultado son **tiempos exactos para el audio sintetizado, sin costo adiciona
 | 2.9 Dimensionamiento | Con los datos de 2.8 se calcula la CPU y RAM del servidor (§7) |
 | 2.10 Inteligibilidad objetiva (v1.2) | CER de ida y vuelta TTS→ASR (método de la tarea 1.9) sobre el split **test** del corpus, para ambos motores. Es una medida automática y reproducible que complementa, sin reemplazar, la prueba con hablantes de la Fase 5 |
 
+### Estado de la Fase 2: APROBADA (2026-10-12)
+
+- **Modo principal de entrega: por lotes** (TTFA p95 de 44 ms, cumple < 2 s). **Bajo demanda: solo respaldo** (TTFA p95 de 2357 ms con 1 cliente; no cumple y no se usa en el experimento).
+- RTF de `mms_vits`: 0,19. CER de ida y vuelta sobre test: 0,0516.
+- **Pendiente (línea base):** eSpeak-NG no pudo instalarse sin intervención manual (UAC). Faltan su RTF (2.8), su CER (2.10) y el test omitido. No bloquea la Fase 3. Detalle en `resumen_fase2.md` §7.
+
 **Criterios de cierre**
 
 - RTF < 1.0 y TTFA p95 < 2 s **medidos** en local. Si no se cumplen, se reportan igual y se documenta la causa.
@@ -339,6 +345,14 @@ El resultado son **tiempos exactos para el audio sintetizado, sin costo adiciona
 | 3.6 Degradación | Sondeo de FPS durante 2 s. Si los FPS son menores a 20, o no hay WebGL, se pasa a audio + texto con una imagen fija, y se **registra el evento** |
 | 3.7 Captura para métricas | Playwright graba el canvas → ≥ 30 clips MP4 |
 | 3.8 Métricas de sincronía labial | LSE-D y LSE-C con SyncNet (`eval/lipsync/`) + **desfase directo**: correlación cruzada entre la energía del audio y la apertura de la boca renderizada. Criterio: ≤ 80 ms |
+
+### Estado de la Fase 3: IMPLEMENTADA, pendiente de aprobación (2026-10-12)
+
+- **3.1:** se adopta **three + `@pixiv/three-vrm`**; TalkingHead descartado (exige morph targets ARKit/Oculus que VRoid no genera). `docs/avatar_decision.md`.
+- **3.2–3.4:** alineación por palabra y fonema, mapa grafema → visema (`SUPUESTO-LING`) y pista con coarticulación en cada `seg_NNN.json`; manifiesto 1.1. Error del centro de palabra frente al alineador CTC: 63,9 ms de media (34 ms de mediana). **Pendiente:** las 20 oraciones anotadas en Praat (requiere a una persona).
+- **3.5–3.6:** visor en `frontend/` (carga diferida, degradación probada). Paquete inicial de 11,7 KB gzip; avatar diferido de 224,5 KB; 60 FPS con GPU, 17–18 sin GPU. Modelo VRM **provisional** (2,41 MB); gestos procedurales (Mixamo no es automatizable).
+- **3.7–3.8:** 40 clips. Desfase sistemático −10,8 ms (IC 95 %: −18,5 a −2,1), total estimado 26–55 ms; el desfase **por clip** no es verificable con el método (calibrado con desplazamientos conocidos). SyncNet **no discrimina** con este avatar (control negativo idéntico).
+- Resumen y detalle: `resumen_fase3.md`, `docs/avatar.md`, `eval/results/fase_3.json`.
 
 **Criterios de cierre**
 

@@ -16,6 +16,7 @@ PIPELINE_DIR = ROOT / "backend" / "app" / "pipeline"
 NORMALIZE_RESOURCES = PIPELINE_DIR / "normalize" / "resources"
 G2P_RULES = PIPELINE_DIR / "g2p" / "rules"
 ADAPTERS_DIR = PIPELINE_DIR / "tts" / "adapters"
+VISEME_RESOURCES = PIPELINE_DIR / "viseme" / "resources"
 MMS_VOCAB = ROOT / "backend" / "tests" / "fixtures" / "mms_cni_vocab.json"
 CORPUS_DIR = ROOT / "data" / "corpus" / "americasnlp2021"
 CANDIDATES_DIR = ROOT / "data" / "candidates"
@@ -35,6 +36,10 @@ def _bool(value: str | None, default: bool = False) -> bool:
     return value.strip().lower() in {"1", "true", "yes", "si", "sí"}
 
 
+def _opt_float(value: str | None) -> float | None:
+    return float(value) if value not in (None, "") else None
+
+
 @dataclass(frozen=True)
 class Settings:
     database_url: str
@@ -50,6 +55,8 @@ class Settings:
     max_news_chars: int
     max_concurrent_synth: int
     static_dir: Path
+    viseme_smooth_ms: float | None  # None = usar el valor del mapa de visemas
+    viseme_lead: float | None
 
 
 def get_settings() -> Settings:
@@ -73,4 +80,6 @@ def get_settings() -> Settings:
         max_news_chars=int(os.getenv("NA_MAX_NEWS_CHARS", "20000")),
         max_concurrent_synth=int(os.getenv("NA_MAX_CONCURRENT_SYNTH", "8")),
         static_dir=ROOT / os.getenv("NA_STATIC_DIR", "static"),
+        viseme_smooth_ms=_opt_float(os.getenv("NA_VISEME_SMOOTH_MS")),
+        viseme_lead=_opt_float(os.getenv("NA_VISEME_LEAD")),
     )

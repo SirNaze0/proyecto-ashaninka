@@ -31,8 +31,11 @@ dev = [
 ]
 # Evaluación (métricas auxiliares). torch/transformers ya son dependencias principales.
 eval = [
+    "imageio-ffmpeg>=0.6.0",
     "jiwer>=3.0",
     "matplotlib>=3.8",
+    "python-speech-features>=0.6",
+    "scipy>=1.17.1",
 ]
 
 [tool.uv]

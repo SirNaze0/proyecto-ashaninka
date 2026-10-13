@@ -1,7 +1,7 @@
 # Inteligibilidad objetiva por motor (tarea 2.10)
 
 > GENERADO por `uv run python -m eval.fase2.intelligibility.run`. No editar a mano.
-> Fecha: 2026-10-06T04:56:12+00:00 · commit `cb42a79` · adaptador `mms_cni/H1` · tokenización MMS `manual`.
+> Fecha: 2026-10-13T00:10:17+00:00 · commit `965c822` · adaptador `mms_cni/H1` · tokenización MMS `manual`.
 
 Método: TTS → `mms-1b-all` (adaptador `cni`) → CER en el espacio canónico. Muestra fija del split **test** (primera vez que se usa).
 
@@ -15,7 +15,9 @@ Método: TTS → `mms-1b-all` (adaptador `cni`) → CER en el espacio canónico.
 | Motor | CER | IC 95 % | Precisión por palabra |
 |---|---|---|---|
 | mms_vits | 0.0516 | [0.0459, 0.0573] | 0.6474 |
-| espeak_ng | no_medido (eSpeak-NG no instalado) | | |
+| espeak_ng | 0.2291 | [0.2203, 0.2382] | 0.0511 |
+
+Diferencia pareada mms_vits − espeak_ng: -0.1779 (IC 95 % [-0.1888, -0.167], p = 0.0).
 
 ## Sesgo y limitaciones
 

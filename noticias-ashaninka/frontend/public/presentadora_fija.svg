@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-label="Presentadora (imagen fija)">
+  <rect width="320" height="320" fill="#dde8ee"/>
+  <path d="M60 320c0-70 45-105 100-105s100 35 100 105z" fill="#7a5a3c"/>
+  <circle cx="160" cy="130" r="62" fill="#e8c4a0"/>
+  <path d="M96 130c0-48 28-72 64-72s64 24 64 72c-10-30-34-46-64-46s-54 16-64 46z" fill="#1f1a17"/>
+  <circle cx="138" cy="132" r="5" fill="#1f1a17"/><circle cx="182" cy="132" r="5" fill="#1f1a17"/>
+  <path d="M142 162q18 12 36 0" stroke="#8a3d3d" stroke-width="4" fill="none" stroke-linecap="round"/>
+</svg>

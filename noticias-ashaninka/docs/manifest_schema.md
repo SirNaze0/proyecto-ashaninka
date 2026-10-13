@@ -26,16 +26,17 @@ motor, el motor, el modelo, la revisión, el `adapter_id`, los parámetros que a
 configuración, se reutiliza el audio; si cambia cualquiera de esos campos, por ejemplo la
 hipótesis del adaptador, la clave cambia.
 
-## Esquema del manifiesto (versión 1.0)
+## Esquema del manifiesto (versión 1.1)
 
 | Campo | Tipo | Descripción |
 |---|---|---|
-| `schema_version` | texto | `"1.0"` |
+| `schema_version` | texto | `"1.1"` (Fase 3). Los manifiestos `"1.0"` siguen siendo válidos: solo les falta `visemes` |
 | `news_id`, `titulo_cni`, `fecha_publicacion` | | Datos de la noticia (nunca el texto castellano) |
 | `generated_at` | ISO-8601 | Momento de generación |
 | `engine` | objeto | `engine`, `model`, `revision`, `adapter_id`, `params` |
 | `notices` | objeto | `synthetic_voice` (aviso de voz sintética), `license`, `commercial_use`, `non_commercial_warning` (texto o `null`), `dialect` |
 | `segments[]` | lista | Uno por oración, en orden (ver abajo) |
+| `visemes` | objeto o `null` | **Fase 3.** Trazabilidad de la pista de visemas: `status` (`SUPUESTO-LING` mientras P1 siga abierto), `map_sha256` (hash del mapa grafema→visema) y `channels` |
 | `total_duration_s`, `segments_with_audio`, `segments_blocked` | | Resumen |
 
 Cada elemento de `segments[]`:
@@ -57,9 +58,17 @@ Cada elemento de `segments[]`:
   - Un tramo que no produjo audio, como la puntuación eliminada, recibe un intervalo de duración 0 en el instante en que terminó lo anterior.
 - `spans`: un objeto por fragmento original (`orig_start`, `orig_end`, `orig_text`, `category`, `t0`, `t1`), proyectado con `alignment_map`. Es la entrada del resaltado sincronizado de la Fase 4.
 
+- `alignment` (**Fase 3, tarea 3.2**): `words` (texto, `c0`–`c1` en el texto canónico, `t0`, `t1`) y `phonemes` (grafema `g`, etiqueta del G2P, palabra, `c0`–`c1`, `t0`, `t1`). Son los tiempos de VITS agrupados por palabra y por grafema segmentado por el G2P. **SUPUESTO-LING:** el "fonema" es el grafema hasta que P1 se valide.
+- `visemes` (**Fase 3, tareas 3.3 y 3.4**): la pista de visemas.
+  - `status`, `map_sha256`, `channels` (`A I U E O C`: vocales y cierre labial), `smooth_ms` y `lead` (parámetros de la coarticulación, ver abajo) y `duration_s`.
+  - `events`: eventos contiguos `{t0, t1, w, g}` que cubren `[0, duration_s]`; `w` es el vector de pesos por canal y `g` el grafema (vacío en las pausas).
+  - `keyframes`: `[[t, [pesos…]], …]`, una curva **lineal por tramos** que el cliente solo interpola. Se evalúa en el instante `audio.currentTime` con la misma regla en Python (`track.sample`) y en TypeScript (`VisemeTrack.sample`).
+  - Coarticulación: entre eventos contiguos hay una transición de ancho `min(smooth_ms, duración de ambos)`, de la cual la fracción `lead` ocurre antes del límite; una consonante sin forma labial propia adopta la fracción `coarticulation` (del mapa) de la vocal siguiente si es contigua y de la misma palabra. Los parámetros se configuran con `NA_VISEME_SMOOTH_MS` y `NA_VISEME_LEAD`.
+  - Si el motor no expone duraciones (eSpeak), `alignment` y `visemes` son `null`.
+
 Estos tiempos se derivan de las duraciones que el modelo usó realmente, verificadas en cada
-síntesis (`sum(frames) × hop == len(audio)`). Si coinciden con los sonidos reales se valida en la
-Fase 3.
+síntesis (`sum(frames) × hop == len(audio)`). Su coincidencia con los sonidos reales se validó en la
+Fase 3 (`eval/results/fase_3_alineacion.json`, `docs/avatar.md`).
 
 ## Streaming bajo demanda (`GET /api/synthesize/{news_id}`)
 

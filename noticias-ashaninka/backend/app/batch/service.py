@@ -26,12 +26,16 @@ from app.batch.manifest import (
     Manifest,
     ManifestSegment,
     Notices,
+    VisemeInfo,
 )
 from app.batch.timings import canonical_times, span_times
 from app.config import get_settings
 from app.db.models import AudioAsset, News, Segment, SynthesisRun
+from app.pipeline.g2p.engine import G2P
 from app.pipeline.tts.base import SYNTHETIC_NOTICE, derive_seed
 from app.pipeline.tts.registry import EnginePool, get_pool
+from app.pipeline.viseme.align import align_text
+from app.pipeline.viseme.track import VisemeMap, build_track
 
 log = logging.getLogger("noticias.tts")
 
@@ -69,6 +73,8 @@ class Synthesizer:
     opus_kbps: float = field(default_factory=lambda: get_settings().opus_kbps)
 
     def __post_init__(self) -> None:
+        self.g2p = G2P.from_files()
+        self.viseme_map = VisemeMap.from_file()
         self.cold_start_ms = self.pool.warmup()
         self.info = self.pool.info()
         if not self.info.commercial_use:
@@ -165,13 +171,18 @@ class Synthesizer:
                 "durations": d,
                 "canonical_times": None,
                 "spans": None,
+                "alignment": None,
+                "visemes": None,
                 "note": "el motor no expone duraciones",
             }
         canon = canonical_times(len(seg.text_canonical), d["char_times"], seg.tts_char_map)
+        words, phonemes = align_text(seg.text_canonical, canon, self.g2p)
+        total_s = d["char_times"][-1][1] if d["char_times"] else audio.duration_s
         return {
             "durations": d,
             "canonical_times": canon,
             "spans": span_times(seg.alignment_map, canon),
+            **build_track(words, phonemes, total_s, self.viseme_map),
         }
 
     def write_segment(self, session: Session, news: News, seg: Segment, audio: SegmentAudio) -> str:
@@ -276,6 +287,11 @@ class Synthesizer:
             engine=self.engine_ref(adapter_id),
             notices=self.notices(),
             segments=segments,
+            visemes=VisemeInfo(
+                status=self.viseme_map.status,
+                map_sha256=self.viseme_map.sha256,
+                channels=self.viseme_map.channels,
+            ),
             total_duration_s=round(sum(s.duration_s or 0 for s in segments), 3),
             segments_with_audio=sum(1 for s in segments if s.audio),
             segments_blocked=sum(1 for s in segments if not s.audio),

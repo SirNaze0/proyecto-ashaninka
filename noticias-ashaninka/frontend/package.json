@@ -1,0 +1,30 @@
+{
+  "name": "noticias-ashaninka-frontend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Visor del avatar (Fase 3) y base de la PWA (Fase 4)",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "test": "vitest run",
+    "preview": "vite preview",
+    "bench:size": "BENCH_ENTRY=three-vrm vite build -c bench/vite.config.ts && BENCH_ENTRY=talkinghead vite build -c bench/vite.config.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@pixiv/three-vrm": "^3.5.5",
+    "preact": "^11.0.1",
+    "three": "^0.186.1"
+  },
+  "devDependencies": {
+    "@gltf-transform/cli": "^4.5.1",
+    "@met4citizen/talkinghead": "^1.7.0",
+    "@preact/preset-vite": "^2.10.6",
+    "@types/three": "^0.186.0",
+    "playwright": "^1.64.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.3"
+  }
+}

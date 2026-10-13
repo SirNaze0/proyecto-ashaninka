@@ -1,5 +1,25 @@
 # Changelog
 
+## Fase 3 — Alineación, visemas y avatar (2026-10-12)
+
+### Añadido
+- **3.1:** comparativa de TalkingHead y three + three-vrm (`docs/avatar_decision.md`, `frontend/bench/`). **Se adopta three-vrm.**
+- **3.2:** alineación por palabra y fonema (`pipeline/viseme/align.py`) y su validación contra el alineador forzado CTC de `mms-1b-all` (`eval/fase3/alignment.py`, `ctc.py`). Kit de anotación de Praat (`eval/fase3/praat.py`), pendiente de una persona.
+- **3.3:** `pipeline/viseme/resources/map.yaml`, mapa grafema → visema `SUPUESTO-LING` versionado por hash (entra en `all_resource_paths()` y en `docs/normalization_rules.md`).
+- **3.4:** pista de visemas con coarticulación y suavizado configurable (`pipeline/viseme/track.py`, `NA_VISEME_SMOOTH_MS`, `NA_VISEME_LEAD`). `seg_NNN.json` incluye `alignment` y `visemes`; el manifiesto sube a la **versión 1.1** (compatible con la 1.0).
+- **3.5:** visor del avatar en `frontend/` (Vite + Preact + TypeScript): carga diferida de three-vrm, reloj sincronizado al audio, parpadeo, mirada, 4 gestos procedurales, `AvatarPanel` listo para la Fase 4 y `scripts/optimize_vrm.py`.
+- **3.6:** degradación (sondeo de FPS de 2 s y detección de WebGL) con registro del evento; probada en Chromium real.
+- **3.7:** captura de 40 clips MP4 a partir del split dev (`frontend/scripts/capture.mjs`, `eval/fase3/lipsync.py`).
+- **3.8:** desfase directo (con calibración por desplazamientos conocidos), LSE-D y LSE-C con SyncNet y control negativo; peso del paquete (`eval/fase3/bundle.py`). `eval/results/fase_3.json`.
+- Pruebas: 17 de visemas y alineación, 14 de utilidades de evaluación, 2 de integración del manifiesto y 17 del cliente (vitest).
+
+### Cambiado
+- `docs/metrics.md`: métricas de la Fase 3 definidas antes de medir y, aparte y fechada, la revisión del desfase directo tras la primera medición.
+- `README`/`docs`: `docs/avatar.md`, `docs/avatar_decision.md`, `docs/manifest_schema.md` (1.1) y `docs/limitations.md` (26–35).
+
+### Cierre de la Fase 2 (2026-10-12)
+- Aprobada. Modo por lotes como modo principal; bajo demanda solo como respaldo. La línea base eSpeak-NG sigue pendiente (la instalación requiere confirmación de administrador).
+
 ## Fase 2 — Síntesis de voz (2026-10-06)
 
 ### Añadido

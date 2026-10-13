@@ -106,6 +106,56 @@ def test_batch_build_is_idempotent_and_manifest_valid(tts_env, temp_db, tmp_path
     assert export_schema(tmp_path / "schema.json").exists()
 
 
+def test_timings_include_alignment_and_visemes(tts_env, temp_db):
+    """Fase 3: seg_NNN.json trae tiempos por fonema/palabra y keyframes de visemas."""
+    from app.batch.service import run_batch
+
+    nid = _add_news(temp_db)
+    assert run_batch()["errors"] == 0
+    m = Manifest.model_validate_json(
+        (tts_env / "news" / str(nid) / "manifest.json").read_text("utf-8")
+    )
+    assert m.schema_version == "1.1"
+    assert m.visemes and m.visemes.status == "SUPUESTO-LING" and len(m.visemes.map_sha256) == 64
+    seg = next(s for s in m.segments if s.tts_ready)
+    t = json.loads((tts_env / seg.timings.removeprefix("/static/")).read_text("utf-8"))
+    assert t["alignment"]["words"] and t["alignment"]["phonemes"]
+    v = t["visemes"]
+    assert v["map_sha256"] == m.visemes.map_sha256 and v["channels"] == m.visemes.channels
+    assert v["keyframes"] and v["keyframes"][0][0] == 0.0
+    assert v["keyframes"][-1][0] == pytest.approx(seg.duration_s, abs=0.01)
+    assert all(len(k[1]) == len(v["channels"]) for k in v["keyframes"])
+
+
+def test_manifest_1_0_without_visemes_still_validates():
+    antiguo = {
+        "schema_version": "1.0",
+        "news_id": 1,
+        "titulo_cni": "t",
+        "fecha_publicacion": None,
+        "generated_at": "2026-10-06T00:00:00+00:00",
+        "engine": {
+            "engine": "fake",
+            "model": "m",
+            "revision": "1",
+            "adapter_id": "H1",
+            "params": {},
+        },
+        "notices": {
+            "synthetic_voice": "x",
+            "license": "MIT",
+            "commercial_use": True,
+            "non_commercial_warning": None,
+            "dialect": "d",
+        },
+        "segments": [],
+        "total_duration_s": 0.0,
+        "segments_with_audio": 0,
+        "segments_blocked": 0,
+    }
+    assert Manifest.model_validate(antiguo).visemes is None
+
+
 def test_cache_key_changes_with_adapter(tts_env):
     from app.batch.service import Synthesizer
     from app.pipeline.tts.registry import get_pool

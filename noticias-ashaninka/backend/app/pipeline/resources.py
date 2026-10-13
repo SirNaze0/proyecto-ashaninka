@@ -28,7 +28,7 @@ from typing import Any, Literal
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from app.config import ADAPTERS_DIR, G2P_RULES, NORMALIZE_RESOURCES
+from app.config import ADAPTERS_DIR, G2P_RULES, NORMALIZE_RESOURCES, VISEME_RESOURCES
 
 Status = Literal["validado", "candidato-corpus", "SUPUESTO-LING", "SUPUESTO"]
 
@@ -121,6 +121,7 @@ def all_resource_paths() -> list[Path]:
     paths = [NORMALIZE_RESOURCES / f for f in NORMALIZE_FILES]
     paths += [G2P_RULES / "inventory.yaml", G2P_RULES / "cni.yaml"]
     paths += [ADAPTERS_DIR / "mms_cni.yaml"]
+    paths += [VISEME_RESOURCES / "map.yaml"]  # Fase 3: se versiona por hash como el resto
     return paths
 
 

@@ -32,3 +32,10 @@ static/
 
 # Salida del banco de pruebas (caché de audio, base de datos): se regenera con eval.rtf_ttfa.bench
 eval/rtf_ttfa/out/
+
+# Salidas de la evaluación de la Fase 3 (clips, fotogramas, base de datos y caché propias)
+eval/fase3/out/
+eval/fase3/praat/*.wav
+
+# Frontend (Fase 3)
+frontend/smoke*.png

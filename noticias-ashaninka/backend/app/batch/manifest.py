@@ -7,7 +7,9 @@ from pathlib import Path
 
 from pydantic import BaseModel, ConfigDict, Field
 
-SCHEMA_VERSION = "1.0"
+SCHEMA_VERSION = (
+    "1.1"  # 1.1 (Fase 3): agrega ``visemes``; los manifiestos 1.0 siguen siendo válidos
+)
 
 
 class AudioFiles(BaseModel):
@@ -48,6 +50,15 @@ class EngineRef(BaseModel):
     params: dict
 
 
+class VisemeInfo(BaseModel):
+    """Trazabilidad de la pista de visemas incluida en cada ``seg_NNN.json`` (Fase 3)."""
+
+    model_config = ConfigDict(extra="forbid")
+    status: str = Field(description="SUPUESTO-LING mientras no se valide P1")
+    map_sha256: str
+    channels: list[str]
+
+
 class Manifest(BaseModel):
     model_config = ConfigDict(extra="forbid")
     schema_version: str = SCHEMA_VERSION
@@ -58,6 +69,7 @@ class Manifest(BaseModel):
     engine: EngineRef
     notices: Notices
     segments: list[ManifestSegment]
+    visemes: VisemeInfo | None = None
     total_duration_s: float
     segments_with_audio: int
     segments_blocked: int

@@ -5,6 +5,7 @@ avatar**. Fases implementadas:
 
 - **Fase 1, pipeline de texto:** corpus, ingesta, normalización, adaptador ortográfico del TTS y G2P.
 - **Fase 2, síntesis de voz:** motores intercambiables, duraciones, caché, modo por lotes y modo bajo demanda con streaming.
+- **Fase 3, alineación, visemas y avatar:** tiempos por fonema y palabra, pista de visemas con coarticulación en cada `seg_NNN.json`, y un visor del avatar (three-vrm, carga diferida, degradación) en `frontend/`. Ver [docs/avatar.md](docs/avatar.md) y [frontend/README.md](frontend/README.md).
 
 > La voz y el avatar del servicio son **sintéticos**. El modelo de voz `facebook/mms-tts-cni`
 > tiene licencia **CC-BY-NC 4.0 (uso no comercial)**. Ver [LICENSES.md](LICENSES.md).

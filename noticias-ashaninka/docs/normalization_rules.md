@@ -11,7 +11,7 @@ o condición experimental, pendiente de validación).
 | Estado | Entradas |
 |---|---|
 | SUPUESTO | 8 |
-| SUPUESTO-LING | 4 |
+| SUPUESTO-LING | 24 |
 | candidato-corpus | 20 |
 | validado | 7 |
 
@@ -29,6 +29,7 @@ o condición experimental, pendiente de validación).
 | g2p_inventory | `inventory.yaml` | `edf6ca3fda4d` | candidato-corpus=20 |
 | g2p_cni_rules | `cni.yaml` | `bab12e52dc57` | vacío |
 | mms_cni_adapter | `mms_cni.yaml` | `498fbc9edf0a` | SUPUESTO=8, validado=7 |
+| viseme_map | `map.yaml` | `5fb21f75e770` | SUPUESTO-LING=20 |
 
 ## orthography_variants
 
@@ -143,3 +144,30 @@ Hipótesis de correspondencia canónica -> ortografía MMS
 | H1-NY | ñ -> ny | `ñ` | `ny` |  | Hipótesis H1 (tarea 1.9) | SUPUESTO |
 | H2-Y | ñ -> y | `ñ` | `y` |  | Hipótesis H2 (tarea 1.9) | SUPUESTO |
 | H3-N | ñ -> n | `ñ` | `n` |  | Hipótesis H3 (tarea 1.9) | SUPUESTO |
+
+## viseme_map
+
+Mapa grafema canónico -> visema con pesos (SUPUESTO-LING, pendiente de P1)
+
+| id | Descripción | Patrón / forma | Reemplazo | Ejemplo | Fuente | Estado |
+|---|---|---|---|---|---|---|
+| VIS-A | Vocal abierta | `a` | `` |  | hipótesis articulatoria genérica (vocal abierta -> forma A del VRM) | SUPUESTO-LING |
+| VIS-E | Vocal media anterior | `e` | `` |  | hipótesis articulatoria genérica (forma E del VRM) | SUPUESTO-LING |
+| VIS-I | Vocal cerrada anterior | `i` | `` |  | hipótesis articulatoria genérica (forma I del VRM) | SUPUESTO-LING |
+| VIS-O | Vocal media posterior redondeada | `o` | `` |  | hipótesis articulatoria genérica (forma O del VRM) | SUPUESTO-LING |
+| VIS-P | Oclusiva bilabial, cierre labial | `p` | `` |  | hipótesis articulatoria genérica (bilabial = labios cerrados) | SUPUESTO-LING |
+| VIS-M | Nasal bilabial, cierre labial | `m` | `` |  | hipótesis articulatoria genérica (bilabial = labios cerrados) | SUPUESTO-LING |
+| VIS-B | Bilabial, cierre labial (grafema b del corpus; su valor fonémico está sin validar) | `b` | `` |  | hipótesis articulatoria genérica (bilabial = labios cerrados) | SUPUESTO-LING |
+| VIS-Y | Aproximante palatal, tiende a la forma de I | `y` | `` |  | hipótesis articulatoria genérica (palatal ~ I atenuada) | SUPUESTO-LING |
+| VIS-T | Consonante alveolar sin forma labial propia | `t` | `` |  | hipótesis articulatoria genérica (neutra + anticipación de la vocal siguiente) | SUPUESTO-LING |
+| VIS-TS | Africada alveolar sin forma labial propia | `ts` | `` |  | hipótesis articulatoria genérica (neutra + anticipación de la vocal siguiente) | SUPUESTO-LING |
+| VIS-TY | Oclusiva palatalizada sin forma labial propia | `ty` | `` |  | hipótesis articulatoria genérica (neutra + anticipación de la vocal siguiente) | SUPUESTO-LING |
+| VIS-CH | Africada postalveolar sin forma labial propia | `ch` | `` |  | hipótesis articulatoria genérica (neutra + anticipación de la vocal siguiente) | SUPUESTO-LING |
+| VIS-SH | Fricativa postalveolar sin forma labial propia | `sh` | `` |  | hipótesis articulatoria genérica (neutra + anticipación de la vocal siguiente) | SUPUESTO-LING |
+| VIS-S | Fricativa alveolar sin forma labial propia | `s` | `` |  | hipótesis articulatoria genérica (neutra + anticipación de la vocal siguiente) | SUPUESTO-LING |
+| VIS-N | Nasal alveolar sin forma labial propia | `n` | `` |  | hipótesis articulatoria genérica (neutra + anticipación de la vocal siguiente) | SUPUESTO-LING |
+| VIS-NY | Nasal palatal (grafema ñ del corpus), sin forma labial propia | `ñ` | `` |  | hipótesis articulatoria genérica (neutra + anticipación de la vocal siguiente) | SUPUESTO-LING |
+| VIS-R | Vibrante sin forma labial propia | `r` | `` |  | hipótesis articulatoria genérica (neutra + anticipación de la vocal siguiente) | SUPUESTO-LING |
+| VIS-K | Oclusiva velar, articulación posterior sin forma labial propia | `k` | `` |  | hipótesis articulatoria genérica (los labios siguen a la vocal vecina) | SUPUESTO-LING |
+| VIS-H | Fricativa glotal, articulación posterior sin forma labial propia | `h` | `` |  | hipótesis articulatoria genérica (los labios siguen a la vocal vecina) | SUPUESTO-LING |
+| VIS-J | Fricativa posterior, sin forma labial propia | `j` | `` |  | hipótesis articulatoria genérica (los labios siguen a la vocal vecina) | SUPUESTO-LING |

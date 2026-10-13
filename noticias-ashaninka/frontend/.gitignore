@@ -1,0 +1,5 @@
+node_modules/
+dist/
+bench/dist/
+public/models/*.vrm
+test-results/

@@ -10,6 +10,11 @@
 | num2words | ≥ 0.5.13 | LGPL-2.1 | — | Verbalización castellana |
 | FastAPI, SQLModel, Pydantic, PyYAML, uv, ruff | — | MIT / BSD | — | Infraestructura |
 | PyTorch, transformers | — | BSD-3 / Apache-2.0 | — | Solo en evaluación (grupo `eval`) |
+| three.js, `@pixiv/three-vrm`, Preact, Vite | three 0.186, three-vrm 3.5 | MIT | — | Avatar y visor (Fase 3), cliente |
+| TalkingHead (`@met4citizen/talkinghead`) | 1.7.0 | MIT | — | Solo en la comparativa de la tarea 3.1 (`frontend/bench/`); no se usa en producción |
+| `VRM1_Constraint_Twist_Sample` (pixiv Inc.) | v1.0.1 | Licencia VRM 1.0 (https://vrm.dev/licenses/1.0/): redistribución y modificación permitidas | Es un modelo de ejemplo, **provisional**; no es la presentadora final | Avatar de pruebas (`frontend/public/models/`, no versionado; se reduce con `scripts/optimize_vrm.py`) |
+| SyncNet (Chung y Zisserman, `joonson/syncnet_python` @ `907c0b5`) | `syncnet_v2` | Código MIT. Los pesos los publica el VGG de Oxford sin una licencia explícita | Solo evaluación académica; **no se redistribuyen**: se descargan a `models/syncnet/` | LSE-D y LSE-C (tarea 3.8) |
+| Playwright, imageio-ffmpeg, scipy, python-speech-features | — | Apache-2.0 / BSD / MIT | ffmpeg de imageio-ffmpeg se distribuye con licencia GPL; se usa como programa externo | Captura y evaluación (grupo `eval`) |
 
 ## Advertencias
 

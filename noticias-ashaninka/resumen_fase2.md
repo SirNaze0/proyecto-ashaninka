@@ -2,7 +2,7 @@
 
 > **Proyecto:** Servicio web de noticias en lengua asháninka con síntesis de voz, texto y avatar
 > **Fecha:** 2026-10-06 · **Repositorio:** `Proyecto` (código en `noticias-ashaninka/`) · **Base:** etiqueta `fase1`
-> **Estado:** implementada, **pendiente de aprobación**. La meta de TTFA bajo demanda **no se cumple** con la configuración principal (ver §3).
+> **Estado:** **APROBADA el 2026-10-12.** El modo por lotes es el modo principal de entrega y el bajo demanda queda como respaldo (ver §7). La meta de TTFA bajo demanda **no se cumple** con la configuración principal (ver §3); la de lotes sí.
 
 Todas las cifras de este documento vienen de ejecuciones reales. Están en `eval/results/fase_2.json`
 y en los archivos `fase_2_*.json` de esa carpeta. Las definiciones de las métricas se escribieron
@@ -209,3 +209,9 @@ uv run python -m eval.fase2.run                     # -> eval/results/fase_2.jso
 | **Variante dialectal de la voz** | No documentada | Declarada en los metadatos; confirmar con hablantes |
 
 Las limitaciones completas están en `noticias-ashaninka/docs/limitations.md` (puntos 17 a 25, nuevos en esta fase).
+
+## 7. Decisiones de cierre (aprobación del 2026-10-12)
+
+1. **Fase 2 aprobada.**
+2. **Modo principal de entrega: por lotes.** Cumple el criterio TTFA p95 < 2 s del experimento (44 ms con 1 cliente, 66 ms con 8). El modo bajo demanda (2357 ms con 1 cliente) queda **documentado solo como respaldo** para noticias aún no sintetizadas, y no se usa en el experimento.
+3. **Línea base eSpeak-NG: pendiente.** La instalación con `winget install eSpeak-NG.eSpeak-NG` requiere confirmación de administrador (UAC) y no pudo completarse sin intervención manual. Siguen sin medirse: el test omitido, el RTF de eSpeak (2.8) y su CER sobre test (2.10). Para cerrarlo: instalar eSpeak-NG, ejecutar `uv run python -m eval.rtf_ttfa.bench rtf`, `uv run python -m eval.fase2.intelligibility.run` y `uv run pytest`. No bloquea la Fase 3.

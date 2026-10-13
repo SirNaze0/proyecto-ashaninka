@@ -13,39 +13,56 @@
     "segmentos": 614,
     "semilla": 20261006
   },
-  "commit": "cb42a79855d119d318de6d1c1d5a11e82cf874ae",
+  "commit": "965c82275f05d50197270ce11e4dc47270af8307",
   "hardware": {
-    "cpu": "AMD64 Family 25 Model 33 Stepping 2, AuthenticAMD",
-    "nucleos": 16,
-    "ram_gb": 23.9,
+    "cpu": "Intel64 Family 6 Model 151 Stepping 5, GenuineIntel",
+    "nucleos": 12,
+    "ram_gb": 15.8,
     "os": "Windows-10-10.0.26200-SP0",
-    "python": "3.11.17"
+    "python": "3.11.15"
   },
   "versiones_fijadas": {
     "mms-tts-cni": "a744890bf8b52fd17ed322d8d995dec6cf77809b"
   },
   "carga_en_frio_ms": {
-    "mms_vits": 7689.2
+    "mms_vits": 4351.9,
+    "espeak_ng": 153.0
   },
   "rtf": {
     "mms_vits": {
       "n": 100,
-      "media": 0.1935,
-      "de": 0.0069,
-      "p50": 0.1928,
-      "p95": 0.2028,
-      "p99": 0.2107,
+      "media": 0.2546,
+      "de": 0.0273,
+      "p50": 0.2488,
+      "p95": 0.3032,
+      "p99": 0.3122,
       "duracion_audio_s": {
         "n": 100,
-        "media": 4.9586,
-        "de": 2.6345,
-        "p50": 4.528,
-        "p95": 9.7864,
-        "p99": 12.9915
+        "media": 5.4211,
+        "de": 3.4775,
+        "p50": 4.552,
+        "p95": 13.3848,
+        "p99": 16.9302
       },
-      "torch_threads": "defecto"
+      "torch_threads": 4
     },
-    "espeak_ng": "no_medido (eSpeak-NG no instalado)"
+    "espeak_ng": {
+      "n": 100,
+      "media": 0.0105,
+      "de": 0.005,
+      "p50": 0.0095,
+      "p95": 0.0173,
+      "p99": 0.0282,
+      "duracion_audio_s": {
+        "n": 100,
+        "media": 4.4703,
+        "de": 2.4946,
+        "p50": 3.6296,
+        "p95": 10.2942,
+        "p99": 12.9215
+      },
+      "torch_threads": 4
+    }
   },
   "barrido": {
     "t1_w1": {

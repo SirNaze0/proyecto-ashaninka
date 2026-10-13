@@ -1,0 +1,159 @@
+# Mapa grafema -> visema (tarea 3.3). Se aplica sobre el texto CANÓNICO segmentado por el G2P.
+# SUPUESTO-LING: todo el mapa es una hipótesis articulatoria genérica, NO una descripción validada
+# del asháninka. Se valida cuando se resuelva P1 (alfabeto e inventario fonémico) con una persona
+# experta. El archivo se versiona por hash (sha256) y el hash viaja en cada pista de visemas.
+#
+# Canales de salida (orden fijo, el cliente depende de él):
+#   A I U E O  -> formas vocálicas (en VRM: aa ih ou ee oh)
+#   C          -> cierre labial (m, p, b); el cliente lo traduce a boca cerrada
+#   (neutro = todos los canales en 0: pausas y consonantes sin forma labial propia)
+#
+# Campos de cada entrada: grapheme, weights (canal: peso 0..1) y coarticulation (fracción de la
+# forma de la vocal SIGUIENTE que la consonante anticipa; 0 = ninguna).
+resource: viseme_map
+description: "Mapa grafema canónico -> visema con pesos (SUPUESTO-LING, pendiente de P1)"
+config:
+  channels: [A, I, U, E, O, C]
+  smooth_ms: 50      # ancho de la transición entre visemas contiguos (configurable: NA_VISEME_SMOOTH_MS)
+  lead: 0.5          # fracción de la transición que ocurre ANTES del límite (NA_VISEME_LEAD)
+entries:
+- id: VIS-A
+  description: Vocal abierta
+  grapheme: a
+  weights: {A: 1.0}
+  coarticulation: 0.0
+  source: hipótesis articulatoria genérica (vocal abierta -> forma A del VRM)
+  status: SUPUESTO-LING
+- id: VIS-E
+  description: Vocal media anterior
+  grapheme: e
+  weights: {E: 1.0}
+  coarticulation: 0.0
+  source: hipótesis articulatoria genérica (forma E del VRM)
+  status: SUPUESTO-LING
+- id: VIS-I
+  description: Vocal cerrada anterior
+  grapheme: i
+  weights: {I: 1.0}
+  coarticulation: 0.0
+  source: hipótesis articulatoria genérica (forma I del VRM)
+  status: SUPUESTO-LING
+- id: VIS-O
+  description: Vocal media posterior redondeada
+  grapheme: o
+  weights: {O: 1.0}
+  coarticulation: 0.0
+  source: hipótesis articulatoria genérica (forma O del VRM)
+  status: SUPUESTO-LING
+- id: VIS-P
+  description: Oclusiva bilabial, cierre labial
+  grapheme: p
+  weights: {C: 1.0}
+  coarticulation: 0.0
+  source: hipótesis articulatoria genérica (bilabial = labios cerrados)
+  status: SUPUESTO-LING
+- id: VIS-M
+  description: Nasal bilabial, cierre labial
+  grapheme: m
+  weights: {C: 1.0}
+  coarticulation: 0.0
+  source: hipótesis articulatoria genérica (bilabial = labios cerrados)
+  status: SUPUESTO-LING
+- id: VIS-B
+  description: Bilabial, cierre labial (grafema b del corpus; su valor fonémico está sin validar)
+  grapheme: b
+  weights: {C: 1.0}
+  coarticulation: 0.0
+  source: hipótesis articulatoria genérica (bilabial = labios cerrados)
+  status: SUPUESTO-LING
+- id: VIS-Y
+  description: Aproximante palatal, tiende a la forma de I
+  grapheme: y
+  weights: {I: 0.5}
+  coarticulation: 0.3
+  source: hipótesis articulatoria genérica (palatal ~ I atenuada)
+  status: SUPUESTO-LING
+- id: VIS-T
+  description: Consonante alveolar sin forma labial propia
+  grapheme: t
+  weights: {}
+  coarticulation: 0.35
+  source: hipótesis articulatoria genérica (neutra + anticipación de la vocal siguiente)
+  status: SUPUESTO-LING
+- id: VIS-TS
+  description: Africada alveolar sin forma labial propia
+  grapheme: ts
+  weights: {}
+  coarticulation: 0.35
+  source: hipótesis articulatoria genérica (neutra + anticipación de la vocal siguiente)
+  status: SUPUESTO-LING
+- id: VIS-TY
+  description: Oclusiva palatalizada sin forma labial propia
+  grapheme: ty
+  weights: {}
+  coarticulation: 0.35
+  source: hipótesis articulatoria genérica (neutra + anticipación de la vocal siguiente)
+  status: SUPUESTO-LING
+- id: VIS-CH
+  description: Africada postalveolar sin forma labial propia
+  grapheme: ch
+  weights: {}
+  coarticulation: 0.35
+  source: hipótesis articulatoria genérica (neutra + anticipación de la vocal siguiente)
+  status: SUPUESTO-LING
+- id: VIS-SH
+  description: Fricativa postalveolar sin forma labial propia
+  grapheme: sh
+  weights: {}
+  coarticulation: 0.35
+  source: hipótesis articulatoria genérica (neutra + anticipación de la vocal siguiente)
+  status: SUPUESTO-LING
+- id: VIS-S
+  description: Fricativa alveolar sin forma labial propia
+  grapheme: s
+  weights: {}
+  coarticulation: 0.35
+  source: hipótesis articulatoria genérica (neutra + anticipación de la vocal siguiente)
+  status: SUPUESTO-LING
+- id: VIS-N
+  description: Nasal alveolar sin forma labial propia
+  grapheme: n
+  weights: {}
+  coarticulation: 0.35
+  source: hipótesis articulatoria genérica (neutra + anticipación de la vocal siguiente)
+  status: SUPUESTO-LING
+- id: VIS-NY
+  description: Nasal palatal (grafema ñ del corpus), sin forma labial propia
+  grapheme: ñ
+  weights: {}
+  coarticulation: 0.35
+  source: hipótesis articulatoria genérica (neutra + anticipación de la vocal siguiente)
+  status: SUPUESTO-LING
+- id: VIS-R
+  description: Vibrante sin forma labial propia
+  grapheme: r
+  weights: {}
+  coarticulation: 0.35
+  source: hipótesis articulatoria genérica (neutra + anticipación de la vocal siguiente)
+  status: SUPUESTO-LING
+- id: VIS-K
+  description: Oclusiva velar, articulación posterior sin forma labial propia
+  grapheme: k
+  weights: {}
+  coarticulation: 0.5
+  source: hipótesis articulatoria genérica (los labios siguen a la vocal vecina)
+  status: SUPUESTO-LING
+- id: VIS-H
+  description: Fricativa glotal, articulación posterior sin forma labial propia
+  grapheme: h
+  weights: {}
+  coarticulation: 0.5
+  source: hipótesis articulatoria genérica (los labios siguen a la vocal vecina)
+  status: SUPUESTO-LING
+- id: VIS-J
+  description: Fricativa posterior, sin forma labial propia
+  grapheme: j
+  weights: {}
+  coarticulation: 0.5
+  source: hipótesis articulatoria genérica (los labios siguen a la vocal vecina)
+  status: SUPUESTO-LING

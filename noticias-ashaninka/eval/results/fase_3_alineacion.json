@@ -1,0 +1,255 @@
+{
+  "tarea": "3.2",
+  "split": "dev",
+  "oraciones": 40,
+  "palabras": 211,
+  "referencia": "alineación forzada CTC de mms-1b-all (adaptador cni) sobre el audio Opus",
+  "semilla_bootstrap": 20261012,
+  "palabras_error": {
+    "inicio": {
+      "n": 211,
+      "sesgo_ms": 109.4,
+      "mae_ms": 110.1,
+      "mediana_abs_ms": 44.0,
+      "p90_abs_ms": 380.0,
+      "dentro_de_50ms": 0.555,
+      "dentro_de_80ms": 0.739
+    },
+    "fin": {
+      "n": 211,
+      "sesgo_ms": -92.8,
+      "mae_ms": 99.2,
+      "mediana_abs_ms": 72.0,
+      "p90_abs_ms": 200.0,
+      "dentro_de_50ms": 0.365,
+      "dentro_de_80ms": 0.545
+    },
+    "centro": {
+      "n": 211,
+      "sesgo_ms": 8.3,
+      "mae_ms": 63.9,
+      "mediana_abs_ms": 34.0,
+      "p90_abs_ms": 180.0,
+      "dentro_de_50ms": 0.64,
+      "dentro_de_80ms": 0.739
+    }
+  },
+  "mae_centro_palabra_ic95_ms": [
+    57.4,
+    71.1
+  ],
+  "centro_caracter": {
+    "n": 2197,
+    "sesgo_ms": 14.4,
+    "mae_ms": 28.4,
+    "mediana_abs_ms": 14.0,
+    "p90_abs_ms": 50.0,
+    "dentro_de_50ms": 0.898,
+    "dentro_de_80ms": 0.931
+  },
+  "caracteres_sin_token_asr": 0,
+  "por_oracion": [
+    {
+      "news_id": 1,
+      "palabras": 4,
+      "mae_centro_ms": 71.0
+    },
+    {
+      "news_id": 5,
+      "palabras": 3,
+      "mae_centro_ms": 88.7
+    },
+    {
+      "news_id": 6,
+      "palabras": 3,
+      "mae_centro_ms": 92.7
+    },
+    {
+      "news_id": 8,
+      "palabras": 6,
+      "mae_centro_ms": 101.3
+    },
+    {
+      "news_id": 9,
+      "palabras": 2,
+      "mae_centro_ms": 23.0
+    },
+    {
+      "news_id": 10,
+      "palabras": 7,
+      "mae_centro_ms": 49.1
+    },
+    {
+      "news_id": 12,
+      "palabras": 3,
+      "mae_centro_ms": 128.7
+    },
+    {
+      "news_id": 13,
+      "palabras": 5,
+      "mae_centro_ms": 60.4
+    },
+    {
+      "news_id": 14,
+      "palabras": 6,
+      "mae_centro_ms": 18.3
+    },
+    {
+      "news_id": 16,
+      "palabras": 4,
+      "mae_centro_ms": 69.0
+    },
+    {
+      "news_id": 18,
+      "palabras": 9,
+      "mae_centro_ms": 64.4
+    },
+    {
+      "news_id": 19,
+      "palabras": 3,
+      "mae_centro_ms": 57.3
+    },
+    {
+      "news_id": 22,
+      "palabras": 9,
+      "mae_centro_ms": 65.1
+    },
+    {
+      "news_id": 24,
+      "palabras": 8,
+      "mae_centro_ms": 49.0
+    },
+    {
+      "news_id": 25,
+      "palabras": 5,
+      "mae_centro_ms": 57.2
+    },
+    {
+      "news_id": 26,
+      "palabras": 5,
+      "mae_centro_ms": 35.6
+    },
+    {
+      "news_id": 27,
+      "palabras": 3,
+      "mae_centro_ms": 102.7
+    },
+    {
+      "news_id": 28,
+      "palabras": 3,
+      "mae_centro_ms": 44.7
+    },
+    {
+      "news_id": 30,
+      "palabras": 4,
+      "mae_centro_ms": 77.0
+    },
+    {
+      "news_id": 31,
+      "palabras": 6,
+      "mae_centro_ms": 83.7
+    },
+    {
+      "news_id": 32,
+      "palabras": 5,
+      "mae_centro_ms": 50.4
+    },
+    {
+      "news_id": 33,
+      "palabras": 7,
+      "mae_centro_ms": 38.3
+    },
+    {
+      "news_id": 34,
+      "palabras": 5,
+      "mae_centro_ms": 28.4
+    },
+    {
+      "news_id": 35,
+      "palabras": 3,
+      "mae_centro_ms": 20.7
+    },
+    {
+      "news_id": 36,
+      "palabras": 11,
+      "mae_centro_ms": 72.2
+    },
+    {
+      "news_id": 37,
+      "palabras": 6,
+      "mae_centro_ms": 54.3
+    },
+    {
+      "news_id": 38,
+      "palabras": 2,
+      "mae_centro_ms": 142.0
+    },
+    {
+      "news_id": 39,
+      "palabras": 5,
+      "mae_centro_ms": 33.2
+    },
+    {
+      "news_id": 40,
+      "palabras": 6,
+      "mae_centro_ms": 52.3
+    },
+    {
+      "news_id": 41,
+      "palabras": 3,
+      "mae_centro_ms": 126.0
+    },
+    {
+      "news_id": 42,
+      "palabras": 5,
+      "mae_centro_ms": 70.0
+    },
+    {
+      "news_id": 43,
+      "palabras": 10,
+      "mae_centro_ms": 64.8
+    },
+    {
+      "news_id": 47,
+      "palabras": 3,
+      "mae_centro_ms": 94.7
+    },
+    {
+      "news_id": 48,
+      "palabras": 7,
+      "mae_centro_ms": 66.3
+    },
+    {
+      "news_id": 51,
+      "palabras": 4,
+      "mae_centro_ms": 66.5
+    },
+    {
+      "news_id": 52,
+      "palabras": 5,
+      "mae_centro_ms": 37.2
+    },
+    {
+      "news_id": 53,
+      "palabras": 6,
+      "mae_centro_ms": 97.0
+    },
+    {
+      "news_id": 54,
+      "palabras": 7,
+      "mae_centro_ms": 89.1
+    },
+    {
+      "news_id": 57,
+      "palabras": 5,
+      "mae_centro_ms": 27.6
+    },
+    {
+      "news_id": 58,
+      "palabras": 8,
+      "mae_centro_ms": 76.7
+    }
+  ],
+  "limitacion": "CTC da intervalos interiores a cada sonido (picos de 20 ms): el inicio tiende a ser posterior y el fin anterior al de VITS. El centro de palabra es la medida robusta.",
+  "anotacion_manual_praat": "pendiente: requiere a una persona (ver eval/fase3/praat/)"
+}
