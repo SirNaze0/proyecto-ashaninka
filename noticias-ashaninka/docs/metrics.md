@@ -168,3 +168,14 @@ unos pocos ms, así que esa información no era ciega):
    (solo del primer segmento), pero la precarga y el hueco entre segmentos sí.
 4. El modelo VRM es provisional (2,41 MB) y los textos de interfaz en asháninka están pendientes de
    traducción por un hablante.
+
+## Revisión del material (2026-10-12, antes de medir)
+
+> Se escribió **antes** de ejecutar cualquier medición de la Fase 4; no usa ningún resultado.
+
+El corpus AmericasNLP trae **una oración por línea**, de modo que «las primeras 30 noticias de dev
+con 1 a 6 oraciones» no existe tal cual. La selección definitiva (`eval/fase4/prepare.py`) es:
+**30 pseudo-noticias, cada una con 3 líneas consecutivas del split dev** (líneas 1-2 en el párrafo
+1 y línea 3 en el párrafo 2), desde la línea 1 y en orden, sin descartar ninguna. Los segmentos
+bloqueados (sin P2d) entran tal como vienen. Reemplaza al párrafo «Noticias» de la sección *Material*.
+El split test no se usa.

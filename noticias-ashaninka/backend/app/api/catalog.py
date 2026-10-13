@@ -12,7 +12,7 @@ from pathlib import Path
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
-from sqlalchemy import func
+from sqlalchemy import Integer, cast, func
 from sqlmodel import Session, select
 
 from app.config import get_settings
@@ -108,9 +108,12 @@ def list_catalog(
 ) -> list[CatalogItem]:
     limit = max(1, min(limit, 500))
     rows = session.exec(
-        select(Segment.news_id, func.count(Segment.id), func.sum(Segment.tts_ready)).group_by(
-            Segment.news_id
-        )
+        select(
+            Segment.news_id,
+            func.count(Segment.id),
+            # cast: la suma de una columna booleana se devolvería como booleano (1 en vez de N)
+            func.sum(cast(Segment.tts_ready, Integer)),
+        ).group_by(Segment.news_id)
     ).all()
     counts = {nid: (int(t), int(r or 0), int(t) - int(r or 0)) for nid, t, r in rows}
     items = []

@@ -2,12 +2,15 @@
 
 from __future__ import annotations
 
+import gzip
 import os
 from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+from starlette.datastructures import Headers
+from starlette.responses import FileResponse, Response
 
 from app import __version__
 from app.api.catalog import router as catalog_router
@@ -30,6 +33,39 @@ async def lifespan(_: FastAPI):
     yield
 
 
+_TEXTUAL = {".js", ".css", ".html", ".json", ".svg", ".webmanifest"}
+_gzip_cache: dict[tuple[str, int, int], bytes] = {}
+
+
+class _Files(StaticFiles):
+    """StaticFiles con gzip SOLO para archivos de texto (JS, CSS, JSON, SVG). El audio (Opus/MP3) ya
+    está comprimido y las peticiones con ``Range`` se sirven tal cual. En producción lo hace el
+    proxy (Caddy); esto mantiene realistas los bytes transferidos en local y en las mediciones."""
+
+    async def get_response(self, path, scope):
+        resp = await super().get_response(path, scope)
+        h = Headers(scope=scope)
+        if (
+            isinstance(resp, FileResponse)
+            and resp.status_code == 200
+            and "gzip" in h.get("accept-encoding", "")
+            and "range" not in h
+            and Path(resp.path).suffix in _TEXTUAL
+        ):
+            full = Path(resp.path)
+            st = full.stat()
+            key = (str(full), st.st_mtime_ns, st.st_size)
+            if key not in _gzip_cache:
+                _gzip_cache[key] = gzip.compress(full.read_bytes(), 6)
+            keep = {k: v for k, v in resp.headers.items() if k in {"etag", "last-modified"}}
+            return Response(
+                _gzip_cache[key],
+                media_type=resp.media_type,
+                headers={**keep, "Content-Encoding": "gzip", "Vary": "Accept-Encoding"},
+            )
+        return resp
+
+
 app = FastAPI(
     title="Noticias en asháninka",
     version=__version__,
@@ -46,7 +82,7 @@ app.include_router(events_router)
 # reanudable de la Fase 4.
 _static = get_settings().static_dir
 _static.mkdir(parents=True, exist_ok=True)
-app.mount("/static", StaticFiles(directory=_static), name="static")
+app.mount("/static", _Files(directory=_static), name="static")
 
 
 def _point_static_to(directory) -> None:
@@ -63,7 +99,7 @@ def health() -> dict:
     return {"status": "ok", "version": __version__}
 
 
-class _PwaFiles(StaticFiles):
+class _PwaFiles(_Files):
     """Sirve la PWA compilada. ``index.html``, el Service Worker y el manifiesto nunca se cachean
     (así una versión nueva se instala); lo de ``assets/`` lleva hash en el nombre: inmutable."""
 

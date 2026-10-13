@@ -86,7 +86,11 @@ def test_catalog_404_and_manifest_url_after_batch(env):
     run_batch()
     item = client.get("/api/catalog").json()[0]
     assert item["manifest_url"] == f"/static/news/{nid}/manifest.json"
-    assert item["duracion_s"] and item["segmentos_con_audio"] >= 1
+    manifest = client.get(item["manifest_url"]).json()
+    assert manifest["segments_with_audio"] >= 2  # la suma no debe saturar en 1 (columna booleana)
+    assert item["segmentos_con_audio"] == manifest["segments_with_audio"]
+    assert item["segmentos_bloqueados"] == manifest["segments_blocked"]
+    assert item["duracion_s"] == manifest["total_duration_s"]
     assert client.get("/api/catalog?solo_con_audio=true").json()
     assert client.get(item["manifest_url"]).status_code == 200
 
@@ -137,3 +141,22 @@ def test_catalog_meta_has_no_body_text(env):
     assert r.status_code == 200 and r.json()["id"] == nid
     assert "Okantzi" not in r.text and "SECRETO" not in r.text
     assert client.get("/api/catalog/999/meta").status_code == 404
+
+
+def test_static_gzip_only_for_text_and_never_for_audio_or_range(env):
+    client, engine, _ = env
+    _news(engine)
+    from app.batch.service import run_batch
+
+    run_batch()
+    m = client.get("/static/news/1/manifest.json", headers={"Accept-Encoding": "gzip"})
+    assert m.headers.get("content-encoding") == "gzip" and m.json()["news_id"] == 1
+    plain = client.get("/static/news/1/manifest.json", headers={"Accept-Encoding": "identity"})
+    assert "content-encoding" not in plain.headers
+    url = next(s["audio"]["opus"] for s in m.json()["segments"] if s["audio"])
+    a = client.get(url, headers={"Accept-Encoding": "gzip"})
+    assert "content-encoding" not in a.headers  # el audio ya está comprimido
+    r = client.get(
+        "/static/news/1/manifest.json", headers={"Range": "bytes=0-9", "Accept-Encoding": "gzip"}
+    )
+    assert r.status_code == 206 and "content-encoding" not in r.headers

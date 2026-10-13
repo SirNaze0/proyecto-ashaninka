@@ -39,3 +39,5 @@ eval/fase3/praat/*.wav
 
 # Frontend (Fase 3)
 frontend/smoke*.png
+eval/fase4/out/
+frontend/playwright-report/
