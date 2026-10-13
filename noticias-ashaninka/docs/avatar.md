@@ -33,7 +33,7 @@ típica pesa 8 KB (99 keyframes, 51 eventos, 47 fonemas) y el `seg_NNN.json` com
 |---|---|
 | `viseme-track.ts` | Evalúa los keyframes (misma regla que `track.sample` de Python) y traduce canales a expresiones VRM |
 | `clock.ts` | `AudioClock`: estima la posición del audio entre los saltos de `currentTime` con un filtro de máximo; monótono; no extrapola antes de que el audio arranque |
-| `idle.ts` | Parpadeo (2–6 s), mirada sutil y 4 gestos procedurales: reposo hablando, saludo de apertura, asentir y despedida |
+| `idle.ts` | Parpadeo (2–6 s), mirada sutil y 4 gestos procedurales (reposo hablando, saludo de apertura, asentir y despedida) como deltas acotados sobre la pose de reposo (`POSE_LIMITS`/`limitPose`): brazos siempre abajo (≤ 0,06 rad) y cabeza/torso sutiles, nunca hacia atrás |
 | `viewer.ts` | `AvatarViewer`: three y three-vrm con **carga diferida**, encuadre, `renderAt(t)` determinista |
 | `degradation.ts`, `create-avatar.ts` | Sondeo de FPS de 2 s y detección de WebGL; si FPS < 20 o no hay WebGL se muestra una imagen fija y se **registra el evento** (`window.__avatarEvents`) |
 | `AvatarPanel.tsx` | Componente Preact listo para la condición C4 de la Fase 4 |

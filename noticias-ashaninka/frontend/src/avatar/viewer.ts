@@ -11,7 +11,7 @@
 import type { VRM } from "@pixiv/three-vrm";
 import type * as THREE_NS from "three";
 import { AudioClock, type AudioLike, type ClockOptions } from "./clock";
-import { Blinker, Gaze, Gestures, REST_POSE, seeded, type BoneName, type BonePose } from "./idle";
+import { Blinker, Gaze, Gestures, REST_POSE, limitPose, seeded, type BoneName, type BonePose } from "./idle";
 import { CHANNEL_TO_VRM, VisemeTrack } from "./viseme-track";
 
 export type Framing = "busto" | "rostro";
@@ -241,20 +241,15 @@ export class AvatarViewer {
   private applyPose(poses: BonePose[]): void {
     const humanoid = this.vrm?.humanoid;
     if (!humanoid) return;
+    const delta = limitPose(poses);
     for (const bone of BONES) {
       const node = humanoid.getNormalizedBoneNode(bone);
       if (!node) continue;
-      let x = 0;
-      let y = 0;
-      let z = 0;
-      for (const p of [REST_POSE, ...poses]) {
-        const e = p[bone];
-        if (e) {
-          x += e.x ?? 0;
-          y += e.y ?? 0;
-          z += e.z ?? 0;
-        }
-      }
+      const r = REST_POSE[bone];
+      const d = delta[bone];
+      const x = (r?.x ?? 0) + (d?.x ?? 0);
+      const y = (r?.y ?? 0) + (d?.y ?? 0);
+      const z = (r?.z ?? 0) + (d?.z ?? 0);
       node.rotation.set(x, y, z);
     }
   }

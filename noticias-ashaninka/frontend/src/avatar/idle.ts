@@ -100,17 +100,17 @@ export interface Clip {
   name: string;
   duration: number;
   loop?: boolean;
-  /** Rotaciones (radianes) respecto a la pose base en el instante `t` del clip, 0..duration. */
+  /** DELTAS (radianes) a sumar a REST_POSE en el instante `t` del clip, 0..duration; nunca poses absolutas. */
   pose(t: number): BonePose;
 }
 
 const smooth = (u: number) => u * u * (3 - 2 * u);
 /** Entrada y salida suaves de 0,35 s para que ningún clip dé tirones. */
 function envelope(t: number, d: number, edge = 0.35): number {
-  return smooth(Math.min(1, t / edge)) * smooth(Math.min(1, (d - t) / edge));
+  return smooth(Math.max(0, Math.min(1, t / edge))) * smooth(Math.max(0, Math.min(1, (d - t) / edge)));
 }
 
-/** Pose de reposo con los brazos abajo (el VRM normalizado está en T). */
+/** Pose de reposo con los brazos abajo (el VRM normalizado está en T). Los clips se SUMAN a ella. */
 export const REST_POSE: BonePose = {
   leftUpperArm: { z: -1.25 },
   leftLowerArm: { z: -0.12 },
@@ -118,13 +118,60 @@ export const REST_POSE: BonePose = {
   rightLowerArm: { z: 0.12 },
 };
 
+type Rango = [number, number];
+interface LimitesHueso {
+  x: Rango;
+  y: Rango;
+  z: Rango;
+}
+const ARM: LimitesHueso = { x: [-0.06, 0.06], y: [-0.06, 0.06], z: [-0.06, 0.06] };
+const HEAD: LimitesHueso = { x: [0, 0.06], y: [-0.06, 0.06], z: [-0.06, 0.06] }; // x >= 0: nunca hacia atrás
+const TORSO: LimitesHueso = { x: [0, 0.05], y: [-0.05, 0.05], z: [-0.05, 0.05] };
+
+/** Rango (rad) del delta procedural por hueso y eje, respecto a REST_POSE. */
+export const POSE_LIMITS: Record<BoneName, LimitesHueso> = {
+  head: HEAD,
+  neck: HEAD,
+  spine: TORSO,
+  chest: TORSO,
+  leftUpperArm: ARM,
+  leftLowerArm: ARM,
+  rightUpperArm: ARM,
+  rightLowerArm: ARM,
+  rightHand: ARM,
+};
+
+const clamp = (v: number, [lo, hi]: Rango) => Math.min(hi, Math.max(lo, v));
+
+/** Suma los deltas de varias poses y los recorta a POSE_LIMITS (también los clips registrados luego). */
+export function limitPose(poses: BonePose[]): BonePose {
+  const out: BonePose = {};
+  for (const bone of Object.keys(POSE_LIMITS) as BoneName[]) {
+    let x = 0;
+    let y = 0;
+    let z = 0;
+    for (const p of poses) {
+      const e = p[bone];
+      if (e) {
+        x += e.x ?? 0;
+        y += e.y ?? 0;
+        z += e.z ?? 0;
+      }
+    }
+    const l = POSE_LIMITS[bone];
+    out[bone] = { x: clamp(x, l.x), y: clamp(y, l.y), z: clamp(z, l.z) };
+  }
+  return out;
+}
+
 export function builtinClips(): Clip[] {
-  const wave = (t: number, d: number): BonePose => {
+  // Saludo y despedida: la presentadora no levanta el brazo; solo un asentimiento y un micro-gesto del antebrazo
+  const cortesia = (t: number, d: number, forearm: number): BonePose => {
     const e = envelope(t, d);
     return {
-      rightUpperArm: { z: 1.25 - e * 2.05, x: 0, y: -e * 0.25 }, // brazo arriba
-      rightLowerArm: { z: 0.12 - e * 0.5 + Math.sin(t * 9) * 0.35 * e },
-      head: { z: Math.sin(t * 3) * 0.03 * e },
+      head: { x: 0.05 * e, z: Math.sin(t * 2) * 0.03 * e },
+      chest: { x: 0.02 * e },
+      rightLowerArm: { z: -forearm * e },
     };
   };
   return [
@@ -134,23 +181,26 @@ export function builtinClips(): Clip[] {
       duration: 6,
       loop: true,
       pose: (t) => ({
-        chest: { x: Math.sin(t * 1.4) * 0.012 },
+        chest: { x: (1 - Math.cos(t * 1.4)) * 0.006 },
         spine: { z: Math.sin(t * 0.5) * 0.01 },
-        head: { x: Math.sin(t * 0.9) * 0.02, y: Math.sin(t * 0.6) * 0.03 },
+        head: { x: (1 - Math.cos(t * 0.9)) * 0.01, y: Math.sin(t * 0.6) * 0.03 },
       }),
     },
-    { name: "saludo-apertura", duration: 2.6, pose: (t) => wave(t, 2.6) },
+    { name: "saludo-apertura", duration: 2.6, pose: (t) => cortesia(t, 2.6, 0.05) },
     {
       name: "asentir",
       duration: 1.1,
-      pose: (t) => ({ head: { x: Math.sin((t / 1.1) * Math.PI * 2) * 0.12 * envelope(t, 1.1, 0.15) } }),
+      pose: (t) => {
+        const n = Math.sin((t / 1.1) * Math.PI) ** 2;
+        return { head: { x: 0.05 * n }, neck: { x: 0.02 * n } };
+      },
     },
     {
       name: "despedida",
       duration: 3.0,
       pose: (t) => {
-        const p = wave(t, 3.0);
-        return { ...p, spine: { x: smooth(Math.max(0, (t - 2.2) / 0.5)) * 0.06 } };
+        const p = cortesia(t, 3.0, 0.04);
+        return { ...p, spine: { x: smooth(Math.max(0, Math.min(1, (t - 2.2) / 0.5))) * 0.04 * envelope(t, 3.0, 0.2) } };
       },
     },
   ];
