@@ -9,15 +9,21 @@
 | eSpeak-NG (Fase 2) | versión detectada en tiempo de ejecución (en los metadatos de cada audio) | GPL-3.0 | Sin restricción comercial. Se invoca como programa externo, no se enlaza | Línea base (`NA_TTS_ENGINE=espeak_ng`) y alternativa sin restricción comercial. Se instala aparte |
 | num2words | ≥ 0.5.13 | LGPL-2.1 | — | Verbalización castellana |
 | FastAPI, SQLModel, Pydantic, PyYAML, uv, ruff | — | MIT / BSD | — | Infraestructura |
-| PyTorch, transformers | — | BSD-3 / Apache-2.0 | — | Solo en evaluación (grupo `eval`) |
+| PyTorch (CPU), transformers | torch 2.14 | BSD-3 / Apache-2.0 | — | **Dependencias principales** desde la Fase 2: ejecutan `mms-tts-cni` en el servicio (también en la imagen Docker) |
 | three.js, `@pixiv/three-vrm`, Preact, Vite | three 0.186, three-vrm 3.5 | MIT | — | Avatar y visor (Fase 3), cliente |
 | TalkingHead (`@met4citizen/talkinghead`) | 1.7.0 | MIT | — | Solo en la comparativa de la tarea 3.1 (`frontend/bench/`); no se usa en producción |
 | `VRM1_Constraint_Twist_Sample` (pixiv Inc.) | v1.0.1 | Licencia VRM 1.0 (https://vrm.dev/licenses/1.0/): redistribución y modificación permitidas | Es un modelo de ejemplo, **provisional**; no es la presentadora final | Avatar de pruebas (`frontend/public/models/`, no versionado; se reduce con `scripts/optimize_vrm.py`) |
 | SyncNet (Chung y Zisserman, `joonson/syncnet_python` @ `907c0b5`) | `syncnet_v2` | Código MIT. Los pesos los publica el VGG de Oxford sin una licencia explícita | Solo evaluación académica; **no se redistribuyen**: se descargan a `models/syncnet/` | LSE-D y LSE-C (tarea 3.8) |
 | `@playwright/test`, `@axe-core/playwright` (axe-core) | 1.64 / 4.x (axe-core 4.x) | Apache-2.0 / MPL-2.0 | Solo `devDependencies` (pruebas E2E y accesibilidad); no se distribuyen con la PWA | Fase 4 |
 | Playwright, imageio-ffmpeg, scipy, python-speech-features | — | Apache-2.0 / BSD / MIT | ffmpeg de imageio-ffmpeg se distribuye con licencia GPL; se usa como programa externo | Captura y evaluación (grupo `eval`) |
+| Caddy | 2.8 | Apache-2.0 | — | Proxy inverso y HTTPS automático (Fase 6, imagen `caddy:2.8-alpine`) |
+| Docker, Docker Compose | — | Apache-2.0 | — | Contenedores (Fase 6); las imágenes base (`python:3.11-slim`, `node:20`, `caddy`) llevan sus propias licencias |
+| ffmpeg y eSpeak-NG (paquetes de Debian) | los de Debian 12 | GPL-2.0+ / GPL-3.0 | Se invocan como programas externos dentro de la imagen; no se enlazan con el código del proyecto | Conversiones y línea base de voz en la imagen Docker |
+| pandas, statsmodels, pyarrow | — | BSD-3 / Apache-2.0 | — | Análisis estadístico de la Fase 5 (grupo `eval`) |
 
 ## Advertencias
+
+- La imagen Docker **no incluye** los modelos: `mms-tts-cni` se descarga a un volumen con `docker compose --profile setup run --rm setup` y su licencia **CC-BY-NC 4.0** (uso no comercial) se aplica al servicio desplegado.
 
 - Desde la Fase 2, cada audio guarda en su JSON de metadatos el modelo, la revisión, la licencia, si permite uso comercial, la variante y el aviso de voz sintética. Si el motor es no comercial, el manifiesto incluye la advertencia `non_commercial_warning` y el servidor la escribe en el log al iniciar.
 

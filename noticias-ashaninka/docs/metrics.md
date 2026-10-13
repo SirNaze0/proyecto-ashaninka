@@ -305,3 +305,17 @@ Reglas fijadas de antemano:
 | Un solo comando | `scripts/verify.sh` ejecuta lint, pruebas, compilación, E2E y `eval.fase6.run` | — |
 | Banco de pruebas en el servidor (6.3) | Repetir Fases 2 a 4 con `BASE` apuntando al servidor | **«pendiente»** (no hay servidor) |
 | README probado por una persona ajena (6.4) | Una persona revisora reproduce todo solo con el README | **«pendiente»** (requiere a la persona) |
+
+## Revisión del kit de escucha (2026-10-13, registrada al terminar el kit y antes de puntuar respuestas)
+
+Las reglas de la sección anterior (palabras clave, MOS, bootstrap por oyente, acuerdo) se escribieron antes de construir. Esto documenta los detalles de implementación que se concretaron al construir el kit; **no hay respuestas de personas puntuadas** ni se ajustó nada con resultados:
+
+- **Tamaño:** 24 oraciones del split test × 2 motores = 48 audios, más el 10 % repetido (mínimo 2) = unos 53. Solo entran oraciones de 20 a 140 caracteres con exactamente 3 palabras clave (regla fija) y texto TTS dentro del vocabulario de MMS.
+- **Volumen:** todos los audios se igualan en RMS (0,08) sin recortar (pico máximo 0,95), para que el volumen no delate el motor ni sesgue el MOS. La voz sigue siendo reconocible: se declara como limitación.
+- **Presentación:** orden aleatorio fijo con semilla; la misma oración con los dos motores nunca va seguida; los repetidos aparecen al menos 10 puestos después del original y con otro nombre de archivo.
+- **Respuesta:** el oyente escribe lo que entiende (la oración o las palabras que reconozca) y puntúa la naturalidad. Una palabra clave **acierta** si aparece entre las palabras escritas; el CER de palabra usa la mínima distancia de edición contra ellas.
+- **Variante del oyente:** `asháninka`, `ashéninka`, `alto_perene`, `otra` o `no_sabe` (`SUPUESTO-LING`, P3); con menos de 3 oyentes en un grupo, se marca «insuficiente».
+- **Estadística:** IC 95 % por *bootstrap de oyentes* (B = 2 000, semilla 20261012); alfa de Krippendorff ordinal, implementado y verificado contra el ejemplo publicado por Krippendorff (2011): 0,743 nominal, 0,815 ordinal y 0,849 de intervalo.
+- **Verificación sin personas:** 30 oyentes simulados con acierto 0,85 (MMS) y 0,55 (eSpeak) y MOS 3,6 y 2,2 verdaderos; el kit debe recuperar cada valor dentro del IC 95 % (acierto) o a menos de 0,2 (MOS). Es una prueba del kit, **no** una medición.
+- **Seguridad, límite de tasa:** cubeta de fichas por IP con capacidad igual al límite por minuto (1 200 por defecto); cada par (IP, límite) tiene su propia cubeta.
+- **Criterio de CSP:** `connect-src` admite `blob:` porque `GLTFLoader` lee las texturas del avatar así; se descubrió al ejecutar la comprobación de Chromium (violaciones de `connect-src blob:` en C4) y se corrigió antes de cualquier medición de despliegue.

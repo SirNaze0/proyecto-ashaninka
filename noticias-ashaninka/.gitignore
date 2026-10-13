@@ -45,3 +45,5 @@ eval/fase5/out/
 # exportaciones del experimento: datos de participantes, nunca al repositorio
 data/export/
 frontend/playwright-report/
+# Resultados intermedios de la Fase 6 (pytest.xml, vitest.json, e2e.json, escucha simulada)
+eval/fase6/out/

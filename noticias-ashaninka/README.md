@@ -1,15 +1,58 @@
 # noticias-ashaninka
 
 Artefacto de tesis: **servicio web de noticias en lengua asháninka con síntesis de voz, texto y
-avatar**. Fases implementadas:
+avatar**, con un experimento intra-sujeto (C1 texto, C2 voz, C3 voz + texto, C4 + avatar) para medir
+su efecto en la comprensión. Las seis fases del plan están implementadas; lo que depende de personas
+o de infraestructura se declara como **pendiente** y no se inventa.
 
-- **Fase 1, pipeline de texto:** corpus, ingesta, normalización, adaptador ortográfico del TTS y G2P.
-- **Fase 2, síntesis de voz:** motores intercambiables, duraciones, caché, modo por lotes y modo bajo demanda con streaming.
-- **Fase 3, alineación, visemas y avatar:** tiempos por fonema y palabra, pista de visemas con coarticulación en cada `seg_NNN.json`, y un visor del avatar (three-vrm, carga diferida, degradación) en `frontend/`. Ver [docs/avatar.md](docs/avatar.md) y [frontend/README.md](frontend/README.md).
-- **Fase 4, interfaz web (PWA):** app en Preact con las condiciones C1 solo texto, C2 solo voz, C3 voz + texto resaltado y C4 voz + texto + avatar; reproductor por segmentos, Service Worker (sin conexión), cola de eventos y API de catálogo. Ver [docs/pwa.md](docs/pwa.md).
+## Mapa de las fases
+
+| Fase | Qué es | Dónde está el código | Documentos | Resultados |
+|---|---|---|---|---|
+| **1** Pipeline de texto | corpus AmericasNLP, ingesta, normalización, adaptador ortográfico del TTS, G2P | `backend/app/pipeline/`, `backend/app/corpus/` | [normalization_rules](docs/normalization_rules.md), [mms_orthography](docs/mms_orthography.md), [g2p](docs/g2p.md) | [resumen_fase1](resumen_fase1.md) · `eval/results/fase_1.json` |
+| **2** Síntesis de voz | motores `mms_vits` y `espeak_ng`, caché por contenido, modo por lotes y bajo demanda | `backend/app/pipeline/tts/`, `backend/app/batch/`, `backend/app/api/synthesize.py` | [sizing](docs/sizing.md), [manifest_schema](docs/manifest_schema.md), [intelligibility](docs/intelligibility.md) | [resumen_fase2](resumen_fase2.md) · `fase_2.json` |
+| **3** Alineación y avatar | tiempos por fonema y palabra, visemas, avatar VRM (three-vrm) con degradación | `backend/app/pipeline/viseme/`, `frontend/src/avatar/` | [avatar](docs/avatar.md), [avatar_decision](docs/avatar_decision.md) | [resumen_fase3](resumen_fase3.md) · `fase_3.json` |
+| **4** Interfaz web | PWA en Preact, condiciones C1–C4, Service Worker, cola de eventos | `frontend/src/app/`, `backend/app/api/{catalog,events}.py` | [pwa](docs/pwa.md) | [resumen_fase4](resumen_fase4.md) · `fase_4.json` |
+| **5** Experimento | cuadrado de Williams, flujo guiado, cuestionarios, exportación y análisis estadístico | `backend/app/experiment/`, `frontend/src/app/experiment.ts`, `eval/fase5/` | [metrics](docs/metrics.md), [DATA_DICTIONARY](data/DATA_DICTIONARY.md) | [resumen_fase5](resumen_fase5.md) · `fase_5.json` |
+| **6** Despliegue y seguridad | Docker + Caddy (HTTPS), endpoints administrativos con token, cabeceras y CSP, kit de escucha 5.7, hashes de modelos | `Dockerfile`, `docker-compose.yml`, `Caddyfile`, `backend/app/security.py`, `eval/listening/inteligibilidad_mos/` | [deployment](docs/deployment.md), [architecture](docs/architecture.md), [limitations](docs/limitations.md) | [resumen_fase6](resumen_fase6.md) · `fase_6.json` |
+
+Las cifras de cada fase salen de ejecuciones reales (`eval/results/*.json`). El plan completo está en
+`PLAN_DESARROLLO.md` (en la raíz del repositorio) y las **limitaciones** de cada medición en
+[docs/limitations.md](docs/limitations.md).
 
 > La voz y el avatar del servicio son **sintéticos**. El modelo de voz `facebook/mms-tts-cni`
 > tiene licencia **CC-BY-NC 4.0 (uso no comercial)**. Ver [LICENSES.md](LICENSES.md).
+
+## De cero a funcionando
+
+### A. En un servidor, con Docker (producción)
+
+Requisitos: Docker con `docker compose` v2, un dominio apuntando al servidor y los puertos 80 y 443
+abiertos (2 vCPU y 2 GB de RAM bastan en modo por lotes). Guía completa: [docs/deployment.md](docs/deployment.md).
+
+```bash
+cp .env.production.example .env
+python -c "import secrets; print(secrets.token_urlsafe(32))"   # -> NA_ADMIN_TOKEN en .env (y NA_DOMAIN)
+docker compose --profile setup run --rm setup    # una vez: descarga el modelo de voz y verifica sus SHA-256
+docker compose up -d --build                     # app + Caddy con HTTPS automático
+curl -s https://su-dominio/api/health/ready      # {"status":"ok","db":true,"static":true,"tts":true}
+```
+
+### B. En su máquina, sin Docker (desarrollo)
+
+```bash
+./init.sh --with-tts                             # uv, Python 3.11, dependencias, .env, BD, corpus y modelo (ver abajo)
+(cd frontend && npm install && npm run build)    # compila la PWA a frontend/dist
+uv run python -m app.cli import --from-corpus dev --limit 20 && uv run python -m app.cli process --all
+uv run python -m app.batch build --all           # sintetiza por lotes -> static/
+uv run uvicorn app.main:app                      # http://127.0.0.1:8000
+```
+
+### Verificar todo en un comando
+
+```bash
+scripts/verify.sh [--sin-e2e]   # ruff, pytest, vitest, tipos, build, E2E en Chromium real y eval/results/fase_6.json
+```
 
 ## Instalación (cualquier máquina)
 
@@ -81,6 +124,39 @@ uv run uvicorn app.main:app                          # http://127.0.0.1:8000  (P
 
 Abrir una noticia en una condición: `http://127.0.0.1:8000/#/noticia/1?c=C3` (C1, C2, C3 o C4).
 
+### Experimento (Fase 5)
+
+```bash
+NA_EXPERIMENT_PILOTO=true uv run uvicorn app.main:app      # abrir http://127.0.0.1:8000/#/experimento
+uv run python -m app.cli experiment export --out data/export [--incluir-piloto] [--format csv,json,parquet]
+uv run python -m app.cli experiment dictionary             # regenera data/DATA_DICTIONARY.md
+uv run python -m eval.fase5.analysis data/export           # análisis estadístico de una exportación real
+uv run python -m eval.fase5.run                            # simulación sintética + análisis -> fase_5.json (~4 min)
+```
+
+Sin noticias revisadas por un hablante (P4) el experimento real no arranca; el modo piloto
+(`NA_EXPERIMENT_PILOTO=true`) admite pseudo-noticias y marca todo como piloto.
+
+### Pruebas de escucha (tarea 5.7)
+
+```bash
+uv run python -m eval.listening.inteligibilidad_mos.build          # kit: MMS y eSpeak, mismo volumen, clave aparte
+uv run python -m eval.listening.inteligibilidad_mos.score respuestas_*.csv   # acierto y CER por palabra, MOS, IC, acuerdo
+```
+
+El kit (`eval/listening/inteligibilidad_mos/out/kit_escucha.zip`) se entrega a los oyentes; `clave.csv`
+no. Instrucciones en [eval/listening/inteligibilidad_mos/INSTRUCCIONES.md](eval/listening/inteligibilidad_mos/INSTRUCCIONES.md).
+Sin personas solo se verifica con oyentes **simulados**: la medición real sigue pendiente.
+
+### Seguridad y operación (Fase 6)
+
+- Los endpoints administrativos (`/api/events/summary`, `/api/news*`, la exportación y elegir el motor en
+  `/api/synthesize`) están **cerrados por defecto**: exigen la cabecera `x-admin-token` con `NA_ADMIN_TOKEN`.
+- Toda respuesta lleva cabeceras de seguridad y una CSP; hay límite de tasa por IP; con `NA_ENV=production`
+  no se publican `/docs` ni `/openapi.json`. `GET /api/health` (vivo) y `/api/health/ready` (listo).
+- `uv run python scripts/verify_models.py` comprueba los SHA-256 de los modelos contra `models.lock.json`;
+  `uv run python -m app.cli db-backup --out copia.db` hace una copia consistente de la base de datos.
+
 ### Evaluación
 
 ```bash
@@ -97,6 +173,8 @@ uv run python -m eval.fase2.run                           # métricas -> eval/re
 ```
 
 ## Arquitectura de la Fase 1
+
+> El diagrama completo del sistema y las latencias medidas por etapa están en [docs/architecture.md](docs/architecture.md).
 
 ```
 texto cni ─► segmentación ─► 2a clasificación ─► 2-0 unificación (palabras cni)
@@ -117,10 +195,15 @@ texto cni ─► segmentación ─► 2a clasificación ─► 2-0 unificación 
 |---|---|
 | `backend/app/pipeline/` | segmentación, normalizador, G2P, adaptador TTS y motores (`tts/`) |
 | `backend/app/batch/` | caché por contenido, manifiesto, tiempos y modo por lotes |
+| `backend/app/experiment/` | Fase 5: cuadrado de Williams, noticias del experimento, cuestionarios, privacidad y exportación |
+| `backend/app/security.py` | Fase 6: token administrativo, cabeceras con CSP y límite de tasa |
+| `frontend/` | PWA (Preact), avatar (three-vrm) y pruebas vitest y Playwright |
+| `Dockerfile`, `docker-compose.yml`, `Caddyfile` | Fase 6: imagen, orquestación y proxy con HTTPS |
+| `models.lock.json`, `scripts/` | hashes de los modelos, copias de seguridad y verificación en un comando |
 | `backend/app/corpus/` | carga, informe y extracción de candidatos del corpus |
 | `backend/app/pipeline/**/resources`, `rules`, `adapters/*.yaml` | recursos lingüísticos versionados |
 | `data/candidates/` | candidatos extraídos del corpus (evidencia, sin validar) |
-| `eval/` | experimentos y métricas; `eval/results/` guarda los resultados reales |
+| `eval/` | experimentos y métricas (`fase1`…`fase6`, `listening/`); `eval/results/` guarda los resultados reales |
 | `docs/` | documentación (parte generada automáticamente) |
 
 ## Citas

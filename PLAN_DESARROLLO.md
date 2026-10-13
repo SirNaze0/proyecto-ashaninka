@@ -5,7 +5,7 @@
 > **Fecha:** 2026-10-05
 > **Cambios en v1.2:** se incorpora el corpus AmericasNLP 2021 asháninka–castellano (§3.2). Hallazgo crítico: la ortografía del corpus no coincide con la del modelo de voz `mms-tts-cni`. Se agregan la sub-etapa 2e (adaptador ortográfico), el pendiente P6, la prueba de ida y vuelta TTS→ASR y los riesgos R13–R15
 > **Cambios en v1.1:** P2 (política de normalización) resuelto a nivel de política. Se añaden §3.1, nuevos pendientes P2a–P2e, rediseño de la tarea 1.5 y riesgos R10–R12
-> **Estado:** Fases 1, 2, 3, 4 y 5 aprobadas (2026-10-12). Fase 2 con la línea base eSpeak-NG cerrada (tareas 2.3, 2.8 y 2.10 al 100 %). Fase 4 aprobada con tres pendientes externos: Android de gama media físico, traducción de la interfaz al asháninka y VRM final (≤ 2 MB). Fase 5 aprobada tras verificarse con una simulación sintética; faltan el consentimiento del comité, los ítems del hablante, las noticias revisadas (P4) y el piloto con personas
+> **Estado:** Fases 1, 2, 3, 4 y 5 aprobadas (2026-10-12). Fase 2 con la línea base eSpeak-NG cerrada (tareas 2.3, 2.8 y 2.10 al 100 %). Fase 4 aprobada con tres pendientes externos: Android de gama media físico, traducción de la interfaz al asháninka y VRM final (≤ 2 MB). Fase 5 aprobada tras verificarse con una simulación sintética; faltan el consentimiento del comité, los ítems del hablante, las noticias revisadas (P4) y el piloto con personas. Fase 6 implementada y verificada (2026-10-13), pendiente de aprobación: la imagen de Docker NO se construyó (demonio apagado), y faltan el banco en un servidor, el README probado por una persona ajena y las sesiones de escucha con hablantes
 
 Todas las cifras de latencia, rendimiento y calidad de este documento son **metas o estimaciones**. Ninguna ha sido medida aún. Los valores reales se registrarán en `eval/results/` al cerrar cada fase.
 
@@ -428,6 +428,17 @@ El resultado son **tiempos exactos para el audio sintetizado, sin costo adiciona
 | 6.5 Documentación | `docs/architecture.md` (diagrama + tabla por etapa con **latencias medidas**), `docs/limitations.md`, `LICENSES.md` |
 
 **Criterios de cierre:** una persona revisora reproduce el sistema y el banco de pruebas solo con el README.
+
+### Estado de la Fase 6: IMPLEMENTADA, pendiente de aprobación (2026-10-13)
+
+- **Implementado y verificado (`scripts/verify.sh`, exit 0):** endpoints administrativos **cerrados por defecto** con token (`/api/events/summary`, `/api/news*`, exportación y elección del motor), cabeceras de seguridad y CSP (cero violaciones en Chromium real), límite de tasa, `NA_ENV=production` y `/api/health/ready`; `Dockerfile` multi-etapa (Node → PWA; Python 3.11 + uv + eSpeak-NG + ffmpeg, usuario no root), `docker-compose.yml` y `Caddyfile` (HTTPS automático, compresión solo de texto, audio con `Range`); SHA-256 de los pesos (`models.lock.json`, contrastados con Hugging Face); `db-backup`, `scripts/backup.sh` y `scripts/verify.sh`; kit de escucha 5.7 (`eval/listening/inteligibilidad_mos/`, kit real de 53 audios construido); `docs/deployment.md`, `docs/architecture.md` (generado con las latencias medidas) y el mapa de las Fases 1 a 6 en el README.
+- **Pruebas:** 314 de 316 de Python (2 omitidas), 65 de vitest, 27 E2E en Chromium real; `ruff` y `tsc` sin errores. Regresión de la Fase 5 sin cambios.
+- **Pendiente (no se simula ni se da por hecho):**
+  - **`docker build` y `docker compose up` reales:** el demonio de Docker estaba apagado; los archivos se validaron por pruebas y `docker compose config`, pero ningún contenedor se ha ejecutado. Tampoco `caddy validate` ni el HTTPS con un dominio.
+  - **6.3 Banco de pruebas en el servidor:** no hay servidor; las latencias de `docs/architecture.md` son de la máquina de desarrollo.
+  - **6.4 README probado por una persona ajena:** requiere a la persona.
+  - **5.7 Sesiones de escucha con hablantes:** el kit está listo y probado con oyentes simulados; la inteligibilidad y el MOS reales siguen pendientes.
+- Resumen y detalle: `resumen_fase6.md`, `docs/deployment.md`, `docs/architecture.md`, `docs/metrics.md` («Fase 6»), `eval/results/fase_6.json`.
 
 ---
 

@@ -1,0 +1,384 @@
+{
+ "fase": 6,
+ "commit": "79cc55d1fa17725c81c0f39799987eec2132384e",
+ "fecha": "2026-10-13T05:18:24+00:00",
+ "hardware": {
+  "so": "Windows-10-10.0.26200-SP0",
+  "cpu": "Intel64 Family 6 Model 151 Stepping 5, GenuineIntel",
+  "nucleos_logicos": 12,
+  "ram_gb": 15.8,
+  "gpu_chromium": null
+ },
+ "docker": {
+  "cli": {
+   "disponible": true,
+   "version": "Docker version 29.8.0, build 88096ef"
+  },
+  "compose": {
+   "disponible": true,
+   "version": "Docker Compose version v5.5.1"
+  },
+  "compose_config": {
+   "valido": true,
+   "servicios": [
+    "app",
+    "caddy"
+   ],
+   "puertos_publicados": {
+    "caddy": [
+     "80",
+     "443",
+     "443"
+    ]
+   },
+   "volumenes": [
+    "caddy_config",
+    "caddy_data",
+    "na_data",
+    "na_export",
+    "na_models",
+    "na_static"
+   ]
+  },
+  "demonio": {
+   "activo": false,
+   "detalle": "failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine; check if the path is correct and if the daemon is running: open //./pipe/dockerDesktopLinuxEngine: The system cannot find the file specified."
+  },
+  "build": {
+   "estado": "pendiente",
+   "motivo": "el demonio de Docker no está activo",
+   "mensaje_docker": "failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine; check if the path is correct and if the daemon is running: open //./pipe/dockerDesktopLinuxEngine: The system cannot find the file specified."
+  }
+ },
+ "modelos": {
+  "codigo": 0,
+  "archivos_ok": 12,
+  "archivos_total": 12,
+  "omitidos": [],
+  "fallos": []
+ },
+ "escucha_simulada": {
+  "nota": "SIMULADO: oyentes sintéticos con acierto y MOS verdaderos conocidos; no es una medición",
+  "n_oyentes": 30,
+  "items": 27,
+  "repetidos": 3,
+  "verdad": {
+   "mms_vits": {
+    "p_acierto": 0.85,
+    "mos": 3.6
+   },
+   "espeak_ng": {
+    "p_acierto": 0.55,
+    "mos": 2.2
+   }
+  },
+  "estimado": {
+   "mms_vits": {
+    "acierto": {
+     "media": 0.8379629629629629,
+     "ic95": [
+      0.8129629629629631,
+      0.8611111111111112
+     ],
+     "n_oyentes": 30
+    },
+    "mos": {
+     "media": 3.4722222222222214,
+     "ic95": [
+      3.341597222222222,
+      3.594444444444446
+     ],
+     "n_oyentes": 30
+    }
+   },
+   "espeak_ng": {
+    "acierto": {
+     "media": 0.5268518518518518,
+     "ic95": [
+      0.4935185185185185,
+      0.5611111111111112
+     ],
+     "n_oyentes": 30
+    },
+    "mos": {
+     "media": 2.158333333333333,
+     "ic95": [
+      2.0415972222222223,
+      2.2833333333333328
+     ],
+     "n_oyentes": 30
+    }
+   }
+  },
+  "recupera_dentro_del_ic": {
+   "acierto_mms_vits": true,
+   "mos_mms_vits": true,
+   "acierto_espeak_ng": true,
+   "mos_espeak_ng": true
+  },
+  "diferencia_acierto_ic95": [
+   0.2712962962962963,
+   0.3509259259259258
+  ],
+  "alfa_krippendorff_ordinal_mos": 0.38616365258312846,
+  "fiabilidad_repetidos": {
+   "pares_mos": 90,
+   "diferencia_absoluta_media_mos": 1.011111111111111,
+   "pares_palabras": 270,
+   "concordancia_aciertos": 0.674074074074074
+  }
+ },
+ "kit_real": {
+  "construido": true,
+  "oraciones": 24,
+  "items": 53,
+  "repetidos": 5,
+  "regla_clave": "3 primeras palabras de 5 o más letras",
+  "rms_objetivo": 0.08,
+  "audios_en_zip": 53,
+  "clave_fuera_del_zip": true,
+  "motores": [
+   "mms_vits",
+   "espeak_ng"
+  ]
+ },
+ "paquete": {
+  "inicial_gzip_bytes": 24988,
+  "inicial_archivos": [
+   "assets/index-Cc9FYswb.css",
+   "assets/index-DZbclvoM.js",
+   "assets/preload-helper-B0uLj6Uu.js",
+   "index.html"
+  ],
+  "diferido_gzip_bytes": 234155,
+  "diferido_archivos": [
+   "assets/AvatarPanel-5UK-lCLs.js",
+   "assets/GLTFLoader-BIuxjdlN.js",
+   "assets/create-avatar-bkGZEMwh.js",
+   "assets/three-vrm.module-6fMmVtoZ.js",
+   "assets/three.module-C8enonVg.js",
+   "assets/viewer-1Wau1Vz8.js"
+  ],
+  "sw_js_gzip_bytes": 1293,
+  "precache_sw_archivos": [
+   "/",
+   "/assets/index-Cc9FYswb.css",
+   "/assets/index-DZbclvoM.js",
+   "/assets/preload-helper-B0uLj6Uu.js",
+   "/icon-192.png",
+   "/icon.svg",
+   "/index.html",
+   "/manifest.webmanifest",
+   "/presentadora_fija.svg"
+  ],
+  "precache_sw_gzip_bytes": 26696,
+  "precache_sw_incluye_avatar": false,
+  "presupuesto_inicial_bytes": 3145728,
+  "cumple_presupuesto_inicial": true,
+  "nota": "el avatar va FUERA del presupuesto inicial (carga diferida, PLAN §4.7)",
+  "vrm_provisional_bytes": 2525972,
+  "vrm_meta_final_bytes": 2097152,
+  "vrm_cumple_meta_2mb": false,
+  "inicial_mas_avatar_mas_vrm_gzip_bytes": 2785115
+ },
+ "regresion_fase5": {
+  "commit_fase5": "79cc55d1fa17725c81c0f39799987eec2132384e",
+  "criterios_automaticos_en_fallo": {},
+  "criterios_cumplidos": 13,
+  "criterios_pendientes": 5
+ },
+ "pruebas_por_area": {
+  "seguridad": {
+   "archivos": [
+    "test_security.py",
+    "test_security_api.py"
+   ],
+   "pasaron": 55,
+   "fallaron": 0,
+   "omitidas": 0,
+   "total": 55
+  },
+  "despliegue": {
+   "archivos": [
+    "test_deploy_artifacts.py",
+    "test_imagen_simulada.py"
+   ],
+   "pasaron": 31,
+   "fallaron": 0,
+   "omitidas": 1,
+   "total": 32
+  },
+  "escucha": {
+   "archivos": [
+    "test_listening_kit.py"
+   ],
+   "pasaron": 22,
+   "fallaron": 0,
+   "omitidas": 0,
+   "total": 22
+  },
+  "documentacion": {
+   "archivos": [
+    "test_docs_fase6.py"
+   ],
+   "pasaron": 15,
+   "fallaron": 0,
+   "omitidas": 0,
+   "total": 15
+  }
+ },
+ "pruebas": {
+  "pytest": {
+   "total": 316,
+   "pasaron": 314,
+   "fallaron": 0,
+   "omitidas": 2
+  },
+  "vitest": {
+   "total": 65,
+   "pasaron": 65,
+   "fallaron": 0
+  },
+  "e2e": {
+   "total": 27,
+   "pasaron": 27,
+   "fallaron": 0,
+   "omitidas": 0
+  }
+ },
+ "criterios": {
+  "pruebas_seguridad": {
+   "meta": "endpoints administrativos cerrados por defecto, cabeceras, CSP, límite de tasa y salud: 0 fallos",
+   "valor": "55/55",
+   "cumple": true,
+   "nota": ""
+  },
+  "pruebas_despliegue": {
+   "meta": "Dockerfile, Compose, Caddyfile, .dockerignore, variables, modelos y arranque con el layout de la imagen: 0 fallos",
+   "valor": "31/32",
+   "cumple": true,
+   "nota": ""
+  },
+  "pruebas_escucha": {
+   "meta": "kit de escucha (reglas, alfa de Krippendorff, build y score con oyentes simulados): 0 fallos",
+   "valor": "22/22",
+   "cumple": true,
+   "nota": ""
+  },
+  "pruebas_documentacion": {
+   "meta": "documentación de despliegue, arquitectura y README consistentes con el código y las mediciones: 0 fallos",
+   "valor": "15/15",
+   "cumple": true,
+   "nota": ""
+  },
+  "docker_compose_config": {
+   "meta": "`docker compose config` valida el Compose con el .env de producción",
+   "valor": true,
+   "cumple": true,
+   "nota": ""
+  },
+  "solo_caddy_publica_puertos": {
+   "meta": "solo el proxy publica puertos; la aplicación queda en la red interna",
+   "valor": {
+    "caddy": [
+     "80",
+     "443",
+     "443"
+    ]
+   },
+   "cumple": true,
+   "nota": ""
+  },
+  "docker_build_y_arranque": {
+   "meta": "la imagen se construye y contiene app, eSpeak-NG, ffmpeg y la PWA, sin correr como root",
+   "valor": "pendiente",
+   "cumple": "pendiente",
+   "nota": "failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine; check if the path is correct and if the daemon is running: open //./pipe/dockerDesktopLinuxEngine: The system cannot find the file specified."
+  },
+  "modelos_sha256": {
+   "meta": "los pesos descargados coinciden con models.lock.json",
+   "valor": "12/12",
+   "cumple": true,
+   "nota": ""
+  },
+  "escucha_recupera_valores_simulados": {
+   "meta": "el kit recupera el acierto y el MOS verdaderos dentro del IC 95 % (oyentes simulados)",
+   "valor": {
+    "acierto_mms_vits": true,
+    "mos_mms_vits": true,
+    "acierto_espeak_ng": true,
+    "mos_espeak_ng": true
+   },
+   "cumple": true,
+   "nota": "SIMULADO: oyentes sintéticos con acierto y MOS verdaderos conocidos; no es una medición"
+  },
+  "kit_real_construido": {
+   "meta": "kit con audio real de MMS y eSpeak construido, con la clave fuera del zip",
+   "valor": {
+    "construido": true,
+    "items": 53,
+    "audios_en_zip": 53,
+    "clave_fuera_del_zip": true
+   },
+   "cumple": true,
+   "nota": ""
+  },
+  "carga_inicial": {
+   "meta": "carga inicial de la PWA < 3 MB tras añadir seguridad y el flujo del experimento",
+   "valor": 0.0238,
+   "cumple": true,
+   "nota": ""
+  },
+  "regresion_fase5": {
+   "meta": "los criterios automáticos de la Fase 5 siguen cumpliéndose",
+   "valor": {
+    "cumplidos": 13,
+    "en_fallo": {}
+   },
+   "cumple": true,
+   "nota": ""
+  },
+  "pruebas_pytest": {
+   "meta": "0 fallos",
+   "valor": "314/316",
+   "cumple": true,
+   "nota": ""
+  },
+  "pruebas_vitest": {
+   "meta": "0 fallos",
+   "valor": "65/65",
+   "cumple": true,
+   "nota": ""
+  },
+  "pruebas_e2e": {
+   "meta": "0 fallos",
+   "valor": "27/27",
+   "cumple": true,
+   "nota": ""
+  },
+  "banco_en_servidor_6_3": {
+   "meta": "repetir las mediciones de las Fases 2 a 4 en el servidor desplegado (local frente a servidor)",
+   "valor": null,
+   "cumple": "pendiente",
+   "nota": "requiere infraestructura o personas; no se simula ni se inventa"
+  },
+  "readme_persona_ajena_6_4": {
+   "meta": "una persona ajena reproduce el sistema y el banco de pruebas solo con el README",
+   "valor": null,
+   "cumple": "pendiente",
+   "nota": "requiere infraestructura o personas; no se simula ni se inventa"
+  },
+  "escucha_real_5_7": {
+   "meta": "sesiones de escucha con hablantes: inteligibilidad y MOS reales por variante",
+   "valor": null,
+   "cumple": "pendiente",
+   "nota": "requiere infraestructura o personas; no se simula ni se inventa"
+  },
+  "https_real_dominio": {
+   "meta": "certificado y HTTPS reales con un dominio público (Let's Encrypt)",
+   "valor": null,
+   "cumple": "pendiente",
+   "nota": "requiere infraestructura o personas; no se simula ni se inventa"
+  }
+ }
+}

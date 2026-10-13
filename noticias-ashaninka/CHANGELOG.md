@@ -1,5 +1,23 @@
 # Changelog
 
+## Fase 6 — Despliegue, seguridad y kit de escucha (2026-10-13)
+
+### Añadido
+- **Seguridad (`backend/app/security.py`):** token administrativo `NA_ADMIN_TOKEN` (alias `NA_EXPORT_TOKEN`) en la cabecera `x-admin-token`, **cerrado por defecto**; protege `/api/events/summary`, `/api/news*`, la exportación y la elección del motor en `/api/synthesize`. Cabeceras de seguridad y CSP en toda respuesta, HSTS por HTTPS, límite de tasa por IP y `NA_ENV=production` (sin `/docs`). `/api/health/ready`.
+- **Contenedores (6.1, 6.2):** `Dockerfile` multi-etapa (Node → PWA; Python 3.11 + uv + eSpeak-NG + ffmpeg, usuario sin privilegios), `docker-compose.yml` (solo Caddy publica puertos, volúmenes con nombre, servicio `setup` para el modelo), `Caddyfile` (HTTPS automático, zstd/gzip solo para texto, audio con `Range` e inmutable), `.dockerignore` y `.env.production.example`.
+- **Reproducibilidad (6.4):** `models.lock.json` con los SHA-256 de los pesos (contrastados con Hugging Face) y `scripts/verify_models.py` (`init.sh` los verifica), `app.cli db-backup`, `scripts/backup.sh` y `scripts/verify.sh` (toda la batería en un comando).
+- **Kit de escucha (5.7, `eval/listening/inteligibilidad_mos/`):** construcción con MMS y eSpeak (mismo volumen, clave fuera del zip, repetidos), hoja HTML sin conexión y puntuación (acierto y CER por palabra clave, MOS, bootstrap por oyente, alfa de Krippendorff verificado con el ejemplo publicado, fiabilidad, desglose por variante), con un simulador de oyentes para probarlo.
+- **Documentación (6.5):** `docs/deployment.md`, `docs/architecture.md` (generado con las latencias medidas), README con el mapa de las Fases 1 a 6, `LICENSES.md` corregido y limitaciones 59 a 69.
+- `eval/fase6/run.py` → `eval/results/fase_6.json` (Docker con exactitud: lo no construido queda «pendiente»).
+
+### Cambiado
+- Los endpoints administrativos exigen token (pruebas, specs de Playwright, `scripts/e2e_server.py` y el banco de la Fase 4 se adaptaron).
+- `_PwaFiles` normaliza la ruta: la cabecera inmutable de `assets/` no se aplicaba en Windows.
+- `connect-src` de la CSP admite `blob:` (texturas del avatar, descubierto con Chromium real).
+
+### Pendiente (requiere personas o infraestructura)
+- `docker build`/`up` y HTTPS reales, banco de pruebas en el servidor (6.3), README probado por una persona ajena (6.4) y sesiones de escucha con hablantes.
+
 ## Fase 5 — Instrumentación del experimento (2026-10-12)
 
 ### Añadido
