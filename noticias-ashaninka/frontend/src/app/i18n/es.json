@@ -33,7 +33,7 @@
   "block.c2": "Un fragmento de la noticia no tiene audio y se omitió.",
   "notice.synthetic": "Voz sintética generada por computadora; no es la voz de una persona.",
   "notice.avatar": "La presentadora es un avatar sintético, no una persona real.",
-  "notice.license": "Licencia de la voz: {l} (no comercial).",
+  "notice.license": "Licencia de la voz: {l}.",
   "avatar.label": "Avatar de la presentadora (sintético)",
   "avatar.fallback": "El avatar no está disponible en este dispositivo; se muestra una imagen fija.",
   "offline.save": "Guardar para escuchar sin conexión",
@@ -53,5 +53,6 @@
   "settings.cniPending": "Los textos de la interfaz en asháninka están pendientes de traducción por un hablante; mientras tanto se muestra el castellano.",
   "nav.settings": "Ajustes",
   "nav.home": "Inicio",
-  "skip": "Saltar al contenido"
+  "skip": "Saltar al contenido",
+  "notice.noncommercial": "Uso no comercial: la voz sintética (MMS) solo puede usarse con fines no comerciales."
 }

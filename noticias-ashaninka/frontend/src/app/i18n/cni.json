@@ -54,5 +54,6 @@
   "settings.cniPending": null,
   "nav.settings": null,
   "nav.home": null,
-  "skip": null
+  "skip": null,
+  "notice.noncommercial": null
 }

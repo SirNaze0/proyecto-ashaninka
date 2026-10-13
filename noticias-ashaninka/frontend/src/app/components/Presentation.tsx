@@ -344,6 +344,7 @@ export function Presentation({ id, condition }: { id: number; condition: Conditi
       </h2>
       <Notices
         notices={audioMode ? view.notices : null}
+        voice={audioMode}
         variant={meta?.variante_dialectal}
         avatar={condition === "C4"}
         pseudo={!!meta && meta.procedencia_tipo === "corpus_americasnlp"}

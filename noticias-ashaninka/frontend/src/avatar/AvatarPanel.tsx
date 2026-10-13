@@ -31,5 +31,5 @@ export function AvatarPanel(props: AvatarPanelProps) {
       handle?.dispose();
     };
   }, [props.vrmUrl]);
-  return <div ref={host} class="avatar-panel" aria-label="Avatar de la presentadora (voz sintética)" />;
+  return <div ref={host} class="avatar-panel" role="img" aria-label="Avatar de la presentadora (voz sintética)" />;
 }

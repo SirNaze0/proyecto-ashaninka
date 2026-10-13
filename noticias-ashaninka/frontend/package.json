@@ -10,7 +10,8 @@
     "test": "vitest run",
     "preview": "vite preview",
     "bench:size": "BENCH_ENTRY=three-vrm vite build -c bench/vite.config.ts && BENCH_ENTRY=talkinghead vite build -c bench/vite.config.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "e2e": "npm run build && playwright test"
   },
   "dependencies": {
     "@pixiv/three-vrm": "^3.5.5",
@@ -18,8 +19,10 @@
     "three": "^0.186.1"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@gltf-transform/cli": "^4.5.1",
     "@met4citizen/talkinghead": "^1.7.0",
+    "@playwright/test": "^1.64.0",
     "@preact/preset-vite": "^2.10.6",
     "@types/three": "^0.186.0",
     "playwright": "^1.64.0",
