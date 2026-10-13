@@ -1,5 +1,23 @@
 # Changelog
 
+## Fase 4 — Interfaz web (PWA) y condiciones C1–C4 (2026-10-12)
+
+### Añadido
+- **4.1:** PWA en `frontend/src/app/` (Preact + TypeScript): rutas por hash, lista de noticias, ajustes, i18n `es.json`/`cni.json` (asháninka **pendiente de traducción**, con respaldo al castellano), Web App Manifest e íconos.
+- **4.2:** reproductor por segmentos (`player.ts`, `queue.ts`): dos `<audio>` alternos con precarga, Opus con respaldo MP3, velocidad 0,75–1,25×, repetir párrafo, pausa, teclado, segmentos bloqueados saltados sin cortar y respaldo bajo demanda por NDJSON.
+- **4.3:** resaltado sincronizado del fragmento **original** con `spans` de `seg_NNN.json` y `AudioClock` (`highlight.ts`); tamaños de texto 100–200 %.
+- **4.4:** Service Worker propio (`sw.ts`, `sw-logic.ts`): *shell* precargado sin el avatar, audio y tiempos en caché con respuestas `206` a `Range`, catálogo red primero, «guardar para escuchar sin conexión» y cola de eventos en IndexedDB.
+- **4.5:** avisos de voz y avatar sintéticos, licencia (CC-BY-NC), variante dialectal y marca de pseudo-noticia.
+- **4.6:** componente único con las condiciones **C1 solo texto, C2 solo voz, C3 voz + texto, C4 voz + texto + avatar** (carga diferida de three y del VRM; degradación `sin-webgl` / `fps-bajos` / `avatar-ok` registrada).
+- **4.7:** banco de pruebas del cliente en Chromium real (`frontend/scripts/fase4_bench.mjs`, `eval/fase4/`) y `eval/results/fase_4.json`.
+- **API:** `GET /api/catalog`, `/api/catalog/{id}`, `/api/catalog/{id}/meta` (nunca devuelven el castellano), `POST /api/events` (por lotes, idempotente, con lista cerrada de claves) y `GET /api/events/summary`; tabla `ClientEvent`. `app.main` sirve `frontend/dist` y comprime con gzip solo los archivos de texto.
+- Pruebas: 24 de vitest nuevas (41 en total), 18 E2E de Playwright en Chromium real (incluye axe-core) y 8 de Python para la API y 9 para la evaluación.
+- `docs/pwa.md`, `docs/metrics.md` (Fase 4, escrita antes de medir) y `docs/limitations.md` (36–45).
+
+### Corregido
+- `eval/results/fase_2.json`/resúmenes: la línea base eSpeak-NG (RTF 0,0105; CER 0,2291) quedó **cerrada**; tareas 2.3, 2.8 y 2.10 al 100 %. La reejecución en el equipo Intel de 12 núcleos cambió el RTF de `mms_vits` a 0,2546.
+- `AvatarPanel`: `role="img"` (axe-core: `aria-prohibited-attr`).
+
 ## Fase 3 — Alineación, visemas y avatar (2026-10-12)
 
 ### Añadido
@@ -18,7 +36,7 @@
 - `README`/`docs`: `docs/avatar.md`, `docs/avatar_decision.md`, `docs/manifest_schema.md` (1.1) y `docs/limitations.md` (26–35).
 
 ### Cierre de la Fase 2 (2026-10-12)
-- Aprobada. Modo por lotes como modo principal; bajo demanda solo como respaldo. La línea base eSpeak-NG sigue pendiente (la instalación requiere confirmación de administrador).
+- Aprobada. Modo por lotes como modo principal; bajo demanda solo como respaldo. La línea base eSpeak-NG se cerró el 2026-10-12 (ver Fase 4).
 
 ## Fase 2 — Síntesis de voz (2026-10-06)
 

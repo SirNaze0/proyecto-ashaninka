@@ -14,6 +14,7 @@
 | TalkingHead (`@met4citizen/talkinghead`) | 1.7.0 | MIT | — | Solo en la comparativa de la tarea 3.1 (`frontend/bench/`); no se usa en producción |
 | `VRM1_Constraint_Twist_Sample` (pixiv Inc.) | v1.0.1 | Licencia VRM 1.0 (https://vrm.dev/licenses/1.0/): redistribución y modificación permitidas | Es un modelo de ejemplo, **provisional**; no es la presentadora final | Avatar de pruebas (`frontend/public/models/`, no versionado; se reduce con `scripts/optimize_vrm.py`) |
 | SyncNet (Chung y Zisserman, `joonson/syncnet_python` @ `907c0b5`) | `syncnet_v2` | Código MIT. Los pesos los publica el VGG de Oxford sin una licencia explícita | Solo evaluación académica; **no se redistribuyen**: se descargan a `models/syncnet/` | LSE-D y LSE-C (tarea 3.8) |
+| `@playwright/test`, `@axe-core/playwright` (axe-core) | 1.64 / 4.x (axe-core 4.x) | Apache-2.0 / MPL-2.0 | Solo `devDependencies` (pruebas E2E y accesibilidad); no se distribuyen con la PWA | Fase 4 |
 | Playwright, imageio-ffmpeg, scipy, python-speech-features | — | Apache-2.0 / BSD / MIT | ffmpeg de imageio-ffmpeg se distribuye con licencia GPL; se usa como programa externo | Captura y evaluación (grupo `eval`) |
 
 ## Advertencias

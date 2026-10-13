@@ -6,6 +6,7 @@ avatar**. Fases implementadas:
 - **Fase 1, pipeline de texto:** corpus, ingesta, normalización, adaptador ortográfico del TTS y G2P.
 - **Fase 2, síntesis de voz:** motores intercambiables, duraciones, caché, modo por lotes y modo bajo demanda con streaming.
 - **Fase 3, alineación, visemas y avatar:** tiempos por fonema y palabra, pista de visemas con coarticulación en cada `seg_NNN.json`, y un visor del avatar (three-vrm, carga diferida, degradación) en `frontend/`. Ver [docs/avatar.md](docs/avatar.md) y [frontend/README.md](frontend/README.md).
+- **Fase 4, interfaz web (PWA):** app en Preact con las condiciones C1 solo texto, C2 solo voz, C3 voz + texto resaltado y C4 voz + texto + avatar; reproductor por segmentos, Service Worker (sin conexión), cola de eventos y API de catálogo. Ver [docs/pwa.md](docs/pwa.md).
 
 > La voz y el avatar del servicio son **sintéticos**. El modelo de voz `facebook/mms-tts-cni`
 > tiene licencia **CC-BY-NC 4.0 (uso no comercial)**. Ver [LICENSES.md](LICENSES.md).
@@ -69,6 +70,16 @@ NA_TTS_PRELOAD=true uv run uvicorn app.main:app     # servidor con el modelo pre
 - **Por lotes:** `GET /static/news/{id}/manifest.json`. El audio se sirve con soporte de `Range`.
 - **Elegir motor:** con `NA_TTS_ENGINE`, que acepta `mms_vits` (principal, no comercial), `espeak_ng` (línea base GPL) o `fake` (pruebas).
 - **Formatos:** ver [docs/manifest_schema.md](docs/manifest_schema.md).
+
+### Interfaz web (Fase 4)
+
+```bash
+(cd frontend && npm install && npm run build)       # compila la PWA a frontend/dist
+uv run uvicorn app.main:app                          # http://127.0.0.1:8000  (PWA + /api + /static)
+(cd frontend && npm test && npm run e2e)             # vitest y Playwright en Chromium real
+```
+
+Abrir una noticia en una condición: `http://127.0.0.1:8000/#/noticia/1?c=C3` (C1, C2, C3 o C4).
 
 ### Evaluación
 

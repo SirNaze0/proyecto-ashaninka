@@ -1,4 +1,4 @@
-# Visor del avatar (Fase 3) y base de la PWA (Fase 4)
+# PWA de noticias en asháninka (Fase 4) y visor del avatar (Fase 3)
 
 TypeScript + Vite + Preact. El avatar usa three.js y `@pixiv/three-vrm`, cargados de forma
 **diferida** (fuera del paquete inicial). Documentación completa: `../docs/avatar.md`.
@@ -7,8 +7,9 @@ TypeScript + Vite + Preact. El avatar usa three.js y `@pixiv/three-vrm`, cargado
 npm install
 npm run dev          # http://localhost:5173 (reenvía /static y /api al backend en :8000)
 npm run typecheck    # tsc --noEmit
-npm test             # vitest: pista de visemas, reloj, parpadeo/gestos, degradación
-npm run build        # dist/ + dist/.vite/manifest.json (lo lee eval/fase3/bundle.py)
+npm test             # vitest: visemas, reloj, gestos, degradación, rutas, cola, reproductor, resaltado, eventos, SW
+npm run build        # dist/ (index.html, sw.js, assets/) + dist/.vite/manifest.json (lo leen eval/fase3 y eval/fase4/bundle.py)
+npm run e2e          # build + Playwright en Chromium real (3 perfiles: GPU, sin WebGL, SwiftShader)
 npm run bench:size   # peso de las dos opciones de la tarea 3.1 (bench/)
 ```
 
@@ -55,3 +56,11 @@ import { AvatarPanel } from "./avatar/AvatarPanel";
 ```
 
 Las condiciones C1–C3 no importan nada de `src/avatar/viewer.ts`, así que no descargan three.
+
+## PWA (Fase 4)
+
+Código en `src/app/` (ver `../docs/pwa.md`): `App.tsx` (rutas), `components/Presentation.tsx`
+(C1–C4), `player.ts`, `highlight.ts`, `events.ts`, `offline.ts`, `i18n/`. El Service Worker es
+`src/sw.ts` (sale como `dist/sw.js`). El avatar (three, three-vrm y el VRM) se importa de forma
+diferida solo en C4. `public/icon-*.png` se generan con `uv run python scripts/make_icons.py`.
+Banco de medición: `scripts/fase4_bench.mjs` (usa `eval/fase4/`).

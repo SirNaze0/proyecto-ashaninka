@@ -5,7 +5,7 @@
 > **Fecha:** 2026-10-05
 > **Cambios en v1.2:** se incorpora el corpus AmericasNLP 2021 asháninka–castellano (§3.2). Hallazgo crítico: la ortografía del corpus no coincide con la del modelo de voz `mms-tts-cni`. Se agregan la sub-etapa 2e (adaptador ortográfico), el pendiente P6, la prueba de ida y vuelta TTS→ASR y los riesgos R13–R15
 > **Cambios en v1.1:** P2 (política de normalización) resuelto a nivel de política. Se añaden §3.1, nuevos pendientes P2a–P2e, rediseño de la tarea 1.5 y riesgos R10–R12
-> **Estado:** Fases 1, 2 y 3 aprobadas (2026-10-12). Fase 2 con la línea base eSpeak-NG cerrada (tareas 2.3, 2.8 y 2.10 al 100 %). Fase 4 en ejecución (2026-10-12)
+> **Estado:** Fases 1, 2 y 3 aprobadas (2026-10-12). Fase 2 con la línea base eSpeak-NG cerrada (tareas 2.3, 2.8 y 2.10 al 100 %). Fase 4 implementada y medida, pendiente de aprobación (2026-10-12)
 
 Todas las cifras de latencia, rendimiento y calidad de este documento son **metas o estimaciones**. Ninguna ha sido medida aún. Los valores reales se registrarán en `eval/results/` al cerrar cada fase.
 
@@ -378,6 +378,13 @@ El resultado son **tiempos exactos para el audio sintetizado, sin costo adiciona
 - Las 4 condiciones funcionan.
 - La degradación está probada.
 - Se verifica en **un Android de gama media real** y en simulación con la CPU 4× más lenta.
+
+### Estado de la Fase 4: IMPLEMENTADA, pendiente de aprobación (2026-10-12)
+
+- **4.1–4.6:** PWA en Preact (`frontend/src/app/`) con las condiciones **C1 solo texto, C2 solo voz, C3 voz + texto resaltado y C4 voz + texto + avatar**; reproductor por segmentos con precarga, resaltado del fragmento original con `AudioClock`, segmentos bloqueados como solo texto sin cortar la reproducción, Service Worker propio (206 a `Range`, sin conexión), cola de eventos en IndexedDB y API `/api/catalog` y `/api/events`. Interfaz en asháninka **pendiente de traducción por un hablante** (`cni.json` en `null`, respaldo al castellano).
+- **4.7 (medido en Chromium real, 30 pseudo-noticias de dev, CPU 4× + 4G simulada):** carga inicial máx. **0,099 MB** (C4 con avatar y VRM: 2,81 MB); TTFA p95 **113 ms** por lotes en frío (arranque completo 948 ms); desfase del resaltado |p95| **15,8 ms** (máx. 18,5 ms, sin latencia de salida); cobertura del resaltado 100 %; **60 FPS** con GPU (también con CPU 4×), 15,9 sin GPU; degradación probada en los 3 casos; sin conexión 9/9; eventos 100 % entregados sin duplicados; axe-core sin violaciones críticas ni graves.
+- **Pendiente:** verificación en un **Android de gama media real**; textos de la interfaz en asháninka; noticias revisadas (P4); VRM final (≤ 2 MB).
+- Resumen y detalle: `resumen_fase4.md`, `docs/pwa.md`, `eval/results/fase_4.json`.
 
 ### Fase 5 — Instrumentación experimental (2 semanas)
 
