@@ -41,4 +41,6 @@ eval/fase3/praat/*.wav
 frontend/smoke*.png
 eval/fase4/out/
 eval/fase5/out/
+# exportaciones del experimento: datos de participantes, nunca al repositorio
+data/export/
 frontend/playwright-report/
