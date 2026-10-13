@@ -1,0 +1,68 @@
+{
+ "version": 1,
+ "nota": "Huellas SHA-256 de los archivos de cada modelo en la revisión fijada, generadas con scripts/verify_models.py --generar a partir de la descarga de init.sh. Los pesos (.safetensors) se contrastaron con el SHA-256 LFS que publica Hugging Face (coincide); los JSON pequeños no tienen SHA-256 publicado y son de primer uso. Regenerar solo si cambia la revisión en app/config.py.",
+ "modelos": {
+  "facebook/mms-tts-cni": {
+   "revision": "a744890bf8b52fd17ed322d8d995dec6cf77809b",
+   "necesario_para": "servicio",
+   "descripcion": "mms-tts-cni (VITS, CC-BY-NC 4.0): voz del servicio",
+   "archivos": {
+    "config.json": {
+     "sha256": "9eec025f1f2c16b977fc3fc7487839b8be7c53ce0ccf702fc6a97952ad5b45c3",
+     "bytes": 1641
+    },
+    "model.safetensors": {
+     "sha256": "036b36756c5ec82372a84c6041e96cb1a4cf8387436a4e170365c36b4e3f2a19",
+     "bytes": 145222136
+    },
+    "special_tokens_map.json": {
+     "sha256": "26ff6550693eac9d05171f7e1c990702dc92de476904ec80b516e97001a8a25e",
+     "bytes": 47
+    },
+    "tokenizer_config.json": {
+     "sha256": "2ae612f4df213b257fe230738cf04a1de41ea1665307f99bb3c8312a5499e726",
+     "bytes": 287
+    },
+    "vocab.json": {
+     "sha256": "e1c795b28e1077be9a9baf60d2399639ed698774014bbc930de601f8dd4fa62b",
+     "bytes": 334
+    }
+   }
+  },
+  "facebook/mms-1b-all": {
+   "revision": "3d33597edbdaaba14a8e858e2c8caa76e3cec0cd",
+   "necesario_para": "evaluacion",
+   "descripcion": "mms-1b-all + adaptador cni (CC-BY-NC 4.0): solo para medir inteligibilidad",
+   "archivos": {
+    "adapter.cni.safetensors": {
+     "sha256": "bda236533b064719ec2c8e449ba6f336885c3c53d0f42b31aceb39338a97caf0",
+     "bytes": 8813904
+    },
+    "config.json": {
+     "sha256": "ee172ef39a0e40c55403fb811fa0f56c6198c7ed21a2bdf5bd0e72e52c07a41c",
+     "bytes": 2040
+    },
+    "model.safetensors": {
+     "sha256": "0f1d95ce43d27e03d5d8dd56c697c805460f967c793dd2cbec2e8e8012deda98",
+     "bytes": 3859521128
+    },
+    "preprocessor_config.json": {
+     "sha256": "f724fdad65341e79bd9741888fe4e8ce1bb2e7b44fc8216c28c591afb1e202f4",
+     "bytes": 254
+    },
+    "special_tokens_map.json": {
+     "sha256": "9046da57c270c8e74d0f38832b4adce269c9d914ef21d2a0925e7772152dd793",
+     "bytes": 96
+    },
+    "tokenizer_config.json": {
+     "sha256": "42a65547cf0654d12263ece7c909c4b0c574b660c78658f806c772cc223bc01b",
+     "bytes": 397
+    },
+    "vocab.json": {
+     "sha256": "0375a07a977a599040a7ff333b6974996965cd93754020619518c15db7691f01",
+     "bytes": 1340148
+    }
+   }
+  }
+ }
+}

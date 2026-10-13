@@ -1,0 +1,81 @@
+# Proxy inverso (Fase 6, tarea 6.2). HTTPS automático (Let's Encrypt; certificado interno si el
+# dominio es `localhost`). NA_DOMAIN llega por docker-compose.yml.
+#   - dominio público:  NA_DOMAIN=noticias.ejemplo.org  (los puertos 80 y 443 deben ser alcanzables)
+#   - pruebas locales:  NA_DOMAIN=localhost             (https://localhost, certificado propio de Caddy)
+#   - sin dominio:      NA_DOMAIN=:80                   (solo HTTP: la PWA y su Service Worker NO funcionan)
+#
+# La aplicación (app:8000) no publica puertos: solo Caddy es alcanzable desde fuera. En los tres
+# reverse_proxy, `header_up -Accept-Encoding` evita que la aplicación comprima: la compresión la hace
+# Caddy (zstd o gzip según el navegador) y solo para texto. X-Forwarded-For y X-Forwarded-Proto los
+# pone Caddy y pisa los del cliente, así que no se pueden falsear para evadir el límite de tasa.
+
+{$NA_DOMAIN:localhost} {
+	# Compresión SOLO de activos de texto. El audio (audio/ogg, audio/mpeg) queda fuera: ya está
+	# comprimido y así las peticiones con `Range` de /static/audio/ se sirven tal cual (206).
+	# El stream NDJSON de /api/synthesize tampoco se comprime: se perdería el TTFA por oración.
+	encode {
+		zstd
+		gzip 6
+		minimum_length 512
+		match {
+			header Content-Type text/*
+			header Content-Type application/javascript*
+			header Content-Type application/json*
+			header Content-Type application/manifest+json*
+			header Content-Type image/svg+xml*
+		}
+	}
+
+	# La API solo recibe JSON pequeño (lotes de eventos y cuestionarios)
+	request_body {
+		max_size 2MB
+	}
+
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		defer
+	}
+
+	# Audio generado: el nombre lleva el hash del contenido, así que no cambia nunca
+	@audio path /static/audio/*
+	handle @audio {
+		reverse_proxy app:8000 {
+			header_up -Accept-Encoding
+			header_down Cache-Control "public, max-age=31536000, immutable"
+			transport http {
+				dial_timeout 5s
+				response_header_timeout 120s
+			}
+		}
+	}
+
+	# La PWA y los manifiestos se revalidan siempre (una versión nueva se instala y el audio
+	# regenerado de una noticia se ve). Los assets con hash los marca la aplicación como inmutables.
+	@revalidar path / /index.html /sw.js /manifest.webmanifest /static/news/*
+	handle @revalidar {
+		reverse_proxy app:8000 {
+			header_up -Accept-Encoding
+			header_down Cache-Control "no-cache"
+			transport http {
+				dial_timeout 5s
+				response_header_timeout 120s
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy app:8000 {
+			header_up -Accept-Encoding
+			transport http {
+				dial_timeout 5s
+				response_header_timeout 120s
+			}
+		}
+	}
+
+	log {
+		output stdout
+		format console
+	}
+}

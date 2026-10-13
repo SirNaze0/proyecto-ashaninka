@@ -12,6 +12,7 @@
   corpus extract              candidatos -> data/candidates/*.yaml
   corpus inventory            inventario de grafemas candidato -> g2p/rules/inventory.yaml
   experiment export|dictionary  exportación del experimento (Fase 5) y diccionario de datos
+  db-backup --out ARCHIVO     copia consistente de la base de datos SQLite (Fase 6; sirve con el servidor activo)
 """
 
 from __future__ import annotations
@@ -54,6 +55,42 @@ def cmd_experiment(args: argparse.Namespace) -> int:
         )
     for tabla, n in cuentas.items():
         print(f"[experimento] {tabla}: {n} filas")
+    return 0
+
+
+def cmd_db_backup(args: argparse.Namespace) -> int:
+    """Copia consistente con la API de respaldo de SQLite: es segura con el servidor escribiendo
+    (modo WAL), a diferencia de copiar el archivo a mano."""
+    import sqlite3
+    from pathlib import Path
+
+    from app.config import get_settings
+
+    url = get_settings().database_url
+    if not url.startswith("sqlite:///"):
+        print("[backup] solo se admite SQLite", file=sys.stderr)
+        return 2
+    origen = Path(url.removeprefix("sqlite:///"))
+    destino = Path(args.out)
+    if not origen.is_file():
+        print(f"[backup] no existe la base de datos: {origen}", file=sys.stderr)
+        return 2
+    if destino.exists() and not args.force:
+        print(f"[backup] {destino} ya existe (use --force para sobrescribir)", file=sys.stderr)
+        return 2
+    destino.parent.mkdir(parents=True, exist_ok=True)
+    src, dst = sqlite3.connect(origen), sqlite3.connect(destino)
+    try:
+        with dst:
+            src.backup(dst)
+        ok = dst.execute("PRAGMA integrity_check").fetchone()[0]
+    finally:
+        src.close()
+        dst.close()
+    if ok != "ok":
+        print(f"[backup] la copia no pasó la verificación: {ok}", file=sys.stderr)
+        return 2
+    print(f"[backup] {origen.name} -> {destino} ({destino.stat().st_size} bytes, integridad ok)")
     return 0
 
 
@@ -163,6 +200,11 @@ def build_parser() -> argparse.ArgumentParser:
     rep.set_defaults(func=cmd_report)
 
     sub.add_parser("build-docs").set_defaults(func=cmd_build_docs)
+
+    bk = sub.add_parser("db-backup")
+    bk.add_argument("--out", required=True, help="archivo de destino de la copia")
+    bk.add_argument("--force", action="store_true", help="sobrescribe el destino si existe")
+    bk.set_defaults(func=cmd_db_backup)
 
     exp = sub.add_parser("experiment")
     exp.add_argument("action", choices=["export", "dictionary"])

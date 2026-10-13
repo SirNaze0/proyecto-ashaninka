@@ -334,6 +334,17 @@ if [ "$CHECK" -eq 0 ] && [ "$WITH_ASR" -eq 1 ]; then
   download_model "$MMS_ASR_REPO" "$MMS_ASR_REVISION" "~3,9 GB"
 fi
 
+# ---------------------------------------------------------------- huellas de los modelos (tarea 6.4)
+# models.lock.json guarda el SHA-256 de cada archivo en la revisión fijada: detecta una descarga
+# corrupta o cambiada. Solo se verifica lo que hay descargado (los modelos son opcionales).
+if [ -d "models/facebook__mms-tts-cni" ] || [ -d "models/facebook__mms-1b-all" ]; then
+  if run_py scripts/verify_models.py >/dev/null 2>&1; then
+    ok "modelos: SHA-256 verificados contra models.lock.json"
+  else
+    die 3 "los modelos no coinciden con models.lock.json (ejecute: uv run python scripts/verify_models.py)"
+  fi
+fi
+
 # ---------------------------------------------------------------- eSpeak-NG (Fase 2, línea base)
 espeak_hint() {
   case "$PLATFORM" in

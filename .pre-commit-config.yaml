@@ -17,7 +17,7 @@ repos:
         pass_filenames: false
       - id: shellcheck
         name: shellcheck
-        entry: bash -c 'cd noticias-ashaninka && scripts/venv_exec.sh shellcheck init.sh scripts/venv_exec.sh'
+        entry: bash -c 'cd noticias-ashaninka && scripts/venv_exec.sh shellcheck init.sh scripts/venv_exec.sh scripts/backup.sh scripts/verify.sh'
         language: system
         files: ^noticias-ashaninka/.*\.sh$
         pass_filenames: false

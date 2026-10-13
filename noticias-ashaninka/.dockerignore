@@ -1,0 +1,42 @@
+# Lo que NO entra en la imagen (contexto de build): secretos, datos, modelos y artefactos.
+# Los modelos van en un volumen (models/); los datos y el audio generados, en volúmenes con nombre.
+
+# secretos y configuración local
+.env
+.env.*
+!.env.example
+
+# datos de participantes y bases de datos
+data/*.db
+data/*.db-wal
+data/*.db-shm
+data/export/
+data/corpus/
+data/backups/
+
+# modelos, audio y caché generados
+models/
+static/
+**/out/
+eval/rtf_ttfa/out/
+eval/results/
+
+# entornos y dependencias (se reinstalan dentro de la imagen)
+.venv/
+**/__pycache__/
+**/*.pyc
+.pytest_cache/
+.ruff_cache/
+coverage.json
+frontend/node_modules/
+frontend/dist/
+frontend/test-results/
+frontend/playwright-report/
+frontend/smoke*.png
+
+# control de versiones y editores
+.git
+.gitignore
+.vscode/
+.idea/
+*.zip

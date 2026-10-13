@@ -1,0 +1,90 @@
+# Despliegue en un solo comando (Fase 6, tareas 6.1 y 6.2). Ver docs/deployment.md.
+#
+#   cp .env.example .env            # y complete NA_ADMIN_TOKEN y NA_DOMAIN
+#   docker compose --profile setup run --rm setup    # una vez: descarga y verifica el modelo de voz
+#   docker compose up -d --build                     # el servicio, con HTTPS automático (Caddy)
+#
+# Solo Caddy publica puertos (80 y 443). La aplicación (8000) queda en la red interna: nadie llega
+# a ella sin pasar por el proxy, que además es quien pone el HTTPS que exigen la PWA y el
+# Service Worker.
+name: noticias-ashaninka
+
+x-app: &app
+  image: noticias-ashaninka:fase6
+  build:
+    context: .
+    dockerfile: Dockerfile
+  env_file:
+    - .env
+  environment: &app-env
+    # Rutas y modo del contenedor: ganan al .env (el .env de desarrollo usa rutas relativas)
+    NA_ENV: production
+    NA_DATABASE_URL: sqlite:////data/noticias.db
+    NA_STATIC_DIR: /srv/static
+    NA_MODELS_DIR: /models
+    NA_FRONTEND_DIST: /app/frontend/dist
+    NA_TRUST_PROXY: "true" # la IP y el esquema del cliente salen de Caddy
+    NA_TTS_ENGINE: ${NA_TTS_ENGINE:-mms_vits}
+  volumes:
+    - na_data:/data # SQLite (modo WAL): noticias, sesiones, respuestas y eventos
+    - na_static:/srv/static # audio y manifiestos generados (caché por contenido)
+    - na_models:/models # pesos de mms-tts-cni (CC-BY-NC 4.0); NO van en la imagen
+    - na_export:/export # exportaciones y copias de seguridad
+  security_opt:
+    - no-new-privileges:true
+  cap_drop:
+    - ALL
+
+services:
+  app:
+    <<: *app
+    restart: unless-stopped
+    expose:
+      - "8000"
+    mem_limit: ${NA_MEM_LIMIT:-3g}
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=4).status == 200 else 1)"
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 90s # carga del modelo de voz al arrancar
+
+  caddy:
+    image: caddy:2.8-alpine
+    restart: unless-stopped
+    depends_on:
+      app:
+        condition: service_healthy
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp" # HTTP/3
+    environment:
+      NA_DOMAIN: ${NA_DOMAIN:-localhost}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data # certificados: no perderlos (límites de Let's Encrypt)
+      - caddy_config:/config
+    security_opt:
+      - no-new-privileges:true
+
+  # Una sola vez (o al cambiar de revisión): descarga el modelo de voz en la revisión fijada y
+  # verifica sus SHA-256 contra models.lock.json. Licencia del modelo: CC-BY-NC 4.0 (no comercial).
+  setup:
+    <<: *app
+    profiles:
+      - setup
+    restart: "no"
+    command: ["python", "scripts/verify_models.py", "--descargar"]
+
+volumes:
+  na_data:
+  na_static:
+  na_models:
+  na_export:
+  caddy_data:
+  caddy_config:

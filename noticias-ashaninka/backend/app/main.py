@@ -157,6 +157,7 @@ class _PwaFiles(_Files):
 
     async def get_response(self, path, scope):
         resp = await super().get_response(path, scope)
+        path = path.replace("\\", "/")  # Starlette entrega la ruta con "\\" en Windows
         if path.startswith("assets/"):
             resp.headers["Cache-Control"] = "public, max-age=31536000, immutable"
         elif path in {"", ".", "index.html", "sw.js", "manifest.webmanifest"}:
