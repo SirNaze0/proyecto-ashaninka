@@ -2,7 +2,7 @@
 
 > **Proyecto:** Servicio web de noticias en lengua asháninka con síntesis de voz, texto y avatar
 > **Fecha:** 2026-10-12 · **Repositorio:** `Proyecto` (código en `noticias-ashaninka/`) · **Rama:** `feat/fase5-experimento` · **Base:** Fase 4 (aprobada el 2026-10-12)
-> **Estado:** implementada y verificada de punta a punta con una **simulación sintética**; **APROBADA el 2026-10-12**. Todo lo que requiere personas (consentimiento del comité, ítems de comprensión de un hablante, noticias revisadas, piloto con participantes, pruebas de escucha) sigue **pendiente** y no se inventó.
+> **Estado:** implementada y verificada de punta a punta con una **simulación sintética**; **pendiente de aprobación**. Todo lo que requiere personas (consentimiento del comité, ítems de comprensión de un hablante, noticias revisadas, piloto con participantes, pruebas de escucha) sigue **pendiente** y no se inventó.
 
 Las cifras vienen de ejecuciones reales (`eval/results/fase_5.json`, `eval/fase5/out/`). El diseño y el plan de análisis se escribieron **antes** de medir, en `docs/metrics.md` (sección «Fase 5» y su revisión fechada del 2026-10-12, también previa a la ejecución).
 
@@ -29,42 +29,42 @@ Las cifras vienen de ejecuciones reales (`eval/results/fase_5.json`, `eval/fase5
 
 ## 2. Qué se implementó
 
-| Tarea | Componente | Dónde está |
-|---|---|---|
-| 5.1 | Pantalla de consentimiento con marcadores `PENDIENTE-COMITE-ETICA` (texto y audio en asháninka) | `components/ExperimentFlow.tsx` |
-| 5.2 | Williams 4×4 + rotación, selector de las 4 noticias | `backend/app/experiment/latin.py`, `pool.py` |
-| 5.3 | Sesiones, bloques, eventos nuevos, tiempos, repeticiones, pausas, abandono y degradación del avatar | `api/experiment.py`, `api/events.py`, `export.py` |
-| 5.4 | Cuestionarios (definidos en YAML con estado por ítem) | `resources/questionnaire.yaml`, `instrumentos.py` |
-| 5.5 | Verificación de privacidad con control negativo | `privacy.py` |
-| 5.6 | CSV + JSON + Parquet, `manifest.json` con hashes, `data/DATA_DICTIONARY.md` generado | `export.py`, CLI `experiment export|dictionary` |
-| 5.7 (análisis) | Simulación por la API real, modelo mixto, no paramétricos, bootstrap, sensibilidad, potencia y cobertura | `eval/fase5/` |
-| 5.7 (escucha), 5.8 | Inteligibilidad, MOS y piloto con personas | **Pendientes** (requieren personas) |
-| PWA | IndexedDB v2, controlador, guardia de rutas, cola de respuestas | `frontend/src/app/{db,experiment}.ts` |
-| Pruebas | 43 + 9 de Python, 24 de vitest, 3 E2E | `backend/tests`, `frontend/tests`, `frontend/e2e/experiment.spec.ts` |
+| Tarea              | Componente                                                                                               | Dónde está                                                           |
+| ------------------ | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- | ----------- |
+| 5.1                | Pantalla de consentimiento con marcadores `PENDIENTE-COMITE-ETICA` (texto y audio en asháninka)          | `components/ExperimentFlow.tsx`                                      |
+| 5.2                | Williams 4×4 + rotación, selector de las 4 noticias                                                      | `backend/app/experiment/latin.py`, `pool.py`                         |
+| 5.3                | Sesiones, bloques, eventos nuevos, tiempos, repeticiones, pausas, abandono y degradación del avatar      | `api/experiment.py`, `api/events.py`, `export.py`                    |
+| 5.4                | Cuestionarios (definidos en YAML con estado por ítem)                                                    | `resources/questionnaire.yaml`, `instrumentos.py`                    |
+| 5.5                | Verificación de privacidad con control negativo                                                          | `privacy.py`                                                         |
+| 5.6                | CSV + JSON + Parquet, `manifest.json` con hashes, `data/DATA_DICTIONARY.md` generado                     | `export.py`, CLI `experiment export                                  | dictionary` |
+| 5.7 (análisis)     | Simulación por la API real, modelo mixto, no paramétricos, bootstrap, sensibilidad, potencia y cobertura | `eval/fase5/`                                                        |
+| 5.7 (escucha), 5.8 | Inteligibilidad, MOS y piloto con personas                                                               | **Pendientes** (requieren personas)                                  |
+| PWA                | IndexedDB v2, controlador, guardia de rutas, cola de respuestas                                          | `frontend/src/app/{db,experiment}.ts`                                |
+| Pruebas            | 43 + 9 de Python, 24 de vitest, 3 E2E                                                                    | `backend/tests`, `frontend/tests`, `frontend/e2e/experiment.spec.ts` |
 
 ## 3. Resultados de la simulación (32 participantes sintéticos, semilla 20261012)
 
 Todo pasó por los endpoints reales: 32 sesiones (31 completas, 1 abandono), 811 eventos y 155 respuestas, cada lote **reenviado una vez**.
 
-| Criterio | Resultado |
-|---|---|
-| Balance del cuadrado (16, 32, 48) | **Cumple** (los 4 balances exactos) |
-| Idempotencia | **Cumple**: 0 eventos y 0 respuestas nuevas al reenviar; crear la sesión dos veces devuelve la misma asignación |
-| Exportación | **Cumple**: 32 sesiones, 128 bloques, 1 240 respuestas, 811 eventos; **0 de 124 bloques visitados** con valores distintos a la verdad simulada |
-| Tiempos exportados | **Cumple**: diferencia máxima de 3 ms en `t_escucha_ms` y 1 ms en `t_pantalla_ms` (tolerancia 5 ms) |
-| Privacidad | **Cumple**: 0 problemas; el verificador detecta un correo y un teléfono inyectados |
-| Diccionario de datos | **Cumple**: 53 de 53 columnas, y el archivo coincide con el generado |
-| Carga inicial de la PWA | **Cumple**: 0,024 MB gzip (< 3 MB); el Service Worker no precarga el avatar |
+| Criterio                          | Resultado                                                                                                                                      |
+| --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| Balance del cuadrado (16, 32, 48) | **Cumple** (los 4 balances exactos)                                                                                                            |
+| Idempotencia                      | **Cumple**: 0 eventos y 0 respuestas nuevas al reenviar; crear la sesión dos veces devuelve la misma asignación                                |
+| Exportación                       | **Cumple**: 32 sesiones, 128 bloques, 1 240 respuestas, 811 eventos; **0 de 124 bloques visitados** con valores distintos a la verdad simulada |
+| Tiempos exportados                | **Cumple**: diferencia máxima de 3 ms en `t_escucha_ms` y 1 ms en `t_pantalla_ms` (tolerancia 5 ms)                                            |
+| Privacidad                        | **Cumple**: 0 problemas; el verificador detecta un correo y un teléfono inyectados                                                             |
+| Diccionario de datos              | **Cumple**: 53 de 53 columnas, y el archivo coincide con el generado                                                                           |
+| Carga inicial de la PWA           | **Cumple**: 0,024 MB gzip (< 3 MB); el Service Worker no precarga el avatar                                                                    |
 
 ### Análisis (31 participantes analizados; P013 excluido por abandono)
 
 Modelo mixto de la comprensión (REML, condición + posición + noticia + alfabetización, intercepto por participante), contrastes con Holm:
 
-| Contraste | Verdadero | Estimado | IC 95 % | p (Holm) |
-|---|---|---|---|---|
-| C2 − C1 | 0,05 | 0,125 | [0,005; 0,245] | 0,083 |
-| C3 − C2 | 0,10 | 0,137 | [0,017; 0,257] | 0,077 |
-| C4 − C3 | 0,02 | −0,095 | [−0,215; 0,025] | 0,122 |
+| Contraste | Verdadero | Estimado | IC 95 %         | p (Holm) |
+| --------- | --------- | -------- | --------------- | -------- |
+| C2 − C1   | 0,05      | 0,125    | [0,005; 0,245]  | 0,083    |
+| C3 − C2   | 0,10      | 0,137    | [0,017; 0,257]  | 0,077    |
+| C4 − C3   | 0,02      | −0,095   | [−0,215; 0,025] | 0,122    |
 
 - **Recuperación:** los 3 efectos verdaderos caen dentro del IC 95 % del ajuste único (sin reajustar la semilla). Con **200 réplicas** de 32 participantes la cobertura del IC 95 % es de **0,945, 0,945 y 0,955** (nominal 0,95) y el sesgo medio es de −0,002, 0,001 y −0,001: el método es insesgado, pero **una sola muestra de 32 es ruidosa** (el C4 − C3 salió con signo contrario al verdadero y aun así dentro del IC).
 - **No paramétricos** (Friedman, 4 condiciones): comprensión p = 0,0013, esfuerzo p = 0,0019, aceptabilidad p < 0,001. Wilcoxon por pares con Holm: solo C3 − C2 en aceptabilidad (p = 0,006, r = 0,55) es significativo.
@@ -74,13 +74,13 @@ Modelo mixto de la comprensión (REML, condición + posición + noticia + alfabe
 
 ### Pruebas y calidad
 
-| Comprobación | Resultado |
-|---|---|
-| `uv run pytest` | **191 pasaron**, 1 omitida por diseño, 0 fallos |
-| `ruff check` y `ruff format --check` | **0 errores** |
-| `npm test` (vitest) | **65 de 65** (24 nuevas) |
-| `npm run typecheck` / `npm run build` | **0 errores** |
-| `npm run e2e` (Chromium real) | **21 de 21** (3 nuevas: sesión completa con exportación y sin conexión, abandono, consentimiento y código ya usado; axe sin violaciones críticas o graves) |
+| Comprobación                          | Resultado                                                                                                                                                  |
+| ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `uv run pytest`                       | **191 pasaron**, 1 omitida por diseño, 0 fallos                                                                                                            |
+| `ruff check` y `ruff format --check`  | **0 errores**                                                                                                                                              |
+| `npm test` (vitest)                   | **65 de 65** (24 nuevas)                                                                                                                                   |
+| `npm run typecheck` / `npm run build` | **0 errores**                                                                                                                                              |
+| `npm run e2e` (Chromium real)         | **21 de 21** (3 nuevas: sesión completa con exportación y sin conexión, abandono, consentimiento y código ya usado; axe sin violaciones críticas o graves) |
 
 ## 4. Cómo se usa
 
@@ -98,30 +98,30 @@ uv run python -m eval.fase5.run                            # simulación + anál
 
 ## 5. Criterios de cierre
 
-| Criterio | Estado |
-|---|---|
-| El piloto completo se exporta a CSV sin errores | **Cumple con la simulación sintética**; el piloto con 2–3 personas (5.8) está **pendiente** |
-| El diccionario de datos cubre el 100 % de las columnas | **Cumple** (53 de 53) |
-| La prueba de privacidad pasa | **Cumple** (con control negativo) |
-| Cuadrado de Williams balanceado y asignación determinista | **Cumple** |
-| Flujo completo C1–C4 + cuestionarios + exportación en Chromium real | **Cumple** (E2E) |
-| Pipeline de análisis reproducible que recupera efectos conocidos | **Cumple** (cobertura 0,945–0,955) |
-| Carga inicial < 3 MB | **Cumple** (0,024 MB) |
-| Consentimiento aprobado por el comité, con audio en asháninka (5.1) | **Pendiente** (marcador) |
-| Ítems de comprensión redactados por un hablante, oral (5.4) | **Pendiente** (marcador) |
-| ≥ 8 noticias revisadas por un hablante (P4) | **Pendiente**: sin ellas el modo real no inicia |
-| Guiones de escucha: inteligibilidad y MOS (5.7) | **Pendiente** (requiere personas) |
+| Criterio                                                            | Estado                                                                                      |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| El piloto completo se exporta a CSV sin errores                     | **Cumple con la simulación sintética**; el piloto con 2–3 personas (5.8) está **pendiente** |
+| El diccionario de datos cubre el 100 % de las columnas              | **Cumple** (53 de 53)                                                                       |
+| La prueba de privacidad pasa                                        | **Cumple** (con control negativo)                                                           |
+| Cuadrado de Williams balanceado y asignación determinista           | **Cumple**                                                                                  |
+| Flujo completo C1–C4 + cuestionarios + exportación en Chromium real | **Cumple** (E2E)                                                                            |
+| Pipeline de análisis reproducible que recupera efectos conocidos    | **Cumple** (cobertura 0,945–0,955)                                                          |
+| Carga inicial < 3 MB                                                | **Cumple** (0,024 MB)                                                                       |
+| Consentimiento aprobado por el comité, con audio en asháninka (5.1) | **Pendiente** (marcador)                                                                    |
+| Ítems de comprensión redactados por un hablante, oral (5.4)         | **Pendiente** (marcador)                                                                    |
+| ≥ 8 noticias revisadas por un hablante (P4)                         | **Pendiente**: sin ellas el modo real no inicia                                             |
+| Guiones de escucha: inteligibilidad y MOS (5.7)                     | **Pendiente** (requiere personas)                                                           |
 
 ## 6. Pendientes que se arrastran
 
-| Pendiente | Impacto | Acción |
-|---|---|---|
-| **Texto del consentimiento y su audio** | La pantalla muestra un marcador | Comité de ética + hablante que grabe el audio |
-| **Ítems de comprensión y sus claves** | Sin ellos no hay variable de comprensión real | Hablante, con modalidad oral |
-| **Noticias revisadas (P4)** | El experimento real no puede arrancar | ≥ 8 noticias, revisadas por un hablante |
-| **Piloto con 2–3 personas (5.8)** y **escucha (5.7)** | No hay datos reales ni de MOS | Reclutar participantes y un hablante |
-| **Interfaz en asháninka**, **Android físico**, **VRM final** | Heredados de la Fase 4 | Hablante, dispositivo, pista de VRoid |
-| **P1, P2a–P2d, P5, Praat** | Heredados de las Fases 1 a 3 | Lingüista, hablantes, compañera |
-| **Fase 6** | Despliegue: Docker, HTTPS, proteger `/api/events/summary` | Se ejecuta en la rama `feat/fase6-despliegue` (ver `resumen_fase6.md`) |
+| Pendiente                                                    | Impacto                                                   | Acción                                        |
+| ------------------------------------------------------------ | --------------------------------------------------------- | --------------------------------------------- |
+| **Texto del consentimiento y su audio**                      | La pantalla muestra un marcador                           | Comité de ética + hablante que grabe el audio |
+| **Ítems de comprensión y sus claves**                        | Sin ellos no hay variable de comprensión real             | Hablante, con modalidad oral                  |
+| **Noticias revisadas (P4)**                                  | El experimento real no puede arrancar                     | ≥ 8 noticias, revisadas por un hablante       |
+| **Piloto con 2–3 personas (5.8)** y **escucha (5.7)**        | No hay datos reales ni de MOS                             | Reclutar participantes y un hablante          |
+| **Interfaz en asháninka**, **Android físico**, **VRM final** | Heredados de la Fase 4                                    | Hablante, dispositivo, pista de VRoid         |
+| **P1, P2a–P2d, P5, Praat**                                   | Heredados de las Fases 1 a 3                              | Lingüista, hablantes, compañera               |
+| **Fase 6**                                                   | Despliegue: Docker, HTTPS, proteger `/api/events/summary` | Pendiente de iniciar                          |
 
 Las limitaciones completas están en `docs/limitations.md` (puntos 46 a 58, nuevos en esta fase).

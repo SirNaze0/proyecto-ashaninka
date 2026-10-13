@@ -5,7 +5,7 @@
 > **Fecha:** 2026-10-05
 > **Cambios en v1.2:** se incorpora el corpus AmericasNLP 2021 asháninka–castellano (§3.2). Hallazgo crítico: la ortografía del corpus no coincide con la del modelo de voz `mms-tts-cni`. Se agregan la sub-etapa 2e (adaptador ortográfico), el pendiente P6, la prueba de ida y vuelta TTS→ASR y los riesgos R13–R15
 > **Cambios en v1.1:** P2 (política de normalización) resuelto a nivel de política. Se añaden §3.1, nuevos pendientes P2a–P2e, rediseño de la tarea 1.5 y riesgos R10–R12
-> **Estado:** Fases 1, 2, 3, 4 y 5 aprobadas (2026-10-12). Fase 2 con la línea base eSpeak-NG cerrada (tareas 2.3, 2.8 y 2.10 al 100 %). Fase 4 aprobada con tres pendientes externos: Android de gama media físico, traducción de la interfaz al asháninka y VRM final (≤ 2 MB). Fase 5 aprobada tras verificarse con una simulación sintética; faltan el consentimiento del comité, los ítems del hablante, las noticias revisadas (P4) y el piloto con personas. Fase 6 implementada y verificada (2026-10-13), pendiente de aprobación: la imagen de Docker NO se construyó (demonio apagado), y faltan el banco en un servidor, el README probado por una persona ajena y las sesiones de escucha con hablantes
+> **Estado:** Fases 1, 2, 3, 4 y 5 aprobadas (2026-10-12). Fase 2 con la línea base eSpeak-NG cerrada (tareas 2.3, 2.8 y 2.10 al 100 %). Fase 4 aprobada con tres pendientes externos: Android de gama media físico, traducción de la interfaz al asháninka y VRM final (≤ 2 MB). Fase 5 aprobada tras verificarse con una simulación sintética; faltan el consentimiento del comité, los ítems del hablante, las noticias revisadas (P4) y el piloto con personas. Fase 6 implementada y verificada (2026-10-13), APROBADA el 2026-10-13: la imagen de Docker NO se construyó (demonio apagado), y faltan el banco en un servidor, el README probado por una persona ajena y las sesiones de escucha con hablantes
 
 Todas las cifras de latencia, rendimiento y calidad de este documento son **metas o estimaciones**. Ninguna ha sido medida aún. Los valores reales se registrarán en `eval/results/` al cerrar cada fase.
 
@@ -429,7 +429,7 @@ El resultado son **tiempos exactos para el audio sintetizado, sin costo adiciona
 
 **Criterios de cierre:** una persona revisora reproduce el sistema y el banco de pruebas solo con el README.
 
-### Estado de la Fase 6: IMPLEMENTADA, pendiente de aprobación (2026-10-13)
+### Estado de la Fase 6: IMPLEMENTADA, APROBADA el 2026-10-13 (2026-10-13)
 
 - **Implementado y verificado (`scripts/verify.sh`, exit 0):** endpoints administrativos **cerrados por defecto** con token (`/api/events/summary`, `/api/news*`, exportación y elección del motor), cabeceras de seguridad y CSP (cero violaciones en Chromium real), límite de tasa, `NA_ENV=production` y `/api/health/ready`; `Dockerfile` multi-etapa (Node → PWA; Python 3.11 + uv + eSpeak-NG + ffmpeg, usuario no root), `docker-compose.yml` y `Caddyfile` (HTTPS automático, compresión solo de texto, audio con `Range`); SHA-256 de los pesos (`models.lock.json`, contrastados con Hugging Face); `db-backup`, `scripts/backup.sh` y `scripts/verify.sh`; kit de escucha 5.7 (`eval/listening/inteligibilidad_mos/`, kit real de 53 audios construido); `docs/deployment.md`, `docs/architecture.md` (generado con las latencias medidas) y el mapa de las Fases 1 a 6 en el README.
 - **Pruebas:** 314 de 316 de Python (2 omitidas), 65 de vitest, 27 E2E en Chromium real; `ruff` y `tsc` sin errores. Regresión de la Fase 5 sin cambios.
