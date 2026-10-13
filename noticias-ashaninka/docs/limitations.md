@@ -71,3 +71,12 @@ Las limitaciones valen tanto como los logros. Este archivo se actualiza a medida
 43. **Algunos navegadores no reproducen Opus** (versiones antiguas de iOS/Safari): el cliente elige el MP3 de respaldo con `canPlayType`, pero no se probó en esos navegadores.
 44. **El Service Worker solo funciona con HTTPS o `localhost`.** En el servidor de la Fase 6 hace falta HTTPS (Caddy). La compresión gzip del servidor local solo cubre archivos de texto; en producción debe hacerla el proxy.
 45. **Los eventos del experimento no llevan todavía orden de condiciones, asignación ni cuestionario** (Fase 5). La cola de eventos y su privacidad están probadas; el ID de sesión es un UUID por dispositivo, no por participante.
+
+## Experimento (Fase 5)
+
+46. **Ninguna noticia es apta hoy (P4).** Todas las noticias son pseudo-noticias del corpus (`corpus_americasnlp`, sin revisión de un hablante). El experimento solo arranca si hay 4 noticias aptas; el **modo piloto** (`NA_EXPERIMENT_PILOTO=true`) admite pseudo-noticias y marca cada sesión y fila exportada como `piloto`. Los datos piloto no entran en el análisis confirmatorio.
+47. **Los ítems de comprensión y el texto del consentimiento están pendientes.** Los redacta un hablante (ítems, modalidad oral, con audio grabado por una persona) y el comité de ética (consentimiento, con su audio en asháninka). En el código son marcadores `PENDIENTE-HABLANTE` y `PENDIENTE-COMITE-ETICA`; no se inventó ningún texto en asháninka.
+48. **La simulación sintética demuestra el pipeline, no un efecto.** Los efectos verdaderos son parámetros del generador; la recuperación de parámetros prueba que la exportación y el análisis son correctos, no que C3 o C4 mejoren la comprensión.
+49. **El piloto con personas (5.8) y las pruebas de escucha (5.7) no se ejecutaron.** Requieren participantes y un hablante.
+50. **La noticia entra como efecto fijo en el modelo mixto.** Con solo 4 noticias no se puede estimar bien su varianza; las conclusiones no se generalizan a otras noticias sin más material (se reporta el modelo con componente de varianza como sensibilidad).
+51. **El índice del participante lo da el código que se le asigna.** La aleatorización depende de que el equipo reparta los códigos en orden y sin saltos; los participantes con la misma fila de Williams pueden desbalancearse si hay abandonos (se reporta el balance final).

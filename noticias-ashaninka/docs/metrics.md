@@ -179,3 +179,66 @@ con 1 a 6 oraciones» no existe tal cual. La selección definitiva (`eval/fase4/
 1 y línea 3 en el párrafo 2), desde la línea 1 y en orden, sin descartar ninguna. Los segmentos
 bloqueados (sin P2d) entran tal como vienen. Reemplaza al párrafo «Noticias» de la sección *Material*.
 El split test no se usa.
+
+---
+
+# Fase 5: instrumentación del experimento y plan de análisis
+
+> **Esta sección se escribió el 2026-10-12, antes de ejecutar la simulación o cualquier análisis de la Fase 5.** Cualquier cambio posterior se agrega abajo como revisión fechada, sin borrar lo escrito.
+
+## Diseño
+
+- **Intra-sujeto:** cada participante recibe **las 4 condiciones** (C1 solo texto, C2 solo voz, C3 voz + texto, C4 voz + texto + avatar), una por bloque, con **4 noticias distintas**, una por bloque.
+- **Orden de las condiciones, cuadrado latino de Williams 4×4** (balanceado frente al efecto de arrastre: cada transición ordenada A→B aparece exactamente una vez):
+
+  | Fila | Pos. 1 | Pos. 2 | Pos. 3 | Pos. 4 |
+  |---|---|---|---|---|
+  | 0 | C1 | C2 | C4 | C3 |
+  | 1 | C2 | C3 | C1 | C4 |
+  | 2 | C3 | C4 | C2 | C1 |
+  | 3 | C4 | C1 | C3 | C2 |
+
+- **Asignación determinista** a partir del índice `i` del participante (0, 1, 2…): fila = `i mod 4`; desplazamiento de noticias `s = ⌊i/4⌋ mod 4`; en la posición `k` (0..3) se presenta la noticia con índice `(k + s) mod 4` del conjunto fijo de 4 noticias del experimento. El patrón se repite cada 16 participantes. En cada ciclo de 16, cada par condición×posición, condición×noticia y noticia×posición aparece exactamente 4 veces.
+- **El índice** sale del código anónimo del participante (`P007` → 6). No se guarda ningún dato personal.
+- **Noticias:** 4 aptas (revisadas por un hablante, `apta_experimento`) y, por defecto, **sin segmentos bloqueados** (limitación 42). Si una noticia tiene bloqueados, la proporción `bloqueados_prop` se registra como covariable. El **modo piloto** (`NA_EXPERIMENT_PILOTO=true`) admite pseudo-noticias del corpus y marca todo lo generado como `piloto`; los datos piloto **nunca** entran en el análisis confirmatorio.
+
+## Variables
+
+| Variable | Definición | Unidad / escala |
+|---|---|---|
+| **comprension** | Aciertos de los 4 ítems de comprensión de opción múltiple de la noticia / 4 (los ítems los redacta un hablante; modalidad oral) | proporción 0–1 |
+| **esfuerzo** | Escala de esfuerzo mental de Paas | entero 1–9 |
+| **aceptabilidad** | Media de 3 ítems Likert: facilidad, agrado, confianza | 1–5 |
+| **t_pantalla_ms** | `block-end` − `block-start` del bloque | ms |
+| **t_escucha_ms** | Suma de `(segment-end − segment-start)` de los segmentos con audio del bloque (C1: 0) | ms |
+| **repeticiones, pausas, cambios_velocidad** | Cantidad de eventos `repeat-paragraph`, `pause` y `rate` del bloque | conteo |
+| **degradacion_avatar** | 1 si hubo un evento `degradacion` en un bloque C4 | 0/1 |
+| **completado** | 1 si el bloque terminó (fin del audio, o `read-done` en C1) y se respondió el cuestionario | 0/1 |
+| **bloqueados_prop** | Segmentos bloqueados / segmentos de la noticia | proporción 0–1 |
+| Covariables | variante dialectal, rango de edad, alfabetización autodeclarada, familiaridad con la tecnología (cuestionario final) | categorías |
+
+## Plan de análisis
+
+1. **Exclusión (fijada de antemano):** se excluye al participante que abandona o completa menos de 4 bloques. Se reporta cuántos y por qué.
+2. **Análisis primario, comprensión:** modelo lineal mixto (statsmodels `MixedLM`, máxima verosimilitud restringida) `comprension ~ C(condicion) + C(posicion) + C(noticia) + covariables + (1 | participante)`. La noticia entra como efecto **fijo** porque solo tiene 4 niveles (la varianza de un efecto aleatorio con 4 niveles no se estima bien); el modelo con un componente de varianza por noticia se reporta como **sensibilidad**. Referencia: C1.
+3. **Contrastes:** C2−C1, C3−C2 y C4−C3, con corrección de **Holm** (familia de 3). IC 95 % de cada diferencia.
+4. **Secundarios, no paramétricos intra-sujeto** (comprensión, esfuerzo, aceptabilidad): prueba de **Friedman** sobre las 4 condiciones y **Wilcoxon** de rangos con signo para los 3 contrastes, con Holm y tamaño de efecto `r = Z/√N`.
+5. **Bootstrap:** IC 95 % por percentiles de la diferencia media de cada contraste, remuestreando **participantes** (B = 2000, semilla fija).
+6. **Sensibilidad:** el mismo modelo sin los bloques C4 con `degradacion_avatar = 1`, y con la covariable `bloqueados_prop`.
+7. **Potencia:** simulación sobre el mismo modelo de análisis, con un efecto de d = 0,5 de C3 frente a C1, para estimar el **N mínimo con potencia 0,80** (α = 0,05, bilateral).
+
+## Criterios de la simulación de verificación
+
+La simulación sintética **no es un resultado científico**: demuestra que el pipeline funciona de punta a punta. Se escribe con un modelo generativo declarado (efectos verdaderos por condición, efecto de orden, efecto de noticia, intercepto aleatorio por participante) y se exige:
+
+- Asignación balanceada (cuadrado de Williams y rotación de noticias, 16 participantes).
+- Reenviar sesiones, eventos y respuestas no crea duplicados (idempotencia).
+- La exportación no contiene identificadores personales (prueba automática de privacidad).
+- El diccionario de datos cubre el 100 % de las columnas.
+- **Recuperación de parámetros:** los efectos verdaderos de los 3 contrastes caen dentro del IC 95 % del modelo mixto.
+- La carga inicial de la PWA sigue < 3 MB con el flujo del experimento.
+
+## Limitaciones declaradas de antemano
+
+- Los ítems de comprensión y el texto del consentimiento los aportan un hablante y el comité de ética: hasta entonces, **marcadores `PENDIENTE-HABLANTE` / `PENDIENTE-COMITE-ETICA`**.
+- El piloto con 2–3 personas (5.8) y las pruebas de escucha (5.7) requieren personas y **no se ejecutan** en esta fase.
