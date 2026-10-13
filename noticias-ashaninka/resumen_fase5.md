@@ -122,6 +122,6 @@ uv run python -m eval.fase5.run                            # simulación + anál
 | **Piloto con 2–3 personas (5.8)** y **escucha (5.7)** | No hay datos reales ni de MOS | Reclutar participantes y un hablante |
 | **Interfaz en asháninka**, **Android físico**, **VRM final** | Heredados de la Fase 4 | Hablante, dispositivo, pista de VRoid |
 | **P1, P2a–P2d, P5, Praat** | Heredados de las Fases 1 a 3 | Lingüista, hablantes, compañera |
-| **Fase 6** | Despliegue: Docker, HTTPS, proteger `/api/events/summary` | Pendiente de iniciar |
+| **Fase 6** | Despliegue: Docker, HTTPS, proteger `/api/events/summary` | Se ejecuta en la rama `feat/fase6-despliegue` (ver `resumen_fase6.md`) |
 
 Las limitaciones completas están en `docs/limitations.md` (puntos 46 a 58, nuevos en esta fase).
