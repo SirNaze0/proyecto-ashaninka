@@ -10,8 +10,7 @@ se escribieron antes de medir, en `docs/metrics.md`; la única revisión posteri
 está fechada y explicada en ese mismo archivo.
 
 **Cierre de la Fase 2.** Aprobada el 2026-10-12: el modo por lotes (TTFA 44 ms) es el principal y el
-bajo demanda (2357 ms) queda solo como respaldo. La línea base eSpeak-NG sigue sin instalar (requiere
-la confirmación de administrador de Windows) y se arrastra como pendiente externo.
+bajo demanda (2357 ms) queda solo como respaldo. La línea base eSpeak-NG quedó **cerrada** el 2026-10-12 (RTF 0,0105; CER sobre test 0,2291): las tareas 2.3, 2.8 y 2.10 están al 100 %.
 
 ---
 
@@ -139,7 +138,7 @@ uv run python -m eval.fase3.run                  # -> eval/results/fase_3.json
 | Alineación validada contra el alineador de MMS                          | **Cumple** (centro de palabra: 63,9 ms de error medio)                                                                                                                       |
 | Alineación validada contra 20 oraciones anotadas a mano en Praat        | **Pendiente** (requiere a una persona; kit listo)                                                                                                                            |
 | Degradación probada y con registro del evento                           | **Cumple**                                                                                                                                                                   |
-| Pruebas y lint                                                          | **Cumple**: 122 pruebas de Python pasan y 1 se omite (eSpeak-NG no instalado), cobertura 97 %; 17 pruebas de vitest; `ruff check`, `ruff format --check` y `tsc` sin errores |
+| Pruebas y lint                                                          | **Cumple**: 122 pruebas de Python pasan y 1 se omite por diseño (solo corre sin eSpeak-NG instalado), cobertura 97 %; 17 pruebas de vitest; `ruff check`, `ruff format --check` y `tsc` sin errores |
 
 ## 6. Pendientes que se arrastran
 
@@ -151,7 +150,5 @@ uv run python -m eval.fase3.run                  # -> eval/results/fase_3.json
 | **Dispositivo Android de gama media**  | Los FPS y el reloj son del equipo de desarrollo                               | Medir en la Fase 4 (criterio de cierre)                                                   |
 | **Latencia de salida de audio**        | El desfase total no la incluye                                                | Medir con hardware; usar `AudioClock.latencyMs`                                           |
 | **Verificación del desfase por clip**  | El método de correlación no la permite                                        | Anotación manual o captura de pantalla con audio real                                     |
-| **eSpeak-NG**                          | Falta la línea base de la Fase 2 (test omitido, RTF y CER de eSpeak)          | Instalar con confirmación de administrador y ejecutar `bench rtf` e `intelligibility.run` |
-| **Commit de la Fase 3**                | El trabajo está en la rama `feat/fase3-avatar-visemas`, **sin commit**        | Revisar y commitear                                                                       |
 
 Las limitaciones completas están en `docs/limitations.md` (puntos 26 a 35, nuevos en esta fase).

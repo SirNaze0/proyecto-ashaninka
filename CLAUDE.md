@@ -6,10 +6,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 The git root holds planning docs and the pre-commit config; **all code lives in `noticias-ashaninka/`** (run every command from there). Project docs are in Spanish; write code comments, docs and commit messages in Spanish to match.
 
-- `PLAN_DESARROLLO.md`, `PROMPT_FASE1.md`, `PROMPT_FASE2.md`, `PROMPT_PLAN_DESARROLLO.md`: thesis plan and per-phase prompts (Fase 3 onward — visemes/alignment, PWA, avatar sync — is planned, not built).
-- `resumen_fase1.md`, `resumen_fase2.md`: results of finished phases (also copied inside `noticias-ashaninka/`). Numbers there come from real runs in `eval/results/*.json`.
+- `PLAN_DESARROLLO.md`, `PROMPT_FASE1.md`, `PROMPT_FASE2.md`, `PROMPT_PLAN_DESARROLLO.md`: thesis plan and per-phase prompts (Fase 5 onward — experiment instrumentation, deployment — is planned, not built).
+- `resumen_fase1.md` … `resumen_fase3.md` (and `resumen_fase4.md`): results of finished phases (also copied inside `noticias-ashaninka/`). Numbers there come from real runs in `eval/results/*.json`.
 
-The project is a thesis artifact: a news service in Asháninka (`cni`) with TTS voice, text and (external) avatar. Phases implemented: 1 (text pipeline), 2 (speech synthesis, caching, streaming).
+The project is a thesis artifact: a news service in Asháninka (`cni`) with TTS voice, text and (external) avatar. Phases implemented: 1 (text pipeline), 2 (speech synthesis, caching, streaming), 3 (alignment, visemes, VRM avatar), 4 (PWA in `frontend/`, conditions C1–C4).
 
 ## Commands (from `noticias-ashaninka/`)
 

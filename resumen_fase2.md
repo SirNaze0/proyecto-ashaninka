@@ -45,7 +45,7 @@ segmento listo ─► motor TTS (mms_vits | espeak_ng | fake) ─► WAV + durac
 | 2.8 | Banco de pruebas: RTF, barrido, TTFA HTTP, rendimiento, RAM y figuras | `eval/rtf_ttfa/`, `docs/figures/` |
 | 2.9 | Dimensionamiento del servidor | `eval/fase2/sizing.py`, `docs/sizing.md` |
 | 2.10 | CER de ida y vuelta sobre el split **test** | `eval/fase2/intelligibility/`, `docs/intelligibility.md` |
-| 2.11 | Pruebas: contrato de motores, hook, caché, manifiesto, streaming y límites. 89 pasan, 1 se omite (eSpeak no instalado); cobertura 96,5 % | `backend/tests/` |
+| 2.11 | Pruebas: contrato de motores, hook, caché, manifiesto, streaming y límites. 123 pruebas en total (122 pasan; 1 se omite por diseño: solo corre cuando eSpeak NO está instalado); cobertura 96,5 % | `backend/tests/` |
 
 ---
 
@@ -70,7 +70,8 @@ pequeño y está al borde de la significancia. T1 reproduce exactamente el CER d
 
 | Medida | Valor |
 |---|---|
-| RTF (100 segmentos, en caliente) | **0,19** (DE 0,007; p95 0,20) → meta RTF < 1 **cumplida** |
+| RTF `mms_vits` (100 segmentos, en caliente) | **0,19** (DE 0,007; p95 0,20) en el AMD de 16 núcleos; **0,2546** (DE 0,0273; p95 0,3032) en el Intel de 12 → meta RTF < 1 **cumplida** |
+| RTF `espeak_ng` (100 segmentos) | **0,0105** (DE 0,005; p95 0,0173) |
 | Carga del modelo en frío | 7,7 s |
 | Duraciones verificadas | 50 de 50 oraciones con desfase de 0 frames |
 
@@ -104,7 +105,9 @@ Configuración por defecto, elegida con la regla fijada antes de medir (mayor re
 | Motor | CER | IC 95 % | Precisión por palabra |
 |---|---|---|---|
 | `mms_vits` (H1 + T2) | **0,0516** | [0,0459; 0,0573] | 0,647 |
-| `espeak_ng` | no medido (eSpeak-NG no instalado) | | |
+| `espeak_ng` | **0,2291** | [0,2203; 0,2382] | 0,0511 |
+
+Diferencia pareada `mms_vits` − `espeak_ng`: −0,1779 (IC 95 % [−0,1888; −0,167], p < 0,001). eSpeak lee la ortografía asháninka con la voz castellana: es una referencia ingenua, no un TTS asháninka.
 
 ### Otros resultados
 
@@ -135,7 +138,7 @@ Comandos en Git Bash dentro de `Proyecto/noticias-ashaninka`.
 ./init.sh --check         # verifica todo (código 0)
 ```
 
-eSpeak-NG se instala aparte, con el MSI oficial en Windows. Hoy no está instalado.
+eSpeak-NG se instala aparte, con el MSI oficial en Windows. Instalado el 2026-10-12 (versión 1.52.0).
 
 ### Elegir el motor y la configuración (`.env`)
 
@@ -189,8 +192,8 @@ uv run python -m eval.fase2.run                     # -> eval/results/fase_2.jso
 | Criterio | Estado |
 |---|---|
 | RTF < 1 y TTFA p95 < 2 s medidos | RTF **cumple** (0,19). TTFA bajo demanda **no cumple** con la configuración principal (2357 ms); sí con la de latencia (1875 ms) y en modo por lotes (44 ms). Reportado con su causa |
-| Motores intercambiables con un parámetro y pruebas de contrato | **Cumple** (`NA_TTS_ENGINE`). eSpeak queda `no_medido` porque no está instalado |
-| CER de ida y vuelta por motor sobre test | `mms_vits` **cumple** (0,0516). eSpeak pendiente de instalación |
+| Motores intercambiables con un parámetro y pruebas de contrato | **Cumple** (`NA_TTS_ENGINE`); ambos motores medidos |
+| CER de ida y vuelta por motor sobre test | **Cumple**: `mms_vits` 0,0516; `espeak_ng` 0,2291 |
 | Hook de duraciones verificado en ≥ 50 oraciones | **Cumple** (50/50, desfase 0) |
 | Modo por lotes idempotente y streaming con caché compartida | **Cumple** |
 | Manifiestos válidos con avisos | **Cumple** (JSON Schema + pruebas) |
@@ -202,7 +205,6 @@ uv run python -m eval.fase2.run                     # -> eval/results/fase_2.jso
 
 | Pendiente | Impacto | Acción |
 |---|---|---|
-| **eSpeak-NG sin instalar** | Falta la línea base (RTF y CER de eSpeak) | Instalar el MSI y ejecutar `bench rtf` y `intelligibility.run` (unos 15 min) |
 | **TTFA bajo demanda > 2 s** | La meta solo se cumple en modo por lotes o con 1 usuario en la configuración de latencia | Decidir si el bajo demanda es solo respaldo, o probar a sintetizar la primera oración por cláusulas (afecta la prosodia; habría que medirlo) |
 | **Escritura de la `ñ`** | Pendiente de la escucha A/B con un hablante | Aplicar `kit_escucha_enye.zip` |
 | **P1, P2d, P2a–P2c, P5** | Sin fonemas reales (visemas de la Fase 3) y el 16,6 % de los segmentos sin audio | Lingüista, hablantes, compañera |
@@ -214,4 +216,5 @@ Las limitaciones completas están en `noticias-ashaninka/docs/limitations.md` (p
 
 1. **Fase 2 aprobada.**
 2. **Modo principal de entrega: por lotes.** Cumple el criterio TTFA p95 < 2 s del experimento (44 ms con 1 cliente, 66 ms con 8). El modo bajo demanda (2357 ms con 1 cliente) queda **documentado solo como respaldo** para noticias aún no sintetizadas, y no se usa en el experimento.
-3. **Línea base eSpeak-NG: pendiente.** La instalación con `winget install eSpeak-NG.eSpeak-NG` requiere confirmación de administrador (UAC) y no pudo completarse sin intervención manual. Siguen sin medirse: el test omitido, el RTF de eSpeak (2.8) y su CER sobre test (2.10). Para cerrarlo: instalar eSpeak-NG, ejecutar `uv run python -m eval.rtf_ttfa.bench rtf`, `uv run python -m eval.fase2.intelligibility.run` y `uv run pytest`. No bloquea la Fase 3.
+3. **Línea base eSpeak-NG: CERRADA (2026-10-12).** Instalado eSpeak-NG 1.52.0 y ejecutados `bench rtf`, `intelligibility.run` y `eval.fase2.run`. RTF de eSpeak 0,0105 (DE 0,005; p95 0,0173); CER sobre test 0,2291 [0,2203; 0,2382]; precisión por palabra 0,0511. Las tareas 2.3, 2.8 y 2.10 quedan cerradas al 100 %.
+4. **Reejecución en otro equipo.** Las cifras de `fase_2.json` se regeneraron en un Intel de 12 núcleos lógicos y 15,8 GB de RAM (el resto de este documento se midió en un AMD de 16 núcleos): el RTF de `mms_vits` pasa de 0,19 a **0,2546** (DE 0,0273; p95 0,3032) y la carga en frío a 4,35 s (eSpeak: 0,15 s). Sigue cumpliendo RTF < 1. El TTFA y el rendimiento de las tablas anteriores no se repitieron en ese equipo.

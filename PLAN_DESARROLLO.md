@@ -5,7 +5,7 @@
 > **Fecha:** 2026-10-05
 > **Cambios en v1.2:** se incorpora el corpus AmericasNLP 2021 asháninka–castellano (§3.2). Hallazgo crítico: la ortografía del corpus no coincide con la del modelo de voz `mms-tts-cni`. Se agregan la sub-etapa 2e (adaptador ortográfico), el pendiente P6, la prueba de ida y vuelta TTS→ASR y los riesgos R13–R15
 > **Cambios en v1.1:** P2 (política de normalización) resuelto a nivel de política. Se añaden §3.1, nuevos pendientes P2a–P2e, rediseño de la tarea 1.5 y riesgos R10–R12
-> **Estado:** Fase 1 y Fase 2 aprobadas (Fase 2: 2026-10-12). Fase 3 implementada, pendiente de aprobación (2026-10-12)
+> **Estado:** Fases 1, 2 y 3 aprobadas (2026-10-12). Fase 2 con la línea base eSpeak-NG cerrada (tareas 2.3, 2.8 y 2.10 al 100 %). Fase 4 en ejecución (2026-10-12)
 
 Todas las cifras de latencia, rendimiento y calidad de este documento son **metas o estimaciones**. Ninguna ha sido medida aún. Los valores reales se registrarán en `eval/results/` al cerrar cada fase.
 
@@ -324,8 +324,8 @@ El resultado son **tiempos exactos para el audio sintetizado, sin costo adiciona
 ### Estado de la Fase 2: APROBADA (2026-10-12)
 
 - **Modo principal de entrega: por lotes** (TTFA p95 de 44 ms, cumple < 2 s). **Bajo demanda: solo respaldo** (TTFA p95 de 2357 ms con 1 cliente; no cumple y no se usa en el experimento).
-- RTF de `mms_vits`: 0,19. CER de ida y vuelta sobre test: 0,0516.
-- **Pendiente (línea base):** eSpeak-NG no pudo instalarse sin intervención manual (UAC). Faltan su RTF (2.8), su CER (2.10) y el test omitido. No bloquea la Fase 3. Detalle en `resumen_fase2.md` §7.
+- RTF de `mms_vits`: 0,19 (AMD de 16 núcleos) y 0,2546 (Intel de 12, reejecución final). CER de ida y vuelta sobre test: 0,0516.
+- **Línea base eSpeak-NG: CERRADA (2026-10-12).** Las tareas **2.3, 2.8 y 2.10 quedaron al 100 %**. eSpeak-NG 1.52.0: RTF 0,0105 (DE 0,005); CER de ida y vuelta sobre test 0,2291 [0,2203; 0,2382], precisión por palabra 0,0511 (frente a 0,0516 y 0,647 de `mms_vits`). La reejecución se hizo en un Intel de 12 núcleos: el RTF de `mms_vits` allí es 0,2546 (0,19 en el AMD original). Detalle en `resumen_fase2.md` §7.
 
 **Criterios de cierre**
 
@@ -346,7 +346,7 @@ El resultado son **tiempos exactos para el audio sintetizado, sin costo adiciona
 | 3.7 Captura para métricas | Playwright graba el canvas → ≥ 30 clips MP4 |
 | 3.8 Métricas de sincronía labial | LSE-D y LSE-C con SyncNet (`eval/lipsync/`) + **desfase directo**: correlación cruzada entre la energía del audio y la apertura de la boca renderizada. Criterio: ≤ 80 ms |
 
-### Estado de la Fase 3: IMPLEMENTADA, pendiente de aprobación (2026-10-12)
+### Estado de la Fase 3: APROBADA (2026-10-12)
 
 - **3.1:** se adopta **three + `@pixiv/three-vrm`**; TalkingHead descartado (exige morph targets ARKit/Oculus que VRoid no genera). `docs/avatar_decision.md`.
 - **3.2–3.4:** alineación por palabra y fonema, mapa grafema → visema (`SUPUESTO-LING`) y pista con coarticulación en cada `seg_NNN.json`; manifiesto 1.1. Error del centro de palabra frente al alineador CTC: 63,9 ms de media (34 ms de mediana). **Pendiente:** las 20 oraciones anotadas en Praat (requiere a una persona).
