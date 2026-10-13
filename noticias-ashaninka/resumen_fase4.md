@@ -2,7 +2,7 @@
 
 > **Proyecto:** Servicio web de noticias en lengua asháninka con síntesis de voz, texto y avatar
 > **Fecha:** 2026-10-12 · **Repositorio:** `Proyecto` (código en `noticias-ashaninka/`) · **Rama:** `feat/fase4-pwa` · **Base:** Fase 3 (`fc8b9`)
-> **Estado:** implementada y medida; **pendiente de aprobación**. Cumplen todos los criterios medibles en simulación. **No se verificó en un Android de gama media real** (requiere el dispositivo) y la interfaz en asháninka sigue **pendiente de traducción por un hablante**.
+> **Estado:** **APROBADA el 2026-10-12.** Cumplen todos los criterios medibles en simulación. Pendientes externos que no bloquean la aprobación: verificación en un **Android de gama media físico** (requiere el dispositivo), **traducción de la interfaz al asháninka** por un hablante y **modelo VRM final** (≤ 2 MB).
 
 Todas las cifras vienen de ejecuciones reales (`eval/results/fase_4.json` y `eval/fase4/out/*.json`). Las definiciones de las métricas se escribieron **antes** de medir, en `docs/metrics.md` (sección «Fase 4»); la única revisión (el material de 30 pseudo-noticias de 3 líneas) se fechó antes de la primera medición.
 
