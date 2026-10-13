@@ -137,3 +137,18 @@ class SynthesisRun(SQLModel, table=True):
     blocked: int = 0
     errors: int = 0
     detail: dict[str, Any] = Field(default_factory=dict, sa_column=Column(JSON))
+
+
+# ------------------------------------------------------------------ Fase 4: eventos del cliente
+class ClientEvent(SQLModel, table=True):
+    """Evento del experimento enviado por la PWA. ``event_id`` único: reenviar es idempotente."""
+
+    id: int | None = Field(default=None, primary_key=True)
+    event_id: str = Field(unique=True, index=True)
+    session_id: str = Field(index=True)  # UUID anónimo generado en el dispositivo
+    condition: str | None = Field(default=None, index=True)  # C1..C4
+    news_id: int | None = Field(default=None, index=True)
+    type: str = Field(index=True)
+    t_client: datetime
+    payload: dict[str, Any] = Field(default_factory=dict, sa_column=Column(JSON))
+    received_at: datetime = Field(default_factory=_now)
