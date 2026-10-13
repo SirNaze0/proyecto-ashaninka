@@ -21,8 +21,9 @@ Service Worker: shell precargado · audio y tiempos en caché (206 a Range) · c
 | **C3 · voz + texto** | Texto completo con resaltado sincronizado (fragmento original) y controles. Los bloqueados se ven como «solo texto» con su aviso, sin cortar la reproducción | Avatar |
 | **C4 · voz + texto + avatar** | C3 + `AvatarPanel` con visemas del segmento activo. Degradación: `sin-webgl`, `fps-bajos` → imagen fija, con registro del evento | — |
 
-El orden de las condiciones por participante (cuadrado latino de Williams) es de la Fase 5: aquí el
-investigador la elige en la lista o con `?c=` en la URL (`#/noticia/3?c=C2`).
+Fuera del experimento, el investigador elige la condición en la lista o con `?c=` en la URL
+(`#/noticia/3?c=C2`). Dentro de una sesión experimental la condición la fija el cuadrado de Williams del
+participante y no se puede cambiar (ver «Experimento (Fase 5)» al final).
 
 ## Reproductor (`src/app/player.ts`, `queue.ts`)
 
@@ -67,8 +68,8 @@ degradación, `avatar-ok`, cambio de tamaño o idioma, guardado sin conexión…
 un UUID y se envía por lotes a `POST /api/events` cuando hay red (al emitir, al volver la conexión y
 al ocultar la página). El servidor ignora los duplicados (`event_id` único). **Privacidad:** solo un UUID
 anónimo de sesión, la condición y la noticia; el `payload` admite únicamente una lista cerrada de claves
-con valores escalares cortos (el servidor rechaza cualquier otra con 422). La Fase 5 añadirá el orden, la
-asignación y el cuestionario sobre esta base.
+con valores escalares cortos (el servidor rechaza cualquier otra con 422). La Fase 5 añadió el orden, la
+asignación y el cuestionario sobre esta base (lista de claves y tipos ampliada).
 
 ## Avisos éticos y accesibilidad
 
@@ -106,3 +107,40 @@ uv run python -m eval.fase4.run                    # -> eval/results/fase_4.json
 ```
 
 Definiciones en `docs/metrics.md` (sección «Fase 4»), escritas antes de medir.
+
+## Experimento (Fase 5)
+
+Flujo guiado en `#/experimento` (`src/app/experiment.ts`, `components/ExperimentFlow.tsx`). Resumen del
+diseño y del análisis en `docs/metrics.md` («Fase 5»); datos exportados en `data/DATA_DICTIONARY.md`.
+
+```
+#/experimento            consentimiento + código anónimo (P007)  ── POST /api/experiment/sessions
+#/experimento/bloque/k   noticia k en la condición que fija Williams; «Continuar» al terminar
+#/experimento/cuestionario/k   comprensión (marcada por un entrevistador) + esfuerzo + aceptabilidad
+   … ×4 bloques …
+#/experimento/final      covariables + ranking C1–C4 + comentario sin datos personales
+#/experimento/fin        envía lo pendiente y cierra la sesión  ── POST /api/experiment/sessions/{code}/finish
+```
+
+- **Asignación.** El servidor devuelve la secuencia de 4 bloques (condición, noticia) a partir del código;
+  el cliente la contrasta con su propia tabla de Williams (`secuenciaEsperada`) y rechaza una asignación
+  que no coincida. Un vector común (`tests/fixtures/williams_vector.json`) lo prueban vitest y pytest.
+- **Sin cambio libre de condición.** Con una sesión activa, la guardia de rutas (`guardia()` en `App.tsx`)
+  redirige cualquier otra ruta (`#/`, `#/ajustes`, `#/noticia/..?c=`) a la de la fase actual, y se
+  ocultan el selector y la navegación. Salir exige «Abandonar el estudio» con confirmación (evento
+  `abandon`). Manipular la URL reinicia el bloque en curso.
+- **Fin de bloque.** C2, C3 y C4: termina el audio (`onFinished`). C1 no tiene audio: botón «Terminé de leer»
+  (`read-done`). Cada bloque emite `block-start` y `block-end` (`reason: completo`) con la condición y la
+  noticia en el contexto del evento, y así los une la exportación.
+- **Persistencia.** IndexedDB `na-events` v2 con los almacenes `events`, `experiment` (estado de la sesión,
+  se reanuda tras recargar) y `responses` (cola de cuestionarios). La cola reenvía de forma idempotente
+  (`response_id` UUID) cuando vuelve la red; una respuesta que el servidor rechaza (422) se aísla sin
+  bloquear a las demás. El cierre de la sesión solo se acepta cuando están las 5 respuestas.
+- **Pendientes (no se inventan).** El texto del consentimiento y su audio (`PENDIENTE-COMITE-ETICA`) y los
+  ítems de comprensión (`PENDIENTE-HABLANTE`) son marcadores; `cni.json` conserva las claves nuevas en `null`.
+- **Servidor.** `NA_EXPERIMENT_PILOTO=true` admite pseudo-noticias y marca todo como piloto. Sin ese modo
+  el servidor exige 4 noticias revisadas por un hablante (P4). La exportación (`GET /api/experiment/export`)
+  está cerrada salvo en modo piloto o con `NA_EXPORT_TOKEN` (cabecera `x-export-token`); la vía normal
+  es la CLI: `uv run python -m app.cli experiment export --out DIR`.
+- **Pruebas.** `tests/experiment.test.ts` (vitest) y `e2e/experiment.spec.ts` (Chromium real, servidor propio
+  `scripts/e2e_server.py --experimento`, proyecto `experimento` de Playwright).

@@ -242,3 +242,15 @@ La simulación sintética **no es un resultado científico**: demuestra que el p
 
 - Los ítems de comprensión y el texto del consentimiento los aportan un hablante y el comité de ética: hasta entonces, **marcadores `PENDIENTE-HABLANTE` / `PENDIENTE-COMITE-ETICA`**.
 - El piloto con 2–3 personas (5.8) y las pruebas de escucha (5.7) requieren personas y **no se ejecutan** en esta fase.
+
+## Revisión de la simulación (2026-10-12, antes de ejecutarla)
+
+Fija los detalles que faltaban para ejecutar el plan de análisis. Se escribió antes de la primera ejecución de `eval.fase5.run`; ningún resultado la motivó.
+
+- **Modelo generativo y semilla:** `eval/fase5/modelo.py` (`PARAMETROS`, semilla `20261012`). Efectos verdaderos de los contrastes: C2−C1 = 0,05, C3−C2 = 0,10, C4−C3 = 0,02; efecto de orden y de noticia aditivos; abandono 6 %; degradación del avatar en C4 10 %.
+- **Tamaño:** 32 participantes sintéticos que pasan por la API real (sesiones, eventos, cuestionarios, reenvíos). Ajuste único con la semilla declarada, **sin reajustar**.
+- **Recuperación de parámetros:** (a) los 3 efectos verdaderos dentro del IC 95 % del ajuste único; (b) cobertura del IC 95 % ≥ 0,90 en **200 réplicas** de 32 participantes (semillas `20261012 + 104729 + r`).
+- **Potencia:** rejilla de N = 16, 24, 32, 48, 64, 96, 128; 200 réplicas por N; d = 0,5 en desviaciones típicas de la comprensión de un bloque (se mide con 4 000 participantes sin efectos de condición); α = 0,05; meta 0,80. El N mínimo es el primero de la rejilla que la alcanza.
+- **Optimizador:** `MixedLM` con REML y `method = ["bfgs", "powell"]`. El primer intento con `lbfgs` falló con *Singular matrix* en los datos simulados (los demás optimizadores dieron estimaciones idénticas entre sí), así que se cambió antes de registrar cualquier resultado.
+- **Covariables del modelo:** alfabetización como efecto principal (la interacción con la condición, R6, queda para los datos reales); `bloqueados_prop` solo si varía entre noticias.
+- **Verdad de la exportación:** los valores, conteos y tiempos exportados se comparan con la verdad de la simulación (tolerancia de 5 ms en `t_pantalla_ms` y `t_escucha_ms`).

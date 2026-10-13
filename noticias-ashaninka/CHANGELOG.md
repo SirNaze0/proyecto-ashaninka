@@ -1,5 +1,23 @@
 # Changelog
 
+## Fase 5 — Instrumentación del experimento (2026-10-12)
+
+### Añadido
+- **5.2 Asignación:** cuadrado de Williams 4×4 con rotación de noticias, determinista a partir del código anónimo (`backend/app/experiment/latin.py`); las 4 noticias del experimento se fijan en `ExperimentMaterial` (`pool.py`), con preferencia por las que no tienen segmentos bloqueados.
+- **5.1/5.3/5.4 Flujo y registro:** consentimiento, 4 bloques en el orden asignado, cuestionario tras cada noticia y final (`frontend/src/app/experiment.ts`, `components/ExperimentFlow.tsx`); guardia de rutas que impide cambiar la condición; IndexedDB v2 y cola de respuestas idempotente. API `/api/experiment` (config, sesiones, respuestas, cierre, exportación) y siete tipos de evento nuevos en `/api/events`.
+- **5.5 Privacidad:** código anónimo, edad por rangos, comentario filtrado y verificación automática de la exportación (`privacy.py`) con control negativo.
+- **5.6 Exportación:** CSV, JSON y Parquet (`app.cli experiment export`), `manifest.json` con hashes y `data/DATA_DICTIONARY.md` generado desde `export.COLUMNAS`.
+- **5.7 Análisis (paquete reproducible, `eval/fase5/`):** simulación sintética por la API real, modelo mixto, Friedman, Wilcoxon, bootstrap, sensibilidad, potencia y cobertura por réplicas; consolidado en `eval/results/fase_5.json`.
+- Pruebas: 43 de Python del experimento y 9 de la evaluación, 24 de vitest y 3 E2E en Chromium real.
+
+### Cambiado
+- `/api/events`: nuevos tipos (`consent`, `block-start`, `block-end`, `read-done`, `questionnaire-submit`, `session-finish`, `abandon`) y claves de payload (`posicion`, `participant`, `blocks`).
+- IndexedDB `na-events` pasa a la versión 2 (migración que conserva los eventos pendientes). `Presentation` admite `experiment` y `onDone` sin cambiar su uso anterior.
+- Grupo `eval`: `pandas`, `statsmodels` y `pyarrow`.
+
+### Pendiente (requiere personas)
+- Texto del consentimiento y su audio (comité de ética), ítems de comprensión (hablante), noticias revisadas (P4), piloto con 2–3 personas (5.8) y pruebas de escucha (5.7).
+
 ## Fase 4 — Interfaz web (PWA) y condiciones C1–C4 (2026-10-12)
 
 ### Añadido

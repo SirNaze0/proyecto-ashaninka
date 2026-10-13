@@ -1,0 +1,844 @@
+{
+ "fase": 5,
+ "commit": "4737cb331ad05f9de1abc3c3d4cdf8da98b09d9f",
+ "fecha": "2026-10-13T03:24:32+00:00",
+ "hardware": {
+  "so": "Windows-10-10.0.26200-SP0",
+  "cpu": "Intel64 Family 6 Model 151 Stepping 5, GenuineIntel",
+  "nucleos_logicos": 12,
+  "ram_gb": 15.8,
+  "gpu_chromium": null
+ },
+ "material": {
+  "tipo": "SINTÉTICO: participantes simulados por la API real, marcados piloto; no son datos reales",
+  "semilla": 20261012,
+  "parametros_verdaderos": {
+   "base": 0.5,
+   "efecto_cond": {
+    "C1": 0.0,
+    "C2": 0.05,
+    "C3": 0.15,
+    "C4": 0.17
+   },
+   "efecto_orden": [
+    0.0,
+    0.02,
+    0.04,
+    0.06
+   ],
+   "efecto_noticia": [
+    0.0,
+    0.03,
+    -0.03,
+    0.02
+   ],
+   "efecto_alfabetizacion": {
+    "no_lee": -0.05,
+    "lee_con_dificultad": -0.02,
+    "lee_bien": 0.0
+   },
+   "alfabetizacion_probs": {
+    "no_lee": 0.25,
+    "lee_con_dificultad": 0.35,
+    "lee_bien": 0.4
+   },
+   "sd_participante": 0.08,
+   "p_abandono": 0.06,
+   "p_degradacion_c4": 0.1,
+   "esfuerzo": {
+    "base": 5.5,
+    "C1": 0.0,
+    "C2": -0.3,
+    "C3": -0.8,
+    "C4": -1.0,
+    "sd_part": 0.7,
+    "sd": 0.8
+   },
+   "aceptabilidad": {
+    "base": 3.2,
+    "C1": 0.0,
+    "C2": 0.1,
+    "C3": 0.4,
+    "C4": 0.7,
+    "sd_part": 0.4,
+    "sd": 0.7
+   }
+  },
+  "contrastes_verdaderos": {
+   "C2-C1": 0.05,
+   "C3-C2": 0.1,
+   "C4-C3": 0.02
+  }
+ },
+ "balance": {
+  "16": {
+   "n": 16,
+   "ciclo_completo": true,
+   "condicion_x_posicion": true,
+   "condicion_x_noticia": true,
+   "noticia_x_posicion": true,
+   "arrastre": true,
+   "conteo_condicion_x_posicion": {
+    "C1@0": 4,
+    "C1@1": 4,
+    "C1@2": 4,
+    "C1@3": 4,
+    "C2@0": 4,
+    "C2@1": 4,
+    "C2@2": 4,
+    "C2@3": 4,
+    "C3@0": 4,
+    "C3@1": 4,
+    "C3@2": 4,
+    "C3@3": 4,
+    "C4@0": 4,
+    "C4@1": 4,
+    "C4@2": 4,
+    "C4@3": 4
+   }
+  },
+  "32": {
+   "n": 32,
+   "ciclo_completo": true,
+   "condicion_x_posicion": true,
+   "condicion_x_noticia": true,
+   "noticia_x_posicion": true,
+   "arrastre": true,
+   "conteo_condicion_x_posicion": {
+    "C1@0": 8,
+    "C1@1": 8,
+    "C1@2": 8,
+    "C1@3": 8,
+    "C2@0": 8,
+    "C2@1": 8,
+    "C2@2": 8,
+    "C2@3": 8,
+    "C3@0": 8,
+    "C3@1": 8,
+    "C3@2": 8,
+    "C3@3": 8,
+    "C4@0": 8,
+    "C4@1": 8,
+    "C4@2": 8,
+    "C4@3": 8
+   }
+  },
+  "48": {
+   "n": 48,
+   "ciclo_completo": true,
+   "condicion_x_posicion": true,
+   "condicion_x_noticia": true,
+   "noticia_x_posicion": true,
+   "arrastre": true,
+   "conteo_condicion_x_posicion": {
+    "C1@0": 12,
+    "C1@1": 12,
+    "C1@2": 12,
+    "C1@3": 12,
+    "C2@0": 12,
+    "C2@1": 12,
+    "C2@2": 12,
+    "C2@3": 12,
+    "C3@0": 12,
+    "C3@1": 12,
+    "C3@2": 12,
+    "C3@3": 12,
+    "C4@0": 12,
+    "C4@1": 12,
+    "C4@2": 12,
+    "C4@3": 12
+   }
+  }
+ },
+ "simulacion": {
+  "n_participantes": 32,
+  "semilla": 20261012,
+  "sesiones_creadas": 32,
+  "sesiones_completas": 31,
+  "sesiones_abandonadas": 1,
+  "eventos_enviados": 811,
+  "eventos_nuevos_en_reenvio": 0,
+  "respuestas_enviadas": 155,
+  "respuestas_nuevas_en_reenvio": 0,
+  "sesion_repetida_idempotente": true,
+  "filas": {
+   "sesiones": 32,
+   "bloques": 128,
+   "respuestas": 1240,
+   "eventos": 811
+  },
+  "carpeta": "H:\\PROYECTOS-TRABAJO\\PROYECTO-ASHANINKA\\proyecto-ashaninka\\noticias-ashaninka\\eval\\fase5\\out\\export"
+ },
+ "verificacion_exportacion": {
+  "bloques_visitados": 124,
+  "bloques_con_valores_distintos": 0,
+  "peor_diferencia_ms": {
+   "t_escucha_ms": 3,
+   "t_pantalla_ms": 1
+  },
+  "filas_exportadas": {
+   "sesiones": 32,
+   "bloques": 128,
+   "respuestas": 1240,
+   "eventos": 811
+  },
+  "filas_esperadas": {
+   "sesiones": 32,
+   "bloques": 128,
+   "eventos": 811
+  },
+  "filas_ok": true,
+  "sesiones_completas_exportadas": 31,
+  "sesiones_abandonadas_exportadas": 1
+ },
+ "privacidad": {
+  "problemas": [],
+  "control_negativo_detectado": true,
+  "tablas_revisadas": {
+   "sesiones": 32,
+   "bloques": 128,
+   "respuestas": 1240,
+   "eventos": 811
+  }
+ },
+ "diccionario": {
+  "columnas": {
+   "sesiones": {
+    "csv": 16,
+    "diccionario": 16,
+    "coinciden": true,
+    "todas_documentadas": true
+   },
+   "bloques": {
+    "csv": 22,
+    "diccionario": 22,
+    "coinciden": true,
+    "todas_documentadas": true
+   },
+   "respuestas": {
+    "csv": 7,
+    "diccionario": 7,
+    "coinciden": true,
+    "todas_documentadas": true
+   },
+   "eventos": {
+    "csv": 8,
+    "diccionario": 8,
+    "coinciden": true,
+    "todas_documentadas": true
+   }
+  },
+  "total": 53,
+  "cobertura": 1.0,
+  "archivo_al_dia": true
+ },
+ "analisis": {
+  "datos": {
+   "participantes_exportados": 32,
+   "excluidos_menos_de_4_bloques": [
+    "P013"
+   ],
+   "participantes_analizados": 31,
+   "bloques_analizados": 124
+  },
+  "primario": {
+   "formula": "comprension ~ C(condicion, Treatment(\"C1\")) + C(posicion) + C(slot_noticia) + C(alfabetizacion)",
+   "n_bloques": 124,
+   "n_participantes": 31,
+   "converge": true,
+   "var_participante": 0.0027025703089617135,
+   "var_residual": 0.05810279358064424,
+   "contrastes": [
+    {
+     "contraste": "C2-C1",
+     "estimado": 0.12499999999999968,
+     "ee": 0.06129148502589554,
+     "ic95": [
+      0.00487089584270535,
+      0.245129104157294
+     ],
+     "z": 2.0394350038539186,
+     "p": 0.04140663188721734,
+     "p_holm": 0.08281326377443468
+    },
+    {
+     "contraste": "C3-C2",
+     "estimado": 0.136853448275862,
+     "ee": 0.0612914850258956,
+     "ic95": [
+      0.016724344118567547,
+      0.25698255243315643
+     ],
+     "z": 2.232829702495241,
+     "p": 0.025560176755571856,
+     "p_holm": 0.07668053026671556
+    },
+    {
+     "contraste": "C4-C3",
+     "estimado": -0.09482758620689655,
+     "ee": 0.061291485025895605,
+     "ic95": [
+      -0.21495669036419102,
+      0.02530151795039791
+     ],
+     "z": -1.5471575891305613,
+     "p": 0.12182524993038162,
+     "p_holm": 0.12182524993038162
+    }
+   ]
+  },
+  "no_parametricos": {
+   "comprension": {
+    "n": 31,
+    "medias": {
+     "C1": 0.47580645161290325,
+     "C2": 0.6048387096774194,
+     "C3": 0.7419354838709677,
+     "C4": 0.6451612903225806
+    },
+    "friedman": {
+     "chi2": 15.729411764705882,
+     "p": 0.0012884193830809785
+    },
+    "wilcoxon": [
+     {
+      "contraste": "C2-C1",
+      "p": 0.09996099203267066,
+      "r": 0.2954584029057182,
+      "mediana_dif": 0.25,
+      "p_holm": 0.1999219840653413
+     },
+     {
+      "contraste": "C3-C2",
+      "p": 0.03788352975205814,
+      "r": 0.3728808467662691,
+      "mediana_dif": 0.25,
+      "p_holm": 0.11365058925617441
+     },
+     {
+      "contraste": "C4-C3",
+      "p": 0.18848951934905467,
+      "r": 0.2361918655704958,
+      "mediana_dif": -0.25,
+      "p_holm": 0.1999219840653413
+     }
+    ]
+   },
+   "esfuerzo": {
+    "n": 31,
+    "medias": {
+     "C1": 5.612903225806452,
+     "C2": 5.032258064516129,
+     "C3": 4.774193548387097,
+     "C4": 4.645161290322581
+    },
+    "friedman": {
+     "chi2": 14.873417721518992,
+     "p": 0.0019280804131886578
+    },
+    "wilcoxon": [
+     {
+      "contraste": "C2-C1",
+      "p": 0.029878127603327732,
+      "r": 0.3900492411766562,
+      "mediana_dif": 0.0,
+      "p_holm": 0.0896343828099832
+     },
+     {
+      "contraste": "C3-C2",
+      "p": 0.21384284098317263,
+      "r": 0.22326157217637552,
+      "mediana_dif": 0.0,
+      "p_holm": 0.42768568196634527
+     },
+     {
+      "contraste": "C4-C3",
+      "p": 0.3924746165935007,
+      "r": 0.1535873635972931,
+      "mediana_dif": 0.0,
+      "p_holm": 0.42768568196634527
+     }
+    ]
+   },
+   "aceptabilidad": {
+    "n": 31,
+    "medias": {
+     "C1": 3.3440870967741936,
+     "C2": 3.3870967741935485,
+     "C3": 3.7957032258064523,
+     "C4": 3.8709677419354835
+    },
+    "friedman": {
+     "chi2": 25.915129151291545,
+     "p": 9.935713154423889e-06
+    },
+    "wilcoxon": [
+     {
+      "contraste": "C2-C1",
+      "p": 0.8072435773423571,
+      "r": 0.043820735210076005,
+      "mediana_dif": 0.0,
+      "p_holm": 1.0
+     },
+     {
+      "contraste": "C3-C2",
+      "p": 0.002151305777221906,
+      "r": 0.5511203037716514,
+      "mediana_dif": 0.3333000000000004,
+      "p_holm": 0.0064539173316657174
+     },
+     {
+      "contraste": "C4-C3",
+      "p": 0.5372354380781339,
+      "r": 0.11081627737725468,
+      "mediana_dif": 0.0,
+      "p_holm": 1.0
+     }
+    ]
+   }
+  },
+  "bootstrap": {
+   "B": 2000,
+   "semilla": 20261012,
+   "comprension": [
+    {
+     "contraste": "C2-C1",
+     "dif_media": 0.12903225806451613,
+     "ic95": [
+      0.0,
+      0.25806451612903225
+     ]
+    },
+    {
+     "contraste": "C3-C2",
+     "dif_media": 0.13709677419354838,
+     "ic95": [
+      0.024193548387096774,
+      0.25
+     ]
+    },
+    {
+     "contraste": "C4-C3",
+     "dif_media": -0.0967741935483871,
+     "ic95": [
+      -0.22580645161290322,
+      0.024193548387096774
+     ]
+    }
+   ],
+   "esfuerzo": [
+    {
+     "contraste": "C2-C1",
+     "dif_media": -0.5806451612903226,
+     "ic95": [
+      -1.032258064516129,
+      -0.12903225806451613
+     ]
+    },
+    {
+     "contraste": "C3-C2",
+     "dif_media": -0.25806451612903225,
+     "ic95": [
+      -0.7096774193548387,
+      0.16129032258064516
+     ]
+    },
+    {
+     "contraste": "C4-C3",
+     "dif_media": -0.12903225806451613,
+     "ic95": [
+      -0.4838709677419355,
+      0.22580645161290322
+     ]
+    }
+   ],
+   "aceptabilidad": [
+    {
+     "contraste": "C2-C1",
+     "dif_media": 0.04300967741935484,
+     "ic95": [
+      -0.18280330645161294,
+      0.2795806451612904
+     ]
+    },
+    {
+     "contraste": "C3-C2",
+     "dif_media": 0.40860645161290315,
+     "ic95": [
+      0.17204838709677422,
+      0.6236645161290322
+     ]
+    },
+    {
+     "contraste": "C4-C3",
+     "dif_media": 0.0752645161290323,
+     "ic95": [
+      -0.1290354838709676,
+      0.29030645161290325
+     ]
+    }
+   ]
+  },
+  "sensibilidad": {
+   "sin_c4_degradado": {
+    "bloques_quitados": 1,
+    "contrastes": [
+     {
+      "contraste": "C2-C1",
+      "estimado": 0.12495762494835812,
+      "ee": 0.061527758349072814,
+      "ic95": [
+       0.004365433583475964,
+       0.24554981631324027
+      ],
+      "z": 2.0309146359505093,
+      "p": 0.04226365481988595,
+      "p_holm": 0.0845273096397719
+     },
+     {
+      "contraste": "C3-C2",
+      "estimado": 0.13689582332750366,
+      "ee": 0.061527758349072814,
+      "ic95": [
+       0.01630363196262151,
+       0.2574880146923858
+      ],
+      "z": 2.2249441065418987,
+      "p": 0.026084990584747503,
+      "p_holm": 0.07825497175424251
+     },
+     {
+      "contraste": "C4-C3",
+      "estimado": -0.09359870970928924,
+      "ee": 0.062065120243199844,
+      "ic95": [
+       -0.21524411104163219,
+       0.028046691623053704
+      ],
+      "z": -1.508072639552235,
+      "p": 0.1315359368743514,
+      "p_holm": 0.1315359368743514
+     }
+    ]
+   },
+   "noticia_componente_varianza": {
+    "contrastes": [
+     {
+      "contraste": "C2-C1",
+      "estimado": 0.12500000000000025,
+      "ee": 0.06128058588973418,
+      "ic95": [
+       0.004892257757213289,
+       0.2451077422427872
+      ],
+      "z": 2.0397977301476886,
+      "p": 0.041370476001807224,
+      "p_holm": 0.08274095200361445
+     },
+     {
+      "contraste": "C3-C2",
+      "estimado": 0.13834469602285157,
+      "ee": 0.0612931100492731,
+      "ic95": [
+       0.018212406878238066,
+       0.2584769851674651
+      ],
+      "z": 2.25710028275017,
+      "p": 0.024001809228718012,
+      "p_holm": 0.07200542768615403
+     },
+     {
+      "contraste": "C4-C3",
+      "estimado": -0.09669238121989723,
+      "ee": 0.061300169203287,
+      "ic95": [
+       -0.21683850605224844,
+       0.023453743612453976
+      ],
+      "z": -1.577359124397204,
+      "p": 0.11471291515365065,
+      "p_holm": 0.11471291515365065
+     }
+    ],
+    "var_comp": [
+     0.003856257514345347,
+     0.0027022368697568956
+    ]
+   }
+  }
+ },
+ "recuperacion": {
+  "n": 32,
+  "replicas": 200,
+  "fallos": 0,
+  "verdaderos": {
+   "C2-C1": 0.05,
+   "C3-C2": 0.1,
+   "C4-C3": 0.02
+  },
+  "cobertura_ic95": {
+   "C2-C1": 0.945,
+   "C3-C2": 0.945,
+   "C4-C3": 0.955
+  },
+  "sesgo_medio": {
+   "C2-C1": -0.001748555847079241,
+   "C3-C2": 0.0008484267887891775,
+   "C4-C3": -0.00128920713491526
+  },
+  "contrastes": [
+   "C2-C1",
+   "C3-C2",
+   "C4-C3"
+  ]
+ },
+ "potencia": {
+  "d": 0.5,
+  "sd_bloque": 0.26165093878218126,
+  "delta_c3_c1": 0.13082546939109063,
+  "alfa": 0.05,
+  "replicas": 200,
+  "meta_potencia": 0.8,
+  "curva": [
+   {
+    "n": 16,
+    "potencia": 0.415,
+    "fallos": 0
+   },
+   {
+    "n": 24,
+    "potencia": 0.43,
+    "fallos": 0
+   },
+   {
+    "n": 32,
+    "potencia": 0.575,
+    "fallos": 0
+   },
+   {
+    "n": 48,
+    "potencia": 0.69,
+    "fallos": 0
+   },
+   {
+    "n": 64,
+    "potencia": 0.865,
+    "fallos": 0
+   },
+   {
+    "n": 96,
+    "potencia": 0.935,
+    "fallos": 0
+   },
+   {
+    "n": 128,
+    "potencia": 0.98,
+    "fallos": 0
+   }
+  ],
+  "n_minimo": 64,
+  "nota": "con abandono simulado (p = 0.06) y el mismo modelo del análisis primario"
+ },
+ "paquete": {
+  "inicial_gzip_bytes": 24988,
+  "inicial_archivos": [
+   "assets/index-Cc9FYswb.css",
+   "assets/index-DZbclvoM.js",
+   "assets/preload-helper-B0uLj6Uu.js",
+   "index.html"
+  ],
+  "diferido_gzip_bytes": 234155,
+  "diferido_archivos": [
+   "assets/AvatarPanel-5UK-lCLs.js",
+   "assets/GLTFLoader-BIuxjdlN.js",
+   "assets/create-avatar-bkGZEMwh.js",
+   "assets/three-vrm.module-6fMmVtoZ.js",
+   "assets/three.module-C8enonVg.js",
+   "assets/viewer-1Wau1Vz8.js"
+  ],
+  "sw_js_gzip_bytes": 1293,
+  "precache_sw_archivos": [
+   "/",
+   "/assets/index-Cc9FYswb.css",
+   "/assets/index-DZbclvoM.js",
+   "/assets/preload-helper-B0uLj6Uu.js",
+   "/icon-192.png",
+   "/icon.svg",
+   "/index.html",
+   "/manifest.webmanifest",
+   "/presentadora_fija.svg"
+  ],
+  "precache_sw_gzip_bytes": 26696,
+  "precache_sw_incluye_avatar": false,
+  "presupuesto_inicial_bytes": 3145728,
+  "cumple_presupuesto_inicial": true,
+  "nota": "el avatar va FUERA del presupuesto inicial (carga diferida, PLAN §4.7)",
+  "vrm_provisional_bytes": 2525972,
+  "vrm_meta_final_bytes": 2097152,
+  "vrm_cumple_meta_2mb": false,
+  "inicial_mas_avatar_mas_vrm_gzip_bytes": 2785115
+ },
+ "pruebas": {
+  "pytest": {
+   "total": 192,
+   "pasaron": 191,
+   "fallaron": 0,
+   "omitidas": 1
+  },
+  "vitest": {
+   "total": 65,
+   "pasaron": 65,
+   "fallaron": 0
+  },
+  "e2e": {
+   "total": 21,
+   "pasaron": 21,
+   "fallaron": 0,
+   "omitidas": 0
+  }
+ },
+ "criterios": {
+  "balance_williams": {
+   "meta": "cuadrado de Williams y rotación balanceados en 16, 32 y 48 participantes",
+   "valor": {
+    "16": true,
+    "32": true,
+    "48": true
+   },
+   "cumple": true,
+   "nota": ""
+  },
+  "idempotencia": {
+   "meta": "reenviar sesión, eventos y respuestas no crea duplicados",
+   "valor": {
+    "eventos_nuevos_en_reenvio": 0,
+    "respuestas_nuevas_en_reenvio": 0,
+    "sesion_repetida_idempotente": true
+   },
+   "cumple": true,
+   "nota": ""
+  },
+  "exportacion_sin_errores": {
+   "meta": "todas las tablas exportadas, con las filas esperadas y los valores de la simulación",
+   "valor": {
+    "filas": {
+     "sesiones": 32,
+     "bloques": 128,
+     "respuestas": 1240,
+     "eventos": 811
+    },
+    "bloques_con_valores_distintos": 0
+   },
+   "cumple": true,
+   "nota": ""
+  },
+  "tiempos_exportados": {
+   "meta": "t_pantalla y t_escucha coinciden con los tiempos simulados (≤ 5 ms)",
+   "valor": {
+    "t_escucha_ms": 3,
+    "t_pantalla_ms": 1
+   },
+   "cumple": true,
+   "nota": ""
+  },
+  "privacidad": {
+   "meta": "ninguna columna ni valor identificable; el verificador detecta un dato personal inyectado",
+   "valor": {
+    "problemas": 0,
+    "control_negativo": true
+   },
+   "cumple": true,
+   "nota": ""
+  },
+  "diccionario_100pct": {
+   "meta": "el diccionario cubre el 100 % de las columnas exportadas y está al día",
+   "valor": {
+    "cobertura": 1.0,
+    "columnas": 53,
+    "al_dia": true
+   },
+   "cumple": true,
+   "nota": ""
+  },
+  "recuperacion_un_ajuste": {
+   "meta": "los 3 efectos verdaderos caen dentro del IC 95 % del modelo mixto (simulación de 32)",
+   "valor": {
+    "C2-C1": true,
+    "C3-C2": true,
+    "C4-C3": true
+   },
+   "cumple": true,
+   "nota": "semilla fija declarada antes de ejecutar; no se reajustó"
+  },
+  "cobertura_replicas": {
+   "meta": "cobertura del IC 95 % ≥ 0,90 en 200 réplicas",
+   "valor": {
+    "C2-C1": 0.945,
+    "C3-C2": 0.945,
+    "C4-C3": 0.955
+   },
+   "cumple": true,
+   "nota": ""
+  },
+  "potencia": {
+   "meta": "N mínimo con potencia ≥ 0.8 para d = 0.5 (C3 frente a C1)",
+   "valor": 64,
+   "cumple": true,
+   "nota": "estimación bajo el modelo simulado; se recalcula con la varianza real del piloto"
+  },
+  "carga_inicial": {
+   "meta": "carga inicial de la PWA < 3 MB con el flujo del experimento incluido",
+   "valor": 0.0238,
+   "cumple": true,
+   "nota": ""
+  },
+  "pruebas_pytest": {
+   "meta": "0 fallos",
+   "valor": "191/192",
+   "cumple": true,
+   "nota": ""
+  },
+  "pruebas_vitest": {
+   "meta": "0 fallos",
+   "valor": "65/65",
+   "cumple": true,
+   "nota": ""
+  },
+  "pruebas_e2e": {
+   "meta": "0 fallos",
+   "valor": "21/21",
+   "cumple": true,
+   "nota": ""
+  },
+  "consentimiento_comite": {
+   "meta": "texto del consentimiento aprobado por el comité de ética, con su audio en asháninka (5.1)",
+   "valor": null,
+   "cumple": "pendiente",
+   "nota": "requiere personas; no se simula ni se inventa"
+  },
+  "items_comprension_hablante": {
+   "meta": "ítems de comprensión redactados por un hablante, modalidad oral (5.4)",
+   "valor": null,
+   "cumple": "pendiente",
+   "nota": "requiere personas; no se simula ni se inventa"
+  },
+  "noticias_revisadas_p4": {
+   "meta": "≥ 8 noticias revisadas por un hablante (P4); hoy el selector exige 4 aptas",
+   "valor": null,
+   "cumple": "pendiente",
+   "nota": "requiere personas; no se simula ni se inventa"
+  },
+  "piloto_con_personas": {
+   "meta": "piloto completo con 2–3 personas y exportación a CSV sin errores (5.8)",
+   "valor": null,
+   "cumple": "pendiente",
+   "nota": "requiere personas; no se simula ni se inventa"
+  },
+  "escucha_mos_inteligibilidad": {
+   "meta": "guiones de escucha: inteligibilidad y MOS (5.7, eval/listening/)",
+   "valor": null,
+   "cumple": "pendiente",
+   "nota": "requiere personas; no se simula ni se inventa"
+  }
+ }
+}

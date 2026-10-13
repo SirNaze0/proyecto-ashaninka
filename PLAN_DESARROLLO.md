@@ -5,7 +5,7 @@
 > **Fecha:** 2026-10-05
 > **Cambios en v1.2:** se incorpora el corpus AmericasNLP 2021 asháninka–castellano (§3.2). Hallazgo crítico: la ortografía del corpus no coincide con la del modelo de voz `mms-tts-cni`. Se agregan la sub-etapa 2e (adaptador ortográfico), el pendiente P6, la prueba de ida y vuelta TTS→ASR y los riesgos R13–R15
 > **Cambios en v1.1:** P2 (política de normalización) resuelto a nivel de política. Se añaden §3.1, nuevos pendientes P2a–P2e, rediseño de la tarea 1.5 y riesgos R10–R12
-> **Estado:** Fases 1, 2, 3 y 4 aprobadas (2026-10-12). Fase 2 con la línea base eSpeak-NG cerrada (tareas 2.3, 2.8 y 2.10 al 100 %). Fase 4 aprobada con tres pendientes externos: Android de gama media físico, traducción de la interfaz al asháninka y VRM final (≤ 2 MB)
+> **Estado:** Fases 1, 2, 3 y 4 aprobadas (2026-10-12). Fase 2 con la línea base eSpeak-NG cerrada (tareas 2.3, 2.8 y 2.10 al 100 %). Fase 4 aprobada con tres pendientes externos: Android de gama media físico, traducción de la interfaz al asháninka y VRM final (≤ 2 MB). Fase 5 implementada y verificada con una simulación sintética, pendiente de aprobación (2026-10-12): faltan el consentimiento del comité, los ítems del hablante, las noticias revisadas (P4) y el piloto con personas
 
 Todas las cifras de latencia, rendimiento y calidad de este documento son **metas o estimaciones**. Ninguna ha sido medida aún. Los valores reales se registrarán en `eval/results/` al cerrar cada fase.
 
@@ -408,6 +408,14 @@ El resultado son **tiempos exactos para el audio sintetizado, sin costo adiciona
 - El piloto completo se exporta a CSV sin errores.
 - El diccionario de datos cubre el 100 % de las columnas.
 - La prueba de privacidad pasa.
+
+### Estado de la Fase 5: IMPLEMENTADA, pendiente de aprobación (2026-10-12)
+
+- **5.1–5.6 (hecho y verificado):** flujo guiado en la PWA (`#/experimento`: consentimiento con código anónimo, 4 bloques en el orden del **cuadrado de Williams 4×4** con rotación de noticias, cuestionario tras cada noticia y final, cierre), con guardia de rutas que impide cambiar la condición; asignación determinista (`backend/app/experiment/`); sesiones, respuestas idempotentes y exportación en CSV, JSON y Parquet (`app.cli experiment export`); verificación automática de privacidad; `data/DATA_DICTIONARY.md` generado (53 de 53 columnas).
+- **5.7 (análisis hecho, escucha pendiente):** paquete reproducible `eval/fase5/` (modelo mixto, Friedman, Wilcoxon, bootstrap, sensibilidad, potencia). Con **32 participantes sintéticos** por la API real: el modelo recupera los efectos verdaderos (cobertura del IC 95 % de 0,945 a 0,955 en 200 réplicas) y la exportación coincide con la verdad simulada (0 de 124 bloques distintos; tiempos a ≤ 3 ms). **N mínimo para potencia 0,80 con d = 0,5: 64 participantes** (estimación bajo el modelo simulado). Las pruebas de inteligibilidad y MOS requieren personas.
+- **Pruebas:** 191 de Python (1 omitida por diseño), 65 de vitest, 21 E2E en Chromium real (3 nuevas: sesión completa con exportación y tramo sin conexión); `ruff` y `tsc` sin errores; carga inicial 0,024 MB.
+- **Pendientes externos (no se inventan; son marcadores en el código):** texto del consentimiento aprobado por el comité y su audio en asháninka (5.1); ítems de comprensión y sus claves, redactados por un hablante (5.4); ≥ 8 noticias revisadas (P4), sin las cuales el modo real no inicia (hoy solo el modo piloto `NA_EXPERIMENT_PILOTO`); **piloto con 2–3 personas (5.8)**.
+- Resumen y detalle: `resumen_fase5.md`, `docs/metrics.md` («Fase 5»), `docs/pwa.md`, `data/DATA_DICTIONARY.md`, `eval/results/fase_5.json`.
 
 ### Fase 6 — Despliegue, reproducibilidad y banco de pruebas (2 semanas)
 

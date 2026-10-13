@@ -34,8 +34,11 @@ eval = [
     "imageio-ffmpeg>=0.6.0",
     "jiwer>=3.0",
     "matplotlib>=3.8",
+    "pandas>=3.0.6",
+    "pyarrow>=26.0.0",
     "python-speech-features>=0.6",
     "scipy>=1.17.1",
+    "statsmodels>=0.15.0",
 ]
 
 [tool.uv]
