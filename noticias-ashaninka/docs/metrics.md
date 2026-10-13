@@ -254,3 +254,54 @@ Fija los detalles que faltaban para ejecutar el plan de análisis. Se escribió 
 - **Optimizador:** `MixedLM` con REML y `method = ["bfgs", "powell"]`. El primer intento con `lbfgs` falló con *Singular matrix* en los datos simulados (los demás optimizadores dieron estimaciones idénticas entre sí), así que se cambió antes de registrar cualquier resultado.
 - **Covariables del modelo:** alfabetización como efecto principal (la interacción con la condición, R6, queda para los datos reales); `bloqueados_prop` solo si varía entre noticias.
 - **Verdad de la exportación:** los valores, conteos y tiempos exportados se comparan con la verdad de la simulación (tolerancia de 5 ms en `t_pantalla_ms` y `t_escucha_ms`).
+
+---
+
+# Fase 6: pruebas de escucha (5.7), seguridad y despliegue
+
+> **Esta sección se escribió el 2026-10-12, antes de construir el kit de escucha y de ejecutar ninguna comprobación de la Fase 6.** Los cambios posteriores se agregan abajo como revisión fechada, sin borrar.
+
+## Pruebas de escucha (tarea 5.7)
+
+Mide dos cosas, en la misma sesión y con las mismas oraciones, para **MMS (`mms_vits`) frente a eSpeak-NG**:
+
+| Métrica | Definición | Unidad |
+|---|---|---|
+| **Acierto por palabra clave** | Por oración se toman las **3 primeras palabras de 5 o más letras** (regla fija, sin criterio lingüístico propio). El oyente escribe lo que oye. Una palabra acierta si, en minúsculas y sin signos de puntuación, es igual a la de la clave | proporción 0–1 |
+| **CER de palabra clave** | Distancia de edición entre lo escrito y la clave, entre la longitud de la clave, agregada sobre todas las palabras (`corpus_cer`) | proporción |
+| **MOS de naturalidad** | Puntuación de 1 (muy artificial) a 5 (muy natural) por audio | escala 1–5 |
+| **Diferencia MMS − eSpeak** | Pareada por oración y oyente, de cada métrica anterior | igual que la métrica |
+
+Reglas fijadas de antemano:
+
+1. **Material:** oraciones del split **test** del corpus (semilla fija); nunca se ajusta nada con ellas. Cada oración se sintetiza con ambos motores y se presenta en orden aleatorio, con nombres de archivo codificados y sin indicar el motor.
+2. **Ítems repetidos** (el 10 % de los audios) para medir la fiabilidad del propio oyente: diferencia absoluta media del MOS y concordancia de los aciertos entre la primera y la segunda vez.
+3. **Intervalos:** IC 95 % por *bootstrap por oyente* (remuestreando oyentes; B = 2 000, semilla fija) para cada motor y para la diferencia pareada; con menos de 2 oyentes no se calcula el IC ni el acuerdo, y se dice.
+4. **Acuerdo entre oyentes:** alfa de Krippendorff **ordinal** para el MOS y acuerdo medio por pares para los aciertos. Con menos de 2 oyentes: «no calculable».
+5. **Por variante:** resultados desglosados por la variante autodeclarada del oyente (`SUPUESTO-LING`, P3); un grupo con menos de 3 oyentes se marca «insuficiente».
+6. **Sin datos personales:** el oyente solo informa un identificador y su variante.
+7. **Verificación del kit sin personas:** oyentes simulados con acierto y MOS verdaderos conocidos; `score.py` debe recuperarlos dentro del IC 95 %. **No es una medición**: la inteligibilidad y el MOS reales requieren a un hablante y siguen pendientes.
+
+## Seguridad (criterios verificables)
+
+| Criterio | Cómo se comprueba |
+|---|---|
+| Endpoints administrativos cerrados por defecto | Sin token configurado, o con uno de menos de 16 caracteres o de ejemplo: 403. Con el token correcto: 200 |
+| Alcance de la protección | `GET /api/events/summary`, todo `/api/news*`, `GET /api/experiment/export` y el parámetro `engine` de `/api/synthesize` distinto del configurado |
+| La PWA no se rompe | `/api/catalog`, `POST /api/events`, `/api/experiment/*` (salvo exportar) y `/api/synthesize` sin `engine` siguen abiertos; los 21 E2E previos pasan |
+| Cabeceras | `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy` y CSP en toda respuesta; HSTS solo por HTTPS |
+| CSP sin romper la app | Cero violaciones de CSP en consola en C1–C4 (con avatar) y en el flujo del experimento, en Chromium real |
+| Límite de tasa | Superado el límite por IP se responde 429; `/api/health` queda exento |
+| Producción | `NA_ENV=production` apaga `/docs`, `/redoc` y `/openapi.json` |
+
+## Despliegue y reproducibilidad (criterios verificables)
+
+| Criterio | Cómo se comprueba | Si falta infraestructura |
+|---|---|---|
+| Artefactos válidos | Pruebas sobre `Dockerfile`, `docker-compose.yml`, `Caddyfile`, `.dockerignore` y `.env.example` | — |
+| Configuración de Compose | `docker compose config -q` (no necesita el demonio) | «pendiente» si no hay CLI |
+| Build e inicio reales | `docker build`, `docker compose up` y `GET /api/health` por Caddy | **«pendiente»** con el mensaje exacto de `docker info` si el demonio no responde |
+| Hashes de los modelos | `scripts/verify_models.py` contra `models.lock.json` (SHA-256 de los pesos) | — |
+| Un solo comando | `scripts/verify.sh` ejecuta lint, pruebas, compilación, E2E y `eval.fase6.run` | — |
+| Banco de pruebas en el servidor (6.3) | Repetir Fases 2 a 4 con `BASE` apuntando al servidor | **«pendiente»** (no hay servidor) |
+| README probado por una persona ajena (6.4) | Una persona revisora reproduce todo solo con el README | **«pendiente»** (requiere a la persona) |
