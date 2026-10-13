@@ -122,6 +122,17 @@ def list_catalog(
     return items[offset : offset + limit]
 
 
+@router.get("/{news_id}/meta", response_model=CatalogItem)
+def catalog_meta(news_id: int, session: Session = Depends(get_session)) -> CatalogItem:
+    """Metadatos sin texto del cuerpo: C2 (solo voz) los usa para el aviso y la variante."""
+    n = session.get(News, news_id)
+    if n is None:
+        raise HTTPException(404, f"No existe la noticia {news_id}")
+    segs = n.segments
+    ready = sum(1 for x in segs if x.tts_ready)
+    return _item(n, (len(segs), ready, len(segs) - ready))
+
+
 @router.get("/{news_id}", response_model=CatalogDetail)
 def catalog_detail(news_id: int, session: Session = Depends(get_session)) -> CatalogDetail:
     n = session.get(News, news_id)

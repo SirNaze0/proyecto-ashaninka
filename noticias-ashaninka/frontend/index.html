@@ -3,10 +3,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b5cad" />
+    <meta name="description" content="Noticias en asháninka con voz sintética, texto y avatar." />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
     <title>Noticias en asháninka</title>
   </head>
   <body>
-    <!-- Base mínima: la PWA completa es la Fase 4. El avatar se carga solo desde src/avatar. -->
-    <div id="app"><p>Noticias en asháninka. <a href="/visor.html">Visor del avatar (Fase 3)</a></p></div>
+    <div id="app"></div>
+    <noscript>Esta aplicación necesita JavaScript.</noscript>
+    <script type="module" src="/src/app/main.tsx"></script>
   </body>
 </html>

@@ -1,0 +1,243 @@
+/* Estilos de la PWA. Contraste AA en claro y oscuro; botones de al menos 44 px; foco visible. */
+:root {
+  --bg: #ffffff;
+  --fg: #1a1a1a;
+  --muted: #4a4a4a;
+  --accent: #0b5cad;
+  --accent-fg: #ffffff;
+  --border: #8a8a8a;
+  --hl-bg: #ffe27a;
+  --hl-fg: #000000;
+  --warn-bg: #fff4d6;
+  --warn-fg: #4d3500;
+  --blocked-bg: #eeeeee;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121417;
+    --fg: #f2f2f2;
+    --muted: #c4c4c4;
+    --accent: #7db7ff;
+    --accent-fg: #00243f;
+    --border: #8f959c;
+    --hl-bg: #f5c542;
+    --hl-fg: #000000;
+    --warn-bg: #3b2f08;
+    --warn-fg: #ffe9a8;
+    --blocked-bg: #23272c;
+  }
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+}
+main {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 1rem 16px 4rem;
+}
+a {
+  color: var(--accent);
+}
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+.skip {
+  position: absolute;
+  left: -999px;
+}
+.skip:focus {
+  left: 8px;
+  top: 8px;
+  background: var(--bg);
+  padding: 0.5rem;
+  z-index: 10;
+}
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 16px;
+  border-bottom: 1px solid var(--border);
+}
+.top a {
+  display: inline-block;
+  min-height: 44px;
+  line-height: 44px;
+}
+.brand {
+  font-weight: 700;
+  text-decoration: none;
+}
+.back {
+  display: inline-block;
+  min-height: 44px;
+  line-height: 44px;
+}
+h2 {
+  margin: 0.5rem 0;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0.75rem 0;
+  font-weight: 600;
+}
+select,
+.btn {
+  min-height: 44px;
+  font: inherit;
+  padding: 0.4rem 0.9rem;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--fg);
+}
+.btn {
+  cursor: pointer;
+}
+.btn.primary {
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-color: var(--accent);
+  font-weight: 700;
+}
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 1rem 0;
+}
+fieldset {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.25rem 0.75rem;
+}
+.radio {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 44px;
+  margin-right: 0.75rem;
+}
+.radio input {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+.progress {
+  margin: 0;
+  color: var(--muted);
+  flex-basis: 100%;
+}
+.notices {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.5rem 0.9rem;
+  margin: 0.75rem 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.notices p {
+  margin: 0.2rem 0;
+}
+.notices .notice-synthetic {
+  color: var(--fg);
+  font-weight: 600;
+}
+.pseudo,
+.banner {
+  background: var(--warn-bg);
+  color: var(--warn-fg);
+  border-radius: 6px;
+  padding: 0.4rem 0.7rem;
+}
+.news-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+.news-link {
+  display: block;
+  min-height: 44px;
+  padding: 0.6rem 0.2rem;
+  border-bottom: 1px solid var(--border);
+  text-decoration: none;
+}
+.news-title {
+  display: block;
+  font-weight: 600;
+  text-decoration: underline;
+}
+.news-meta {
+  display: block;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+.body {
+  margin-top: 1rem;
+}
+.par {
+  margin: 0 0 1em;
+}
+.seg-blocked {
+  background: var(--blocked-bg);
+  border-left: 4px solid var(--border);
+  padding: 0.1rem 0.4rem;
+  display: inline-block;
+}
+.seg-now {
+  outline: 3px solid var(--accent);
+}
+.badge {
+  font-size: 0.75em;
+  color: var(--muted);
+  font-style: italic;
+}
+.hl {
+  background: var(--hl-bg);
+  color: var(--hl-fg);
+  border-radius: 3px;
+}
+.avatar-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 320px;
+  margin: 1rem 0;
+}
+.avatar-panel canvas,
+.avatar-panel img {
+  max-width: 100%;
+  height: auto;
+}
+.offline {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}

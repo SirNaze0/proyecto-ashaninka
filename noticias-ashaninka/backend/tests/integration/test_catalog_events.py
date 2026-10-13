@@ -128,3 +128,12 @@ def test_events_validation_and_privacy(env):
     big = {"events": [_ev() for _ in range(501)]}
     assert client.post("/api/events", json=big).status_code == 422
     assert client.get("/api/events/summary").json()["total"] == 0
+
+
+def test_catalog_meta_has_no_body_text(env):
+    client, engine, _ = env
+    nid = _news(engine)
+    r = client.get(f"/api/catalog/{nid}/meta")
+    assert r.status_code == 200 and r.json()["id"] == nid
+    assert "Okantzi" not in r.text and "SECRETO" not in r.text
+    assert client.get("/api/catalog/999/meta").status_code == 404

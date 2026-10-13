@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Noticias en asháninka">
+  <rect width="512" height="512" rx="96" fill="#0b5cad"/>
+  <rect x="112" y="120" width="288" height="40" rx="12" fill="#ffffff"/>
+  <rect x="112" y="200" width="288" height="28" rx="10" fill="#ffffff" opacity="0.85"/>
+  <rect x="112" y="252" width="288" height="28" rx="10" fill="#ffe27a"/>
+  <rect x="112" y="304" width="200" height="28" rx="10" fill="#ffffff" opacity="0.85"/>
+  <path d="M352 352l56 36-56 36z" fill="#ffffff"/>
+</svg>
