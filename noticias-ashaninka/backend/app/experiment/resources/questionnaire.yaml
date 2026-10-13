@@ -1,0 +1,45 @@
+# Instrumentos del experimento (Fase 5, tareas 5.1 y 5.4). Fuente única: la usan la validación del
+# servidor y la PWA (GET /api/experiment/config). Cada ítem lleva su estado, como el resto de los
+# recursos: NUNCA se inventa texto en asháninka (los ítems de comprensión los redacta un hablante).
+version: fase5-v1
+consentimiento:
+  status: PENDIENTE-COMITE-ETICA
+  nota: >-
+    El texto lo aprueba el comité de ética de la universidad y su audio en asháninka lo graba un
+    hablante. Hasta entonces la PWA muestra un marcador y la versión PENDIENTE-COMITE-ETICA-v0.
+
+# Cuestionario tras cada noticia (4 bloques por participante)
+post_noticia:
+  # Modalidad oral recomendada (5.4): un entrevistador plantea cada ítem de comprensión y marca si
+  # la respuesta es correcta (1) o incorrecta (0), así no se confunde comprensión con alfabetización.
+  - {id: comp_1, tipo: binario, status: PENDIENTE-HABLANTE, etiqueta: "Comprensión, ítem 1 (acierto)"}
+  - {id: comp_2, tipo: binario, status: PENDIENTE-HABLANTE, etiqueta: "Comprensión, ítem 2 (acierto)"}
+  - {id: comp_3, tipo: binario, status: PENDIENTE-HABLANTE, etiqueta: "Comprensión, ítem 3 (acierto)"}
+  - {id: comp_4, tipo: binario, status: PENDIENTE-HABLANTE, etiqueta: "Comprensión, ítem 4 (acierto)"}
+  - {id: esfuerzo, tipo: entero, min: 1, max: 9, status: estandar-Paas,
+     etiqueta: "Esfuerzo mental invertido (1 = muy, muy bajo; 9 = muy, muy alto)"}
+  - {id: acep_facilidad, tipo: entero, min: 1, max: 5, status: SUPUESTO,
+     etiqueta: "Fue fácil entender la noticia"}
+  - {id: acep_agrado, tipo: entero, min: 1, max: 5, status: SUPUESTO,
+     etiqueta: "Me gustó cómo se presentó la noticia"}
+  - {id: acep_confianza, tipo: entero, min: 1, max: 5, status: SUPUESTO,
+     etiqueta: "Confío en lo que dijo la noticia"}
+
+# Cuestionario final (una vez, tras los 4 bloques)
+final:
+  # Las opciones de variante son SUPUESTO-LING (P3): las variantes mencionadas en el plan (§3.2).
+  - {id: variante, tipo: opcion, status: SUPUESTO-LING,
+     opciones: [asháninka, ashéninka, alto_perene, otra, no_sabe], etiqueta: "Variante que habla"}
+  - {id: edad_rango, tipo: opcion, status: SUPUESTO,
+     opciones: ["18-29", "30-44", "45-59", "60+"], etiqueta: "Rango de edad (años)"}
+  - {id: alfabetizacion, tipo: opcion, status: SUPUESTO,
+     opciones: [no_lee, lee_con_dificultad, lee_bien], etiqueta: "Lectura en asháninka (autodeclarada)"}
+  - {id: familiaridad_tec, tipo: opcion, status: SUPUESTO,
+     opciones: [ninguna, poca, media, alta], etiqueta: "Familiaridad con el celular y las apps"}
+  # Ranking de preferencia: 1 = la que más prefirió; los 4 puestos son una permutación de 1..4.
+  - {id: rank_C1, tipo: entero, min: 1, max: 4, status: SUPUESTO, etiqueta: "Puesto de C1 (solo texto)"}
+  - {id: rank_C2, tipo: entero, min: 1, max: 4, status: SUPUESTO, etiqueta: "Puesto de C2 (solo voz)"}
+  - {id: rank_C3, tipo: entero, min: 1, max: 4, status: SUPUESTO, etiqueta: "Puesto de C3 (voz y texto)"}
+  - {id: rank_C4, tipo: entero, min: 1, max: 4, status: SUPUESTO, etiqueta: "Puesto de C4 (voz, texto y avatar)"}
+  - {id: comentario, tipo: texto, max: 500, opcional: true, status: SUPUESTO,
+     etiqueta: "Comentario libre (no escriba nombres, teléfonos ni documentos)"}

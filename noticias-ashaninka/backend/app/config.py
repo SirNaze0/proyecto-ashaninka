@@ -57,6 +57,8 @@ class Settings:
     static_dir: Path
     viseme_smooth_ms: float | None  # None = usar el valor del mapa de visemas
     viseme_lead: float | None
+    experiment_piloto: bool = False  # Fase 5: admite pseudo-noticias y marca todo como piloto
+    consent_version: str = "PENDIENTE-COMITE-ETICA-v0"
 
 
 def get_settings() -> Settings:
@@ -82,4 +84,6 @@ def get_settings() -> Settings:
         static_dir=ROOT / os.getenv("NA_STATIC_DIR", "static"),
         viseme_smooth_ms=_opt_float(os.getenv("NA_VISEME_SMOOTH_MS")),
         viseme_lead=_opt_float(os.getenv("NA_VISEME_LEAD")),
+        experiment_piloto=_bool(os.getenv("NA_EXPERIMENT_PILOTO")),
+        consent_version=os.getenv("NA_CONSENT_VERSION", "PENDIENTE-COMITE-ETICA-v0"),
     )

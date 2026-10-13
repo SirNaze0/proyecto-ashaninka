@@ -11,6 +11,7 @@
   corpus report               informe del corpus -> docs/corpus_report.md
   corpus extract              candidatos -> data/candidates/*.yaml
   corpus inventory            inventario de grafemas candidato -> g2p/rules/inventory.yaml
+  experiment export|dictionary  exportación del experimento (Fase 5) y diccionario de datos
 """
 
 from __future__ import annotations
@@ -27,6 +28,33 @@ def _utf8_stdout() -> None:
             stream.reconfigure(encoding="utf-8")  # type: ignore[attr-defined]
         except (AttributeError, ValueError):
             pass
+
+
+def cmd_experiment(args: argparse.Namespace) -> int:
+    from pathlib import Path
+
+    from sqlmodel import Session
+
+    from app.config import ROOT
+    from app.db.session import get_engine, init_db
+    from app.experiment import export
+
+    if args.action == "dictionary":
+        destino = Path(args.out) if args.out else ROOT / "data" / "DATA_DICTIONARY.md"
+        destino.parent.mkdir(parents=True, exist_ok=True)
+        destino.write_text(export.diccionario_md(), encoding="utf-8")
+        print(f"[experimento] diccionario -> {destino}")
+        return 0
+    engine = get_engine()
+    init_db(engine)
+    formatos = tuple(f.strip() for f in args.format.split(",") if f.strip())
+    with Session(engine) as session:
+        cuentas = export.escribir(
+            session, Path(args.out or ROOT / "data" / "export"), formatos, args.incluir_piloto
+        )
+    for tabla, n in cuentas.items():
+        print(f"[experimento] {tabla}: {n} filas")
+    return 0
 
 
 def cmd_db_init(_: argparse.Namespace) -> int:
@@ -135,6 +163,13 @@ def build_parser() -> argparse.ArgumentParser:
     rep.set_defaults(func=cmd_report)
 
     sub.add_parser("build-docs").set_defaults(func=cmd_build_docs)
+
+    exp = sub.add_parser("experiment")
+    exp.add_argument("action", choices=["export", "dictionary"])
+    exp.add_argument("--out", default=None, help="carpeta (export) o archivo (dictionary)")
+    exp.add_argument("--format", default="csv,json", help="csv,json,parquet")
+    exp.add_argument("--incluir-piloto", action="store_true", help="incluye sesiones piloto")
+    exp.set_defaults(func=cmd_experiment)
 
     cor = sub.add_parser("corpus")
     cor.add_argument("action", choices=["report", "extract", "inventory"])

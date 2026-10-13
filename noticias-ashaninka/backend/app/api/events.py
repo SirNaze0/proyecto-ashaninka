@@ -43,6 +43,14 @@ EventType = Literal[
     "save-offline",
     "offline-sync",
     "error",
+    # Fase 5: flujo del experimento
+    "consent",
+    "block-start",
+    "block-end",
+    "read-done",
+    "questionnaire-submit",
+    "session-finish",
+    "abandon",
 ]
 PAYLOAD_KEYS = frozenset(
     {
@@ -62,6 +70,9 @@ PAYLOAD_KEYS = frozenset(
         "message",
         "position_s",
         "count",
+        "posicion",
+        "participant",
+        "blocks",
     }
 )
 _UUID = re.compile(r"^[0-9a-fA-F-]{16,64}$")

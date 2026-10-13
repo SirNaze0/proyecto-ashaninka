@@ -3,7 +3,7 @@
 from datetime import UTC, date, datetime
 from typing import Any, Optional
 
-from sqlalchemy import JSON, Column, event
+from sqlalchemy import JSON, Column, UniqueConstraint, event
 from sqlmodel import Field, Relationship, SQLModel
 
 
@@ -151,4 +151,51 @@ class ClientEvent(SQLModel, table=True):
     type: str = Field(index=True)
     t_client: datetime
     payload: dict[str, Any] = Field(default_factory=dict, sa_column=Column(JSON))
+    received_at: datetime = Field(default_factory=_now)
+
+
+# ------------------------------------------------------------------ Fase 5: experimento
+class ExperimentMaterial(SQLModel, table=True):
+    """Las 4 noticias fijas del experimento (una por *slot*), por modo (real o piloto)."""
+
+    __table_args__ = (UniqueConstraint("piloto", "slot"),)
+
+    id: int | None = Field(default=None, primary_key=True)
+    piloto: bool = Field(index=True)
+    slot: int  # 0..3
+    news_id: int = Field(index=True)
+    bloqueados_prop: float = 0.0  # covariable: segmentos bloqueados / segmentos
+    fijado_at: datetime = Field(default_factory=_now)
+
+
+class ExperimentSession(SQLModel, table=True):
+    """Sesión experimental de un participante, identificado solo por un código anónimo."""
+
+    id: int | None = Field(default=None, primary_key=True)
+    participant_code: str = Field(unique=True, index=True)  # p. ej. P007 (sin PII)
+    session_id: str = Field(index=True)  # UUID del dispositivo (une con ClientEvent)
+    indice: int  # participante 0, 1, 2… (decide fila de Williams y rotación de noticias)
+    secuencia: list[dict[str, Any]] = Field(default_factory=list, sa_column=Column(JSON))
+    piloto: bool = False
+    consent_version: str
+    consent_at: datetime = Field(default_factory=_now)
+    estado: str = "activa"  # activa | completa | abandonada
+    finished_at: datetime | None = None
+
+
+class QuestionnaireResponse(SQLModel, table=True):
+    """Respuesta de un cuestionario. ``response_id`` único: reenviar es idempotente."""
+
+    __table_args__ = (UniqueConstraint("session_id", "kind", "posicion"),)
+
+    id: int | None = Field(default=None, primary_key=True)
+    response_id: str = Field(unique=True, index=True)
+    session_id: str = Field(index=True)
+    participant_code: str = Field(index=True)
+    kind: str  # post_noticia | final
+    posicion: int = -1  # 0..3 en post_noticia; -1 en el cuestionario final
+    condition: str | None = None
+    news_id: int | None = None
+    answers: dict[str, Any] = Field(default_factory=dict, sa_column=Column(JSON))
+    t_client: datetime
     received_at: datetime = Field(default_factory=_now)

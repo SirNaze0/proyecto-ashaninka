@@ -15,6 +15,7 @@ from starlette.responses import FileResponse, Response
 from app import __version__
 from app.api.catalog import router as catalog_router
 from app.api.events import router as events_router
+from app.api.experiment import router as experiment_router
 from app.api.news import router as news_router
 from app.api.synthesize import router as synthesize_router
 from app.config import ROOT, get_settings
@@ -77,6 +78,7 @@ app.include_router(news_router)
 app.include_router(synthesize_router)
 app.include_router(catalog_router)
 app.include_router(events_router)
+app.include_router(experiment_router)
 
 # Caché de audio y manifiestos. StaticFiles (Starlette) responde a Range: base de la descarga
 # reanudable de la Fase 4.
