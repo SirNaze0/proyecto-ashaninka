@@ -82,8 +82,19 @@ function SegmentText(props: { seg: Seg; timings: SegTimings | undefined; label: 
   );
 }
 
-export function Presentation({ id, condition }: { id: number; condition: Condition }) {
+interface PresentationProps {
+  id: number;
+  condition: Condition;
+  /** Fase 5: dentro de una sesión experimental (sin volver a la lista ni guardar sin conexión). */
+  experiment?: boolean;
+  /** Fase 5: la noticia terminó (audio completo; en C1, el botón «Terminé de leer»). */
+  onDone?: () => void;
+}
+
+export function Presentation({ id, condition, experiment = false, onDone }: PresentationProps) {
   const { t, events, settings } = useApp();
+  const doneRef = useRef(onDone);
+  doneRef.current = onDone;
   const audioMode = condition !== "C1";
   const showText = condition !== "C2";
   const sync = condition === "C3" || condition === "C4";
@@ -161,6 +172,7 @@ export function Presentation({ id, condition }: { id: number; condition: Conditi
         },
         onFinished: () => {
           R.handle?.viewer?.playGesture("despedida");
+          doneRef.current?.();
         },
         onSegmentEnd: () => {},
         onSegmentStart: (item, pos, audio) => {
@@ -263,6 +275,12 @@ export function Presentation({ id, condition }: { id: number; condition: Conditi
     };
   }, [id, condition]);
 
+  // Noticia sin ningún segmento con audio (todos bloqueados): no hay reproducción que esperar
+  useEffect(() => {
+    if (experiment && audioMode && view.status === "ready" && view.complete && view.segs.length > 0 && view.segs.every((s) => !s.tts_ready))
+      doneRef.current?.();
+  }, [experiment, audioMode, view.status, view.complete, view.segs]);
+
   // ------------------------------------------------------------ resaltado (C3, C4)
   useEffect(() => {
     if (!sync || view.status !== "ready" || !bodyRef.current) return;
@@ -336,9 +354,11 @@ export function Presentation({ id, condition }: { id: number; condition: Conditi
 
   return (
     <article class={`pres pres-${condition}`} data-condition={condition} aria-labelledby="pres-h">
-      <a class="back" href="#/">
-        {t("news.back")}
-      </a>
+      {!experiment && (
+        <a class="back" href="#/">
+          {t("news.back")}
+        </a>
+      )}
       <h2 id="pres-h" lang={condition === "C2" ? undefined : "cni"}>
         {title}
       </h2>
@@ -436,15 +456,34 @@ export function Presentation({ id, condition }: { id: number; condition: Conditi
         </div>
       )}
 
-      <div class="offline">
-        <button type="button" class="btn" onClick={doSave} disabled={save.s === "saving"} data-testid="save-offline">
-          {save.s === "saving" ? t("offline.saving") : t("offline.save")}
-        </button>
-        <span role="status" data-testid="save-status">
-          {save.s === "done" && t("offline.done", { n: save.n })}
-          {save.s === "error" && t("offline.error")}
-        </span>
-      </div>
+      {experiment && condition === "C1" && (
+        <p>
+          <button
+            type="button"
+            class="btn primary"
+            data-testid="read-done"
+            disabled={view.status !== "ready"}
+            onClick={() => {
+              void events.emit("read-done", {});
+              doneRef.current?.();
+            }}
+          >
+            {t("exp.readDone")}
+          </button>
+        </p>
+      )}
+
+      {!experiment && (
+        <div class="offline">
+          <button type="button" class="btn" onClick={doSave} disabled={save.s === "saving"} data-testid="save-offline">
+            {save.s === "saving" ? t("offline.saving") : t("offline.save")}
+          </button>
+          <span role="status" data-testid="save-status">
+            {save.s === "done" && t("offline.done", { n: save.n })}
+            {save.s === "error" && t("offline.error")}
+          </span>
+        </div>
+      )}
     </article>
   );
 }

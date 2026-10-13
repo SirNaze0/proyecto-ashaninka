@@ -2,6 +2,7 @@
 import { createContext } from "preact";
 import { useContext } from "preact/hooks";
 import type { EventQueue } from "./events";
+import type { ExperimentController } from "./experiment";
 import type { Lang } from "./i18n";
 import type { Settings } from "./settings";
 
@@ -11,6 +12,7 @@ export interface AppCtx {
   settings: Settings;
   setSettings: (s: Settings) => void;
   events: EventQueue;
+  experiment: ExperimentController;
   online: boolean;
 }
 

@@ -241,3 +241,33 @@ fieldset {
     transition: none !important;
   }
 }
+
+/* ---- Fase 5: flujo del experimento ---- */
+.exp {
+  max-width: 44rem;
+}
+.exp-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.exp-progress {
+  font-weight: 600;
+  color: var(--muted);
+}
+.exp-confirm {
+  display: inline-block;
+}
+.q fieldset {
+  margin-bottom: 1rem;
+}
+.q textarea,
+.exp input[type="text"] {
+  width: 100%;
+  max-width: 28rem;
+  font: inherit;
+}

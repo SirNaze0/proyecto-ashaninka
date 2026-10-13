@@ -1,0 +1,482 @@
+[
+ {
+  "indice": 0,
+  "condiciones": [
+   "C1",
+   "C2",
+   "C4",
+   "C3"
+  ],
+  "slots": [
+   0,
+   1,
+   2,
+   3
+  ]
+ },
+ {
+  "indice": 1,
+  "condiciones": [
+   "C2",
+   "C3",
+   "C1",
+   "C4"
+  ],
+  "slots": [
+   0,
+   1,
+   2,
+   3
+  ]
+ },
+ {
+  "indice": 2,
+  "condiciones": [
+   "C3",
+   "C4",
+   "C2",
+   "C1"
+  ],
+  "slots": [
+   0,
+   1,
+   2,
+   3
+  ]
+ },
+ {
+  "indice": 3,
+  "condiciones": [
+   "C4",
+   "C1",
+   "C3",
+   "C2"
+  ],
+  "slots": [
+   0,
+   1,
+   2,
+   3
+  ]
+ },
+ {
+  "indice": 4,
+  "condiciones": [
+   "C1",
+   "C2",
+   "C4",
+   "C3"
+  ],
+  "slots": [
+   1,
+   2,
+   3,
+   0
+  ]
+ },
+ {
+  "indice": 5,
+  "condiciones": [
+   "C2",
+   "C3",
+   "C1",
+   "C4"
+  ],
+  "slots": [
+   1,
+   2,
+   3,
+   0
+  ]
+ },
+ {
+  "indice": 6,
+  "condiciones": [
+   "C3",
+   "C4",
+   "C2",
+   "C1"
+  ],
+  "slots": [
+   1,
+   2,
+   3,
+   0
+  ]
+ },
+ {
+  "indice": 7,
+  "condiciones": [
+   "C4",
+   "C1",
+   "C3",
+   "C2"
+  ],
+  "slots": [
+   1,
+   2,
+   3,
+   0
+  ]
+ },
+ {
+  "indice": 8,
+  "condiciones": [
+   "C1",
+   "C2",
+   "C4",
+   "C3"
+  ],
+  "slots": [
+   2,
+   3,
+   0,
+   1
+  ]
+ },
+ {
+  "indice": 9,
+  "condiciones": [
+   "C2",
+   "C3",
+   "C1",
+   "C4"
+  ],
+  "slots": [
+   2,
+   3,
+   0,
+   1
+  ]
+ },
+ {
+  "indice": 10,
+  "condiciones": [
+   "C3",
+   "C4",
+   "C2",
+   "C1"
+  ],
+  "slots": [
+   2,
+   3,
+   0,
+   1
+  ]
+ },
+ {
+  "indice": 11,
+  "condiciones": [
+   "C4",
+   "C1",
+   "C3",
+   "C2"
+  ],
+  "slots": [
+   2,
+   3,
+   0,
+   1
+  ]
+ },
+ {
+  "indice": 12,
+  "condiciones": [
+   "C1",
+   "C2",
+   "C4",
+   "C3"
+  ],
+  "slots": [
+   3,
+   0,
+   1,
+   2
+  ]
+ },
+ {
+  "indice": 13,
+  "condiciones": [
+   "C2",
+   "C3",
+   "C1",
+   "C4"
+  ],
+  "slots": [
+   3,
+   0,
+   1,
+   2
+  ]
+ },
+ {
+  "indice": 14,
+  "condiciones": [
+   "C3",
+   "C4",
+   "C2",
+   "C1"
+  ],
+  "slots": [
+   3,
+   0,
+   1,
+   2
+  ]
+ },
+ {
+  "indice": 15,
+  "condiciones": [
+   "C4",
+   "C1",
+   "C3",
+   "C2"
+  ],
+  "slots": [
+   3,
+   0,
+   1,
+   2
+  ]
+ },
+ {
+  "indice": 16,
+  "condiciones": [
+   "C1",
+   "C2",
+   "C4",
+   "C3"
+  ],
+  "slots": [
+   0,
+   1,
+   2,
+   3
+  ]
+ },
+ {
+  "indice": 17,
+  "condiciones": [
+   "C2",
+   "C3",
+   "C1",
+   "C4"
+  ],
+  "slots": [
+   0,
+   1,
+   2,
+   3
+  ]
+ },
+ {
+  "indice": 18,
+  "condiciones": [
+   "C3",
+   "C4",
+   "C2",
+   "C1"
+  ],
+  "slots": [
+   0,
+   1,
+   2,
+   3
+  ]
+ },
+ {
+  "indice": 19,
+  "condiciones": [
+   "C4",
+   "C1",
+   "C3",
+   "C2"
+  ],
+  "slots": [
+   0,
+   1,
+   2,
+   3
+  ]
+ },
+ {
+  "indice": 20,
+  "condiciones": [
+   "C1",
+   "C2",
+   "C4",
+   "C3"
+  ],
+  "slots": [
+   1,
+   2,
+   3,
+   0
+  ]
+ },
+ {
+  "indice": 21,
+  "condiciones": [
+   "C2",
+   "C3",
+   "C1",
+   "C4"
+  ],
+  "slots": [
+   1,
+   2,
+   3,
+   0
+  ]
+ },
+ {
+  "indice": 22,
+  "condiciones": [
+   "C3",
+   "C4",
+   "C2",
+   "C1"
+  ],
+  "slots": [
+   1,
+   2,
+   3,
+   0
+  ]
+ },
+ {
+  "indice": 23,
+  "condiciones": [
+   "C4",
+   "C1",
+   "C3",
+   "C2"
+  ],
+  "slots": [
+   1,
+   2,
+   3,
+   0
+  ]
+ },
+ {
+  "indice": 24,
+  "condiciones": [
+   "C1",
+   "C2",
+   "C4",
+   "C3"
+  ],
+  "slots": [
+   2,
+   3,
+   0,
+   1
+  ]
+ },
+ {
+  "indice": 25,
+  "condiciones": [
+   "C2",
+   "C3",
+   "C1",
+   "C4"
+  ],
+  "slots": [
+   2,
+   3,
+   0,
+   1
+  ]
+ },
+ {
+  "indice": 26,
+  "condiciones": [
+   "C3",
+   "C4",
+   "C2",
+   "C1"
+  ],
+  "slots": [
+   2,
+   3,
+   0,
+   1
+  ]
+ },
+ {
+  "indice": 27,
+  "condiciones": [
+   "C4",
+   "C1",
+   "C3",
+   "C2"
+  ],
+  "slots": [
+   2,
+   3,
+   0,
+   1
+  ]
+ },
+ {
+  "indice": 28,
+  "condiciones": [
+   "C1",
+   "C2",
+   "C4",
+   "C3"
+  ],
+  "slots": [
+   3,
+   0,
+   1,
+   2
+  ]
+ },
+ {
+  "indice": 29,
+  "condiciones": [
+   "C2",
+   "C3",
+   "C1",
+   "C4"
+  ],
+  "slots": [
+   3,
+   0,
+   1,
+   2
+  ]
+ },
+ {
+  "indice": 30,
+  "condiciones": [
+   "C3",
+   "C4",
+   "C2",
+   "C1"
+  ],
+  "slots": [
+   3,
+   0,
+   1,
+   2
+  ]
+ },
+ {
+  "indice": 31,
+  "condiciones": [
+   "C4",
+   "C1",
+   "C3",
+   "C2"
+  ],
+  "slots": [
+   3,
+   0,
+   1,
+   2
+  ]
+ }
+]

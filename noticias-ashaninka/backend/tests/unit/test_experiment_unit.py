@@ -187,3 +187,17 @@ def test_diccionario_cubre_todas_las_columnas_y_los_items():
     for kind in instrumentos.KINDS:
         for it in instrumentos.items(kind):
             assert f"`{it['id']}`" in md
+
+
+def test_vector_comun_con_la_pwa():
+    """El mismo vector lo lee vitest (frontend/tests/experiment.test.ts): paridad de la asignación."""
+    import json
+    from pathlib import Path
+
+    ruta = Path(__file__).parents[3] / "frontend" / "tests" / "fixtures" / "williams_vector.json"
+    vector = json.loads(ruta.read_text(encoding="utf-8"))
+    assert len(vector) == 32
+    for fila in vector:
+        seq = latin.secuencia(fila["indice"])
+        assert [b.condicion for b in seq] == fila["condiciones"]
+        assert [b.slot_noticia for b in seq] == fila["slots"]

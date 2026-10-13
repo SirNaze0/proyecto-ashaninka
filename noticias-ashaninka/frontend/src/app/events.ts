@@ -1,6 +1,7 @@
 // Cola de eventos del experimento (tarea 4.4): se guardan en IndexedDB y se envían por lotes a
 // POST /api/events cuando hay red. Cada evento lleva un UUID: reenviar es idempotente.
 // Privacidad: solo un UUID anónimo de sesión, la condición y datos de uso; nada personal.
+import { STORE_EVENTS, openDb } from "./db";
 import type { Condition } from "./types";
 
 export type EventPayload = Record<string, string | number | boolean | null>;
@@ -38,19 +39,13 @@ export class MemoryStore implements EventStore {
   }
 }
 
-const DB = "na-events";
-const STORE = "events";
+const STORE = STORE_EVENTS;
 
 export class IdbStore implements EventStore {
   private db: Promise<IDBDatabase> | null = null;
 
   private open(): Promise<IDBDatabase> {
-    this.db ??= new Promise((resolve, reject) => {
-      const req = indexedDB.open(DB, 1);
-      req.onupgradeneeded = () => req.result.createObjectStore(STORE, { keyPath: "event_id" });
-      req.onsuccess = () => resolve(req.result);
-      req.onerror = () => reject(req.error);
-    });
+    this.db ??= openDb();
     return this.db;
   }
 
@@ -111,6 +106,11 @@ export class EventQueue {
 
   get sessionId(): string {
     return this.o.sessionId;
+  }
+
+  /** Fase 5: los eventos de una sesión experimental llevan el UUID con el que se creó. */
+  useSession(id: string): void {
+    this.o.sessionId = id;
   }
 
   setContext(condition: Condition | null, newsId: number | null): void {
@@ -178,6 +178,14 @@ export class EventQueue {
       }
     }
     return sent;
+  }
+}
+
+export function setStoredSessionId(id: string): void {
+  try {
+    localStorage.setItem("na-session-id", id);
+  } catch {
+    /* sin almacenamiento */
   }
 }
 
