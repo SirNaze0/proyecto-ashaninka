@@ -9,17 +9,15 @@ import type { AvatarHandle } from "../../avatar/create-avatar";
 import type { DegradationEvent } from "../../avatar/degradation";
 import { VisemeTrack } from "../../avatar/viseme-track";
 import { useApp } from "../ctx";
-import { fetchDetail, fetchManifest, fetchMeta, fetchTimings, streamSynthesis } from "../data";
+import { FALLBACK_IMG, VRM_URL, fetchDetail, fetchManifest, fetchMeta, fetchTimings, streamSynthesis } from "../data";
 import { Highlighter, spansMatch } from "../highlight";
 import { saveNews } from "../offline";
+import { NEWS_HREF } from "../router";
 import { SegmentPlayer, type PlayerState } from "../player";
 import { type PlayerItem, RATES, nextPlayable, pickSource } from "../queue";
 import { TEXT_SCALES } from "../settings";
 import type { CatalogMeta, Condition, Notices as NoticesT, SegTimings, Seg } from "../types";
 import { Notices } from "./Notices";
-
-const VRM_URL = "/models/presentadora_provisional.vrm";
-const FALLBACK_IMG = "/presentadora_fija.svg";
 
 interface View {
   status: "loading" | "ready" | "error";
@@ -356,7 +354,7 @@ export function Presentation({ id, condition, experiment = false, onDone }: Pres
     <article class={`pres pres-${condition}`} data-condition={condition} aria-labelledby="pres-h">
       <div class="pres-head">
       {!experiment && (
-        <a class="back" href="#/">
+        <a class="back" href={NEWS_HREF}>
           {t("news.back")}
         </a>
       )}

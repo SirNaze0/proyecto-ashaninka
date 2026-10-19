@@ -4,6 +4,7 @@ import { ExperimentFlow } from "./components/ExperimentFlow";
 import { NewsList } from "./components/NewsList";
 import { Presentation } from "./components/Presentation";
 import { SettingsView } from "./components/Settings";
+import { TranslatePanel } from "./components/TranslatePanel";
 import { Ctx } from "./ctx";
 import { EventQueue, IdbStore, MemoryStore, getSessionId } from "./events";
 import {
@@ -16,7 +17,7 @@ import {
   guardia,
 } from "./experiment";
 import { translate } from "./i18n";
-import { type Route, parseHash } from "./router";
+import { NEWS_HREF, type Route, parseHash } from "./router";
 import { TEXT_SCALES, loadSettings, saveSettings } from "./settings";
 
 function makeQueue(): EventQueue {
@@ -124,13 +125,22 @@ export function App() {
                 {ctx.t(online ? "net.online" : "net.offline")}
               </span>
               <nav aria-label="Principal">
-                <a href="#/ajustes">{ctx.t("nav.settings")}</a>
+                <a href="#/" aria-current={route.name === "translate" ? "page" : undefined}>
+                  {ctx.t("nav.translate")}
+                </a>
+                <a href={NEWS_HREF} aria-current={route.name === "list" ? "page" : undefined}>
+                  {ctx.t("nav.news")}
+                </a>
+                <a href="#/ajustes" aria-current={route.name === "settings" ? "page" : undefined}>
+                  {ctx.t("nav.settings")}
+                </a>
               </nav>
             </div>
           </>
         )}
       </header>
       <main id="main" tabIndex={-1} style={`--scale:${TEXT_SCALES[settings.textSize]}`}>
+        {route.name === "translate" && <TranslatePanel />}
         {route.name === "list" && <NewsList />}
         {route.name === "settings" && <SettingsView />}
         {route.name === "experiment" && <ExperimentFlow route={route} />}

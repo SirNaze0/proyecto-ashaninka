@@ -5,7 +5,7 @@ import { clickPlay, dedupe, emittedTypes, expectedHighlights, openNews, recordHi
 const count = (xs: string[], t: string) => xs.filter((x) => x === t).length;
 
 test("la lista muestra las noticias y enlaza con la condición elegida", async ({ page }) => {
-  await page.goto("/?nosw=1");
+  await page.goto("/?nosw=1#/noticias");
   await expect(page.locator(".news-list li")).toHaveCount(3);
   await page.getByLabel("Modo de presentación").selectOption("C2");
   await expect(page.locator(".news-link").first()).toHaveAttribute("href", "#/noticia/1?c=C2");

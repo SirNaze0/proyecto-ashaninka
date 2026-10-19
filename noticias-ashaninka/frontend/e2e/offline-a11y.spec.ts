@@ -22,7 +22,7 @@ test("sin conexión: tras guardar la noticia, la app abre y se reproduce complet
   expect(types.filter((t) => t === "segment-end")).toHaveLength(3);
 
   // la lista también abre sin red y marca la noticia guardada
-  await page.goto("/#/");
+  await page.goto("/#/noticias");
   await expect(page.locator(".news-list li").first()).toContainText("Guardada para uso sin conexión");
   await context.setOffline(false);
 });
@@ -78,6 +78,10 @@ async function serious(page: import("@playwright/test").Page) {
 
 test("accesibilidad (axe-core, WCAG 2.1 A/AA): sin violaciones críticas ni graves", async ({ page }) => {
   await page.goto("/?nosw=1");
+  await expect(page.getByTestId("tr-pending")).toBeVisible();
+  await expect(page.locator(".tr [data-avatar-mode]")).not.toHaveAttribute("data-avatar-mode", "cargando", { timeout: 60_000 });
+  expect(await serious(page), "traductor").toEqual([]);
+  await page.goto("/?nosw=1#/noticias");
   await expect(page.locator(".news-list li")).toHaveCount(3);
   expect(await serious(page), "lista").toEqual([]);
   await page.goto("/?nosw=1#/ajustes");

@@ -167,6 +167,7 @@ class _PwaFiles(_Files):
 
 # La PWA (frontend/dist) se sirve en el mismo origen que /static y /api: el Service Worker
 # necesita ese origen y las pruebas E2E y mediciones también. Va al final: no tapa las rutas.
-_dist = Path(os.getenv("NA_FRONTEND_DIST", str(ROOT / "frontend" / "dist")))
+# Vacía (como en .env.example) equivale a no definida: Path("") sería "." y la PWA no se montaría.
+_dist = Path(os.getenv("NA_FRONTEND_DIST") or str(ROOT / "frontend" / "dist"))
 if (_dist / "index.html").is_file():
     app.mount("/", _PwaFiles(directory=_dist, html=True), name="pwa")

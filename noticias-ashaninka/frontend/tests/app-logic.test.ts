@@ -3,7 +3,7 @@ import { createNdjsonParser } from "../src/app/data";
 import { activeSpan, Highlighter, highlightable, spansMatch } from "../src/app/highlight";
 import { pendingCount, translate } from "../src/app/i18n";
 import { blockedBetween, clampRate, nextParagraphStart, nextPlayable, paragraphStart, pickSource, type PlayerItem } from "../src/app/queue";
-import { parseHash, newsHref } from "../src/app/router";
+import { NEWS_HREF, parseHash, newsHref } from "../src/app/router";
 import type { Span } from "../src/app/types";
 import { parseRange, rangeResponse, strategyFor } from "../src/sw-logic";
 
@@ -11,7 +11,12 @@ const item = (idx: number, paragraph: number, url: string | null): PlayerItem =>
 
 describe("router", () => {
   it("interpreta las rutas y la condición", () => {
-    expect(parseHash("")).toEqual({ name: "list" });
+    // la entrada principal es la pantalla de traducción; la lista vive en #/noticias
+    expect(parseHash("")).toEqual({ name: "translate" });
+    expect(parseHash("#/")).toEqual({ name: "translate" });
+    expect(parseHash("#/desconocida")).toEqual({ name: "translate" });
+    expect(parseHash("#/noticias")).toEqual({ name: "list" });
+    expect(parseHash(NEWS_HREF)).toEqual({ name: "list" });
     expect(parseHash("#/ajustes")).toEqual({ name: "settings" });
     expect(parseHash("#/noticia/7?c=C2")).toEqual({ name: "news", id: 7, condition: "C2" });
     expect(parseHash("#/noticia/7?c=c4")).toEqual({ name: "news", id: 7, condition: "C4" });

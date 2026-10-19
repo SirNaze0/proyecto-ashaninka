@@ -131,7 +131,7 @@ test("sesión completa: 4 condiciones en orden de Williams, cuestionarios, cierr
   await expect(page.getByTestId("exp-end-status")).toHaveText("Sus respuestas se enviaron completas.");
 
   // terminada la sesión la navegación vuelve a ser libre
-  await page.goto("/?nosw=1#/");
+  await page.goto("/?nosw=1#/noticias");
   await expect(page.locator(".news-list li").first()).toBeVisible();
 
   // exportación: eventos y respuestas llegaron al servidor (los eventos salen por la cola, con espera)
@@ -172,6 +172,9 @@ test("abandonar pide confirmación, registra el abandono y libera la navegación
   await expect(page.getByRole("alertdialog")).toBeVisible();
   await page.getByTestId("exp-abandon-yes").click();
   await expect(page).toHaveURL(/#\/$/);
+  // #/ es la pantalla de traducción (entrada principal); la lista sigue accesible
+  await expect(page.getByTestId("tr-pending")).toBeVisible();
+  await page.goto("/?nosw=1#/noticias");
   await expect(page.locator(".news-list li").first()).toBeVisible();
   const r = await (await page.request.get("/api/experiment/sessions/P010")).json();
   expect(r.estado).toBe("abandonada");

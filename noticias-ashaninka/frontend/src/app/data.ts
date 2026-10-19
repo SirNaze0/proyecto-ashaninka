@@ -1,6 +1,10 @@
 // Acceso a datos: catálogo, manifiesto 1.1, tiempos por segmento y respaldo NDJSON.
 import type { CatalogDetail, CatalogItem, Manifest, Notices, Seg, SegTimings } from "./types";
 
+// Avatar provisional (C4 y pantalla de traducción) y su imagen fija de respaldo
+export const VRM_URL = "/models/presentadora_provisional.vrm";
+export const FALLBACK_IMG = "/presentadora_fija.svg";
+
 async function json<T>(url: string): Promise<T> {
   const r = await fetch(url);
   if (!r.ok) throw new Error(`${url}: ${r.status}`);

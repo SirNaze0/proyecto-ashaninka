@@ -4,13 +4,32 @@ Cliente en `frontend/` (Preact + TypeScript + Vite). Sirve las 4 condiciones int
 experimento con un único componente (`src/app/components/Presentation.tsx`) y funciona sin conexión.
 
 ```
-catálogo (/api/catalog) ──► lista ──► #/noticia/{id}?c=C1..C4
+#/ traductor (entrada, servicio pendiente) ──► #/noticias
+catálogo (/api/catalog) ──► lista (#/noticias) ──► #/noticia/{id}?c=C1..C4
 manifiesto 1.1 (/static/news/{id}/manifest.json) ──► SegmentPlayer (2 <audio> alternos)
 seg_NNN.json (spans, visemes) ──► Highlighter (rAF) ──► clase .hl en el fragmento ORIGINAL
                               └─► VisemeTrack ──► AvatarPanel (carga diferida de three + three-vrm)
 eventos ──► IndexedDB ──► POST /api/events (por lotes, idempotente)
 Service Worker: shell precargado · audio y tiempos en caché (206 a Range) · catálogo red primero
 ```
+
+## Pantalla de traducción (entrada principal)
+
+`#/` muestra `src/app/components/TranslatePanel.tsx`: texto en castellano, zona de resultado en
+asháninka y la presentadora (el mismo `AvatarPanel` de C4, con `import()` diferido) al costado. La
+lista de noticias pasó a `#/noticias` (el enlace «Volver a la lista» y la navegación apuntan ahí).
+
+- **El traductor (tesis de una compañera) está pendiente de integración.** `src/app/translator.ts`
+  define la interfaz `Translator`; la implementación por defecto `TRADUCTOR_PENDIENTE` no hace
+  ninguna petición ni devuelve texto, y la pantalla lo declara. Estados: `inicial`, `cargando`,
+  `resultado`, `error`, `pendiente` (reductor puro `reducir`, probado en `tests/translator.test.ts`).
+- **Sin endpoint inventado.** Integrarlo exige acordar la API y exponerla en el mismo origen (la CSP
+  solo permite `connect-src 'self'`). Los pasos están en el comentario de `translator.ts`.
+- **El avatar queda en reposo:** sin audio no hay visemas. La voz y el avatar sincronizados solo
+  existen para noticias guardadas; la vía prevista para el texto traducido es el contrato de
+  `PLAN_DESARROLLO.md` §2 (`POST /api/news` → `process` → `batch` → C2–C4).
+- La pantalla no emite eventos (llevarían la condición y la noticia de otra pantalla). Con una
+  sesión experimental activa, la guardia de rutas la bloquea como a las demás.
 
 ## Condiciones
 

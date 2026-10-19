@@ -27,9 +27,11 @@ for (const c of ["C1", "C2", "C3", "C4"] as Cond[]) {
   });
 }
 
-test("lista, ajustes y Service Worker: cero violaciones de CSP", async ({ page }) => {
+test("traductor (con avatar), lista, ajustes y Service Worker: cero violaciones de CSP", async ({ page }) => {
   const verificar = await vigilarCsp(page);
   await page.goto("/");
+  await expect(page.locator(".tr [data-avatar-mode]")).not.toHaveAttribute("data-avatar-mode", "cargando", { timeout: 60_000 });
+  await page.goto("/#/noticias");
   await expect(page.locator(".news-list li").first()).toBeVisible();
   await page.evaluate(() => navigator.serviceWorker.ready);
   await page.goto("/#/ajustes");
