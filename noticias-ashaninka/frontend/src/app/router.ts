@@ -7,6 +7,7 @@ export type Route =
   | { name: "list" }
   | { name: "news"; id: number; condition: Condition }
   | { name: "settings" }
+  | { name: "newsroom" }
   | { name: "experiment"; step: ExperimentStep; k: number };
 
 export type ExperimentStep = "inicio" | "bloque" | "cuestionario" | "final" | "fin";
@@ -15,6 +16,8 @@ const STEPS: ExperimentStep[] = ["bloque", "cuestionario", "final", "fin"];
 export const DEFAULT_CONDITION: Condition = "C3";
 /** Lista de noticias (antes en `#/`, que ahora es la pantalla de traducción). */
 export const NEWS_HREF = "#/noticias";
+/** Sala de redacción (solo administrador verificado). */
+export const NEWSROOM_HREF = "#/redaccion";
 
 export function parseHash(hash: string): Route {
   const raw = hash.replace(/^#/, "");
@@ -22,6 +25,7 @@ export function parseHash(hash: string): Route {
   const parts = path.split("/").filter(Boolean);
   if (parts[0] === "ajustes") return { name: "settings" };
   if (parts[0] === "noticias") return { name: "list" };
+  if (parts[0] === "redaccion") return { name: "newsroom" };
   if (parts[0] === "experimento") {
     const step = STEPS.find((s) => s === parts[1]) ?? "inicio";
     const k = /^[0-3]$/.test(parts[2] ?? "") ? Number(parts[2]) : 0;

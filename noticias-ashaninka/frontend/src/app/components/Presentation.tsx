@@ -114,6 +114,8 @@ export function Presentation({ id, condition, experiment = false, onDone }: Pres
   const [avatarMode, setAvatarMode] = useState<string | null>(null);
   const [Panel, setPanel] = useState<ComponentType<AvatarPanelProps> | null>(null);
   const [save, setSave] = useState<{ s: "idle" | "saving" | "done" | "error"; n: number }>({ s: "idle", n: 0 });
+  // Diseño del estudio en C4: «centrado» (presentadora al centro, estilo noticiero) o «paralela»
+  const [layout, setLayout] = useState<"centrado" | "paralela">("centrado");
   const bodyRef = useRef<HTMLDivElement>(null);
   const R = useRef({
     player: null as SegmentPlayer | null,
@@ -302,6 +304,14 @@ export function Presentation({ id, condition, experiment = false, onDone }: Pres
     };
   }, [condition]);
 
+  // ------------------------------------------------------------ teleprompter: sigue la oración activa
+  useEffect(() => {
+    const body = bodyRef.current;
+    if (condition !== "C4" || layout !== "centrado" || !body || current < 0) return;
+    const el = body.querySelector<HTMLElement>(`[data-seg="${current}"]`);
+    if (el) body.scrollTop = Math.max(0, el.offsetTop - body.clientHeight / 3);
+  }, [current, layout, condition, view.status]);
+
   // ------------------------------------------------------------ teclado
   useEffect(() => {
     if (!audioMode) return;
@@ -351,7 +361,11 @@ export function Presentation({ id, condition, experiment = false, onDone }: Pres
   const showLabel = (s: Seg) => (audioMode && !s.tts_ready ? t("block.label") : null);
 
   return (
-    <article class={`pres pres-${condition}`} data-condition={condition} aria-labelledby="pres-h">
+    <article
+      class={`pres pres-${condition}${condition === "C4" ? ` pres-${layout}` : ""}`}
+      data-condition={condition}
+      aria-labelledby="pres-h"
+    >
       <div class="pres-head">
       {!experiment && (
         <a class="back" href={NEWS_HREF}>
@@ -361,6 +375,15 @@ export function Presentation({ id, condition, experiment = false, onDone }: Pres
       {!experiment && (
         <p class="pres-tags">
           <span class="pill pill-cond">{t(`cond.${condition}`)}</span>
+          {condition === "C4" && (
+            <span class="layout-sw" role="group" aria-label={t("studio.layout")}>
+              {(["centrado", "paralela"] as const).map((l) => (
+                <button key={l} type="button" class="btn btn-sm" aria-pressed={layout === l} data-testid={`layout-${l}`} onClick={() => setLayout(l)}>
+                  {t(`studio.${l === "centrado" ? "centered" : "parallel"}`)}
+                </button>
+              ))}
+            </span>
+          )}
         </p>
       )}
       <h2 id="pres-h" lang={condition === "C2" ? undefined : "cni"}>
@@ -384,12 +407,31 @@ export function Presentation({ id, condition, experiment = false, onDone }: Pres
 
       <div class="pres-media">
       {condition === "C4" && (
-        <div class="avatar-slot" data-avatar-mode={avatarMode ?? "cargando"}>
-          {Panel && (
-            <Panel vrmUrl={VRM_URL} fallbackImage={FALLBACK_IMG} width={320} height={320} onReady={onAvatarReady} onEvent={onAvatarEvent} />
-          )}
-          {avatarMode === "fijo" && <p class="mode">{t("avatar.fallback")}</p>}
-        </div>
+        <figure class="stage" aria-label={t("avatar.label")}>
+          <div class="avatar-slot" data-avatar-mode={avatarMode ?? "cargando"}>
+            {Panel && (
+              <Panel
+                vrmUrl={VRM_URL}
+                fallbackImage={FALLBACK_IMG}
+                width={320}
+                height={320}
+                onReady={onAvatarReady}
+                onEvent={onAvatarEvent}
+              />
+            )}
+            {avatarMode === "fijo" && <p class="mode">{t("avatar.fallback")}</p>}
+          </div>
+          <div class={`wave${pstate === "playing" ? " wave-on" : ""}`} aria-hidden="true">
+            <i /> <i /> <i /> <i /> <i /> <i />
+          </div>
+          <span class="sr-only">{t(pstate === "playing" ? "studio.speaking" : "studio.silent")}</span>
+          <figcaption class="lower-third">
+            <span class="lt-tag">
+              {t("studio.lower")} <span aria-hidden="true">|</span> {id}
+            </span>
+            <span class="lt-info">{meta?.variante_dialectal ?? ""}</span>
+          </figcaption>
+        </figure>
       )}
 
       {audioMode && (

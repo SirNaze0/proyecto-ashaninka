@@ -31,6 +31,42 @@ lista de noticias pasó a `#/noticias` (el enlace «Volver a la lista» y la nav
 - La pantalla no emite eventos (llevarían la condición y la noticia de otra pantalla). Con una
   sesión experimental activa, la guardia de rutas la bloquea como a las demás.
 
+## Diseño de noticiero (portado del mockup de v0.dev)
+
+Aspecto de noticiero televisivo sobre la PWA existente, sin Tailwind, lucide ni fuentes externas
+(CSS propio en `styles.css` + `noticiero.css`; la carga inicial no cambia).
+
+- **Tema:** paleta verde bosque / terracota / papel cálido, claro y oscuro (`Ajustes → Tema de color`:
+  sistema, claro u oscuro; `data-theme` en `<html>`). Contraste AA verificado con axe en ambos temas.
+- **Cabecera** (`components/Masthead.tsx`): marca, estado de red, noticias guardadas sin conexión,
+  tema y navegación. Con una sesión experimental activa solo muestra la marca.
+- **Roles** (`role.ts`): *Ciudadano* (Traductor · Noticias · Estudio TV · Ajustes) y *Administrador*,
+  que añade la **Sala de redacción** (`#/redaccion`). Elegir el rol no protege nada por sí solo: el
+  administrador introduce el `x-admin-token`, que se comprueba con `GET /api/news` y vive **solo en
+  memoria** (al recargar vuelve a Ciudadano). La protección real sigue siendo `require_admin`.
+- **Portada** (`#/noticias`, `NewsList.tsx`): la primera noticia como destacada y el resto en
+  rejilla. Solo muestra datos reales del catálogo (título en asháninka, variante, audio listo,
+  fragmentos solo texto, guardada); no hay resúmenes, categorías ni fotos inventadas, y el texto en
+  castellano nunca se muestra.
+- **Estudio TV centrado (C4):** la presentadora VRM al centro de un escenario oscuro, cintillo
+  (*lower third*) con la variante, indicador de voz y el texto de la noticia como teleprompter
+  debajo, que sigue la oración activa. Es la misma `.body` con el resaltado de siempre (no se duplica
+  el texto, el desfase medido no cambia). Se puede alternar con la «lectura paralela» (dos columnas).
+  Fuera de C4 y dentro del experimento no hay cambios de comportamiento. El lienzo conserva su
+  resolución (320×320) y se escala con CSS; el escenario usa fondo sólido y sin sombra, porque con
+  degradado + sombra grande + recorte el canvas WebGL bajaba de 10 FPS.
+- **Sala de redacción** (`components/Newsroom.tsx`, `newsroom.ts`): carga de archivos `.txt`, `.csv` y
+  `.json` (lotes de hasta 50, 2 MB) o pegado rápido de texto por párrafos; editor con la procedencia
+  obligatoria del contrato de ingesta. Publicar encadena `POST /api/news` → `/process` → `/build`
+  (síntesis por lotes, admin) → segmentos, y abre la noticia en el estudio. **El texto debe venir ya
+  en asháninka:** la traducción sigue pendiente (`TRADUCTOR_PENDIENTE`) y el mockup, que fabricaba
+  traducciones y «adaptaciones fonológicas» con un banco fijo, **no se portó** (sería inventar datos
+  lingüísticos). La plantilla CSV se descarga vacía.
+- **Backend:** `POST /api/news/{id}/build` (administrativo) sintetiza la noticia con `run_batch`.
+- Pruebas: `tests/newsroom.test.ts` (lectura de archivos, validación, publicación, token) y
+  `e2e/noticiero.spec.ts`, que corre en su propio servidor (proyecto Playwright `noticiero`) porque
+  publicar añade noticias a su base de datos.
+
 ## Condiciones
 
 | Condición | Qué muestra | Qué NO carga |

@@ -1,4 +1,5 @@
 import "./styles.css";
+import "./noticiero.css";
 import { mount } from "./App";
 
 mount(document.getElementById("app") as HTMLElement);

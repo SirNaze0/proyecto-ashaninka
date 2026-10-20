@@ -42,6 +42,17 @@ export async function saveNews(id: number, withAudio: boolean): Promise<number> 
   return n;
 }
 
+/** Cuántas noticias hay guardadas para uso sin conexión (solo lee la caché local, sin red). */
+export async function savedCount(): Promise<number> {
+  if (typeof caches === "undefined") return 0;
+  try {
+    const keys = await (await caches.open(NEWS_CACHE)).keys();
+    return keys.filter((r) => /\/static\/news\/\d+\/manifest\.json$/.test(new URL(r.url).pathname)).length;
+  } catch {
+    return 0;
+  }
+}
+
 export async function isSaved(id: number): Promise<boolean> {
   if (typeof caches === "undefined") return false;
   return !!(await caches.match(`/static/news/${id}/manifest.json`));

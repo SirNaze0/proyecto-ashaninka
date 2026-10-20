@@ -99,6 +99,15 @@ def process(news_id: int, session: Session = Depends(get_session)) -> dict:
     }
 
 
+@router.post("/{news_id}/build")
+def build(news_id: int, session: Session = Depends(get_session)) -> dict:
+    """Sintetiza la noticia por lotes (audio + tiempos + manifiesto), como `app.batch build --news`."""
+    _get(session, news_id)
+    from app.batch.service import run_batch
+
+    return run_batch([news_id])
+
+
 @router.get("/{news_id}/segments")
 def segments(news_id: int, session: Session = Depends(get_session)) -> list[dict]:
     n = _get(session, news_id)

@@ -1,53 +1,91 @@
 /* Estilos de la PWA. Contraste AA en claro y oscuro; controles de al menos 44 px; foco visible.
    Sin fuentes ni librerías externas: pilas de fuentes del sistema. */
 :root {
-  --bg: #f6f4ef;
+  --bg: #f7f4ef;
   --surface: #ffffff;
-  --fg: #1a1a1a;
-  --muted: #57534e;
-  --accent: #0b5cad;
-  --accent-fg: #ffffff;
-  --accent-soft: #e3eefa;
-  --border: #d9d4c7;
+  --fg: #16130f;
+  --muted: #4a453d;
+  --accent: #0f3d2e;
+  --accent-fg: #f7f4ef;
+  --accent-soft: #e3ece6;
+  --border: #d6cdbd;
   --border-strong: #8a8a8a;
   --hl-bg: #ffe27a;
   --hl-fg: #000000;
-  --warn-bg: #fff4d6;
-  --warn-fg: #4d3500;
-  --ok-bg: #dff3e3;
-  --ok-fg: #0e4a1e;
+  --warn-bg: #fbeac0;
+  --warn-fg: #5c3b00;
+  --ok-bg: #dcefe4;
+  --ok-fg: #0b3a25;
   --pill-bg: #ebe7dc;
   --pill-fg: #3b372f;
-  --note-bg: #eef2f7;
-  --err: #a31515;
+  --note-bg: #e8efe9;
+  --err: #a32a1c;
+  --terracotta: #b83a2a;
+  --terracotta-fg: #ffffff;
+  --studio: #0f1419;
+  --studio-fg: #f2efe9;
   --shadow: 0 1px 2px rgb(0 0 0 / 0.06), 0 4px 14px rgb(0 0 0 / 0.06);
   --radius: 14px;
   --serif: Charter, "Iowan Old Style", "Palatino Linotype", Georgia, serif;
   color-scheme: light dark;
 }
+:root[data-theme="light"] {
+  color-scheme: light;
+}
 @media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #111315;
-    --surface: #1a1d21;
-    --fg: #f2f2f2;
-    --muted: #c4c4c4;
-    --accent: #7db7ff;
-    --accent-fg: #00243f;
-    --accent-soft: #16273a;
-    --border: #353a41;
+  :root:not([data-theme="light"]) {
+    --bg: #0f1419;
+    --surface: #171e26;
+    --fg: #f2efe9;
+    --muted: #b8b2a7;
+    --accent: #7cc8a5;
+    --accent-fg: #08201a;
+    --accent-soft: #1d3a30;
+    --border: #2e3843;
     --border-strong: #8f959c;
     --hl-bg: #f5c542;
     --hl-fg: #000000;
-    --warn-bg: #3b2f08;
-    --warn-fg: #ffe9a8;
-    --ok-bg: #12341c;
-    --ok-fg: #b8ecc4;
-    --pill-bg: #2a2e34;
+    --warn-bg: #3a2a08;
+    --warn-fg: #ffd88a;
+    --ok-bg: #12301f;
+    --ok-fg: #9fe0bd;
+    --pill-bg: #222b35;
     --pill-fg: #e4e4e4;
-    --note-bg: #1f2833;
-    --err: #ff9d9d;
+    --note-bg: #1d252e;
+    --err: #f08a7a;
+    --terracotta: #e87b67;
+    --terracotta-fg: #1a0904;
+    --studio: #080b0e;
+    --studio-fg: #f2efe9;
     --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 4px 14px rgb(0 0 0 / 0.35);
   }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0f1419;
+  --surface: #171e26;
+  --fg: #f2efe9;
+  --muted: #b8b2a7;
+  --accent: #7cc8a5;
+  --accent-fg: #08201a;
+  --accent-soft: #1d3a30;
+  --border: #2e3843;
+  --border-strong: #8f959c;
+  --hl-bg: #f5c542;
+  --hl-fg: #000000;
+  --warn-bg: #3a2a08;
+  --warn-fg: #ffd88a;
+  --ok-bg: #12301f;
+  --ok-fg: #9fe0bd;
+  --pill-bg: #222b35;
+  --pill-fg: #e4e4e4;
+  --note-bg: #1d252e;
+  --err: #f08a7a;
+  --terracotta: #e87b67;
+  --terracotta-fg: #1a0904;
+  --studio: #080b0e;
+  --studio-fg: #f2efe9;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 4px 14px rgb(0 0 0 / 0.35);
 }
 * {
   box-sizing: border-box;

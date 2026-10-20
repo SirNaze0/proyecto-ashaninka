@@ -1,5 +1,6 @@
 import { useApp } from "../ctx";
 import { LANGS, type Lang, pendingCount } from "../i18n";
+import { THEMES, type Theme } from "../settings";
 
 export function SettingsView() {
   const { t, settings, setSettings, events } = useApp();
@@ -28,6 +29,20 @@ export function SettingsView() {
           {t("settings.cniPending")} ({pendingCount()})
         </p>
       )}
+      <label class="field">
+        {t("settings.theme")}
+        <select
+          value={settings.theme}
+          data-testid="theme-select"
+          onChange={(e) => setSettings({ ...settings, theme: (e.currentTarget as HTMLSelectElement).value as Theme })}
+        >
+          {THEMES.map((th) => (
+            <option key={th} value={th}>
+              {t(`settings.theme.${th}`)}
+            </option>
+          ))}
+        </select>
+      </label>
       <fieldset>
         <legend>{t("settings.textSize")}</legend>
         {([0, 1, 2, 3] as const).map((n) => (

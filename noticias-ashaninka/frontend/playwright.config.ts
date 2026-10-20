@@ -5,6 +5,8 @@ import { defineConfig } from "@playwright/test";
 const PORT = Number(process.env.E2E_PORT ?? 8765);
 // Fase 5: segundo servidor con el material del experimento (BD propia, 4 noticias «revisadas»)
 const PORT_EXP = PORT + 1;
+// Diseño de noticiero: su prueba publica noticias, así que tiene base de datos propia
+const PORT_NOT = PORT + 2;
 const GPU = { launchOptions: { args: ["--use-angle=d3d11", "--ignore-gpu-blocklist"] } };
 
 export default defineConfig({
@@ -23,13 +25,18 @@ export default defineConfig({
   projects: [
     {
       name: "gpu",
-      testIgnore: /avatar-(sin-webgl|software)|experiment\.spec/,
+      testIgnore: /avatar-(sin-webgl|software)|experiment\.spec|noticiero\.spec/,
       use: GPU,
     },
     {
       name: "experimento",
       testMatch: /experiment\.spec/,
       use: { ...GPU, baseURL: `http://127.0.0.1:${PORT_EXP}` },
+    },
+    {
+      name: "noticiero",
+      testMatch: /noticiero\.spec/,
+      use: { ...GPU, baseURL: `http://127.0.0.1:${PORT_NOT}` },
     },
     {
       name: "sin-webgl",
@@ -54,6 +61,13 @@ export default defineConfig({
       command: `uv run python scripts/e2e_server.py --port ${PORT_EXP} --experimento`,
       cwd: "..",
       url: `http://127.0.0.1:${PORT_EXP}/api/health`,
+      timeout: 180_000,
+      reuseExistingServer: false,
+    },
+    {
+      command: `uv run python scripts/e2e_server.py --port ${PORT_NOT}`,
+      cwd: "..",
+      url: `http://127.0.0.1:${PORT_NOT}/api/health`,
       timeout: 180_000,
       reuseExistingServer: false,
     },

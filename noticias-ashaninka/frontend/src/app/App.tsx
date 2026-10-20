@@ -17,7 +17,10 @@ import {
   guardia,
 } from "./experiment";
 import { translate } from "./i18n";
-import { NEWS_HREF, type Route, parseHash } from "./router";
+import { Masthead } from "./components/Masthead";
+import { Newsroom } from "./components/Newsroom";
+import { type Role, puedeVerRedaccion } from "./role";
+import { NEWS_HREF, type Route, newsHref, parseHash } from "./router";
 import { TEXT_SCALES, loadSettings, saveSettings } from "./settings";
 
 function makeQueue(): EventQueue {
@@ -41,6 +44,10 @@ export function App() {
   const events = useMemo(makeQueue, []);
   const experiment = useMemo(() => makeExperiment(events), [events]);
   const [, setExpTick] = useState(0);
+  // Rol de la interfaz; el token vive solo en memoria (ver role.ts)
+  const [role, setRole] = useState<Role>("ciudadano");
+  const [token, setToken] = useState<string | null>(null);
+  const [studioId, setStudioId] = useState<number | null>(null);
 
   useEffect(() => {
     const onHash = () => setRoute(parseHash(location.hash));
@@ -88,6 +95,17 @@ export function App() {
   }, [route, experiment.loaded, experiment.state]);
 
   useEffect(() => {
+    if (route.name === "news") setStudioId(route.id);
+  }, [route]);
+
+  // La sala de redacción solo existe para el administrador verificado
+  const redaccionOk = puedeVerRedaccion(role, token);
+  useEffect(() => {
+    if (route.name === "newsroom" && !redaccionOk) location.replace(NEWS_HREF);
+  }, [route, redaccionOk]);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = settings.theme === "auto" ? "" : settings.theme;
     document.documentElement.lang = "es"; // la interfaz cae al castellano mientras cni.json esté pendiente
     saveSettings(settings);
   }, [settings]);
@@ -101,8 +119,10 @@ export function App() {
       events,
       experiment,
       online,
+      role,
+      token,
     }),
-    [settings, events, experiment, online],
+    [settings, events, experiment, online, role, token],
   );
 
   const enSesion = experiment.state?.estado === "activa";
@@ -112,40 +132,28 @@ export function App() {
       <a class="skip" href="#main">
         {ctx.t("skip")}
       </a>
-      <header class="top">
-        {enSesion ? (
-          <span class="brand">{ctx.t("appTitle")}</span>
-        ) : (
-          <>
-            <a class="brand" href="#/">
-              {ctx.t("appTitle")}
-            </a>
-            <div class="top-end">
-              <span class={`pill ${online ? "pill-ok" : "pill-warn"}`} data-testid="net-status">
-                {ctx.t(online ? "net.online" : "net.offline")}
-              </span>
-              <nav aria-label="Principal">
-                <a href="#/" aria-current={route.name === "translate" ? "page" : undefined}>
-                  {ctx.t("nav.translate")}
-                </a>
-                <a href={NEWS_HREF} aria-current={route.name === "list" ? "page" : undefined}>
-                  {ctx.t("nav.news")}
-                </a>
-                <a href="#/ajustes" aria-current={route.name === "settings" ? "page" : undefined}>
-                  {ctx.t("nav.settings")}
-                </a>
-              </nav>
-            </div>
-          </>
-        )}
-      </header>
+      <Masthead
+        route={route}
+        enSesion={enSesion}
+        role={role}
+        token={token}
+        onRole={setRole}
+        onToken={setToken}
+        studioHref={studioId === null ? null : newsHref(studioId, "C4")}
+      />
       <main id="main" tabIndex={-1} style={`--scale:${TEXT_SCALES[settings.textSize]}`}>
         {route.name === "translate" && <TranslatePanel />}
         {route.name === "list" && <NewsList />}
         {route.name === "settings" && <SettingsView />}
+        {route.name === "newsroom" && redaccionOk && <Newsroom />}
         {route.name === "experiment" && <ExperimentFlow route={route} />}
         {route.name === "news" && <Presentation key={`${route.id}-${route.condition}`} id={route.id} condition={route.condition} />}
       </main>
+      {!enSesion && (
+        <footer class="site-foot">
+          <p>{ctx.t("footer.text")}</p>
+        </footer>
+      )}
     </Ctx.Provider>
   );
 }
