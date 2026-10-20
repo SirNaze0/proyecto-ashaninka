@@ -125,7 +125,10 @@ export function Newsroom() {
             void onFiles(e.dataTransfer?.files ?? null);
           }}
         >
-          <span>{reading ? t("newsroom.import.reading") : t("newsroom.import.drop")}</span>
+          <span class="drop-icon" aria-hidden="true">
+            {dragging ? "⤓" : "⇪"}
+          </span>
+          <span>{dragging ? t("newsroom.import.release") : reading ? t("newsroom.import.reading") : t("newsroom.import.drop")}</span>
           <span class="drop-ext">{ACCEPTED_EXTENSIONS.join("  ")}</span>
           <input
             ref={input}
@@ -278,6 +281,11 @@ export function Newsroom() {
         <button type="button" class="btn primary" data-testid="room-publish" disabled={busy} onClick={() => void onPublish()}>
           {t(busy ? "newsroom.publish.working" : "newsroom.publish")}
         </button>
+        {busy && (
+          <div class="synth-bar" role="progressbar" aria-label={t("newsroom.publish.working")}>
+            <i />
+          </div>
+        )}
         <p role="alert" class="token-msg" data-testid="room-error">
           {error}
         </p>

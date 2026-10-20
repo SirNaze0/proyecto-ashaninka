@@ -477,3 +477,201 @@ details > summary {
 .stage .mode {
   color: var(--studio-fg);
 }
+
+/* ======== Súper pulido (SaaS broadcast) ======== */
+/* micro-interacciones: transiciones cortas; styles.css ya las anula con prefers-reduced-motion */
+/* Solo movimiento, borde y sombra: transicionar color/fondo dejaba colores intermedios al cambiar de tema
+   (axe los medía a mitad de camino y fallaba el contraste). */
+.news-link,
+.btn,
+.role,
+.drop,
+.card,
+.seg {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease,
+    opacity 0.2s ease;
+}
+.news-link:hover,
+.news-link:focus-visible {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: 0 10px 24px -12px rgb(0 0 0 / 0.35);
+}
+.news-featured .news-link:hover {
+  border-top-color: var(--terracotta);
+}
+.news-open {
+  transition: transform 0.2s ease;
+}
+.news-link:hover .news-open {
+  transform: translateX(4px);
+}
+.top nav a[href] {
+  position: relative;
+}
+.top nav a[href]::after {
+  content: "";
+  position: absolute;
+  left: 0.3rem;
+  right: 0.3rem;
+  bottom: 4px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transition: transform 0.2s ease;
+}
+.top nav a[href]:hover::after,
+.top nav a[aria-current]::after {
+  transform: scaleX(1);
+}
+.btn:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+.btn:not(:disabled):active {
+  transform: translateY(0);
+}
+
+/* ---- estudio: marco de monitor de transmisión ----
+   El fondo sigue sólido y sin sombras exteriores sobre el canvas (ver nota arriba: costaba FPS);
+   el marco usa un borde degradado estático y el único movimiento es la opacidad del punto. */
+.stage {
+  border: 6px solid transparent;
+  border-image: linear-gradient(145deg, #3a444d, #12171b 45%, #2c353c) 1;
+  border-radius: 0;
+}
+.stage::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  z-index: 2;
+  background: linear-gradient(90deg, transparent, #ffe27a, transparent);
+  opacity: 0.55;
+  pointer-events: none;
+}
+.on-air {
+  position: absolute;
+  left: 1rem;
+  top: 0.9rem;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.2rem 0.65rem;
+  border-radius: 4px;
+  background: rgb(0 0 0 / 0.55);
+  color: #9aa4ab;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+}
+.on-air i {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: #5b6670;
+}
+.on-air-live {
+  color: #fff;
+}
+.on-air-live i {
+  background: #ff3b30;
+  animation: blink 1.2s ease-in-out infinite;
+}
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
+.lt-tag {
+  box-shadow: inset -4px 0 0 rgb(0 0 0 / 0.18);
+}
+
+/* ---- teleprompter flotante con luz suave sobre la palabra activa ---- */
+.pres-C4.pres-centrado .body {
+  margin-top: -6px;
+  border-radius: 0 0 6px 6px;
+  box-shadow: 0 14px 30px -14px rgb(0 0 0 / 0.6);
+  font-size: 1.15rem;
+  scroll-behavior: smooth;
+}
+.pres-C4.pres-centrado .body .hl {
+  background: #ffe27a;
+  color: #1a1400;
+  box-shadow:
+    0 0 0 2px #ffe27a,
+    0 0 14px 2px rgb(255 226 122 / 0.55);
+}
+.pres-C4.pres-centrado .seg-now {
+  background: rgb(255 226 122 / 0.08);
+  border-radius: 6px;
+}
+
+/* ---- sala de redacción: zona de arrastre y barra de síntesis ---- */
+.drop {
+  border: 2px dashed var(--border-strong);
+  background:
+    repeating-linear-gradient(135deg, transparent 0 12px, rgb(127 127 127 / 0.05) 12px 24px), var(--bg);
+}
+.drop:hover {
+  border-color: var(--accent);
+}
+.drop-icon {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 1.5rem;
+  transition: transform 0.2s ease;
+}
+.drop-on {
+  border-style: solid;
+  border-width: 3px;
+  transform: scale(1.015);
+}
+.drop-on .drop-icon {
+  background: var(--accent);
+  color: var(--accent-fg);
+  transform: translateY(4px);
+}
+.drop-ext {
+  padding: 0.1rem 0.6rem;
+  border-radius: 999px;
+  background: var(--pill-bg);
+  font-size: 0.85rem;
+}
+.synth-bar {
+  position: relative;
+  height: 8px;
+  margin: 0.8rem 0;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--accent-soft);
+}
+.synth-bar i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 35%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), var(--terracotta));
+  animation: synth 1.4s ease-in-out infinite;
+}
+@keyframes synth {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(300%);
+  }
+}

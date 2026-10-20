@@ -196,6 +196,8 @@
   "newsroom.prov.version": "Versión del sistema",
   "newsroom.prov.revisado": "Revisada por un hablante",
   "newsroom.publish": "Publicar y sintetizar",
+  "studio.onAir": "EN AIRE",
+  "newsroom.import.release": "Suelta el archivo para cargarlo",
   "newsroom.publish.working": "Publicando…",
   "newsroom.publish.hint": "Se ingresa por el contrato de ingesta, se procesa con el pipeline de texto y se sintetiza por lotes con la voz MMS.",
   "newsroom.result": "Noticia {id} publicada: {a} fragmentos con audio, {b} solo texto.",

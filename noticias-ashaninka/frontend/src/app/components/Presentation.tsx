@@ -421,6 +421,9 @@ export function Presentation({ id, condition, experiment = false, onDone }: Pres
             )}
             {avatarMode === "fijo" && <p class="mode">{t("avatar.fallback")}</p>}
           </div>
+          <span class={`on-air${pstate === "playing" ? " on-air-live" : ""}`} aria-hidden="true">
+            <i /> {t("studio.onAir")}
+          </span>
           <div class={`wave${pstate === "playing" ? " wave-on" : ""}`} aria-hidden="true">
             <i /> <i /> <i /> <i /> <i /> <i />
           </div>
