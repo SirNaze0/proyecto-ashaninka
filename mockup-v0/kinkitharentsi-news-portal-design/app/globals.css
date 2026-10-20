@@ -1,0 +1,166 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-source-serif), Georgia, 'Times New Roman', serif;
+
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+
+  --color-terracotta: var(--terracotta);
+  --color-terracotta-foreground: var(--terracotta-foreground);
+  --color-live: var(--live);
+  --color-highlight: var(--highlight);
+  --color-highlight-foreground: var(--highlight-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-studio: var(--studio);
+  --color-studio-foreground: var(--studio-foreground);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+}
+
+:root {
+  color-scheme: light;
+  --background: #f7f4ef;
+  --foreground: #16130f;
+  --card: #ffffff;
+  --card-foreground: #16130f;
+  --popover: #ffffff;
+  --popover-foreground: #16130f;
+  --primary: #0f3d2e;
+  --primary-foreground: #f7f4ef;
+  --secondary: #e9e3d8;
+  --secondary-foreground: #16130f;
+  --muted: #ede7dd;
+  --muted-foreground: #4a453d;
+  --accent: #e3ece6;
+  --accent-foreground: #0f3d2e;
+  --destructive: #a32a1c;
+  --border: #d6cdbd;
+  --input: #b9ae9b;
+  --ring: #0f3d2e;
+  --radius: 0.625rem;
+
+  --terracotta: #b83a2a;
+  --terracotta-foreground: #ffffff;
+  --live: #c8102e;
+  --highlight: #ffe27a;
+  --highlight-foreground: #000000;
+  --warning: #fbeac0;
+  --warning-foreground: #5c3b00;
+  --info: #e1ebf7;
+  --info-foreground: #133a6b;
+  --success: #dcefe4;
+  --success-foreground: #0b3a25;
+  --studio: #0f1419;
+  --studio-foreground: #f2efe9;
+}
+
+.dark {
+  color-scheme: dark;
+  --background: #0f1419;
+  --foreground: #f2efe9;
+  --card: #171e26;
+  --card-foreground: #f2efe9;
+  --popover: #171e26;
+  --popover-foreground: #f2efe9;
+  --primary: #7cc8a5;
+  --primary-foreground: #08201a;
+  --secondary: #222b35;
+  --secondary-foreground: #f2efe9;
+  --muted: #1d252e;
+  --muted-foreground: #b8b2a7;
+  --accent: #1d3a30;
+  --accent-foreground: #d6f0e3;
+  --destructive: #f08a7a;
+  --border: #2e3843;
+  --input: #4a5664;
+  --ring: #7cc8a5;
+
+  --terracotta: #e87b67;
+  --terracotta-foreground: #1a0904;
+  --live: #ff4d5e;
+  --highlight: #ffe27a;
+  --highlight-foreground: #000000;
+  --warning: #3a2a08;
+  --warning-foreground: #ffd88a;
+  --info: #13263d;
+  --info-foreground: #a9cdf5;
+  --success: #12301f;
+  --success-foreground: #9fe0bd;
+  --studio: #080b0e;
+  --studio-foreground: #f2efe9;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    font-size: 100%;
+  }
+  html[data-text-size='lg'] {
+    font-size: 112.5%;
+  }
+  html[data-text-size='xl'] {
+    font-size: 125%;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+  :focus-visible {
+    outline: 3px solid var(--ring);
+    outline-offset: 2px;
+  }
+}
+
+@keyframes wave {
+  0%,
+  100% {
+    transform: scaleY(0.3);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.wave-bar {
+  transform-origin: center;
+  animation: wave 1s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wave-bar,
+  .animate-ping {
+    animation: none !important;
+  }
+}
