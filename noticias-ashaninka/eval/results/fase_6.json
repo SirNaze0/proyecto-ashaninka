@@ -1,7 +1,7 @@
 {
  "fase": 6,
- "commit": "fe33bc9193b9998c2e83e056a62d497bc35c6034",
- "fecha": "2026-11-02T18:22:48+00:00",
+ "commit": "4052bbd39b5be52d2cf902badac566d100015e8d",
+ "fecha": "2026-11-02T21:50:16+00:00",
  "hardware": {
   "so": "Windows-10-10.0.26200-SP0",
   "cpu": "AMD64 Family 25 Model 33 Stepping 2, AuthenticAMD",
@@ -135,10 +135,10 @@
   "nota": "ejecute: uv run python -m eval.listening.inteligibilidad_mos.build"
  },
  "paquete": {
-  "inicial_gzip_bytes": 38011,
+  "inicial_gzip_bytes": 39980,
   "inicial_archivos": [
-   "assets/index-BAPv1Zjk.css",
-   "assets/index-BeW8-kWH.js",
+   "assets/index-C8fOZksS.css",
+   "assets/index-CoCRMYOc.js",
    "assets/preload-helper-Dk3gvHhv.js",
    "index.html"
   ],
@@ -151,11 +151,11 @@
    "assets/three.module-C8enonVg.js",
    "assets/viewer-Bsgen4Ps.js"
   ],
-  "sw_js_gzip_bytes": 1291,
+  "sw_js_gzip_bytes": 1303,
   "precache_sw_archivos": [
    "/",
-   "/assets/index-BAPv1Zjk.css",
-   "/assets/index-BeW8-kWH.js",
+   "/assets/index-C8fOZksS.css",
+   "/assets/index-CoCRMYOc.js",
    "/assets/preload-helper-Dk3gvHhv.js",
    "/icon-192.png",
    "/icon.svg",
@@ -163,7 +163,7 @@
    "/manifest.webmanifest",
    "/presentadora_fija.svg"
   ],
-  "precache_sw_gzip_bytes": 39719,
+  "precache_sw_gzip_bytes": 41688,
   "precache_sw_incluye_avatar": false,
   "presupuesto_inicial_bytes": 3145728,
   "cumple_presupuesto_inicial": true,
@@ -217,19 +217,19 @@
  },
  "pruebas": {
   "pytest": {
-   "total": 347,
-   "pasaron": 337,
+   "total": 371,
+   "pasaron": 362,
    "fallaron": 1,
-   "omitidas": 9
+   "omitidas": 8
   },
   "vitest": {
-   "total": 102,
-   "pasaron": 102,
+   "total": 117,
+   "pasaron": 117,
    "fallaron": 0
   },
   "e2e": {
-   "total": 43,
-   "pasaron": 39,
+   "total": 48,
+   "pasaron": 44,
    "fallaron": 0,
    "omitidas": 4
   }
@@ -313,7 +313,7 @@
   },
   "carga_inicial": {
    "meta": "carga inicial de la PWA < 3 MB tras añadir seguridad y el flujo del experimento",
-   "valor": 0.0363,
+   "valor": 0.0381,
    "cumple": true,
    "nota": ""
   },
@@ -328,19 +328,19 @@
   },
   "pruebas_pytest": {
    "meta": "0 fallos",
-   "valor": "337/347",
+   "valor": "362/371",
    "cumple": false,
    "nota": ""
   },
   "pruebas_vitest": {
    "meta": "0 fallos",
-   "valor": "102/102",
+   "valor": "117/117",
    "cumple": true,
    "nota": ""
   },
   "pruebas_e2e": {
    "meta": "0 fallos",
-   "valor": "39/43",
+   "valor": "44/48",
    "cumple": true,
    "nota": ""
   },

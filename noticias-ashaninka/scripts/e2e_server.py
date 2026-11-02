@@ -74,6 +74,9 @@ def build(workdir: Path, experimento: bool = False) -> None:
     os.environ["NA_DATABASE_URL"] = f"sqlite:///{(workdir / 'e2e.db').as_posix()}"
     os.environ["NA_STATIC_DIR"] = str(workdir / "static")
     os.environ["NA_TTS_ENGINE"] = "fake"
+    # independiente del .env local: sin traductor BiTAM ni lector de TV Perú (las pruebas los simulan)
+    os.environ["NA_TRANSLATOR_URL"] = ""
+    os.environ["NA_FEED_ENABLED"] = "false"
     os.environ.setdefault("NA_FRONTEND_DIST", str(ROOT / "frontend" / "dist"))
 
     from app.batch.service import run_batch
