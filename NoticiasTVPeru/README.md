@@ -17,6 +17,7 @@ o al pulsar «Refrescar ahora», el servidor:
 | 2 | PWA: barra «Noticias de TV Perú» en el tablón, etiqueta y enlace a la fuente | [PROMPT_FASE2](PROMPT_FASE2.md) | [RESUMEN_FASE2](RESUMEN_FASE2.md) | **Culminada** |
 | 3 | Documentación y medición real con BiTAM | [PROMPT_FASE3](PROMPT_FASE3.md) | [RESUMEN_FASE3](RESUMEN_FASE3.md) | **Culminada** |
 | 4 | Verificación integral, prueba manual y este README | [PROMPT_FASE4](PROMPT_FASE4.md) | [RESUMEN_FASE4](RESUMEN_FASE4.md) | **Culminada** |
+| 5 | Traducción en trozos: el ciclo traduce en la mitad de tiempo | [PROMPT_FASE5](PROMPT_FASE5.md) | [RESUMEN_FASE5](RESUMEN_FASE5.md) | **Culminada** |
 
 Plan completo: [PLAN_TVPERU.md](PLAN_TVPERU.md). Documentación técnica:
 `noticias-ashaninka/docs/tvperu.md`.
@@ -89,6 +90,7 @@ curl -X PUT http://127.0.0.1:8000/api/feed/config -H "Content-Type: application/
 | `NA_FEED_TIMEOUT` | `30` | Espera de la descarga del RSS (s) |
 | `NA_FEED_INTERVALO_MIN` | `0` | Intervalo inicial |
 | `NA_FEED_TRANSLATOR_TIMEOUT` | `900` | Espera del traductor dentro del ciclo (s) |
+| `NA_FEED_TRANSLATOR_LOTE` | `4` | Textos por petición a BiTAM en el ciclo (0 = noticia entera) |
 | `NA_TRANSLATOR_URL` | vacío | **Imprescindible**: sin BiTAM, las noticias quedan en cola |
 
 ## Pruebas
@@ -113,10 +115,21 @@ ruta, la prueba pasa.
   198 a 341 s por noticia); la voz tarda de 17 a 41 s por noticia.
 - 17 de 26 segmentos con voz (65 %). El resto queda como «solo texto», sobre todo por nombres propios en castellano
   sin reescritura (P2d).
-- **Recomendación:** intervalo de 30 min o más, o 1–2 noticias por ciclo. El intervalo cuenta desde que termina el
-  ciclo anterior, así que nunca se solapan.
-- **Mejora pendiente:** traducir en lotes pequeños dentro del ciclo. Una oración suelta tarda 6,4 s, frente a 15–31
-  s en lote. Hay que medirla aparte.
+- **Fase 5 (traducción en trozos de 4):** la traducción de 3 noticias bajó de 978 s a 494 s (−49,5 %), con la
+  fidelidad intacta (chrF++ 26,32 frente a 26,39 en el dev). Un ciclo de 3 noticias tarda ahora unos 9–10 min (estimado).
+- **Recomendación:** intervalo de 15–30 min. El intervalo cuenta desde que termina el ciclo anterior, así que nunca
+  se solapan.
+
+## Posibles mejoras (no implementadas)
+
+- **Recortar menos texto por noticia.** Hoy se traducen hasta 12 oraciones y 2.500 caracteres. Bajar a unas 6
+  oraciones (título y entradilla) reduciría el tiempo de traducción casi a la mitad, porque el tiempo es
+  proporcional a las oraciones, a cambio de que cada noticia del tablón diga menos. Es una decisión editorial,
+  no técnica: el código ya lo admite cambiando `MAX_ORACIONES` y `MAX_CARACTERES` en
+  `backend/app/feed/tvperu.py`. Convendría hacerlo configurable (`NA_FEED_MAX_ORACIONES`) y medirlo como se hizo
+  en las Fases 3 y 5.
+- **Parámetros de generación de BiTAM** (haz, longitud máxima). Acelerarían mucho más, pero cambian la calidad
+  del modelo, y esa evaluación pertenece a la tesis de BiTAM, no a este sistema.
 
 ## Avisos
 

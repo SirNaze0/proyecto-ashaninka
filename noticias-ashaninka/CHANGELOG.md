@@ -10,6 +10,9 @@ Plan, prompts y resúmenes en `../NoticiasTVPeru/`.
 - **PWA:** barra «Noticias de TV Perú» en el tablón (intervalo, «Refrescar ahora», estado), etiqueta «Traducción automática sin revisar» y enlace a la fuente.
 - `docs/tvperu.md`, limitaciones 78 a 81, medición definida en `docs/metrics.md` y `eval/tvperu/run.py` → `eval/results/tvperu.json`.
 
+### Fase 5 (mejora de velocidad)
+- `EnTrozos` y `NA_FEED_TRANSLATOR_LOTE` (4 por defecto): el ciclo envía las oraciones a BiTAM en trozos de 4. Medido: −49,5 % de tiempo de traducción en 3 noticias reales (978 s → 494 s) y chrF++ 26,32 frente a 26,39 en el dev (umbral 0,5). `traductor/fidelidad.py --lote`.
+
 ### Cambiado
 - El tablón ordena de lo más reciente a lo más antiguo; «Guardar para uso sin conexión» también guarda esa lista y el Service Worker recurre a la misma ruta sin parámetros.
 

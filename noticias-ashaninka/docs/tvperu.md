@@ -44,6 +44,7 @@ Quién lo dispara:
 | `NA_FEED_USER_AGENT` | vacío = `NoticiasAshaninka/1.0` (compatible) | Por si la fuente rechaza el UA por defecto |
 | `NA_FEED_TIMEOUT` | `30` | Segundos de espera de la descarga |
 | `NA_FEED_INTERVALO_MIN` | `0` | Intervalo inicial si la base aún no tiene uno |
+| `NA_FEED_TRANSLATOR_LOTE` | `4` | Textos por petición a BiTAM dentro del ciclo (0 = la noticia entera en una petición, como hasta la Fase 4). Ver «Traducción en trozos» |
 | `NA_FEED_TRANSLATOR_TIMEOUT` | `900` | Espera del traductor dentro del ciclo (s). Es mayor que `NA_TRANSLATOR_TIMEOUT` (120 s, Redacción) porque el lote de una noticia superó los 120 s en la GTX 1060 (primer intento de medición) |
 | `NA_TRANSLATOR_URL` | vacío | **Obligatoria para publicar**: sin BiTAM, las noticias quedan en cola (`pendiente`) |
 
@@ -113,4 +114,20 @@ Un ciclo real con BiTAM (GTX 1060, fp16), la voz `mms_vits` en CPU y sin otra ca
 - **El cuello de botella es la traducción en lote:** de 15 a 31 s/oración, cuando una oración suelta tardó 6,4 s en la misma GPU justo antes de medir. La síntesis es mucho más rápida (17–41 s por noticia).
 - **Primer intento** (`tvperu_intento1.json`): 0 publicadas, porque la primera traducción superó los 120 s de espera del cliente. Por eso existe `NA_FEED_TRANSLATOR_TIMEOUT` (900 s). Ver la revisión en `docs/metrics.md`.
 
-**Consecuencia práctica:** con esta GPU, un ciclo de 3 noticias tarda unos 15 minutos, así que el intervalo de 15 min queda justo. Use 30 min o más, o baje a 1–2 noticias por ciclo. **Pendiente** (no se ajustó tras ver los datos): traducir en lotes pequeños dentro del ciclo y medirlo con otra ejecución.
+**Consecuencia práctica (hasta la Fase 4):** con esta GPU, un ciclo de 3 noticias tardaba unos 15 minutos. La Fase 5 lo reduce (ver abajo).
+
+## Traducción en trozos (Fase 5, `eval/results/tvperu_lotes.json` y `traductor_fidelidad_float16_lote4.json`)
+
+Medición definida antes en `docs/metrics.md`. Tres noticias reales, cada una traducida en trozos de 4 y entera, en orden alternado:
+
+| Noticia | Textos | Trozos de 4 | Entera | Ahorro |
+|---|---|---|---|---|
+| penal El Milagro → Challapalca | 13 | 157 s | 304 s | 48 % |
+| reserva nacional de Tambopata | 13 | 197 s | 483 s | 59 % |
+| carretera Federico Basadre | 11 | 140 s | 192 s | 27 % |
+| **Total** | 37 | **494 s** | **978 s** | **49,5 %** |
+
+- **Fidelidad** (dev de AmericasNLP, los mismos 200 pares): chrF++ **26,32** en trozos de 4 frente a **26,39** en lotes de 32 (diferencia 0,07 ≤ 0,5, el criterio fijado). 176 de 200 salidas idénticas. En las noticias cambiaron 9 de 37 salidas: el agrupamiento altera algunas traducciones (fp16), sin efecto medible en chrF++.
+- **Por eso el valor por defecto es `NA_FEED_TRANSLATOR_LOTE=4`.** Un ciclo de 3 noticias pasa de ≈ 15,5 min a unos **9–10 min** (estimación: 494 s de traducción medida más ≈ 77 s de síntesis de la Fase 3).
+- **Atención, solo para oraciones largas:** con las oraciones **cortas** del dev, los trozos de 4 fueron **8 veces más lentos** (1.210 s frente a 146 s en lotes de 32). Por eso el cambio se limita al ciclo de TV Perú, cuyas oraciones son largas. La Redacción y los demás usos no cambian.
+- Recomendación: intervalo de **15–30 min** con 3 noticias por ciclo.

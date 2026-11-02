@@ -6,7 +6,7 @@
 | 2 PWA | Culminada |
 | 3 Documentación y medición | Culminada |
 | 4 Verificación y README | Culminada |
-| 5 Traducción en trozos (mejora de velocidad) | En curso |
+| 5 Traducción en trozos (mejora de velocidad) | Culminada |
 
 ## Contexto
 El tablón (`#/noticias`) solo se llena a mano, desde la Sala de redacción o la CLI. El usuario quiere que se

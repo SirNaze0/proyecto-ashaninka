@@ -1,0 +1,74 @@
+{
+  "fecha": "2026-11-02T23:18:29+00:00",
+  "definicion": "docs/metrics.md (Traducción en trozos dentro del ciclo de TV Perú)",
+  "rss_sha256": "21604aebd5c9b174d15327e836e7183a3e708007766b2e852c71bef3197d2931",
+  "traductor": {
+    "modelo": "BiTAM es2cni",
+    "version": "bitam_v5_seed13_20261018T230715Z_es2cni",
+    "dispositivo": "cuda:0",
+    "dtype": "float16"
+  },
+  "noticias": [
+    {
+      "url": "https://www.tvperu.gob.pe/noticias/politica/presidenta-keiko-fujimori-ordena-traslado-de-10-internos-del-penal-el-milagro-a-challapalca",
+      "textos": 13,
+      "orden": [
+        4,
+        0
+      ],
+      "lote_4": {
+        "s": 157.1,
+        "s_por_texto": 12.09
+      },
+      "todo_junto": {
+        "s": 303.7,
+        "s_por_texto": 23.36
+      },
+      "ahorro": 0.483,
+      "salidas_distintas": 3
+    },
+    {
+      "url": "https://www.tvperu.gob.pe/noticias/nacionales/mineria-ilegal-gobierno-recupera-95-de-areas-afectadas-en-reserva-nacional-de-tambopata",
+      "textos": 13,
+      "orden": [
+        0,
+        4
+      ],
+      "lote_4": {
+        "s": 196.5,
+        "s_por_texto": 15.12
+      },
+      "todo_junto": {
+        "s": 482.5,
+        "s_por_texto": 37.12
+      },
+      "ahorro": 0.593,
+      "salidas_distintas": 4
+    },
+    {
+      "url": "https://www.tvperu.gob.pe/noticias/nacionales/ucayali-despliegan-maquinaria-para-restablecer-el-transito-en-carretera-federico-basadre-tras-huaico",
+      "textos": 11,
+      "orden": [
+        4,
+        0
+      ],
+      "lote_4": {
+        "s": 140.1,
+        "s_por_texto": 12.73
+      },
+      "todo_junto": {
+        "s": 192.0,
+        "s_por_texto": 17.45
+      },
+      "ahorro": 0.27,
+      "salidas_distintas": 2
+    }
+  ],
+  "total": {
+    "lote_4_s": 493.7,
+    "todo_junto_s": 978.2,
+    "ahorro": 0.495,
+    "salidas_distintas": 9,
+    "textos": 37
+  }
+}
