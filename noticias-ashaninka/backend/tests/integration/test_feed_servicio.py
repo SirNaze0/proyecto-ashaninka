@@ -276,3 +276,21 @@ def test_catalogo_recientes_ordena_por_fecha(temp_db, monkeypatch):
         assert recientes[-1] == "Vieja" and recientes.index("Nueva") < recientes.index("Vieja")
         item = c.get("/api/catalog").json()[0]
         assert item["traduccion_automatica"] is False and item["fuente_url"] is None
+
+
+def test_el_ciclo_usa_su_propia_espera_del_traductor(entorno, monkeypatch):
+    # el lote de una noticia superó los 120 s de la Redacción en la GTX 1060 (tvperu_intento1.json)
+    from app.feed import servicio
+    from app.translation import FakeTranslator
+
+    monkeypatch.setenv("NA_TRANSLATOR_TIMEOUT", "120")
+    monkeypatch.setenv("NA_FEED_TRANSLATOR_TIMEOUT", "900")
+    vistos = []
+
+    def capturar(settings):
+        vistos.append(settings.translator_timeout)
+        return FakeTranslator()
+
+    monkeypatch.setattr(servicio, "get_translator", capturar)
+    servicio.ejecutar_ciclo()
+    assert vistos == [900.0]

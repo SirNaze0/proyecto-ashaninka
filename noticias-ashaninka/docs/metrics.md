@@ -386,3 +386,9 @@ Definido el 2026-11-02, **antes** de ejecutar `eval.tvperu.run`. Igual que en la
 
 - Tres noticias de un solo día no representan la variedad del feed (temas, nombres propios, cifras).
 - Los segmentos bloqueados por nombres propios en castellano dependen de P2d (`SUPUESTO-LING`); un bloqueo es el comportamiento correcto del sistema, no un fallo.
+
+## Revisión tras el primer intento (2026-11-02, antes de repetir)
+
+- **Primer intento** (`eval/results/tvperu_intento1.json`): BiTAM disponible (cuda:0, fp16) y 15 noticias nuevas, pero **0 publicadas**. La primera traducción (una noticia de ≈ 13 oraciones en un lote) superó la espera de 120 s del cliente (`NA_TRANSLATOR_TIMEOUT`, pensada para la Redacción), y las 15 quedaron `pendiente`. La GPU estaba al 100 % y la VRAM llena (6.004 de 6.144 MiB).
+- **Cambio (del sistema, no de la medición):** el ciclo de fondo usa su propia espera, `NA_FEED_TRANSLATOR_TIMEOUT = 900 s`. No cambian el recorte, el parser, el pipeline, el material ni las métricas.
+- Se repite **una vez** con lo definido arriba. El primer intento se conserva y se informa.

@@ -4,7 +4,7 @@
 |---|---|
 | 1 Backend | Culminada |
 | 2 PWA | Culminada |
-| 3 Documentación y medición | Pendiente |
+| 3 Documentación y medición | Culminada |
 | 4 Verificación y README | Pendiente |
 
 ## Contexto

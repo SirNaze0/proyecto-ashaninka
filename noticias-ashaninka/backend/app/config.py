@@ -69,6 +69,9 @@ class Settings:
     feed_user_agent: str = ""  # vacío = el UA por defecto de app.feed.tvperu
     feed_timeout: float = 30.0
     feed_intervalo_min: int = 0  # intervalo inicial si la base aún no tiene uno (0 = apagado)
+    # Espera del traductor en el ciclo (en segundo plano): el lote de una noticia (≤ 13 oraciones) puede
+    # superar los 120 s de NA_TRANSLATOR_TIMEOUT en una GPU de 6 GB (eval/results/tvperu_intento1.json)
+    feed_translator_timeout: float = 900.0
 
 
 def get_settings() -> Settings:
@@ -104,4 +107,5 @@ def get_settings() -> Settings:
         feed_user_agent=(os.getenv("NA_FEED_USER_AGENT") or "").strip(),
         feed_timeout=float(os.getenv("NA_FEED_TIMEOUT") or "30"),
         feed_intervalo_min=int(os.getenv("NA_FEED_INTERVALO_MIN") or "0"),
+        feed_translator_timeout=float(os.getenv("NA_FEED_TRANSLATOR_TIMEOUT") or "900"),
     )

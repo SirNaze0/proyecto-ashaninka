@@ -20,6 +20,7 @@ que lo marca con ``[fake-bitam]``). Solo puede correr un ciclo a la vez (``_CAND
 
 from __future__ import annotations
 
+import dataclasses
 import threading
 import time
 from datetime import UTC, datetime, timedelta
@@ -240,7 +241,10 @@ def _ciclo(s: Settings) -> dict[str, Any]:
         pipeline = None
         for item in candidatos:
             try:
-                translator = translator or get_translator(s)
+                # el ciclo no es interactivo: espera más que la Redacción (NA_FEED_TRANSLATOR_TIMEOUT)
+                translator = translator or get_translator(
+                    dataclasses.replace(s, translator_timeout=s.feed_translator_timeout)
+                )
                 borrador = traducir_noticia(item.titulo_es, item.cuerpo_es, translator)
             except TraductorNoDisponible as e:
                 res["motivo"] = f"traductor no disponible: {e}"

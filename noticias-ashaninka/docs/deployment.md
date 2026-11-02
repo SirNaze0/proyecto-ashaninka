@@ -67,6 +67,11 @@ docker compose exec app python -m app.cli process --all          # segmentación
 docker compose exec app python -m app.batch build --all          # sintetiza por lotes -> /srv/static
 ```
 
+**Noticias automáticas de TV Perú** (opcional): con `NA_FEED_ENABLED=true` el servidor descarga, traduce y
+publica las últimas noticias de TV Perú cada X minutos (se elige en el tablón). Necesita un servicio BiTAM
+accesible en `NA_TRANSLATOR_URL`, que **no** forma parte de este `docker compose`; sin él, las noticias
+quedan en cola. Ver `docs/tvperu.md` y las limitaciones 78 a 81.
+
 Para el **experimento real** hacen falta ≥ 4 noticias con `revisado_por_hablante: true` (P4). Mientras
 no las haya, el servidor se niega a iniciar sesiones (409), salvo en modo piloto (`NA_EXPERIMENT_PILOTO=true`,
 que marca todo como piloto: **no usarlo con participantes reales**).

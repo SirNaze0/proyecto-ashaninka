@@ -1,0 +1,91 @@
+{
+  "fecha": "2026-11-02T21:05:29+00:00",
+  "definicion": "docs/metrics.md#noticias-automáticas-de-tv-perú-noticiastvperu-fase-3",
+  "fuente": "https://www.tvperu.gob.pe/rss.xml",
+  "traductor": {
+    "disponible": true,
+    "motivo": null,
+    "modelo": "BiTAM es2cni",
+    "version": "bitam_v5_seed13_20261018T230715Z_es2cni",
+    "dispositivo": "cuda:0"
+  },
+  "tts_engine": "mms_vits",
+  "sin_otra_carga": true,
+  "estado": "medido",
+  "motivo": null,
+  "ciclo": {
+    "nuevas": 15,
+    "publicadas": 3,
+    "errores": 0,
+    "pendientes": 12,
+    "items_por_estado": {
+      "publicada": 3,
+      "pendiente": 12
+    },
+    "duracion_s": 932.79,
+    "audio": {
+      "segmentos": 17,
+      "bloqueados": 9,
+      "errores": 0
+    }
+  },
+  "noticias": [
+    {
+      "url": "https://www.tvperu.gob.pe/noticias/cultural/reconocida-influencer-destaca-portal-web-del-irtp-que-difunde-contenidos-en-quechua-y-aimara",
+      "categoria": "cultural",
+      "titulo_es_sha256": "52d05e8e6d129780",
+      "parrafos_enviados": 8,
+      "oraciones_enviadas": 12,
+      "caracteres_enviados": 2007,
+      "traduccion_s": 315.37,
+      "traduccion_s_por_oracion": 24.26,
+      "sintesis_s": 41.43,
+      "segmentos": 9,
+      "segmentos_con_audio": 8,
+      "segmentos_bloqueados": 1,
+      "motivo_bloqueo_mas_frecuente": [
+        "bloqueado para TTS",
+        1
+      ],
+      "audio_s": 149.968
+    },
+    {
+      "url": "https://www.tvperu.gob.pe/noticias/politica/tumbes-minsa-instala-hospital-de-campana-para-atender-emergencias-por-lluvias",
+      "categoria": "politica",
+      "titulo_es_sha256": "b066d184b90b298c",
+      "parrafos_enviados": 9,
+      "oraciones_enviadas": 12,
+      "caracteres_enviados": 1776,
+      "traduccion_s": 198.351,
+      "traduccion_s_por_oracion": 15.26,
+      "sintesis_s": 16.81,
+      "segmentos": 9,
+      "segmentos_con_audio": 5,
+      "segmentos_bloqueados": 4,
+      "motivo_bloqueo_mas_frecuente": [
+        "bloqueado para TTS",
+        4
+      ],
+      "audio_s": 78.016
+    },
+    {
+      "url": "https://www.tvperu.gob.pe/noticias/nacionales/mtc-despliega-maquinaria-para-recuperar-el-transito-entre-huanuco-y-ucayali-tras-deslizamiento",
+      "categoria": "nacionales",
+      "titulo_es_sha256": "fb9b7c289cd787b3",
+      "parrafos_enviados": 8,
+      "oraciones_enviadas": 10,
+      "caracteres_enviados": 1950,
+      "traduccion_s": 341.338,
+      "traduccion_s_por_oracion": 31.03,
+      "sintesis_s": 18.59,
+      "segmentos": 8,
+      "segmentos_con_audio": 4,
+      "segmentos_bloqueados": 4,
+      "motivo_bloqueo_mas_frecuente": [
+        "bloqueado para TTS",
+        4
+      ],
+      "audio_s": 84.464
+    }
+  ]
+}

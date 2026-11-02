@@ -1,0 +1,32 @@
+{
+  "fecha": "2026-11-02T20:39:35+00:00",
+  "definicion": "docs/metrics.md#noticias-automáticas-de-tv-perú-noticiastvperu-fase-3",
+  "fuente": "https://www.tvperu.gob.pe/rss.xml",
+  "traductor": {
+    "disponible": true,
+    "motivo": null,
+    "modelo": "BiTAM es2cni",
+    "version": "bitam_v5_seed13_20261018T230715Z_es2cni",
+    "dispositivo": "cuda:0"
+  },
+  "tts_engine": "mms_vits",
+  "sin_otra_carga": true,
+  "estado": "pendiente",
+  "motivo": "traductor no disponible: el traductor no respondió en 120 s",
+  "ciclo": {
+    "nuevas": 15,
+    "publicadas": 0,
+    "errores": 0,
+    "pendientes": 15,
+    "items_por_estado": {
+      "pendiente": 15
+    },
+    "duracion_s": 120.79,
+    "audio": {
+      "segmentos": 0,
+      "bloqueados": 0,
+      "errores": 0
+    }
+  },
+  "noticias": []
+}

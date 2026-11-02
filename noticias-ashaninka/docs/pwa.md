@@ -50,7 +50,11 @@ Aspecto de noticiero televisivo sobre la PWA existente, sin Tailwind, lucide ni 
 - **Portada** (`#/noticias`, `NewsList.tsx`): la primera noticia como destacada y el resto en
   rejilla. Solo muestra datos reales del catálogo (título en asháninka, variante, audio listo,
   fragmentos solo texto, guardada); no hay resúmenes, categorías ni fotos inventadas, y el texto en
-  castellano nunca se muestra.
+  castellano nunca se muestra. Desde NoticiasTVPeru pide `/api/catalog?orden=recientes` (lo último
+  primero), se recarga cada 60 s y lleva arriba la barra **«Noticias de TV Perú»** (`FeedBar.tsx`,
+  `feed.ts`): selector «Actualizar cada», «Refrescar ahora» y estado del último ciclo. Las noticias
+  automáticas llevan «Traducción automática sin revisar» y «Fuente: TV Perú»; al abrirlas, un aviso con
+  enlace a la original. Detalle en [`tvperu.md`](tvperu.md).
 - **Estudio TV centrado (C4):** la presentadora VRM al centro de un escenario oscuro, cintillo
   (*lower third*) con la variante, indicador de voz y el texto de la noticia como teleprompter
   debajo, que sigue la oración activa. Es la misma `.body` con el resaltado de siempre (no se duplica

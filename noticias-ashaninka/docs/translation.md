@@ -25,6 +25,10 @@ PWA (Redacción) ──────── POST /api/news/translate (sin token) �
 backend: restaurar_mayusculas → borrador {titulo_cni, paragraphs, oraciones, procedencia} → PWA
 ```
 
+**Uso automático (NoticiasTVPeru).** Además de la Redacción, el lector de TV Perú llama a
+`traducir_noticia` desde el servidor para publicar un resumen de las últimas noticias, sin revisión y
+marcado como tal. Ver [`tvperu.md`](tvperu.md).
+
 ## Por qué es un servicio aparte
 
 BiTAM fija `transformers==4.57.3`, `peft==0.17.1`, `torch==2.6.0` y `numpy==1.26.4`, y advierte

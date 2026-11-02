@@ -148,6 +148,13 @@ El kit (`eval/listening/inteligibilidad_mos/out/kit_escucha.zip`) se entrega a l
 no. Instrucciones en [eval/listening/inteligibilidad_mos/INSTRUCCIONES.md](eval/listening/inteligibilidad_mos/INSTRUCCIONES.md).
 Sin personas solo se verifica con oyentes **simulados**: la medición real sigue pendiente.
 
+### Noticias automáticas de TV Perú (NoticiasTVPeru)
+
+Con `NA_FEED_ENABLED=true` y el traductor BiTAM encendido, el tablón se llena solo con las últimas noticias
+de TV Perú, traducidas (resumen) y con voz, marcadas como «traducción automática sin revisar». El intervalo
+y «Refrescar ahora» están en el tablón; a mano: `uv run python -m app.cli feed run`. Ver
+[docs/tvperu.md](docs/tvperu.md).
+
 ### Seguridad y operación (Fase 6)
 
 - **Sin rol administrativo** (QuitarAdmin, 2026-11): toda la API es pública. Cualquiera puede publicar o

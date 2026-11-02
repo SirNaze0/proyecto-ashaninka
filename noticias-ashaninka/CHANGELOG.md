@@ -1,5 +1,18 @@
 # Changelog
 
+## NoticiasTVPeru — Tablón automático con noticias de TV Perú (2026-11-02)
+
+Plan, prompts y resúmenes en `../NoticiasTVPeru/`.
+
+### Añadido
+- **Backend (`backend/app/feed/`):** lector del RSS de TV Perú (solo biblioteca estándar), ciclo que traduce un resumen (≤ 12 oraciones) con BiTAM, procesa, sintetiza y publica como `traduccion_automatica` no revisada; tablas `FeedItem` (guid único) y `FeedConfig`; planificador de fondo (`NA_FEED_ENABLED`); API `/api/feed/status|config|run`; CLI `app.cli feed run|status`.
+- **Catálogo:** `?orden=recientes`, `traduccion_automatica`, `fuente_url` y `fuente_nombre`.
+- **PWA:** barra «Noticias de TV Perú» en el tablón (intervalo, «Refrescar ahora», estado), etiqueta «Traducción automática sin revisar» y enlace a la fuente.
+- `docs/tvperu.md`, limitaciones 78 a 81, medición definida en `docs/metrics.md` y `eval/tvperu/run.py` → `eval/results/tvperu.json`.
+
+### Cambiado
+- El tablón ordena de lo más reciente a lo más antiguo; «Guardar para uso sin conexión» también guarda esa lista y el Service Worker recurre a la misma ruta sin parámetros.
+
 ## QuitarAdmin — Sin rol administrativo (2026-11-02)
 
 Decisión del responsable del proyecto: quitar la distinción Ciudadano/Administrador. Plan, prompts y
