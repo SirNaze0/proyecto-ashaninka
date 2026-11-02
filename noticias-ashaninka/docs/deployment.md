@@ -82,6 +82,7 @@ Cerrados por defecto: **sin token válido responden 403**, aunque el servicio es
 |---|---|
 | `GET /api/events/summary` | conteo de eventos del cliente |
 | `/api/news` (POST, GET), `/api/news/import`, `/api/news/{id}` (GET, PUT, DELETE), `/api/news/{id}/process`, `/api/news/{id}/segments` y `/api/news/{id}/editorial-report` | gestión de noticias (la vía normal es la CLI) |
+| `POST /api/news/translate` | borrador en asháninka de una noticia en castellano con el traductor BiTAM (no guarda nada). Requiere el servicio aparte `traductor/` y `NA_TRANSLATOR_URL`; sin ellos responde 503. El servicio **no** forma parte de este `docker compose` (GPU y pesos no redistribuibles; ver `traductor/README.md`) |
 | `GET /api/experiment/export` | exportación del experimento (ZIP) |
 | `GET /api/synthesize/{id}?engine=…` con un motor distinto del configurado | benchmarks |
 

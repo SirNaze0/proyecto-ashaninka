@@ -44,3 +44,33 @@ class NewsOut(BaseModel):
     procedencia_tipo: str
     revisado_por_hablante: bool
     apta_experimento: bool
+
+
+# ------------------------------------------------------------------ traducción BiTAM (admin)
+class TranslateIn(BaseModel):
+    """Noticia en castellano para obtener un borrador en asháninka (``POST /api/news/translate``).
+
+    Los límites coinciden con ``app.translation.service`` (MAX_CARACTERES_TITULO/CUERPO)."""
+
+    model_config = ConfigDict(extra="forbid")
+    titulo_es: str = Field(min_length=1, max_length=300)
+    cuerpo_es: str = Field(min_length=1, max_length=8000)
+
+
+class OracionTraducidaOut(BaseModel):
+    parrafo: int  # -1 = título
+    es: str
+    cni_modelo: str  # salida cruda de BiTAM (minúsculas, MINEDU 2024)
+    cni: str  # tras restaurar mayúsculas desde la fuente
+
+
+class TranslateOut(BaseModel):
+    """Borrador SIN guardar: el administrador lo revisa y lo publica con ``POST /api/news``."""
+
+    titulo_cni: str
+    paragraphs: list[str]
+    oraciones: list[OracionTraducidaOut]
+    procedencia: ProvenanceIn
+    modelo: str
+    segundos: float
+    avisos: list[str]

@@ -65,6 +65,7 @@ markers = [
     "smoke: subconjunto rápido (< 30 s) que ejecuta init.sh",
     "corpus: requiere el corpus AmericasNLP descargado en data/corpus/",
     "eval: requiere el grupo de dependencias eval (torch, transformers)",
+    "traductor: requiere el servicio BiTAM encendido (NA_TRANSLATOR_URL; ver traductor/README.md)",
 ]
 addopts = "-ra"
 pythonpath = ["backend/tests"]

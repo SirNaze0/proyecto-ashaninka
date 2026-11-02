@@ -22,6 +22,7 @@ ADMINISTRATIVOS = [
     ("GET", "/api/news/1/editorial-report", None),
     ("POST", "/api/news", {}),
     ("POST", "/api/news/import", []),
+    ("POST", "/api/news/translate", {}),
     ("PUT", "/api/news/1", {}),
     ("DELETE", "/api/news/1", None),
     ("POST", "/api/news/1/process", None),

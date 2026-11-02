@@ -1,6 +1,12 @@
-"""API REST de noticias (tarea 1.3). Nunca expone el texto en castellano."""
+"""API REST de noticias (tarea 1.3). Nunca expone el texto en castellano guardado.
+
+Excepción consciente: ``POST /api/news/translate`` devuelve al ADMINISTRADOR los pares de oraciones
+castellano/asháninka del borrador que él mismo envió, para revisarlo (no lee ni guarda nada).
+"""
 
 from __future__ import annotations
+
+from dataclasses import asdict
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session, select
@@ -8,7 +14,7 @@ from sqlmodel import Session, select
 from app.db.models import News, Provenance
 from app.db.session import get_session
 from app.metrics.timing import Timer
-from app.schemas import NewsIn, NewsOut
+from app.schemas import NewsIn, NewsOut, TranslateIn, TranslateOut
 from app.security import require_admin
 from app.services import Pipeline, editorial_report, import_payloads, process_news
 
@@ -48,6 +54,33 @@ def create_news(payload: NewsIn, session: Session = Depends(get_session)) -> New
 @router.post("/import", response_model=list[int], status_code=201)
 def import_news(payloads: list[NewsIn], session: Session = Depends(get_session)) -> list[int]:
     return import_payloads(payloads, session)
+
+
+@router.post("/translate", response_model=TranslateOut)
+def translate_news(payload: TranslateIn) -> TranslateOut:
+    """Borrador en asháninka de una noticia en castellano con BiTAM (MejoraEIntegracion, Fase 2).
+
+    Administrativo (hereda ``require_admin``) y SIN escritura: el administrador revisa el borrador y
+    lo publica con ``POST /api/news``. 422 si excede los límites; 503 si el servicio BiTAM no está
+    configurado o no responde; 502 si responde con error.
+    """
+    from app.translation import (
+        TextoDemasiadoLargo,
+        TraductorError,
+        TraductorNoDisponible,
+        get_translator,
+        traducir_noticia,
+    )
+
+    try:
+        borrador = traducir_noticia(payload.titulo_es, payload.cuerpo_es, get_translator())
+    except TextoDemasiadoLargo as e:
+        raise HTTPException(422, str(e)) from e
+    except TraductorNoDisponible as e:
+        raise HTTPException(503, f"Traductor no disponible: {e}") from e
+    except TraductorError as e:
+        raise HTTPException(502, f"Error del traductor: {e}") from e
+    return TranslateOut.model_validate(asdict(borrador))
 
 
 @router.get("", response_model=list[NewsOut])

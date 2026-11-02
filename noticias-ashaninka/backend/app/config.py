@@ -59,6 +59,10 @@ class Settings:
     viseme_lead: float | None
     experiment_piloto: bool = False  # Fase 5: admite pseudo-noticias y marca todo como piloto
     consent_version: str = "PENDIENTE-COMITE-ETICA-v0"
+    # Traductor BiTAM es→cni (MejoraEIntegracion): servicio HTTP aparte (traductor/)
+    translator_engine: str = "http"  # http | fake (pruebas)
+    translator_url: str = ""  # vacío = desactivado (503)
+    translator_timeout: float = 120.0
 
 
 def get_settings() -> Settings:
@@ -86,4 +90,7 @@ def get_settings() -> Settings:
         viseme_lead=_opt_float(os.getenv("NA_VISEME_LEAD")),
         experiment_piloto=_bool(os.getenv("NA_EXPERIMENT_PILOTO")),
         consent_version=os.getenv("NA_CONSENT_VERSION", "PENDIENTE-COMITE-ETICA-v0"),
+        translator_engine=os.getenv("NA_TRANSLATOR_ENGINE", "http").strip().lower() or "http",
+        translator_url=(os.getenv("NA_TRANSLATOR_URL") or "").strip(),
+        translator_timeout=float(os.getenv("NA_TRANSLATOR_TIMEOUT") or "120"),
     )
