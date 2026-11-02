@@ -353,3 +353,36 @@ Definido el 2026-11-02, **antes** de ejecutar `eval.traductor.run`. No evalúa l
 
 - Las oraciones del dev de AmericasNLP no son noticias: son frases cortas de dominio general. Sirven para medir compatibilidad, no la experiencia con noticias reales.
 - «Detectado como nombre propio» no implica que esté bien pronunciado: la reescritura castellano→asháninka (P2d) sigue siendo `SUPUESTO-LING`.
+
+# Noticias automáticas de TV Perú (NoticiasTVPeru, Fase 3)
+
+Definido el 2026-11-02, **antes** de ejecutar `eval.tvperu.run`. Igual que en la sección anterior, **no evalúa la calidad de la traducción** (contrato §2): mide el comportamiento del ciclo de ingesta con noticias reales y su compatibilidad con el pipeline.
+
+## Material
+
+- **Un ciclo** del lector contra `https://www.tvperu.gob.pe/rss.xml` en el momento de la ejecución, con `max_por_ciclo = 3` (configuración por defecto) y el recorte fijado en la Fase 1 (≤ 12 oraciones y ≤ 2.500 caracteres por noticia).
+- Base de datos **temporal** (no toca `data/noticias.db`), servicio BiTAM real (GTX 1060, fp16) y voz `mms_vits` (la del servicio).
+- El resultado **no guarda texto** de TV Perú ni de BiTAM: solo URL, recuentos, tiempos y hashes (el contenido no es nuestro, limitación 80).
+
+## Métricas
+
+| Métrica | Definición |
+|---|---|
+| Ítems | noticias del feed, nuevas, descartadas al registrar (sin texto) |
+| Recorte | oraciones y caracteres enviados a BiTAM por noticia (y párrafos originales) |
+| Latencia de traducción | s por noticia y s/oración (`BorradorTraduccion.segundos`) |
+| Latencia de síntesis | s de `run_batch` por noticia (incluye la carga en frío del modelo en la primera) |
+| Duración del ciclo | s de principio a fin (`duracion_s`) |
+| Segmentos | por noticia: total, con audio y bloqueados (`tts_ready = false`), y el motivo de bloqueo más frecuente |
+| Duración del audio | s de audio por noticia (`total_duration_s` del manifiesto) |
+
+## Reglas fijadas de antemano
+
+- Una sola ejecución; **no se ajusta** el recorte, el parser ni el pipeline después de ver el resultado. Lo que deba cambiar se documenta como pendiente.
+- Sin otra carga en GPU ni CPU (sin pytest ni E2E en paralelo); si no se cumple, se declara.
+- Si BiTAM o TV Perú no responden, se registra el motivo y la medición queda **pendiente**: nunca se inventan cifras.
+
+## Limitaciones declaradas de antemano
+
+- Tres noticias de un solo día no representan la variedad del feed (temas, nombres propios, cifras).
+- Los segmentos bloqueados por nombres propios en castellano dependen de P2d (`SUPUESTO-LING`); un bloqueo es el comportamiento correcto del sistema, no un fallo.
