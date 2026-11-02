@@ -176,6 +176,18 @@ def cmd_corpus(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_feed(args: argparse.Namespace) -> int:
+    """Un ciclo de TV Perú ahora (espera a que termine otro en curso) o el estado del lector."""
+    from app.feed import servicio
+
+    if args.action == "status":
+        print(json.dumps(servicio.estado(), ensure_ascii=False, indent=2))
+        return 0
+    res = servicio.ejecutar_ciclo(esperar=True)
+    print(json.dumps(res, ensure_ascii=False, indent=2))
+    return 0 if not res["motivo"] or res["publicadas"] else 1
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="app.cli", description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
@@ -212,6 +224,10 @@ def build_parser() -> argparse.ArgumentParser:
     exp.add_argument("--format", default="csv,json", help="csv,json,parquet")
     exp.add_argument("--incluir-piloto", action="store_true", help="incluye sesiones piloto")
     exp.set_defaults(func=cmd_experiment)
+
+    fd = sub.add_parser("feed", help="noticias de TV Perú: un ciclo ahora o el estado")
+    fd.add_argument("action", choices=["run", "status"])
+    fd.set_defaults(func=cmd_feed)
 
     cor = sub.add_parser("corpus")
     cor.add_argument("action", choices=["report", "extract", "inventory"])

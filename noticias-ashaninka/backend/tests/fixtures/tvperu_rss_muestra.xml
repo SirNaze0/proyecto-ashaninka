@@ -1,0 +1,52 @@
+
+<?xml version="1.0" encoding="utf-8" ?><rss version="2.0" xml:base="https://www.tvperu.gob.pe/frontpage" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom">
+  <!-- Muestra FICTICIA con la estructura del RSS real de https://www.tvperu.gob.pe/rss.xml (observado el 2026-11-02):
+       salto de línea antes de <?xml, HTML escapado en <description>, «Lee también», tuits incrustados y
+       «TAMBIÉN TE PUEDE INTERESAR» al final. Los textos son inventados en castellano; no es contenido de TV Perú. -->
+  <channel>
+    <title>TVPerú - #NosUne</title>
+    <link>https://www.tvperu.gob.pe/frontpage</link>
+    <description></description>
+    <language>es</language>
+      <item>
+    <title>Noticia ficticia uno de prueba</title>
+    <link>https://www.tvperu.gob.pe/noticias/nacionales/noticia-ficticia-uno-de-prueba</link>
+    <description>&lt;p style=&quot;margin-bottom:11px&quot;&gt;&lt;strong&gt;&lt;span style=&quot;font-size:16px;&quot;&gt;Primera oración ficticia de la noticia 1. Segunda oración ficticia con &lt;a href=&quot;https://www.tvperu.gob.pe/noticias/tags/x&quot;&gt;un enlace&lt;/a&gt;.&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;[&lt;a href=&quot;https://www.tvperu.gob.pe/noticias/otra&quot;&gt;Lee también: Titular ficticio relacionado&lt;/a&gt;]&lt;/p&gt;&lt;p&gt;Tercera oración ficticia de la noticia 1.&lt;/p&gt;&lt;blockquote class=&quot;twitter-tweet&quot;&gt;&lt;p lang=&quot;es&quot;&gt;Tuit incrustado que no debe leerse.&lt;/p&gt;— Cuenta (@cuenta)&lt;/blockquote&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;div&gt;&lt;h3&gt;TAMBIÉN TE PUEDE INTERESAR:&lt;/h3&gt;&lt;/div&gt;&lt;p&gt;TAMBIÉN TE PUEDE&amp;nbsp;INTERESAR:&lt;/p&gt;&lt;p&gt;Pie de foto ficticio.&lt;/p&gt;</description>
+     <pubDate>Mon, 02 Nov 2026 18:03:41 +0000</pubDate>
+     <dc:creator>prensaweb00</dc:creator>
+     <guid isPermaLink="false">144001 at https://www.tvperu.gob.pe</guid>
+    </item>
+      <item>
+    <title>Noticia ficticia dos de prueba</title>
+    <link>https://www.tvperu.gob.pe/noticias/internacionales/noticia-ficticia-dos-de-prueba</link>
+    <description>&lt;p style=&quot;margin-bottom:11px&quot;&gt;&lt;strong&gt;&lt;span style=&quot;font-size:16px;&quot;&gt;Primera oración ficticia de la noticia 2. Segunda oración ficticia con &lt;a href=&quot;https://www.tvperu.gob.pe/noticias/tags/x&quot;&gt;un enlace&lt;/a&gt;.&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;[&lt;a href=&quot;https://www.tvperu.gob.pe/noticias/otra&quot;&gt;Lee también: Titular ficticio relacionado&lt;/a&gt;]&lt;/p&gt;&lt;p&gt;Tercera oración ficticia de la noticia 2.&lt;/p&gt;&lt;blockquote class=&quot;twitter-tweet&quot;&gt;&lt;p lang=&quot;es&quot;&gt;Tuit incrustado que no debe leerse.&lt;/p&gt;— Cuenta (@cuenta)&lt;/blockquote&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;Cuarta oración ficticia. Quinta oración ficticia.&lt;/p&gt;&lt;div&gt;&lt;h3&gt;TAMBIÉN TE PUEDE INTERESAR:&lt;/h3&gt;&lt;/div&gt;&lt;p&gt;TAMBIÉN TE PUEDE&amp;nbsp;INTERESAR:&lt;/p&gt;&lt;p&gt;Pie de foto ficticio.&lt;/p&gt;</description>
+     <pubDate>Mon, 02 Nov 2026 17:48:38 +0000</pubDate>
+     <dc:creator>prensaweb00</dc:creator>
+     <guid isPermaLink="false">144002 at https://www.tvperu.gob.pe</guid>
+    </item>
+      <item>
+    <title>Noticia ficticia tres de prueba</title>
+    <link>https://www.tvperu.gob.pe/noticias/politica/noticia-ficticia-tres-de-prueba</link>
+    <description>&lt;p style=&quot;margin-bottom:11px&quot;&gt;&lt;strong&gt;&lt;span style=&quot;font-size:16px;&quot;&gt;Primera oración ficticia de la noticia 3. Segunda oración ficticia con &lt;a href=&quot;https://www.tvperu.gob.pe/noticias/tags/x&quot;&gt;un enlace&lt;/a&gt;.&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;[&lt;a href=&quot;https://www.tvperu.gob.pe/noticias/otra&quot;&gt;Lee también: Titular ficticio relacionado&lt;/a&gt;]&lt;/p&gt;&lt;p&gt;Tercera oración ficticia de la noticia 3.&lt;/p&gt;&lt;blockquote class=&quot;twitter-tweet&quot;&gt;&lt;p lang=&quot;es&quot;&gt;Tuit incrustado que no debe leerse.&lt;/p&gt;— Cuenta (@cuenta)&lt;/blockquote&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;div&gt;&lt;h3&gt;TAMBIÉN TE PUEDE INTERESAR:&lt;/h3&gt;&lt;/div&gt;&lt;p&gt;TAMBIÉN TE PUEDE&amp;nbsp;INTERESAR:&lt;/p&gt;&lt;p&gt;Pie de foto ficticio.&lt;/p&gt;</description>
+     <pubDate>Mon, 02 Nov 2026 16:00:00 +0000</pubDate>
+     <dc:creator>prensaweb00</dc:creator>
+     <guid isPermaLink="false">144003 at https://www.tvperu.gob.pe</guid>
+    </item>
+      <item>
+    <title>Noticia ficticia cuatro de prueba</title>
+    <link>https://www.tvperu.gob.pe/noticias/locales/noticia-ficticia-cuatro-de-prueba</link>
+    <description>&lt;p style=&quot;margin-bottom:11px&quot;&gt;&lt;strong&gt;&lt;span style=&quot;font-size:16px;&quot;&gt;Primera oración ficticia de la noticia 4. Segunda oración ficticia con &lt;a href=&quot;https://www.tvperu.gob.pe/noticias/tags/x&quot;&gt;un enlace&lt;/a&gt;.&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;[&lt;a href=&quot;https://www.tvperu.gob.pe/noticias/otra&quot;&gt;Lee también: Titular ficticio relacionado&lt;/a&gt;]&lt;/p&gt;&lt;p&gt;Tercera oración ficticia de la noticia 4.&lt;/p&gt;&lt;blockquote class=&quot;twitter-tweet&quot;&gt;&lt;p lang=&quot;es&quot;&gt;Tuit incrustado que no debe leerse.&lt;/p&gt;— Cuenta (@cuenta)&lt;/blockquote&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;div&gt;&lt;h3&gt;TAMBIÉN TE PUEDE INTERESAR:&lt;/h3&gt;&lt;/div&gt;&lt;p&gt;TAMBIÉN TE PUEDE&amp;nbsp;INTERESAR:&lt;/p&gt;&lt;p&gt;Pie de foto ficticio.&lt;/p&gt;</description>
+     <pubDate>Sun, 01 Nov 2026 20:07:48 +0000</pubDate>
+     <dc:creator>prensaweb00</dc:creator>
+     <guid isPermaLink="false">144004 at https://www.tvperu.gob.pe</guid>
+    </item>
+      <item>
+    <title>Noticia ficticia cinco solo con video</title>
+    <link>https://www.tvperu.gob.pe/noticias/videos/noticia-ficticia-cinco-solo-con-video</link>
+    <description>&lt;div&gt;&lt;iframe src=&quot;https://www.youtube.com/embed/x&quot;&gt;&lt;/iframe&gt;&lt;/div&gt;</description>
+     <pubDate>Sun, 01 Nov 2026 19:00:00 +0000</pubDate>
+     <dc:creator>prensaweb00</dc:creator>
+     <guid isPermaLink="false">144005 at https://www.tvperu.gob.pe</guid>
+    </item>
+  </channel>
+</rss>

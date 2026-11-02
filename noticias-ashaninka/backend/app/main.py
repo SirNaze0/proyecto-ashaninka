@@ -19,6 +19,7 @@ from app import __version__
 from app.api.catalog import router as catalog_router
 from app.api.events import router as events_router
 from app.api.experiment import router as experiment_router
+from app.api.feed import router as feed_router
 from app.api.news import router as news_router
 from app.api.synthesize import router as synthesize_router
 from app.config import ROOT, get_settings
@@ -36,7 +37,15 @@ async def lifespan(_: FastAPI):
 
         get_synthesizer(None)
     _point_static_to(get_settings().static_dir)
+    planificador = None
+    if get_settings().feed_enabled:  # NoticiasTVPeru: noticias de TV Perú cada X minutos
+        from app.feed.planificador import Planificador
+
+        planificador = Planificador()
+        planificador.iniciar()
     yield
+    if planificador:
+        planificador.detener()
 
 
 _TEXTUAL = {".js", ".css", ".html", ".json", ".svg", ".webmanifest"}
@@ -91,6 +100,7 @@ app.include_router(synthesize_router)
 app.include_router(catalog_router)
 app.include_router(events_router)
 app.include_router(experiment_router)
+app.include_router(feed_router)
 
 # Caché de audio y manifiestos. StaticFiles (Starlette) responde a Range: base de la descarga
 # reanudable de la Fase 4.

@@ -8,7 +8,10 @@ tiempos los sirve ``/static``; aquí solo se dice si ya existen (``manifest_url`
 from __future__ import annotations
 
 import json
+from datetime import date
 from pathlib import Path
+from typing import Literal
+from urllib.parse import urlparse
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
@@ -37,6 +40,10 @@ class CatalogItem(BaseModel):
     segmentos_bloqueados: int
     duracion_s: float | None
     manifest_url: str | None
+    # NoticiasTVPeru: aviso de traducción automática sin revisar y enlace a la fuente
+    traduccion_automatica: bool = False
+    fuente_url: str | None = None
+    fuente_nombre: str | None = None
 
 
 class CatalogSegment(BaseModel):
@@ -57,6 +64,9 @@ class CatalogDetail(BaseModel):
     manifest_url: str | None
     parrafos: list[list[CatalogSegment]]
     avisos: dict[str, str]
+    traduccion_automatica: bool = False
+    fuente_url: str | None = None
+    fuente_nombre: str | None = None
 
 
 def _manifest(news_id: int) -> tuple[str | None, dict | None]:
@@ -79,6 +89,22 @@ def _blocked_reason(seg: Segment) -> str | None:
     )
 
 
+_FUENTES = {"tvperu.gob.pe": "TV Perú"}
+
+
+def _fuente(n: News) -> dict:
+    """Fuente y aviso de traducción automática. Solo se expone la URL de la fuente (nunca el texto
+    en castellano) y solo si es http(s)."""
+    p = n.provenance
+    auto = bool(p and p.tipo == "traduccion_automatica" and not p.revisado_por_hablante)
+    url = n.fuente_original if n.fuente_original.startswith(("http://", "https://")) else None
+    nombre = None
+    if url:
+        host = (urlparse(url).hostname or "").removeprefix("www.")
+        nombre = next((v for k, v in _FUENTES.items() if host == k or host.endswith("." + k)), host)
+    return {"traduccion_automatica": auto, "fuente_url": url, "fuente_nombre": nombre}
+
+
 def _item(n: News, counts: tuple[int, int, int]) -> CatalogItem:
     total, ready, blocked = counts
     url, manifest = _manifest(n.id or 0)
@@ -96,12 +122,18 @@ def _item(n: News, counts: tuple[int, int, int]) -> CatalogItem:
         segmentos_bloqueados=blocked,
         duracion_s=manifest.get("total_duration_s") if manifest else None,
         manifest_url=url,
+        **_fuente(n),
     )
+
+
+def _dia(n: News) -> date:
+    return n.created_at.date() if n.created_at else date.min
 
 
 @router.get("", response_model=list[CatalogItem])
 def list_catalog(
     solo_con_audio: bool = False,
+    orden: Literal["id", "recientes"] = "id",
     limit: int = 200,
     offset: int = 0,
     session: Session = Depends(get_session),
@@ -117,7 +149,10 @@ def list_catalog(
     ).all()
     counts = {nid: (int(t), int(r or 0), int(t) - int(r or 0)) for nid, t, r in rows}
     items = []
-    for n in session.exec(select(News).order_by(News.id)).all():
+    noticias = list(session.exec(select(News).order_by(News.id)).all())
+    if orden == "recientes":  # tablón: lo último primero (fecha de publicación o de ingreso)
+        noticias.sort(key=lambda n: (n.fecha_publicacion or _dia(n), n.id or 0), reverse=True)
+    for n in noticias:
         item = _item(n, counts.get(n.id, (0, 0, 0)))
         if solo_con_audio and not item.manifest_url:
             continue
@@ -178,4 +213,5 @@ def catalog_detail(news_id: int, session: Session = Depends(get_session)) -> Cat
         manifest_url=url,
         parrafos=[paragraphs[k] for k in sorted(paragraphs)],
         avisos=notices,
+        **_fuente(n),
     )

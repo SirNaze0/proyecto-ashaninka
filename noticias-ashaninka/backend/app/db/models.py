@@ -199,3 +199,38 @@ class QuestionnaireResponse(SQLModel, table=True):
     answers: dict[str, Any] = Field(default_factory=dict, sa_column=Column(JSON))
     t_client: datetime
     received_at: datetime = Field(default_factory=_now)
+
+
+# ---------------------------------------------------------------- noticias de TV Perú (NoticiasTVPeru)
+class FeedItem(SQLModel, table=True):
+    """Una noticia del RSS de TV Perú. ``guid`` único: volver a leer el feed no duplica nada.
+
+    El texto en castellano (ya recortado) se guarda para reintentar la traducción aunque la noticia
+    salga del feed; nunca se expone en la API pública.
+    """
+
+    id: int | None = Field(default=None, primary_key=True)
+    guid: str = Field(unique=True, index=True)
+    url: str
+    categoria: str | None = None
+    titulo_es: str
+    cuerpo_es: str  # párrafos recortados, separados por saltos de línea
+    publicado_en: datetime | None = Field(default=None, index=True)  # pubDate del RSS (UTC)
+    estado: str = Field(
+        default="pendiente", index=True
+    )  # pendiente | publicada | error | descartada
+    intentos: int = 0
+    error: str | None = None
+    news_id: int | None = None
+    created_at: datetime = Field(default_factory=_now)
+    updated_at: datetime = Field(default_factory=_now)
+
+
+class FeedConfig(SQLModel, table=True):
+    """Configuración del lector (una sola fila, ``id = 1``); la cambia la PWA con PUT /api/feed/config."""
+
+    id: int | None = Field(default=None, primary_key=True)
+    intervalo_min: int = 0  # 0 = actualización automática apagada
+    max_por_ciclo: int = 3
+    ultima_ejecucion: datetime | None = None
+    ultimo_resultado: dict[str, Any] = Field(default_factory=dict, sa_column=Column(JSON))

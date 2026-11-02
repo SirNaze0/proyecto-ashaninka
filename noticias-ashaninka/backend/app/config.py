@@ -63,6 +63,12 @@ class Settings:
     translator_engine: str = "http"  # http | fake (pruebas)
     translator_url: str = ""  # vacío = desactivado (503)
     translator_timeout: float = 120.0
+    # Noticias de TV Perú (NoticiasTVPeru): lector RSS + traducción + publicación automática
+    feed_enabled: bool = False  # sin esto no arranca el planificador y POST /api/feed/run da 503
+    feed_url: str = "https://www.tvperu.gob.pe/rss.xml"
+    feed_user_agent: str = ""  # vacío = el UA por defecto de app.feed.tvperu
+    feed_timeout: float = 30.0
+    feed_intervalo_min: int = 0  # intervalo inicial si la base aún no tiene uno (0 = apagado)
 
 
 def get_settings() -> Settings:
@@ -93,4 +99,9 @@ def get_settings() -> Settings:
         translator_engine=os.getenv("NA_TRANSLATOR_ENGINE", "http").strip().lower() or "http",
         translator_url=(os.getenv("NA_TRANSLATOR_URL") or "").strip(),
         translator_timeout=float(os.getenv("NA_TRANSLATOR_TIMEOUT") or "120"),
+        feed_enabled=_bool(os.getenv("NA_FEED_ENABLED")),
+        feed_url=(os.getenv("NA_FEED_URL") or "https://www.tvperu.gob.pe/rss.xml").strip(),
+        feed_user_agent=(os.getenv("NA_FEED_USER_AGENT") or "").strip(),
+        feed_timeout=float(os.getenv("NA_FEED_TIMEOUT") or "30"),
+        feed_intervalo_min=int(os.getenv("NA_FEED_INTERVALO_MIN") or "0"),
     )

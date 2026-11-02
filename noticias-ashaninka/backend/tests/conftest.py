@@ -93,6 +93,8 @@ def temp_db(tmp_path, monkeypatch):
     """Base de datos SQLite temporal y aislada para cada prueba."""
     from app.db import session as db_session
 
+    # El lector de TV Perú nunca se activa por el .env local en las pruebas (sin red real)
+    monkeypatch.setenv("NA_FEED_ENABLED", "false")
     url = f"sqlite:///{(tmp_path / 'test.db').as_posix()}"
     monkeypatch.setenv("NA_DATABASE_URL", url)
     db_session.get_engine.cache_clear()
