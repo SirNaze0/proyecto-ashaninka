@@ -46,7 +46,7 @@ class NewsOut(BaseModel):
     apta_experimento: bool
 
 
-# ------------------------------------------------------------------ traducción BiTAM (admin)
+# ------------------------------------------------------------------ traducción BiTAM
 class TranslateIn(BaseModel):
     """Noticia en castellano para obtener un borrador en asháninka (``POST /api/news/translate``).
 
@@ -65,7 +65,7 @@ class OracionTraducidaOut(BaseModel):
 
 
 class TranslateOut(BaseModel):
-    """Borrador SIN guardar: el administrador lo revisa y lo publica con ``POST /api/news``."""
+    """Borrador SIN guardar: quien redacta lo revisa y lo publica con ``POST /api/news``."""
 
     titulo_cni: str
     paragraphs: list[str]

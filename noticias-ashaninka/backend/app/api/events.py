@@ -21,7 +21,6 @@ from sqlmodel import Session, select
 
 from app.db.models import ClientEvent
 from app.db.session import get_session
-from app.security import require_admin
 
 router = APIRouter(prefix="/api/events", tags=["events"])
 
@@ -143,7 +142,7 @@ def post_events(batch: BatchIn, session: Session = Depends(get_session)) -> Batc
     return BatchOut(recibidos=len(rows), nuevos=nuevos, duplicados=len(rows) - nuevos)
 
 
-@router.get("/summary", dependencies=[Depends(require_admin)])
+@router.get("/summary")
 def summary(session: Session = Depends(get_session)) -> dict:
     by_type = session.exec(select(ClientEvent.type, func.count()).group_by(ClientEvent.type)).all()
     by_cond = session.exec(

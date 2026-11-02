@@ -1,4 +1,4 @@
-"""``POST /api/news/translate`` (MejoraEIntegracion, Fase 2): administrativo y sin escritura."""
+"""``POST /api/news/translate`` (MejoraEIntegracion, Fase 2): público (QuitarAdmin) y sin escritura."""
 
 from __future__ import annotations
 
@@ -6,7 +6,6 @@ import os
 import socket
 
 import pytest
-from conftest import ADMIN
 from fastapi.testclient import TestClient
 from sqlmodel import Session, select
 
@@ -28,16 +27,16 @@ def cliente(temp_db, monkeypatch):
         yield c
 
 
-def test_sin_token_403(cliente) -> None:
-    assert cliente.post("/api/news/translate", json=NOTICIA).status_code == 403
+def test_no_exige_token(cliente) -> None:
+    # sin roles (QuitarAdmin): una cabecera de token antigua se ignora
     r = cliente.post("/api/news/translate", json=NOTICIA, headers={"x-admin-token": "malo"})
-    assert r.status_code == 403
+    assert r.status_code == 200, r.text
 
 
-def test_con_token_devuelve_borrador_y_no_guarda(cliente, temp_db) -> None:
+def test_devuelve_borrador_y_no_guarda(cliente, temp_db) -> None:
     from app.db.models import News
 
-    r = cliente.post("/api/news/translate", json=NOTICIA, headers=ADMIN)
+    r = cliente.post("/api/news/translate", json=NOTICIA)
     assert r.status_code == 200, r.text
     d = r.json()
     assert d["titulo_cni"] == "Lluvias en Satipo [fake-bitam]"
@@ -51,14 +50,14 @@ def test_con_token_devuelve_borrador_y_no_guarda(cliente, temp_db) -> None:
 
 
 def test_el_borrador_se_publica_con_el_flujo_normal(cliente) -> None:
-    d = cliente.post("/api/news/translate", json=NOTICIA, headers=ADMIN).json()
+    d = cliente.post("/api/news/translate", json=NOTICIA).json()
     noticia = {
         "titulo_cni": d["titulo_cni"],
         "cuerpo_cni": "\n\n".join(d["paragraphs"]),
         **NOTICIA,
         "procedencia": d["procedencia"],
     }
-    r = cliente.post("/api/news", json=noticia, headers=ADMIN)
+    r = cliente.post("/api/news", json=noticia)
     assert r.status_code == 201, r.text
     assert r.json()["procedencia_tipo"] == "traduccion_automatica"
     assert r.json()["revisado_por_hablante"] is False
@@ -78,13 +77,13 @@ def test_el_borrador_se_publica_con_el_flujo_normal(cliente) -> None:
     ],
 )
 def test_limites_422(cliente, cuerpo) -> None:
-    assert cliente.post("/api/news/translate", json=cuerpo, headers=ADMIN).status_code == 422
+    assert cliente.post("/api/news/translate", json=cuerpo).status_code == 422
 
 
 def test_sin_url_configurada_503(cliente, monkeypatch) -> None:
     monkeypatch.setenv("NA_TRANSLATOR_ENGINE", "http")
     monkeypatch.setenv("NA_TRANSLATOR_URL", "")
-    r = cliente.post("/api/news/translate", json=NOTICIA, headers=ADMIN)
+    r = cliente.post("/api/news/translate", json=NOTICIA)
     assert r.status_code == 503
     assert "NA_TRANSLATOR_URL" in r.json()["detail"]
 
@@ -96,24 +95,24 @@ def test_servicio_caido_503(cliente, monkeypatch) -> None:
     monkeypatch.setenv("NA_TRANSLATOR_ENGINE", "http")
     monkeypatch.setenv("NA_TRANSLATOR_URL", f"http://127.0.0.1:{puerto}")
     monkeypatch.setenv("NA_TRANSLATOR_TIMEOUT", "2")
-    r = cliente.post("/api/news/translate", json=NOTICIA, headers=ADMIN)
+    r = cliente.post("/api/news/translate", json=NOTICIA)
     assert r.status_code == 503
 
 
 # ------------------------------------------------------------------ estado (para la Redacción)
-def test_estado_sin_token_403(cliente) -> None:
-    assert cliente.get("/api/news/translate/status").status_code == 403
+def test_estado_sin_token_responde(cliente) -> None:
+    assert cliente.get("/api/news/translate/status").status_code == 200  # QuitarAdmin
 
 
 def test_estado_con_motor_falso(cliente) -> None:
-    d = cliente.get("/api/news/translate/status", headers=ADMIN).json()
+    d = cliente.get("/api/news/translate/status").json()
     assert d["disponible"] is True and d["fake"] is True and d["motivo"] is None
 
 
 def test_estado_sin_url_no_falla(cliente, monkeypatch) -> None:
     monkeypatch.setenv("NA_TRANSLATOR_ENGINE", "http")
     monkeypatch.setenv("NA_TRANSLATOR_URL", "")
-    r = cliente.get("/api/news/translate/status", headers=ADMIN)
+    r = cliente.get("/api/news/translate/status")
     assert r.status_code == 200
     assert r.json()["disponible"] is False
     assert "NA_TRANSLATOR_URL" in r.json()["motivo"]
@@ -125,7 +124,7 @@ def test_estado_servicio_caido_no_falla(cliente, monkeypatch) -> None:
         puerto = sk.getsockname()[1]
     monkeypatch.setenv("NA_TRANSLATOR_ENGINE", "http")
     monkeypatch.setenv("NA_TRANSLATOR_URL", f"http://127.0.0.1:{puerto}")
-    r = cliente.get("/api/news/translate/status", headers=ADMIN)
+    r = cliente.get("/api/news/translate/status")
     assert r.status_code == 200 and r.json()["disponible"] is False
 
 
@@ -136,7 +135,7 @@ def test_servicio_bitam_real(cliente, monkeypatch) -> None:
     url = os.environ.get("NA_TRANSLATOR_URL") or "http://127.0.0.1:8100"
     monkeypatch.setenv("NA_TRANSLATOR_ENGINE", "http")
     monkeypatch.setenv("NA_TRANSLATOR_URL", url)
-    r = cliente.post("/api/news/translate", json=NOTICIA, headers=ADMIN)
+    r = cliente.post("/api/news/translate", json=NOTICIA)
     if r.status_code == 503:
         pytest.skip(f"servicio BiTAM no disponible en {url}")
     assert r.status_code == 200, r.text

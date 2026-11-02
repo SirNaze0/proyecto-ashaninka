@@ -1,4 +1,4 @@
-"""Fase 6: endpoints administrativos cerrados, públicos abiertos, cabeceras, límite y salud."""
+"""Fase 6 + QuitarAdmin: todo es público (sin token), cabeceras, límite y salud."""
 
 import json
 import subprocess
@@ -8,13 +8,12 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 import pytest
-from conftest import ADMIN, ADMIN_TOKEN
 from fastapi.testclient import TestClient
 
 ROOT = Path(__file__).resolve().parents[3]
 
-# (método, ruta, cuerpo): lo administrativo; sin token deben dar 403 ANTES de validar el cuerpo
-ADMINISTRATIVOS = [
+# (método, ruta, cuerpo): lo que ANTES era administrativo; ahora responde sin token (nunca 403)
+ANTES_ADMINISTRATIVOS = [
     ("GET", "/api/events/summary", None),
     ("GET", "/api/news", None),
     ("GET", "/api/news/1", None),
@@ -34,7 +33,6 @@ ADMINISTRATIVOS = [
 @pytest.fixture
 def cliente(temp_db, monkeypatch):
     monkeypatch.setenv("NA_TTS_ENGINE", "fake")
-    monkeypatch.delenv("NA_EXPORT_TOKEN", raising=False)
     monkeypatch.delenv("NA_EXPERIMENT_PILOTO", raising=False)
     monkeypatch.delenv("NA_ENV", raising=False)
     from app.main import app
@@ -47,32 +45,29 @@ def _llamar(c, metodo, ruta, cuerpo=None, **kw):
     return c.request(metodo, ruta, json=cuerpo, **kw)
 
 
-@pytest.mark.parametrize(("metodo", "ruta", "cuerpo"), ADMINISTRATIVOS)
-def test_sin_token_todo_lo_administrativo_da_403(cliente, metodo, ruta, cuerpo):
-    assert _llamar(cliente, metodo, ruta, cuerpo).status_code == 403
-    assert (
-        _llamar(cliente, metodo, ruta, cuerpo, headers={"x-admin-token": "incorrecto"}).status_code
-        == 403
-    )
+@pytest.mark.parametrize(("metodo", "ruta", "cuerpo"), ANTES_ADMINISTRATIVOS)
+def test_sin_token_nada_da_403(cliente, metodo, ruta, cuerpo):
+    assert _llamar(cliente, metodo, ruta, cuerpo).status_code != 403  # 200, 404 o 422 según el caso
+    r = _llamar(cliente, metodo, ruta, cuerpo, headers={"x-admin-token": "cualquiera"})
+    assert r.status_code != 403  # una cabecera antigua se ignora
 
 
-@pytest.mark.parametrize(("metodo", "ruta", "cuerpo"), ADMINISTRATIVOS)
-def test_con_token_deja_de_ser_403(cliente, metodo, ruta, cuerpo):
-    r = _llamar(cliente, metodo, ruta, cuerpo, headers=ADMIN)
-    assert r.status_code != 403  # 200, 404 o 422 según el caso, pero autorizado
+def test_cualquiera_puede_crear_y_borrar_una_noticia(cliente):
+    noticia = {
+        "titulo_cni": "PRUEBA (ficticia)",
+        "cuerpo_cni": "Tee otimimotena katsini.",
+        "procedencia": {"tipo": "traduccion_humana", "revisado_por_hablante": False},
+    }
+    r = cliente.post("/api/news", json=noticia)
+    assert r.status_code == 201, r.text
+    nid = r.json()["id"]
+    assert cliente.delete(f"/api/news/{nid}").status_code == 204
+    assert cliente.get(f"/api/news/{nid}").status_code == 404
 
 
-def test_el_alias_de_exportacion_tambien_abre(cliente):
-    h = {"x-export-token": ADMIN_TOKEN}  # NA_ADMIN_TOKEN = ADMIN_TOKEN (conftest)
-    assert cliente.get("/api/events/summary", headers=h).status_code == 200
-
-
-def test_sin_token_configurado_se_cierra_aunque_se_envie_uno(cliente, monkeypatch):
-    monkeypatch.delenv("NA_ADMIN_TOKEN")
-    r = cliente.get("/api/events/summary", headers=ADMIN)
-    assert r.status_code == 403 and "NA_ADMIN_TOKEN" in r.json()["detail"]
-    monkeypatch.setenv("NA_ADMIN_TOKEN", "corto")
-    assert cliente.get("/api/events/summary", headers={"x-admin-token": "corto"}).status_code == 403
+def test_exportacion_y_resumen_abiertos(cliente):
+    assert cliente.get("/api/experiment/export").status_code == 200
+    assert cliente.get("/api/events/summary").status_code == 200
 
 
 def test_lo_que_usa_la_pwa_sigue_abierto(cliente):
@@ -89,13 +84,11 @@ def test_lo_que_usa_la_pwa_sigue_abierto(cliente):
     assert cliente.post("/api/events", json={"events": [ev]}).status_code == 201
 
 
-def test_el_motor_solo_se_elige_con_token(cliente):
-    # el configurado (fake) lo puede pedir cualquiera: la PWA no lo envía, pero no es administrativo
+def test_el_motor_se_elige_sin_token(cliente):
+    # QuitarAdmin: cualquier motor registrado se puede pedir sin token
     assert cliente.get("/api/synthesize/999?engine=fake").status_code == 404  # no existe la noticia
     assert cliente.get("/api/synthesize/999").status_code == 404
-    # otro motor: administrativo
-    assert cliente.get("/api/synthesize/999?engine=espeak_ng").status_code == 403
-    assert cliente.get("/api/synthesize/999?engine=espeak_ng", headers=ADMIN).status_code == 404
+    assert cliente.get("/api/synthesize/999?engine=espeak_ng").status_code == 404
 
 
 # ------------------------------------------------------------------ cabeceras
@@ -206,15 +199,13 @@ def _en_produccion(env_extra: dict) -> dict:
     return json.loads(out.stdout.strip().splitlines()[-1])
 
 
-def test_produccion_sin_docs_con_hsts_y_cerrado_sin_token(tmp_path):
+def test_produccion_sin_docs_con_hsts_y_sin_token(tmp_path):
     r = _en_produccion(
         {
             "NA_DATABASE_URL": f"sqlite:///{(tmp_path / 'p.db').as_posix()}",
-            "NA_ADMIN_TOKEN": "",
-            "NA_EXPORT_TOKEN": "",
             "NA_STATIC_DIR": str(tmp_path / "static"),
         }
     )
     assert (r["docs"], r["redoc"], r["openapi"]) == (404, 404, 404)
     assert r["health"] == 200 and "max-age" in r["hsts"]
-    assert r["resumen"] == 403
+    assert r["resumen"] == 200  # QuitarAdmin: también en producción es público

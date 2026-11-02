@@ -1,6 +1,6 @@
 # Despliegue en un solo comando (Fase 6, tareas 6.1 y 6.2). Ver docs/deployment.md.
 #
-#   cp .env.example .env            # y complete NA_ADMIN_TOKEN y NA_DOMAIN
+#   cp .env.example .env            # y complete NA_DOMAIN
 #   docker compose --profile setup run --rm setup    # una vez: descarga y verifica el modelo de voz
 #   docker compose up -d --build                     # el servicio, con HTTPS automático (Caddy)
 #

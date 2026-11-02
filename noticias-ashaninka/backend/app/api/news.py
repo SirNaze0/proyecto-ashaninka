@@ -1,7 +1,10 @@
 """API REST de noticias (tarea 1.3). Nunca expone el texto en castellano guardado.
 
-Excepción consciente: ``POST /api/news/translate`` devuelve al ADMINISTRADOR los pares de oraciones
-castellano/asháninka del borrador que él mismo envió, para revisarlo (no lee ni guarda nada).
+Excepción consciente: ``POST /api/news/translate`` devuelve los pares de oraciones
+castellano/asháninka del borrador que el propio solicitante envió, para revisarlo (no lee ni guarda
+nada).
+
+Sin roles (QuitarAdmin): todas estas rutas, incluidas las de escritura y borrado, son públicas.
 """
 
 from __future__ import annotations
@@ -15,11 +18,10 @@ from app.db.models import News, Provenance
 from app.db.session import get_session
 from app.metrics.timing import Timer
 from app.schemas import NewsIn, NewsOut, TranslateIn, TranslateOut
-from app.security import require_admin
 from app.services import Pipeline, editorial_report, import_payloads, process_news
 
-# Administrativo (Fase 6): la PWA no lo usa; la vía normal es la CLI (app.cli import|process)
-router = APIRouter(prefix="/api/news", tags=["news"], dependencies=[Depends(require_admin)])
+# Público (QuitarAdmin): lo usa la Sala de redacción de la PWA; también la CLI (app.cli import|process)
+router = APIRouter(prefix="/api/news", tags=["news"])
 
 
 def to_out(n: News) -> NewsOut:
@@ -58,7 +60,7 @@ def import_news(payloads: list[NewsIn], session: Session = Depends(get_session))
 
 @router.get("/translate/status")
 def translate_status() -> dict:
-    """Estado del traductor BiTAM para la Redacción (administrativo, solo lectura, nunca falla).
+    """Estado del traductor BiTAM para la Redacción (solo lectura, nunca falla).
 
     ``{"disponible": bool, "motivo": str | None, "modelo", "version", "dispositivo", "fake"}``.
     Sondea ``GET /salud`` del servicio con una espera corta (5 s).
@@ -72,8 +74,7 @@ def translate_status() -> dict:
 def translate_news(payload: TranslateIn) -> TranslateOut:
     """Borrador en asháninka de una noticia en castellano con BiTAM (MejoraEIntegracion, Fase 2).
 
-    Administrativo (hereda ``require_admin``) y SIN escritura: el administrador revisa el borrador y
-    lo publica con ``POST /api/news``. 422 si excede los límites; 503 si el servicio BiTAM no está
+    SIN escritura: quien redacta revisa el borrador y lo publica con ``POST /api/news``. 422 si excede los límites; 503 si el servicio BiTAM no está
     configurado o no responde; 502 si responde con error.
     """
     from app.translation import (

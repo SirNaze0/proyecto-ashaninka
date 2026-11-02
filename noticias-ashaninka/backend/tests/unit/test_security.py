@@ -1,72 +1,23 @@
-"""Fase 6: token administrativo cerrado por defecto, cabeceras y límite de tasa (unidades)."""
+"""Fase 6: cabeceras y límite de tasa (unidades). Sin token administrativo desde QuitarAdmin."""
 
 import asyncio
 
 import pytest
 from app import security
-from fastapi import HTTPException
 
 pytestmark = pytest.mark.smoke
 
-BUENO = "token-administrativo-0123456789"
-
 
 @pytest.fixture(autouse=True)
-def _sin_tokens(monkeypatch):
-    for k in ("NA_ADMIN_TOKEN", "NA_EXPORT_TOKEN", "NA_TRUST_PROXY", "NA_ENV"):
+def _entorno_limpio(monkeypatch):
+    for k in ("NA_TRUST_PROXY", "NA_ENV"):
         monkeypatch.delenv(k, raising=False)
 
 
-@pytest.mark.parametrize(
-    ("token", "valido"),
-    [
-        (BUENO, True),
-        ("a" * 16, True),
-        ("a" * 15, False),
-        ("", False),
-        (None, False),
-        ("cambiar-por-un-token-largo-y-aleatorio", False),  # el valor de .env.example
-        ("CHANGEME", False),
-    ],
-)
-def test_token_valido(token, valido):
-    assert security.token_valido(token) is valido
-
-
-def test_cerrado_por_defecto_sin_token_configurado():
-    assert not security.hay_token_configurado()
-    with pytest.raises(HTTPException) as e:
-        security.check_admin(BUENO)  # aunque coincida con «nada», no hay nada contra qué comparar
-    assert e.value.status_code == 403 and "NA_ADMIN_TOKEN" in e.value.detail
-
-
-def test_un_token_corto_o_de_ejemplo_no_abre_nada(monkeypatch):
-    for malo in ("corto", "changeme", "cambiar-por-un-token-largo-y-aleatorio"):
-        monkeypatch.setenv("NA_ADMIN_TOKEN", malo)
-        assert not security.hay_token_configurado()
-        with pytest.raises(HTTPException):
-            security.check_admin(malo)
-
-
-def test_token_correcto_incorrecto_y_alias(monkeypatch):
-    monkeypatch.setenv("NA_ADMIN_TOKEN", BUENO)
-    security.check_admin(BUENO)
-    security.check_admin(None, BUENO)  # cualquiera de las dos cabeceras
-    for malo in (None, "", BUENO + "x", BUENO[:-1], "otro-token-administrativo-01"):
-        with pytest.raises(HTTPException) as e:
-            security.check_admin(malo)
-        assert e.value.status_code == 403
-    monkeypatch.delenv("NA_ADMIN_TOKEN")
-    monkeypatch.setenv("NA_EXPORT_TOKEN", "token-de-exportacion-0123456")  # alias de la Fase 5
-    security.check_admin("token-de-exportacion-0123456")
-
-
-def test_require_admin_lee_las_dos_cabeceras(monkeypatch):
-    monkeypatch.setenv("NA_ADMIN_TOKEN", BUENO)
-    security.require_admin(x_admin_token=BUENO, x_export_token=None)
-    security.require_admin(x_admin_token=None, x_export_token=BUENO)
-    with pytest.raises(HTTPException):
-        security.require_admin(x_admin_token=None, x_export_token=None)
+def test_ya_no_hay_token_administrativo():
+    # QuitarAdmin: el módulo no expone ninguna comprobación de rol
+    for nombre in ("require_admin", "check_admin", "comprobar_token", "hay_token_configurado"):
+        assert not hasattr(security, nombre)
 
 
 # ------------------------------------------------------------------ límite de tasa

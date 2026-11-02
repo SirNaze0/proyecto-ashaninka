@@ -1,10 +1,10 @@
-"""Traducción de una noticia (castellano → asháninka) en un BORRADOR para revisión del administrador.
+"""Traducción de una noticia (castellano → asháninka) en un BORRADOR para revisión de quien redacta.
 
 - Segmenta con el ``Segmenter`` del pipeline (abreviaturas castellanas ya incluidas en
   ``segmentation.yaml``) y envía UNA oración por elemento: BiTAM trunca a 128 tokens.
 - BiTAM devuelve minúsculas (ortografía MINEDU 2024). Sin mayúsculas, ``classify`` no reconoce los
   nombres propios, así que se restauran de forma DETERMINISTA (``restaurar_mayusculas``).
-- No guarda nada: el administrador revisa y publica con el flujo normal (``POST /api/news``).
+- No guarda nada: quien redacta revisa y publica con el flujo normal (``POST /api/news``).
 - La procedencia sale como ``traduccion_automatica`` y ``revisado_por_hablante=False``: solo un
   hablante puede cambiarlo (contrato §2 de PLAN_DESARROLLO.md, regla 4).
 """

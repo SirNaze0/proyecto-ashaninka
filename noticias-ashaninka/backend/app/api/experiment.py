@@ -12,7 +12,7 @@ import zipfile
 from datetime import UTC, datetime
 from typing import Any, Literal
 
-from fastapi import APIRouter, Depends, Header, HTTPException, Response
+from fastapi import APIRouter, Depends, HTTPException, Response
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 from sqlalchemy.dialects.sqlite import insert as sqlite_insert
 from sqlmodel import Session, func, select
@@ -21,7 +21,6 @@ from app.config import get_settings
 from app.db.models import ExperimentSession, QuestionnaireResponse
 from app.db.session import get_session
 from app.experiment import export, instrumentos, latin, pool
-from app.security import comprobar_token, hay_token_configurado
 
 router = APIRouter(prefix="/api/experiment", tags=["experiment"])
 
@@ -276,26 +275,12 @@ def enviar_respuestas(
 
 
 # ------------------------------------------------------------------ exportación
-def _autorizar_export(token: str | None) -> None:
-    """Seguro por defecto: solo con modo piloto activo o con un token de exportación configurado."""
-    if hay_token_configurado():  # NA_ADMIN_TOKEN o el alias NA_EXPORT_TOKEN (16 caracteres o más)
-        if not comprobar_token(token):
-            raise HTTPException(403, "token de exportación inválido")
-    elif not get_settings().experiment_piloto:
-        raise HTTPException(
-            403,
-            "exportación deshabilitada: defina NA_EXPORT_TOKEN (o use la CLI: experiment export)",
-        )
-
-
 @router.get("/export")
 def exportar(
     incluir_piloto: bool = False,
-    x_export_token: str | None = Header(default=None),
-    x_admin_token: str | None = Header(default=None),
     session: Session = Depends(get_session),
 ) -> Response:
-    _autorizar_export(x_export_token or x_admin_token)
+    """ZIP con las tablas del experimento. Público (QuitarAdmin): sin token ni modo piloto."""
     tablas = export.construir(session, incluir_piloto=incluir_piloto)
     buf = io.BytesIO()
     with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as z:

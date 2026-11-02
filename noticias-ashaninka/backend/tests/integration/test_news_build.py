@@ -1,7 +1,6 @@
-"""Sala de redacción: `POST /api/news/{id}/build` sintetiza por lotes y queda cerrado sin token."""
+"""Sala de redacción: `POST /api/news/{id}/build` sintetiza por lotes (público desde QuitarAdmin)."""
 
 import pytest
-from conftest import ADMIN
 from fastapi.testclient import TestClient
 
 NOTICIA = {
@@ -22,21 +21,21 @@ def cliente(temp_db, tmp_path, monkeypatch):
         yield c
 
 
-def test_build_exige_token(cliente):
-    assert cliente.post("/api/news/1/build").status_code == 403
-    assert cliente.post("/api/news/1/build", headers={"x-admin-token": "mal"}).status_code == 403
+def test_build_no_exige_token(cliente):
+    # sin roles (QuitarAdmin): sin cabecera llega a la ruta (404 porque no existe la noticia)
+    assert cliente.post("/api/news/1/build").status_code == 404
 
 
 def test_build_noticia_inexistente_da_404(cliente):
-    assert cliente.post("/api/news/999/build", headers=ADMIN).status_code == 404
+    assert cliente.post("/api/news/999/build").status_code == 404
 
 
 def test_build_sintetiza_y_escribe_el_manifiesto(cliente, tmp_path):
-    r = cliente.post("/api/news", json=NOTICIA, headers=ADMIN)
+    r = cliente.post("/api/news", json=NOTICIA)
     assert r.status_code == 201
     nid = r.json()["id"]
-    assert cliente.post(f"/api/news/{nid}/process", headers=ADMIN).status_code == 200
-    b = cliente.post(f"/api/news/{nid}/build", headers=ADMIN)
+    assert cliente.post(f"/api/news/{nid}/process").status_code == 200
+    b = cliente.post(f"/api/news/{nid}/build")
     assert b.status_code == 200
     assert b.json()["noticias"] == 1
     assert b.json()["errors"] == 0

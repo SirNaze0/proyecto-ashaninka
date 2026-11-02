@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import gzip
-import logging
 import os
 import shutil
 from contextlib import asynccontextmanager
@@ -25,22 +24,12 @@ from app.api.synthesize import router as synthesize_router
 from app.config import ROOT, get_settings
 from app.db.session import get_engine, init_db
 from app.pipeline.tts.espeak import find_espeak
-from app.security import (
-    RateLimitMiddleware,
-    SecurityHeadersMiddleware,
-    es_produccion,
-    hay_token_configurado,
-)
+from app.security import RateLimitMiddleware, SecurityHeadersMiddleware, es_produccion
 
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     init_db()
-    if es_produccion() and not hay_token_configurado():
-        logging.getLogger("uvicorn.error").warning(
-            "NA_ENV=production sin NA_ADMIN_TOKEN válido: los endpoints administrativos "
-            "quedan cerrados (403). Defina un token de 16 caracteres o más."
-        )
     if os.getenv("NA_TTS_PRELOAD", "false").lower() in {"1", "true", "yes", "si", "sí"}:
         # Carga el modelo al arrancar: la primera solicitud no paga la carga en frío
         from app.api.synthesize import get_synthesizer

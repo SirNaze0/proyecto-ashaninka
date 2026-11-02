@@ -27,7 +27,6 @@ assert str(Path(app.__file__).resolve()).startswith(os.environ["IMG"]), app.__fi
 from fastapi.testclient import TestClient
 from app.main import app as asgi
 
-ADMIN = {"x-admin-token": os.environ["NA_ADMIN_TOKEN"]}
 NEWS = {
     "titulo_cni": "Kipatsi", "cuerpo_cni": "Okantzi kemetsa. Tzimatsi kitaiteri.",
     "variante_dialectal": "desconocida", "fuente_original": "prueba",
@@ -43,10 +42,9 @@ with TestClient(asgi, base_url="https://localhost") as c:  # https: HSTS y esque
     out["asset"] = [asset.status_code, asset.headers.get("cache-control")]
     out["hsts"] = c.get("/api/health").headers.get("strict-transport-security")
     out["docs"] = [c.get("/docs").status_code, c.get("/openapi.json").status_code]
-    out["cerrado"] = [c.get("/api/events/summary").status_code, c.get("/api/news").status_code]
-    out["abierto"] = c.get("/api/events/summary", headers=ADMIN).status_code
-    nid = c.post("/api/news", json=NEWS, headers=ADMIN).json()["id"]
-    out["proceso"] = c.post(f"/api/news/{nid}/process", headers=ADMIN).json()["estado"]
+    out["abierto"] = [c.get("/api/events/summary").status_code, c.get("/api/news").status_code]
+    nid = c.post("/api/news", json=NEWS).json()["id"]
+    out["proceso"] = c.post(f"/api/news/{nid}/process").json()["estado"]
     from app.batch.service import run_batch
     run_batch([nid])
     m = c.get(f"/static/news/{nid}/manifest.json")
@@ -103,7 +101,6 @@ def _entorno(img: Path, extra: dict | None = None) -> dict:
             "NA_FRONTEND_DIST": str(img / "frontend" / "dist"),
             "NA_TRUST_PROXY": "true",
             "NA_TTS_ENGINE": "fake",
-            "NA_ADMIN_TOKEN": "token-de-la-imagen-simulada-0123456789",
             "PYTHONDONTWRITEBYTECODE": "1",
         }
     )
@@ -133,31 +130,11 @@ def test_la_app_arranca_y_sirve_con_solo_lo_que_copia_el_dockerfile(imagen):
     assert out["asset"] == [200, "public, max-age=31536000, immutable"]
     assert "max-age=31536000" in out["hsts"]
     assert out["docs"] == [404, 404]  # producción: sin documentación interactiva
-    assert out["cerrado"] == [403, 403] and out["abierto"] == 200
+    assert out["abierto"] == [200, 200]  # QuitarAdmin: sin token
     assert (
         out["proceso"] == "processed" and out["manifiesto"][0] == 200 and out["manifiesto"][1] >= 1
     )
     assert out["audio_206"][:2] == [206, 100] and out["audio_206"][2].startswith("bytes 0-99/")
     assert len(out["catalogo"]) == 1
     assert out["ndjson"] == "done"
-    assert out["export"] == 403  # la exportación sigue cerrada por HTTP en producción sin piloto
-
-
-def test_sin_token_configurado_los_endpoints_administrativos_quedan_cerrados_en_la_imagen(imagen):
-    codigo = (
-        "from fastapi.testclient import TestClient\n"
-        "from app.main import app\n"
-        "with TestClient(app) as c:\n"
-        "    print('R=', c.get('/api/events/summary', headers={'x-admin-token': 'cualquiera-largo-0123456789'}).status_code)\n"
-    )
-    r = subprocess.run(
-        [sys.executable, "-c", codigo],
-        cwd=imagen,
-        env=_entorno(imagen, {"NA_ADMIN_TOKEN": "", "NA_EXPORT_TOKEN": ""}),
-        capture_output=True,
-        text=True,
-        timeout=120,
-    )
-    assert r.returncode == 0, r.stderr[-1500:]
-    assert "R= 403" in r.stdout
-    assert "NA_ADMIN_TOKEN" in r.stderr  # el arranque avisa de que falta el token en producción
+    assert out["export"] == 200  # QuitarAdmin: la exportación es pública también en producción

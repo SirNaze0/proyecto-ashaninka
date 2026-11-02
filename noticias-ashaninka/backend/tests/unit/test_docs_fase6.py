@@ -33,22 +33,19 @@ def test_architecture_md_dice_que_no_esta_medido():
     assert "pendiente" in doc and "<!--" not in doc
 
 
-# ------------------------------------------------------------------ rutas administrativas
+# ------------------------------------------------------------------ rutas (sin roles)
 @pytest.fixture
-def clasificacion(temp_db, monkeypatch):
-    """(administrativas, abiertas) por COMPORTAMIENTO: una ruta es administrativa si, sin token,
-    responde 403 antes de mirar el cuerpo. Se recorre el esquema OpenAPI (no los internos de FastAPI)."""
+def respuestas_sin_token(temp_db, monkeypatch):
+    """{(método, ruta): código} de cada ruta /api/ del esquema OpenAPI llamada SIN token."""
     monkeypatch.setenv("NA_TTS_ENGINE", "fake")
-    monkeypatch.setenv(
-        "NA_RATE_LIMIT_PER_MIN", "0"
-    )  # el límite de tasa daría 429 y falsearía el 403
-    for var in ("NA_EXPORT_TOKEN", "NA_EXPERIMENT_PILOTO", "NA_ENV"):
+    monkeypatch.setenv("NA_RATE_LIMIT_PER_MIN", "0")  # el límite de tasa daría 429
+    for var in ("NA_EXPERIMENT_PILOTO", "NA_ENV"):
         monkeypatch.delenv(var, raising=False)
     from app.main import app
     from fastapi.testclient import TestClient
 
     cliente = TestClient(app)
-    admin, abiertas = set(), set()
+    codigos = {}
     for ruta, ops in cliente.get("/openapi.json").json()["paths"].items():
         if not ruta.startswith("/api/"):
             continue
@@ -58,58 +55,16 @@ def clasificacion(temp_db, monkeypatch):
                 continue
             url = re.sub(r"\{[^}]+\}", "1", ruta)
             cuerpo = {} if metodo in {"POST", "PUT", "PATCH"} else None
-            r = cliente.request(metodo, url, json=cuerpo)
-            (admin if r.status_code == 403 else abiertas).add((metodo, ruta))
-    return admin, abiertas
+            codigos[(metodo, ruta)] = cliente.request(metodo, url, json=cuerpo).status_code
+    return codigos
 
 
-def test_toda_ruta_administrativa_esta_documentada_en_deployment(clasificacion):
-    admin, _ = clasificacion
-    doc = _leer("docs/deployment.md")
-    assert {
-        ("GET", "/api/events/summary"),
-        ("POST", "/api/news"),
-        ("GET", "/api/experiment/export"),
-    } <= admin
-    for _metodo, ruta in admin:
-        base = ruta.split("{")[0].rstrip("/")  # /api/news/{id}/process -> /api/news
-        assert base in doc, f"{ruta} es administrativa y deployment.md no la menciona ({base})"
-
-
-# Escrituras públicas A PROPÓSITO (las usa la PWA); cualquier otra debe ser administrativa
-ESCRITURAS_PUBLICAS = {
-    ("POST", "/api/events"),
-    ("POST", "/api/experiment/sessions"),
-    ("POST", "/api/experiment/sessions/{code}/finish"),
-    ("POST", "/api/experiment/responses"),
-}
-
-
-def test_no_hay_escrituras_sin_proteger_fuera_de_la_lista_consciente(clasificacion):
-    _, abiertas = clasificacion
-    escrituras = {k for k in abiertas if k[0] in {"POST", "PUT", "PATCH", "DELETE"}}
-    assert escrituras == ESCRITURAS_PUBLICAS, (
-        "una escritura nueva debe protegerse con require_admin o añadirse aquí a conciencia: "
-        f"{sorted(escrituras ^ ESCRITURAS_PUBLICAS)}"
-    )
-
-
-def test_lecturas_abiertas_no_exponen_datos_internos(clasificacion):
-    _, abiertas = clasificacion
-    lecturas = {r for (m, r) in abiertas if m == "GET"}
-    permitidas = {
-        "/api/health",
-        "/api/health/ready",
-        "/api/catalog",
-        "/api/catalog/{news_id}",
-        "/api/catalog/{news_id}/meta",
-        "/api/experiment/config",
-        "/api/experiment/sessions/{code}",
-        "/api/synthesize/{news_id}",
-    }
-    assert lecturas == permitidas, (
-        f"lectura pública distinta de la revisada: {sorted(lecturas ^ permitidas)}"
-    )
+def test_ninguna_ruta_exige_token(respuestas_sin_token):
+    # QuitarAdmin: no hay rol administrativo; ninguna ruta responde 403
+    assert ("POST", "/api/news") in respuestas_sin_token
+    assert ("DELETE", "/api/news/{news_id}") in respuestas_sin_token
+    cerradas = sorted(k for k, v in respuestas_sin_token.items() if v == 403)
+    assert not cerradas, f"rutas que todavía responden 403 sin token: {cerradas}"
 
 
 # ------------------------------------------------------------------ deployment.md
@@ -120,14 +75,12 @@ def test_deployment_md_trae_los_comandos_y_variables_clave():
         "docker compose up -d --build",
         "scripts/backup.sh",
         "/api/health/ready",
-        "x-admin-token",
         "app.cli experiment export",
         "app.batch build --all",
     ):
         assert comando in doc, comando
     prod = _leer(".env.production.example")
     for var in (
-        "NA_ADMIN_TOKEN",
         "NA_DOMAIN",
         "NA_RATE_LIMIT_PER_MIN",
         "NA_TTS_WORKERS",
@@ -136,7 +89,6 @@ def test_deployment_md_trae_los_comandos_y_variables_clave():
     ):
         assert var in doc or var in prod
     for var in (
-        "NA_ADMIN_TOKEN",
         "NA_DOMAIN",
         "NA_RATE_LIMIT_PER_MIN",
         "NA_TTS_WORKERS",
@@ -201,7 +153,7 @@ def test_el_readme_cubre_las_seis_fases_y_los_dos_caminos():
         assert f"| **{fase}** " in r, f"falta la fase {fase} en el mapa"
         assert f"resumen_fase{fase}" in r
     assert "De cero a funcionando" in r and "docker compose up -d --build" in r and "./init.sh" in r
-    assert "scripts/verify.sh" in r and "x-admin-token" in r
+    assert "scripts/verify.sh" in r
 
 
 def test_licenses_refleja_las_dependencias_reales():

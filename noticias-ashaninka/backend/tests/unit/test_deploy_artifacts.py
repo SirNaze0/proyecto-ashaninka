@@ -164,7 +164,6 @@ def test_dockerfile_no_hornea_secretos_ni_modelos(dockerfile):
             ".env" not in c.replace(".env.example", "") and "models/" not in c and "data/" not in c
         )
     assert not re.search(r"(TOKEN|SECRET|PASSWORD)\s*=\s*\S", dockerfile)  # ni valores de secretos
-    assert "NA_ADMIN_TOKEN" not in dockerfile
 
 
 def test_todo_lo_que_copia_el_dockerfile_existe_y_no_esta_excluido(dockerfile):
@@ -384,14 +383,14 @@ def test_toda_variable_NA_que_lee_el_codigo_esta_documentada():
 def test_el_env_de_produccion_cubre_lo_que_usa_compose_y_no_trae_secretos():
     prod = _leer(".env.production.example")
     asignadas = dict(re.findall(r"^(NA_[A-Z0-9_]+)=(.*)$", prod, re.M))
-    assert asignadas["NA_ADMIN_TOKEN"] == ""  # el secreto lo genera quien despliega
+    assert "NA_ADMIN_TOKEN" not in asignadas  # QuitarAdmin: ya no hay token administrativo
     assert asignadas["NA_EXPERIMENT_PILOTO"] == "false"
     assert asignadas["NA_TTS_WORKERS"] == "1" and asignadas["NA_TTS_PRELOAD"] == "true"
     compose = _leer("docker-compose.yml")
     for var in set(re.findall(r"\$\{(NA_[A-Z0-9_]+)", compose)):
         assert var in asignadas, f"compose usa ${{{var}}} y .env.production.example no lo define"
     ejemplo = _leer(".env.example")
-    assert re.search(r"^NA_ADMIN_TOKEN=$", ejemplo, re.M)  # vacío: nunca un token de ejemplo válido
+    assert not re.search(r"^NA_(ADMIN|EXPORT)_TOKEN=", ejemplo, re.M)
 
 
 # ------------------------------------------------------------------ hashes de los modelos

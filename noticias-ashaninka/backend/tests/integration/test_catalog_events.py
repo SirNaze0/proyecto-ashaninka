@@ -5,7 +5,6 @@ from datetime import UTC, datetime
 
 import pytest
 from app.db.models import News, Provenance
-from conftest import ADMIN
 from fastapi.testclient import TestClient
 from sqlmodel import Session
 
@@ -23,7 +22,7 @@ def env(temp_db, tmp_path, monkeypatch):
     api_synth.reset_synthesizers()
     from app.main import app
 
-    with TestClient(app, headers=ADMIN) as client:
+    with TestClient(app) as client:
         yield client, temp_db, tmp_path / "static"
     registry.reset_pools()
     api_synth.reset_synthesizers()

@@ -1,8 +1,8 @@
-"""Seguridad de la API (Fase 6): token administrativo, cabeceras y límite de tasa.
+"""Seguridad de la API (Fase 6): cabeceras y límite de tasa.
 
-- **Cerrado por defecto.** Los endpoints administrativos solo responden con un token válido en la
-  cabecera ``x-admin-token`` (o ``x-export-token``, por compatibilidad con la Fase 5). Sin token
-  configurado, o con uno corto o de ejemplo, devuelven 403: un despliegue olvidado no queda abierto.
+- **Sin roles.** Desde QuitarAdmin (2026-11) no hay token administrativo: todas las rutas son
+  públicas, incluidas las de escritura de noticias y la exportación del experimento. Lo único que
+  frena el abuso es el límite de tasa por IP (ver ``docs/limitations.md``).
 - **Cabeceras** de seguridad y CSP en toda respuesta. HSTS solo cuando la conexión es HTTPS.
 - **Límite de tasa** por IP, en memoria, para las rutas públicas de escritura y la síntesis.
 
@@ -14,19 +14,12 @@ from __future__ import annotations
 
 import json
 import os
-import secrets
 import time
 from collections.abc import Callable
 
-from fastapi import Header, HTTPException
 from starlette.datastructures import MutableHeaders
 from starlette.types import ASGIApp, Message, Receive, Scope, Send
 
-MIN_TOKEN_LEN = 16
-# Valores de los archivos de ejemplo: nunca valen como token real
-TOKENS_DE_EJEMPLO = frozenset(
-    {"changeme", "change-me", "cambiar-esto", "cambiar-por-un-token-largo-y-aleatorio", "secret"}
-)
 RUTAS_SIN_CSP = ("/docs", "/redoc", "/openapi.json")  # Swagger carga scripts de un CDN
 
 CSP = "; ".join(
@@ -61,48 +54,6 @@ def _bool(v: str | None) -> bool:
 
 def es_produccion() -> bool:
     return os.getenv("NA_ENV", "development").strip().lower() == "production"
-
-
-def token_valido(token: str | None) -> bool:
-    """Un token sirve si tiene al menos 16 caracteres y no es uno de los valores de ejemplo."""
-    return bool(token) and len(token) >= MIN_TOKEN_LEN and token.lower() not in TOKENS_DE_EJEMPLO
-
-
-def tokens_configurados() -> list[str]:
-    """Tokens administrativos válidos del entorno (``NA_ADMIN_TOKEN`` y el alias ``NA_EXPORT_TOKEN``)."""
-    cand = (os.getenv("NA_ADMIN_TOKEN"), os.getenv("NA_EXPORT_TOKEN"))
-    return [t for t in cand if token_valido(t)]
-
-
-def hay_token_configurado() -> bool:
-    return bool(tokens_configurados())
-
-
-def comprobar_token(token: str | None) -> bool:
-    """Comparación en tiempo constante contra los tokens configurados."""
-    if not token:
-        return False
-    dado = token.encode()
-    return any(secrets.compare_digest(dado, t.encode()) for t in tokens_configurados())
-
-
-def check_admin(*tokens: str | None) -> None:
-    """Lanza 403 salvo que algún token dado coincida con uno configurado y válido."""
-    if not hay_token_configurado():
-        raise HTTPException(
-            403,
-            "endpoint administrativo deshabilitado: defina NA_ADMIN_TOKEN (16 caracteres o más)",
-        )
-    if not any(comprobar_token(t) for t in tokens):
-        raise HTTPException(403, "token administrativo inválido")
-
-
-def require_admin(
-    x_admin_token: str | None = Header(default=None),
-    x_export_token: str | None = Header(default=None),
-) -> None:
-    """Dependencia de FastAPI para los endpoints administrativos."""
-    check_admin(x_admin_token, x_export_token)
 
 
 # ------------------------------------------------------------------ cabeceras
