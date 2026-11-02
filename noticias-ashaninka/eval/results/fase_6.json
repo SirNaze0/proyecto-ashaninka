@@ -1,7 +1,7 @@
 {
  "fase": 6,
- "commit": "75769c2e0de4b87e8cd3a27b11bdc159bedaa820",
- "fecha": "2026-11-02T18:16:06+00:00",
+ "commit": "fe33bc9193b9998c2e83e056a62d497bc35c6034",
+ "fecha": "2026-11-02T18:22:48+00:00",
  "hardware": {
   "so": "Windows-10-10.0.26200-SP0",
   "cpu": "AMD64 Family 25 Model 33 Stepping 2, AuthenticAMD",
@@ -181,20 +181,20 @@
     "test_security.py",
     "test_security_api.py"
    ],
-   "pasaron": 59,
+   "pasaron": 36,
    "fallaron": 0,
    "omitidas": 0,
-   "total": 59
+   "total": 36
   },
   "despliegue": {
    "archivos": [
     "test_deploy_artifacts.py",
     "test_imagen_simulada.py"
    ],
-   "pasaron": 30,
+   "pasaron": 29,
    "fallaron": 1,
    "omitidas": 1,
-   "total": 32
+   "total": 31
   },
   "escucha": {
    "archivos": [
@@ -209,30 +209,41 @@
    "archivos": [
     "test_docs_fase6.py"
    ],
-   "pasaron": 15,
+   "pasaron": 13,
    "fallaron": 0,
    "omitidas": 0,
-   "total": 15
+   "total": 13
   }
  },
  "pruebas": {
   "pytest": {
-   "total": 373,
-   "pasaron": 363,
+   "total": 347,
+   "pasaron": 337,
    "fallaron": 1,
    "omitidas": 9
+  },
+  "vitest": {
+   "total": 102,
+   "pasaron": 102,
+   "fallaron": 0
+  },
+  "e2e": {
+   "total": 43,
+   "pasaron": 39,
+   "fallaron": 0,
+   "omitidas": 4
   }
  },
  "criterios": {
   "pruebas_seguridad": {
    "meta": "sin rol administrativo (ninguna ruta da 403), cabeceras, CSP, límite de tasa y salud: 0 fallos",
-   "valor": "59/59",
+   "valor": "36/36",
    "cumple": true,
    "nota": ""
   },
   "pruebas_despliegue": {
    "meta": "Dockerfile, Compose, Caddyfile, .dockerignore, variables, modelos y arranque con el layout de la imagen: 0 fallos",
-   "valor": "30/32",
+   "valor": "29/31",
    "cumple": false,
    "nota": ""
   },
@@ -244,7 +255,7 @@
   },
   "pruebas_documentacion": {
    "meta": "documentación de despliegue, arquitectura y README consistentes con el código y las mediciones: 0 fallos",
-   "valor": "15/15",
+   "valor": "13/13",
    "cumple": true,
    "nota": ""
   },
@@ -317,21 +328,21 @@
   },
   "pruebas_pytest": {
    "meta": "0 fallos",
-   "valor": "363/373",
+   "valor": "337/347",
    "cumple": false,
    "nota": ""
   },
   "pruebas_vitest": {
    "meta": "0 fallos",
-   "valor": null,
-   "cumple": "pendiente",
-   "nota": "sin resultados de vitest en eval/fase6/out/ (los deja scripts/verify.sh)"
+   "valor": "102/102",
+   "cumple": true,
+   "nota": ""
   },
   "pruebas_e2e": {
    "meta": "0 fallos",
-   "valor": null,
-   "cumple": "pendiente",
-   "nota": "sin resultados de e2e en eval/fase6/out/ (los deja scripts/verify.sh)"
+   "valor": "39/43",
+   "cumple": true,
+   "nota": ""
   },
   "banco_en_servidor_6_3": {
    "meta": "repetir las mediciones de las Fases 2 a 4 en el servidor desplegado (local frente a servidor)",

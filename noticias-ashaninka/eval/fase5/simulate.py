@@ -95,7 +95,6 @@ _ENV = (
     "NA_STATIC_DIR",
     "NA_TTS_ENGINE",
     "NA_EXPERIMENT_PILOTO",
-    "NA_EXPORT_TOKEN",
 )
 
 
@@ -127,7 +126,6 @@ def _simular(n: int, seed: int, params: dict, out: Path | None) -> dict:
     os.environ["NA_STATIC_DIR"] = str(trabajo / "static")
     os.environ["NA_TTS_ENGINE"] = "fake"
     os.environ["NA_EXPERIMENT_PILOTO"] = "true"
-    os.environ.pop("NA_EXPORT_TOKEN", None)
 
     from app.db.session import get_engine, init_db
     from app.main import app

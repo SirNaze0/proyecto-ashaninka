@@ -42,7 +42,7 @@ ejecutan desde `noticias-ashaninka/`.
 | 2 | Instalar el entorno propio del traductor | `cd traductor; uv sync` (torch 2.6 cu124; **no** se mezcla con el del backend) | ✅ |
 | 3 | Descargar el modelo base NLLB-200 1.3B (~5,5 GB) | Se descarga solo la primera vez que arranca el servicio (`~/.cache/huggingface`) | ✅ |
 | 4 | Descargar la voz MMS | `uv run python scripts/verify_models.py --descargar` (verifica el SHA-256) | ✅ |
-| 5 | Configurar `.env` del backend | `NA_ADMIN_TOKEN` (≥ 16 caracteres, no un valor de ejemplo), `NA_TRANSLATOR_URL=http://127.0.0.1:8100`, `NA_TTS_ENGINE=mms_vits` | ✅ `.env` creado (2026-11-02) desde `.env.local.example`, con un token propio |
+| 5 | Configurar `.env` del backend | `NA_TRANSLATOR_URL=http://127.0.0.1:8100`, `NA_TTS_ENGINE=mms_vits` (desde QuitarAdmin ya no hace falta `NA_ADMIN_TOKEN`) | ✅ `.env` creado (2026-11-02) desde `.env.local.example` |
 | 6 | Arrancar el traductor (primero) | `cd traductor; .\run.ps1` y esperar a que cargue (~20–30 s) | Manual cada vez |
 | 7 | Compilar la PWA y arrancar el backend | `cd frontend; npm run build`, y después `uv run uvicorn app.main:app` | Manual cada vez |
 | 8 | Comprobarlo | Sala de redacción → debe decir «Traductor disponible: BiTAM es2cni (…, cuda:0)» | — |
@@ -53,17 +53,17 @@ ejecutan desde `noticias-ashaninka/`.
 |---|---|---|
 | `.env.example` | Plantilla general del proyecto; el traductor viene **desactivado** (`NA_TRANSLATOR_URL` vacío) | Sí |
 | `.env.local.example` | Igual, pero lista para esta integración: `NA_TRANSLATOR_URL=http://127.0.0.1:8100` | Sí |
-| `.env` | Configuración real de cada máquina, con un `NA_ADMIN_TOKEN` propio | **No** (`.gitignore`) |
+| `.env` | Configuración real de cada máquina | **No** (`.gitignore`) |
 
 En una máquina nueva:
 
 ```powershell
 cd noticias-ashaninka
 Copy-Item .env.local.example .env
-python -c "import secrets; print(secrets.token_urlsafe(32))"   # pegar el resultado en NA_ADMIN_TOKEN=
 ```
 
-El token es la clave que se escribe en la PWA al entrar como Administrador. Nunca va en git.
+Desde QuitarAdmin (`../QuitarAdmin/`) no hay rol administrador ni token: la Sala de redacción está
+abierta. Si su `.env` todavía tiene `NA_ADMIN_TOKEN`, se ignora. El `.env` nunca va en git.
 Si se añade una variable nueva a `.env.example`, hay que añadirla también a `.env.local.example`.
 
 Si el puerto 8100 queda ocupado después de cerrar la consola (pasa en Windows), consulta

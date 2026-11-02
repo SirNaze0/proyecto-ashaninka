@@ -36,10 +36,10 @@ root y Caddy.
 
 | Fase | Alcance | Criterio de cierre | Estado |
 |---|---|---|---|
-| 1 | Backend: `security.py`, rutas, `main.py`, `.env*`, pruebas de Python | `ruff` y `uv run pytest` en verde; `curl` sin token: DELETE da 204 y la exportación da 200 | Pendiente |
-| 2 | PWA: `role.ts`, `App`, `Masthead`, `Newsroom`, i18n, CSS, vitest y E2E | `npm test`, `typecheck`, `build` y `e2e` en verde | Pendiente |
-| 3 | Evaluación (`eval/fase6`) y documentación | `docs/architecture.md` regenerado; las pruebas de documentación en verde | Pendiente |
-| 4 | Verificación integral y README | `scripts/verify.sh` en verde; `rg` sin restos; README | Pendiente |
+| 1 | Backend: `security.py`, rutas, `main.py`, `.env*`, pruebas de Python | `ruff` y `uv run pytest` en verde; `curl` sin token: DELETE da 204 y la exportación da 200 | Culminada |
+| 2 | PWA: `role.ts`, `App`, `Masthead`, `Newsroom`, i18n, CSS, vitest y E2E | `npm test`, `typecheck`, `build` y `e2e` en verde | Culminada |
+| 3 | Evaluación (`eval/fase6`) y documentación | `docs/architecture.md` regenerado; las pruebas de documentación en verde | Culminada |
+| 4 | Verificación integral y README | `scripts/verify.sh` en verde; `rg` sin restos; README | Culminada |
 
 ### Fase 1. Backend
 - `security.py`: eliminar `MIN_TOKEN_LEN`, `TOKENS_DE_EJEMPLO`, `token_valido`,
