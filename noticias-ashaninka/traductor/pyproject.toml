@@ -1,0 +1,56 @@
+# Servicio local de traducción castellano→asháninka con BiTAM (tesis de una compañera).
+#
+# Es un proyecto APARTE del backend: BiTAM fija transformers 4.57.3 / torch 2.6.0 / numpy 1.26.4 y
+# el backend usa transformers 5.x / torch 2.14 (voz MMS). No pueden compartir entorno.
+# Instalación y arranque: traductor/README.md.
+[project]
+name = "traductor-bitam"
+version = "0.1.0"
+description = "Servicio HTTP local (127.0.0.1) que expone el modelo BiTAM es2cni al backend de noticias"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    # Versiones exactas del requirements.txt de la entrega de BiTAM ("con otras versiones los pesos
+    # pueden cargar mal sin dar error").
+    "torch==2.6.0",
+    "transformers==4.57.3",
+    "tokenizers==0.22.1",
+    "peft==0.17.1",
+    "accelerate==1.12.0",
+    "safetensors==0.7.0",
+    "sentencepiece==0.2.1",
+    "protobuf==5.29.6",
+    "huggingface-hub==0.36.0",
+    "numpy==1.26.4",
+    "pydantic==2.11.9",
+    "PyYAML==6.0.2",
+    # Código de inferencia de la entrega (no se copia al repositorio; ver [tool.uv.sources]).
+    "bitam-infer==0.1.0",
+    # Servidor HTTP (versiones del ejemplo de la entrega).
+    "fastapi==0.115.6",
+    "uvicorn==0.34.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "httpx>=0.27",
+    "sacrebleu==2.5.1",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+# torch con CUDA 12.4 (incluye sm_61, GTX 1060). Para solo CPU, cambiar a pytorch-cpu.
+torch = { index = "pytorch-cu124" }
+# Ruta local de la entrega descomprimida. Si la mueves, cambia esta ruta (relativa a este archivo).
+bitam-infer = { path = "../../../bitam_modelos_entrega" }
+
+[[tool.uv.index]]
+name = "pytorch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+explicit = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"

@@ -1,0 +1,62 @@
+{
+  "fecha": "2026-11-02T07:11:08+00:00",
+  "split": "dev",
+  "n": 20,
+  "semilla": 13,
+  "palabras_media": 11.05,
+  "salud": {
+    "modelo": "BiTAM es2cni",
+    "direccion": "es2cni",
+    "version": "bitam_v5_seed13_20261018T230715Z_es2cni",
+    "dispositivo": "cuda:0",
+    "dtype": "float16",
+    "fake": false,
+    "carga_s": 14.1,
+    "vram_max_mb": 5152.4,
+    "limites": {
+      "max_oraciones": 64,
+      "max_caracteres": 1000
+    },
+    "versiones": {
+      "torch": "2.6.0+cu124",
+      "transformers": "4.57.3",
+      "peft": "0.17.1",
+      "bitam-infer": "0.1.0",
+      "numpy": "1.26.4"
+    }
+  },
+  "vram_max_mb_final": 5152.4,
+  "latencia_oracion_s": {
+    "media": 2.206,
+    "p50": 2.097,
+    "p95": 4.257,
+    "min": 0.859,
+    "max": 4.639
+  },
+  "lote_completo_s": 16.138,
+  "lote_s_por_oracion": 0.807,
+  "salidas_en_minusculas": 20,
+  "salidas_vacias": 0,
+  "sha256_salidas": [
+    "c7c163d17837fb7e",
+    "8d48c6d27498669c",
+    "307a54e866b079e2",
+    "8f5d49c77e479392",
+    "3fc5bb36b3ec240a",
+    "128c973191e679c9",
+    "7527251123ad44b5",
+    "5a3a11518edc8a75",
+    "048f0ed8f1663ede",
+    "08cfe86de0820a90",
+    "bf6574135cd9f587",
+    "23c9b81059bce034",
+    "eb966ae6a73020ba",
+    "60618c46ddd87a54",
+    "e8cc4c5b92b33919",
+    "a4e036d7660506ce",
+    "963d2a5ffc30e135",
+    "ae758c16c3e79153",
+    "eb60877d55fa6e35",
+    "bf5fedd0d05c8a6f"
+  ]
+}
