@@ -4,7 +4,8 @@ Cliente en `frontend/` (Preact + TypeScript + Vite). Sirve las 4 condiciones int
 experimento con un único componente (`src/app/components/Presentation.tsx`) y funciona sin conexión.
 
 ```
-#/ traductor (entrada, servicio pendiente) ──► #/noticias
+#/ traductor (entrada pública, sin traducción en vivo) ──► #/noticias
+#/redaccion (admin) ──► POST /api/news/translate (BiTAM) ──► borrador ──► /api/news → process → build
 catálogo (/api/catalog) ──► lista (#/noticias) ──► #/noticia/{id}?c=C1..C4
 manifiesto 1.1 (/static/news/{id}/manifest.json) ──► SegmentPlayer (2 <audio> alternos)
 seg_NNN.json (spans, visemes) ──► Highlighter (rAF) ──► clase .hl en el fragmento ORIGINAL
@@ -19,7 +20,9 @@ Service Worker: shell precargado · audio y tiempos en caché (206 a Range) · c
 asháninka y la presentadora (el mismo `AvatarPanel` de C4, con `import()` diferido) al costado. La
 lista de noticias pasó a `#/noticias` (el enlace «Volver a la lista» y la navegación apuntan ahí).
 
-- **El traductor (tesis de una compañera) está pendiente de integración.** `src/app/translator.ts`
+- **Pantalla pública sin traducción en vivo (a propósito).** El traductor BiTAM ya está integrado,
+  pero **solo en la Sala de redacción** (administrador; ver abajo y `docs/translation.md`): el
+  ciudadano consume noticias ya traducidas y revisadas, y el público no usa la GPU. `src/app/translator.ts`
   define la interfaz `Translator`; la implementación por defecto `TRADUCTOR_PENDIENTE` no hace
   ninguna petición ni devuelve texto, y la pantalla lo declara. Estados: `inicial`, `cargando`,
   `resultado`, `error`, `pendiente` (reductor puro `reducir`, probado en `tests/translator.test.ts`).
@@ -58,10 +61,18 @@ Aspecto de noticiero televisivo sobre la PWA existente, sin Tailwind, lucide ni 
 - **Sala de redacción** (`components/Newsroom.tsx`, `newsroom.ts`): carga de archivos `.txt`, `.csv` y
   `.json` (lotes de hasta 50, 2 MB) o pegado rápido de texto por párrafos; editor con la procedencia
   obligatoria del contrato de ingesta. Publicar encadena `POST /api/news` → `/process` → `/build`
-  (síntesis por lotes, admin) → segmentos, y abre la noticia en el estudio. **El texto debe venir ya
-  en asháninka:** la traducción sigue pendiente (`TRADUCTOR_PENDIENTE`) y el mockup, que fabricaba
-  traducciones y «adaptaciones fonológicas» con un banco fijo, **no se portó** (sería inventar datos
-  lingüísticos). La plantilla CSV se descarga vacía.
+  (síntesis por lotes, admin) → segmentos, y abre la noticia en el estudio. La plantilla CSV se
+  descarga vacía. El mockup, que fabricaba traducciones y «adaptaciones fonológicas» con un banco
+  fijo, **no se portó** (sería inventar datos lingüísticos).
+- **Traducir desde castellano** (MejoraEIntegracion, primera tarjeta de la Redacción): el
+  administrador escribe la noticia en castellano y el **servidor** la traduce con BiTAM
+  (`POST /api/news/translate`; estado real con `GET /api/news/translate/status`). El borrador llena
+  el editor (editable) con procedencia `traduccion_automatica` **no revisada**, una tabla de pares
+  es/cni para revisar y el aviso de borrador. Pide confirmación antes de reemplazar texto en
+  asháninka, permite cancelar y avisa si el castellano cambia después de traducir. Cliente:
+  `traducir`, `estadoTraductor` y `aplicarTraduccion` (pura) en `newsroom.ts`; pruebas en
+  `tests/newsroom-translate.test.ts` y `e2e/newsroom-translate.spec.ts` (servicio simulado con
+  `page.route`). Detalle en `docs/translation.md`.
 - **Backend:** `POST /api/news/{id}/build` (administrativo) sintetiza la noticia con `run_batch`.
 - Pruebas: `tests/newsroom.test.ts` (lectura de archivos, validación, publicación, token) y
   `e2e/noticiero.spec.ts`, que corre en su propio servidor (proyecto Playwright `noticiero`) porque

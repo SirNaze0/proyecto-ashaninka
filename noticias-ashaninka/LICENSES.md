@@ -19,6 +19,9 @@
 | Caddy | 2.8 | Apache-2.0 | — | Proxy inverso y HTTPS automático (Fase 6, imagen `caddy:2.8-alpine`) |
 | Docker, Docker Compose | — | Apache-2.0 | — | Contenedores (Fase 6); las imágenes base (`python:3.11-slim`, `node:20`, `caddy`) llevan sus propias licencias |
 | ffmpeg y eSpeak-NG (paquetes de Debian) | los de Debian 12 | GPL-2.0+ / GPL-3.0 | Se invocan como programas externos dentro de la imagen; no se enlazan con el código del proyecto | Conversiones y línea base de voz en la imagen Docker |
+| BiTAM es2cni (tesis de una compañera; pesos LoRA + adapters sobre `facebook/nllb-200-distilled-1.3B`) | run `bitam_v5_seed13_20261018T230715Z_es2cni` | Pesos **CC BY-NC 4.0** (derivados de NLLB-200); código de inferencia `bitam` MIT | **No comercial.** El autor pide **no redistribuir los pesos**: no van en el repositorio ni en la imagen Docker. Se indican con `BITAM_MODELS_DIR` | Traducción castellano→asháninka en la Redacción, como servicio aparte (`traductor/`; ver `docs/translation.md`) |
+| `facebook/nllb-200-distilled-1.3B` (Meta, NLLB-200) | la que descarga Hugging Face en la primera carga | CC BY-NC 4.0 | **No comercial** | Modelo base congelado de BiTAM (~5,5 GB en `~/.cache/huggingface`) |
+| PyTorch 2.6.0+cu124, transformers 4.57.3, peft 0.17.1, sacrebleu 2.5.1 (solo `traductor/`) | versiones exactas de `traductor/pyproject.toml` | BSD-3 / Apache-2.0 / Apache-2.0 / Apache-2.0 | Entorno propio del servicio de traducción, separado del backend | Servicio BiTAM; sacrebleu solo para medir la fidelidad del dtype |
 | pandas, statsmodels, pyarrow | — | BSD-3 / Apache-2.0 | — | Análisis estadístico de la Fase 5 (grupo `eval`) |
 
 ## Advertencias

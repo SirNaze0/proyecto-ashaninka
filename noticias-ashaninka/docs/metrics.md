@@ -319,3 +319,38 @@ Las reglas de la sección anterior (palabras clave, MOS, bootstrap por oyente, a
 - **Verificación sin personas:** 30 oyentes simulados con acierto 0,85 (MMS) y 0,55 (eSpeak) y MOS 3,6 y 2,2 verdaderos; el kit debe recuperar cada valor dentro del IC 95 % (acierto) o a menos de 0,2 (MOS). Es una prueba del kit, **no** una medición.
 - **Seguridad, límite de tasa:** cubeta de fichas por IP con capacidad igual al límite por minuto (1 200 por defecto); cada par (IP, límite) tiene su propia cubeta.
 - **Criterio de CSP:** `connect-src` admite `blob:` porque `GLTFLoader` lee las texturas del avatar así; se descubrió al ejecutar la comprobación de Chromium (violaciones de `connect-src blob:` en C4) y se corrigió antes de cualquier medición de despliegue.
+
+# Integración del traductor BiTAM (MejoraEIntegracion, Fase 4)
+
+Definido el 2026-11-02, **antes** de ejecutar `eval.traductor.run`. No evalúa la calidad de la traducción: eso pertenece a la tesis BiTAM (contrato §2 de `PLAN_DESARROLLO.md`). Lo que se mide es la **compatibilidad** de su salida con el pipeline de este sistema (normalización, adaptador MMS y G2P) y la latencia del servicio.
+
+## Material
+
+- **N = 100 oraciones** del split **dev** de AmericasNLP (`dev.es`), con semilla **13** (`random.Random(13).sample`), filtradas a pares con las dos líneas no vacías y SHA-256 verificado. **Nunca el test**: es el de evaluación de BiTAM. El script lo rechaza.
+- Referencias asháninka: las mismas líneas de `dev.cni`. Solo se usan para comparar la frecuencia de vocales dobles. No se calcula chrF aquí; la fidelidad por dtype ya está en `traductor_fidelidad_*.json`.
+- Servicio BiTAM en la GTX 1060 con fp16 (configuración final de la Fase 1). El backend no se usa: se llama al servicio y a `app.translation` / `Pipeline` directamente.
+- Los resultados **no guardan texto del corpus**: solo recuentos, números de línea y hashes.
+
+## Métricas
+
+| Métrica | Definición |
+|---|---|
+| Latencia | s/oración con una petición por oración (media, p50, p95, tras un calentamiento descartado), y s del lote completo (100 oraciones en una petición troceada por el cliente) |
+| Segmentos bloqueados | % de segmentos con `tts_ready = false` tras `Pipeline.process_text` (salida **restaurada**). Se informa también el carácter fuera del vocabulario más frecuente |
+| Letras ajenas | % de palabras de la salida con alguna letra fuera de `native_letters` del normalizador (préstamos y nombres que BiTAM copia del castellano) |
+| Nombres propios: candidatos | palabras de la fuente con mayúscula inicial fuera del inicio de oración, o siglas (la misma regla que `restaurar_mayusculas`) |
+| … copiados | candidatos cuya forma sin tildes ni mayúsculas aparece en la salida cruda |
+| … detectados por `classify` | spans `nombre_propio` / `nombre_propio_nativo` en `alignment_map`, **antes** (salida cruda) y **después** (salida restaurada) |
+| Vocales dobles | secuencias `aa/ee/ii/oo` por 100 palabras en la salida frente a la referencia `dev.cni` (efecto de la normalización MINEDU 2024 de BiTAM) |
+| Salidas vacías | número de oraciones sin traducción |
+
+## Reglas fijadas de antemano
+
+- Una sola ejecución con N y semilla fijos. **No se ajusta nada** (ni la regla de mayúsculas, ni el pipeline, ni el adaptador) después de ver los resultados de esta muestra. Si algo debe cambiar, se documenta como pendiente y se mide con **otra** muestra.
+- Si el colapso de vocales dobles afecta a la pronunciación, es un pendiente lingüístico (P1) y no se «corrige» con reglas inventadas.
+- La latencia se mide sin otra carga en la GPU ni en la CPU (sin pytest ni E2E en paralelo).
+
+## Limitaciones declaradas de antemano
+
+- Las oraciones del dev de AmericasNLP no son noticias: son frases cortas de dominio general. Sirven para medir compatibilidad, no la experiencia con noticias reales.
+- «Detectado como nombre propio» no implica que esté bien pronunciado: la reescritura castellano→asháninka (P2d) sigue siendo `SUPUESTO-LING`.

@@ -19,8 +19,9 @@ Corpus monolingüe (opcional):
 ## Modelos
 
 - Pratap, V., et al. (2023). Scaling Speech Technology to 1,000+ Languages. arXiv:2305.13516. (MMS: `mms-tts-cni`, `mms-1b-all`)
+- NLLB Team, Costa-jussà, M. R., et al. (2022). No Language Left Behind: Scaling Human-Centered Machine Translation. arXiv:2207.04672. (`facebook/nllb-200-distilled-1.3B`, modelo base de BiTAM)
 
 ## Trabajos relacionados (tesis)
 
 - Tesis "Avatar en asháninka para la enseñanza de la lengua": integración con MMS-TTS y patrón de gestos. Antecedente reutilizado y citado.
-- Tesis de traducción castellano→asháninka (compañera): fuente de las noticias en asháninka (componente externo).
+- Tesis de traducción castellano→asháninka (compañera): *Modelo de traducción automática bidireccional con morfología adaptativa (BiTAM). Caso asháninka–español*. Fuente de las noticias en asháninka. Su modelo es2cni (run `bitam_v5_seed13_20261018T230715Z_es2cni`) se integra como servicio aparte en la Sala de redacción (`docs/translation.md`). Autoría y datos de publicación: completar con la compañera (la entrega los deja «por completar»).

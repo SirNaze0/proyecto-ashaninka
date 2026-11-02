@@ -5,19 +5,19 @@ repos:
     hooks:
       - id: ruff
         name: ruff check
-        entry: bash -c 'cd noticias-ashaninka && scripts/venv_exec.sh ruff check backend eval scripts'
+        entry: bash -c 'cd noticias-ashaninka && scripts/venv_exec.sh ruff check backend eval scripts traductor'
         language: system
         files: ^noticias-ashaninka/.*\.py$
         pass_filenames: false
       - id: ruff-format
         name: ruff format --check
-        entry: bash -c 'cd noticias-ashaninka && scripts/venv_exec.sh ruff format --check backend eval scripts'
+        entry: bash -c 'cd noticias-ashaninka && scripts/venv_exec.sh ruff format --check backend eval scripts traductor'
         language: system
         files: ^noticias-ashaninka/.*\.py$
         pass_filenames: false
       - id: shellcheck
         name: shellcheck
-        entry: bash -c 'cd noticias-ashaninka && scripts/venv_exec.sh shellcheck init.sh scripts/venv_exec.sh scripts/backup.sh scripts/verify.sh'
+        entry: bash -c 'cd noticias-ashaninka && scripts/venv_exec.sh shellcheck init.sh scripts/venv_exec.sh scripts/backup.sh scripts/verify.sh traductor/run.sh'
         language: system
         files: ^noticias-ashaninka/.*\.sh$
         pass_filenames: false

@@ -19,11 +19,17 @@ out="eval/fase6/out"
 mkdir -p "$out"
 
 echo "== Python: lint y formato"
-uv run ruff check backend eval scripts
-uv run ruff format --check backend eval scripts
+uv run ruff check backend eval scripts traductor
+uv run ruff format --check backend eval scripts traductor
 
 echo "== Python: pruebas"
 uv run pytest -q --junitxml="$out/pytest.xml"
+
+# Servicio BiTAM (entorno propio, MejoraEIntegracion): solo si está instalado; motor falso, sin GPU
+if [ -d traductor/.venv ]; then
+  echo "== Traductor BiTAM: pruebas del servicio (motor falso)"
+  (cd traductor && BITAM_FAKE=1 uv run --no-sync pytest -q -p no:cacheprovider)
+fi
 
 echo "== PWA: dependencias, pruebas, tipos y compilación"
 (
