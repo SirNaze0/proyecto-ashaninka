@@ -7,15 +7,15 @@ la historia completa están en `../../MejoraEIntegracion/`.
 
 ## Flujo
 
-1. El **administrador** escribe o pega una noticia en castellano en la **Sala de redacción**.
+1. Quien redacta (cualquier persona: sin roles desde QuitarAdmin) escribe o pega una noticia en castellano en la **Sala de redacción**.
 2. El servidor la traduce **una sola vez** con BiTAM y devuelve un **borrador**, sin guardar nada.
-3. El administrador revisa el borrador (tabla de pares oración a oración), lo corrige si hace
+3. Quien redacta revisa el borrador (tabla de pares oración a oración), lo corrige si hace
    falta y lo publica con el flujo de siempre: `POST /api/news` → `process` → `build`.
 4. El **ciudadano** solo ve, en el tablero, noticias ya traducidas (C1–C4). El público nunca usa
    la GPU ni la pantalla de traducción en vivo (`TranslatePanel` sigue sin traductor).
 
 ```
-PWA (Redacción, admin) ── POST /api/news/translate (x-admin-token) ──▶ backend (uv, transformers 5)
+PWA (Redacción) ──────── POST /api/news/translate (sin token) ──────▶ backend (uv, transformers 5)
                        ── GET  /api/news/translate/status ─────────▶   │ segmenta, valida límites
                                                                          ▼ HTTP 127.0.0.1:8100
                                          traductor/servidor.py (entorno propio: torch 2.6 cu124,
@@ -43,7 +43,7 @@ Instalación, arranque y problemas frecuentes: [`../traductor/README.md`](../tra
 | `BITAM_DEVICE` | servicio | `auto` | `auto`, `cuda` o `cpu` |
 | `BITAM_DTYPE` | servicio | `float16` en GPUs sin bf16 nativo | `config` = el bf16 de la entrega. Ver «dtype» en el README del servicio |
 
-## API (administrativa: `x-admin-token`)
+## API (pública desde QuitarAdmin; sin token)
 
 | Ruta | Respuesta |
 |---|---|
@@ -55,7 +55,6 @@ Códigos de error:
 - **422**: título de más de 300 caracteres, cuerpo de más de 8.000, más de 80 oraciones o una oración de más de 1.000.
 - **503**: el servicio no está configurado o no responde.
 - **502**: el servicio respondió con un error.
-- **403**: falta el token o no es válido.
 
 ## Qué hace el backend con la salida
 

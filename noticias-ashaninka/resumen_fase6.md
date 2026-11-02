@@ -138,3 +138,17 @@ curl -H "x-admin-token: $NA_ADMIN_TOKEN" https://su-dominio/api/events/summary
 | P1, P2a–P2d, P5, Praat                                                                        | Heredados de las Fases 1 a 3                         | Lingüista, hablantes, compañera                                                                                        |
 
 Las limitaciones completas están en `docs/limitations.md` (puntos 59 a 69, nuevos en esta fase).
+
+---
+
+> **Nota posterior (QuitarAdmin, 2026-11-02).** El token administrativo descrito en esta fase
+> (`NA_ADMIN_TOKEN`, `require_admin` y el selector Ciudadano/Administrador) **se retiró después**, por
+> decisión del responsable del proyecto: hoy toda la API es pública. Las cifras de arriba corresponden a
+> ejecuciones reales de entonces y no se reescriben. Ver `QuitarAdmin/` y la limitación 77 de
+> `noticias-ashaninka/docs/limitations.md`.
+>
+> Al regenerar `eval/results/fase_6.json` ese día (`eval.fase6.run --sin-build`) quedaron en «NO»
+> `pruebas_despliegue` (30/32) y `pruebas_pytest`, por **una sola prueba ajena al rol**:
+> `test_dockerignore_deja_pasar_lo_que_el_runtime_necesita_y_excluye_lo_sensible` exige
+> `frontend/public/models/presentadora_provisional.vrm`, que no está en git ni en esa máquina (el
+> avatar provisional se copia aparte). Con el archivo presente, la prueba vuelve a pasar.

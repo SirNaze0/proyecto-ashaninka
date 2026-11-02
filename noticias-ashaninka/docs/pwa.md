@@ -5,7 +5,7 @@ experimento con un único componente (`src/app/components/Presentation.tsx`) y f
 
 ```
 #/ traductor (entrada pública, sin traducción en vivo) ──► #/noticias
-#/redaccion (admin) ──► POST /api/news/translate (BiTAM) ──► borrador ──► /api/news → process → build
+#/redaccion (abierta) ──► POST /api/news/translate (BiTAM) ──► borrador ──► /api/news → process → build
 catálogo (/api/catalog) ──► lista (#/noticias) ──► #/noticia/{id}?c=C1..C4
 manifiesto 1.1 (/static/news/{id}/manifest.json) ──► SegmentPlayer (2 <audio> alternos)
 seg_NNN.json (spans, visemes) ──► Highlighter (rAF) ──► clase .hl en el fragmento ORIGINAL
@@ -21,7 +21,7 @@ asháninka y la presentadora (el mismo `AvatarPanel` de C4, con `import()` difer
 lista de noticias pasó a `#/noticias` (el enlace «Volver a la lista» y la navegación apuntan ahí).
 
 - **Pantalla pública sin traducción en vivo (a propósito).** El traductor BiTAM ya está integrado,
-  pero **solo en la Sala de redacción** (administrador; ver abajo y `docs/translation.md`): el
+  pero **solo en la Sala de redacción** (ver abajo y `docs/translation.md`): el
   ciudadano consume noticias ya traducidas y revisadas, y el público no usa la GPU. `src/app/translator.ts`
   define la interfaz `Translator`; la implementación por defecto `TRADUCTOR_PENDIENTE` no hace
   ninguna petición ni devuelve texto, y la pantalla lo declara. Estados: `inicial`, `cargando`,
@@ -43,10 +43,10 @@ Aspecto de noticiero televisivo sobre la PWA existente, sin Tailwind, lucide ni 
   sistema, claro u oscuro; `data-theme` en `<html>`). Contraste AA verificado con axe en ambos temas.
 - **Cabecera** (`components/Masthead.tsx`): marca, estado de red, noticias guardadas sin conexión,
   tema y navegación. Con una sesión experimental activa solo muestra la marca.
-- **Roles** (`role.ts`): *Ciudadano* (Traductor · Noticias · Estudio TV · Ajustes) y *Administrador*,
-  que añade la **Sala de redacción** (`#/redaccion`). Elegir el rol no protege nada por sí solo: el
-  administrador introduce el `x-admin-token`, que se comprueba con `GET /api/news` y vive **solo en
-  memoria** (al recargar vuelve a Ciudadano). La protección real sigue siendo `require_admin`.
+- **Sin roles** (QuitarAdmin, 2026-11): ya no hay selector Ciudadano/Administrador ni token. La
+  navegación muestra a todos Traductor · Noticias · Estudio TV · **Sala de redacción** (`#/redaccion`) ·
+  Ajustes, y el servidor no exige ninguna cabecera. Cualquiera puede publicar o borrar noticias
+  (`docs/limitations.md`, limitación 77).
 - **Portada** (`#/noticias`, `NewsList.tsx`): la primera noticia como destacada y el resto en
   rejilla. Solo muestra datos reales del catálogo (título en asháninka, variante, audio listo,
   fragmentos solo texto, guardada); no hay resúmenes, categorías ni fotos inventadas, y el texto en
@@ -61,11 +61,11 @@ Aspecto de noticiero televisivo sobre la PWA existente, sin Tailwind, lucide ni 
 - **Sala de redacción** (`components/Newsroom.tsx`, `newsroom.ts`): carga de archivos `.txt`, `.csv` y
   `.json` (lotes de hasta 50, 2 MB) o pegado rápido de texto por párrafos; editor con la procedencia
   obligatoria del contrato de ingesta. Publicar encadena `POST /api/news` → `/process` → `/build`
-  (síntesis por lotes, admin) → segmentos, y abre la noticia en el estudio. La plantilla CSV se
+  (síntesis por lotes) → segmentos, y abre la noticia en el estudio. La plantilla CSV se
   descarga vacía. El mockup, que fabricaba traducciones y «adaptaciones fonológicas» con un banco
   fijo, **no se portó** (sería inventar datos lingüísticos).
-- **Traducir desde castellano** (MejoraEIntegracion, primera tarjeta de la Redacción): el
-  administrador escribe la noticia en castellano y el **servidor** la traduce con BiTAM
+- **Traducir desde castellano** (MejoraEIntegracion, primera tarjeta de la Redacción): quien
+  redacta escribe la noticia en castellano y el **servidor** la traduce con BiTAM
   (`POST /api/news/translate`; estado real con `GET /api/news/translate/status`). El borrador llena
   el editor (editable) con procedencia `traduccion_automatica` **no revisada**, una tabla de pares
   es/cni para revisar y el aviso de borrador. Pide confirmación antes de reemplazar texto en
@@ -73,8 +73,8 @@ Aspecto de noticiero televisivo sobre la PWA existente, sin Tailwind, lucide ni 
   `traducir`, `estadoTraductor` y `aplicarTraduccion` (pura) en `newsroom.ts`; pruebas en
   `tests/newsroom-translate.test.ts` y `e2e/newsroom-translate.spec.ts` (servicio simulado con
   `page.route`). Detalle en `docs/translation.md`.
-- **Backend:** `POST /api/news/{id}/build` (administrativo) sintetiza la noticia con `run_batch`.
-- Pruebas: `tests/newsroom.test.ts` (lectura de archivos, validación, publicación, token) y
+- **Backend:** `POST /api/news/{id}/build` (público) sintetiza la noticia con `run_batch`.
+- Pruebas: `tests/newsroom.test.ts` (lectura de archivos, validación y publicación sin token) y
   `e2e/noticiero.spec.ts`, que corre en su propio servidor (proyecto Playwright `noticiero`) porque
   publicar añade noticias a su base de datos.
 
@@ -206,8 +206,7 @@ diseño y del análisis en `docs/metrics.md` («Fase 5»); datos exportados en `
   ítems de comprensión (`PENDIENTE-HABLANTE`) son marcadores; `cni.json` conserva las claves nuevas en `null`.
 - **Servidor.** `NA_EXPERIMENT_PILOTO=true` admite pseudo-noticias y marca todo como piloto. Sin ese modo
   el servidor exige 4 noticias revisadas por un hablante (P4). La exportación (`GET /api/experiment/export`)
-  está cerrada salvo en modo piloto o con `NA_EXPORT_TOKEN` (cabecera `x-export-token`); la vía normal
-  es la CLI: `uv run python -m app.cli experiment export --out DIR`.
+  es pública desde QuitarAdmin (sin token ni modo piloto); también se puede usar la CLI: `uv run python -m app.cli experiment export --out DIR`.
 - **Pruebas.** `tests/experiment.test.ts` (vitest) y `e2e/experiment.spec.ts` (Chromium real, servidor propio
   `scripts/e2e_server.py --experimento`, proyecto `experimento` de Playwright).
 

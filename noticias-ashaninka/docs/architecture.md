@@ -7,7 +7,7 @@
 
 ```
  noticias en asháninka (JSON, contrato del plan §2)
-        │  CLI  app.cli import   (API /api/news: administrativa, con token)
+        │  CLI  app.cli import  ·  Sala de redacción de la PWA (API /api/news: pública)
         ▼
 ┌───────────────────────────── BACKEND (FastAPI, un contenedor) ─────────────────────────────┐
 │ [1] Ingesta ─► [2] Normalización (2-0…2f) ─► [3] G2P ─► [4] TTSEngine ─► [5] Alineación     │
@@ -16,7 +16,7 @@
 │                                                     [6] Visemas ─► seg_NNN.json (tiempos)  │
 │  por lotes:   /static/news/{id}/manifest.json + audio por contenido (Opus/MP3, con Range)  │
 │  bajo demanda: /api/synthesize/{id} (NDJSON por oración, solo respaldo)                    │
-│  /api/catalog · /api/events · /api/experiment/*  (públicos)   ·  admin: token              │
+│  /api/catalog · /api/events · /api/experiment/*  (públicos)   ·  sin roles (QuitarAdmin)   │
 │  seguridad: cabeceras + CSP + límite de tasa   ·   SQLite (WAL) en un volumen              │
 └───────────────────────────────────────────────────────────────────────────────────────────┘
         ▲ HTTPS (Caddy: certificado automático, zstd/gzip solo texto, Range intacto)

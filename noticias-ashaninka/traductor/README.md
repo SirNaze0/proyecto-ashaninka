@@ -2,7 +2,7 @@
 
 Este es un servicio HTTP **local** que expone el modelo **BiTAM es2cni** (tesis de una compañera:
 *Modelo de traducción automática bidireccional con morfología adaptativa (BiTAM). Caso
-asháninka–español*) al backend de noticias. El administrador lo usa desde la Redacción para
+asháninka–español*) al backend de noticias. Se usa desde la Sala de redacción de la PWA para
 obtener un **borrador** en asháninka. Ver `../../MejoraEIntegracion/PLAN_INTEGRACION.md`.
 
 ## Por qué va aparte

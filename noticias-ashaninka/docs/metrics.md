@@ -286,9 +286,8 @@ Reglas fijadas de antemano:
 
 | Criterio | Cómo se comprueba |
 |---|---|
-| Endpoints administrativos cerrados por defecto | Sin token configurado, o con uno de menos de 16 caracteres o de ejemplo: 403. Con el token correcto: 200 |
-| Alcance de la protección | `GET /api/events/summary`, todo `/api/news*`, `GET /api/experiment/export` y el parámetro `engine` de `/api/synthesize` distinto del configurado |
-| La PWA no se rompe | `/api/catalog`, `POST /api/events`, `/api/experiment/*` (salvo exportar) y `/api/synthesize` sin `engine` siguen abiertos; los 21 E2E previos pasan |
+| Sin rol administrativo (QuitarAdmin, sustituye a «endpoints administrativos cerrados por defecto») | Ninguna ruta `/api/` responde 403 sin token; crear y borrar una noticia, exportar y el resumen de eventos responden sin cabecera |
+| La PWA no se rompe | Las pruebas E2E pasan sin token, incluida la Sala de redacción |
 | Cabeceras | `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy` y CSP en toda respuesta; HSTS solo por HTTPS |
 | CSP sin romper la app | Cero violaciones de CSP en consola en C1–C4 (con avatar) y en el flujo del experimento, en Chromium real |
 | Límite de tasa | Superado el límite por IP se responde 429; `/api/health` queda exento |

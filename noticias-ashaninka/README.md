@@ -14,7 +14,7 @@ o de infraestructura se declara como **pendiente** y no se inventa.
 | **3** Alineación y avatar | tiempos por fonema y palabra, visemas, avatar VRM (three-vrm) con degradación | `backend/app/pipeline/viseme/`, `frontend/src/avatar/` | [avatar](docs/avatar.md), [avatar_decision](docs/avatar_decision.md) | [resumen_fase3](resumen_fase3.md) · `fase_3.json` |
 | **4** Interfaz web | PWA en Preact, condiciones C1–C4, Service Worker, cola de eventos | `frontend/src/app/`, `backend/app/api/{catalog,events}.py` | [pwa](docs/pwa.md) | [resumen_fase4](resumen_fase4.md) · `fase_4.json` |
 | **5** Experimento | cuadrado de Williams, flujo guiado, cuestionarios, exportación y análisis estadístico | `backend/app/experiment/`, `frontend/src/app/experiment.ts`, `eval/fase5/` | [metrics](docs/metrics.md), [DATA_DICTIONARY](data/DATA_DICTIONARY.md) | [resumen_fase5](resumen_fase5.md) · `fase_5.json` |
-| **6** Despliegue y seguridad | Docker + Caddy (HTTPS), endpoints administrativos con token, cabeceras y CSP, kit de escucha 5.7, hashes de modelos | `Dockerfile`, `docker-compose.yml`, `Caddyfile`, `backend/app/security.py`, `eval/listening/inteligibilidad_mos/` | [deployment](docs/deployment.md), [architecture](docs/architecture.md), [limitations](docs/limitations.md) | [resumen_fase6](resumen_fase6.md) · `fase_6.json` |
+| **6** Despliegue y seguridad | Docker + Caddy (HTTPS), cabeceras y CSP, límite de tasa (sin rol administrativo desde QuitarAdmin), kit de escucha 5.7, hashes de modelos | `Dockerfile`, `docker-compose.yml`, `Caddyfile`, `backend/app/security.py`, `eval/listening/inteligibilidad_mos/` | [deployment](docs/deployment.md), [architecture](docs/architecture.md), [limitations](docs/limitations.md) | [resumen_fase6](resumen_fase6.md) · `fase_6.json` |
 
 Las cifras de cada fase salen de ejecuciones reales (`eval/results/*.json`). El plan completo está en
 `PLAN_DESARROLLO.md` (en la raíz del repositorio) y las **limitaciones** de cada medición en
@@ -32,7 +32,7 @@ abiertos (2 vCPU y 2 GB de RAM bastan en modo por lotes). Guía completa: [docs/
 
 ```bash
 cp .env.production.example .env
-python -c "import secrets; print(secrets.token_urlsafe(32))"   # -> NA_ADMIN_TOKEN en .env (y NA_DOMAIN)
+# edite .env: NA_DOMAIN=su-dominio
 docker compose --profile setup run --rm setup    # una vez: descarga el modelo de voz y verifica sus SHA-256
 docker compose up -d --build                     # app + Caddy con HTTPS automático
 curl -s https://su-dominio/api/health/ready      # {"status":"ok","db":true,"static":true,"tts":true}
@@ -150,8 +150,9 @@ Sin personas solo se verifica con oyentes **simulados**: la medición real sigue
 
 ### Seguridad y operación (Fase 6)
 
-- Los endpoints administrativos (`/api/events/summary`, `/api/news*`, la exportación y elegir el motor en
-  `/api/synthesize`) están **cerrados por defecto**: exigen la cabecera `x-admin-token` con `NA_ADMIN_TOKEN`.
+- **Sin rol administrativo** (QuitarAdmin, 2026-11): toda la API es pública. Cualquiera puede publicar o
+  borrar noticias desde la Sala de redacción y descargar la exportación del experimento. Para un
+  despliegue público, ponga autenticación delante (ver [limitations](docs/limitations.md), punto 77).
 - Toda respuesta lleva cabeceras de seguridad y una CSP; hay límite de tasa por IP; con `NA_ENV=production`
   no se publican `/docs` ni `/openapi.json`. `GET /api/health` (vivo) y `/api/health/ready` (listo).
 - `uv run python scripts/verify_models.py` comprueba los SHA-256 de los modelos contra `models.lock.json`;
@@ -196,7 +197,7 @@ texto cni ─► segmentación ─► 2a clasificación ─► 2-0 unificación 
 | `backend/app/pipeline/` | segmentación, normalizador, G2P, adaptador TTS y motores (`tts/`) |
 | `backend/app/batch/` | caché por contenido, manifiesto, tiempos y modo por lotes |
 | `backend/app/experiment/` | Fase 5: cuadrado de Williams, noticias del experimento, cuestionarios, privacidad y exportación |
-| `backend/app/security.py` | Fase 6: token administrativo, cabeceras con CSP y límite de tasa |
+| `backend/app/security.py` | Fase 6: cabeceras con CSP y límite de tasa (sin token desde QuitarAdmin) |
 | `frontend/` | PWA (Preact), avatar (three-vrm) y pruebas vitest y Playwright |
 | `Dockerfile`, `docker-compose.yml`, `Caddyfile` | Fase 6: imagen, orquestación y proxy con HTTPS |
 | `models.lock.json`, `scripts/` | hashes de los modelos, copias de seguridad y verificación en un comando |

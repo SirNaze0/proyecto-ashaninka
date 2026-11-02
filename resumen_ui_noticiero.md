@@ -51,3 +51,11 @@ Las cifras vienen de ejecuciones reales (`npm test`, `npm run e2e`, `eval.fase4.
 | Carga inicial (`eval.fase4.bundle`) | **37 120 B gzip (0,035 MB)** < 3 MB |
 
 **Prueba que falla:** `avatar.spec.ts` (proyecto `gpu`, «C4: el avatar se carga de forma diferida…») queda en modo `fijo` en lugar de `avatar`. Se reprodujo **igual con los cambios guardados en el stash** (código previo), así que no la causan estos cambios; apunta a que Chromium de esta máquina no inicia WebGL. No se ejecutó la medición de 60 FPS ni de desfase tras el pulido: **queda pendiente repetirla en una máquina con GPU** (`eval.fase4.run`) para confirmar que el marco y el halo no cuestan FPS.
+
+---
+
+> **Nota posterior (QuitarAdmin, 2026-11-02).** El token administrativo descrito en esta fase
+> (`NA_ADMIN_TOKEN`, `require_admin` y el selector Ciudadano/Administrador) **se retiró después**, por
+> decisión del responsable del proyecto: hoy toda la API es pública. Las cifras de arriba corresponden a
+> ejecuciones reales de entonces y no se reescriben. Ver `QuitarAdmin/` y la limitación 77 de
+> `noticias-ashaninka/docs/limitations.md`.

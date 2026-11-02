@@ -1,22 +1,22 @@
 {
  "fase": 6,
- "commit": "895d0b6f2bee80a8d46e7c8b83a034700e33a9d3",
- "fecha": "2026-10-13T05:18:57+00:00",
+ "commit": "75769c2e0de4b87e8cd3a27b11bdc159bedaa820",
+ "fecha": "2026-11-02T18:16:06+00:00",
  "hardware": {
   "so": "Windows-10-10.0.26200-SP0",
-  "cpu": "Intel64 Family 6 Model 151 Stepping 5, GenuineIntel",
-  "nucleos_logicos": 12,
-  "ram_gb": 15.8,
+  "cpu": "AMD64 Family 25 Model 33 Stepping 2, AuthenticAMD",
+  "nucleos_logicos": 16,
+  "ram_gb": 23.9,
   "gpu_chromium": null
  },
  "docker": {
   "cli": {
    "disponible": true,
-   "version": "Docker version 29.8.0, build 88096ef"
+   "version": "Docker version 29.7.2, build a7dcaa6"
   },
   "compose": {
    "disponible": true,
-   "version": "Docker Compose version v5.5.1"
+   "version": "Docker Compose version v5.3.1"
   },
   "compose_config": {
    "valido": true,
@@ -52,9 +52,11 @@
  },
  "modelos": {
   "codigo": 0,
-  "archivos_ok": 12,
-  "archivos_total": 12,
-  "omitidos": [],
+  "archivos_ok": 5,
+  "archivos_total": 6,
+  "omitidos": [
+   "facebook/mms-1b-all"
+  ],
   "fallos": []
  },
  "escucha_simulada": {
@@ -129,57 +131,43 @@
   }
  },
  "kit_real": {
-  "construido": true,
-  "oraciones": 24,
-  "items": 53,
-  "repetidos": 5,
-  "regla_clave": "3 primeras palabras de 5 o más letras",
-  "rms_objetivo": 0.08,
-  "audios_en_zip": 53,
-  "clave_fuera_del_zip": true,
-  "motores": [
-   "mms_vits",
-   "espeak_ng"
-  ]
+  "construido": false,
+  "nota": "ejecute: uv run python -m eval.listening.inteligibilidad_mos.build"
  },
  "paquete": {
-  "inicial_gzip_bytes": 24988,
+  "inicial_gzip_bytes": 38011,
   "inicial_archivos": [
-   "assets/index-Cc9FYswb.css",
-   "assets/index-DZbclvoM.js",
-   "assets/preload-helper-B0uLj6Uu.js",
+   "assets/index-BAPv1Zjk.css",
+   "assets/index-BeW8-kWH.js",
+   "assets/preload-helper-Dk3gvHhv.js",
    "index.html"
   ],
-  "diferido_gzip_bytes": 234155,
+  "diferido_gzip_bytes": 234349,
   "diferido_archivos": [
-   "assets/AvatarPanel-5UK-lCLs.js",
+   "assets/AvatarPanel-B3SRWYsT.js",
    "assets/GLTFLoader-BIuxjdlN.js",
-   "assets/create-avatar-bkGZEMwh.js",
+   "assets/create-avatar-uIO28kXt.js",
    "assets/three-vrm.module-6fMmVtoZ.js",
    "assets/three.module-C8enonVg.js",
-   "assets/viewer-1Wau1Vz8.js"
+   "assets/viewer-Bsgen4Ps.js"
   ],
-  "sw_js_gzip_bytes": 1293,
+  "sw_js_gzip_bytes": 1291,
   "precache_sw_archivos": [
    "/",
-   "/assets/index-Cc9FYswb.css",
-   "/assets/index-DZbclvoM.js",
-   "/assets/preload-helper-B0uLj6Uu.js",
+   "/assets/index-BAPv1Zjk.css",
+   "/assets/index-BeW8-kWH.js",
+   "/assets/preload-helper-Dk3gvHhv.js",
    "/icon-192.png",
    "/icon.svg",
    "/index.html",
    "/manifest.webmanifest",
    "/presentadora_fija.svg"
   ],
-  "precache_sw_gzip_bytes": 26696,
+  "precache_sw_gzip_bytes": 39719,
   "precache_sw_incluye_avatar": false,
   "presupuesto_inicial_bytes": 3145728,
   "cumple_presupuesto_inicial": true,
-  "nota": "el avatar va FUERA del presupuesto inicial (carga diferida, PLAN §4.7)",
-  "vrm_provisional_bytes": 2525972,
-  "vrm_meta_final_bytes": 2097152,
-  "vrm_cumple_meta_2mb": false,
-  "inicial_mas_avatar_mas_vrm_gzip_bytes": 2785115
+  "nota": "el avatar va FUERA del presupuesto inicial (carga diferida, PLAN §4.7)"
  },
  "regresion_fase5": {
   "commit_fase5": "79cc55d1fa17725c81c0f39799987eec2132384e",
@@ -193,18 +181,18 @@
     "test_security.py",
     "test_security_api.py"
    ],
-   "pasaron": 55,
+   "pasaron": 59,
    "fallaron": 0,
    "omitidas": 0,
-   "total": 55
+   "total": 59
   },
   "despliegue": {
    "archivos": [
     "test_deploy_artifacts.py",
     "test_imagen_simulada.py"
    ],
-   "pasaron": 31,
-   "fallaron": 0,
+   "pasaron": 30,
+   "fallaron": 1,
    "omitidas": 1,
    "total": 32
   },
@@ -229,34 +217,23 @@
  },
  "pruebas": {
   "pytest": {
-   "total": 316,
-   "pasaron": 314,
-   "fallaron": 0,
-   "omitidas": 2
-  },
-  "vitest": {
-   "total": 65,
-   "pasaron": 65,
-   "fallaron": 0
-  },
-  "e2e": {
-   "total": 27,
-   "pasaron": 27,
-   "fallaron": 0,
-   "omitidas": 0
+   "total": 373,
+   "pasaron": 363,
+   "fallaron": 1,
+   "omitidas": 9
   }
  },
  "criterios": {
   "pruebas_seguridad": {
-   "meta": "endpoints administrativos cerrados por defecto, cabeceras, CSP, límite de tasa y salud: 0 fallos",
-   "valor": "55/55",
+   "meta": "sin rol administrativo (ninguna ruta da 403), cabeceras, CSP, límite de tasa y salud: 0 fallos",
+   "valor": "59/59",
    "cumple": true,
    "nota": ""
   },
   "pruebas_despliegue": {
    "meta": "Dockerfile, Compose, Caddyfile, .dockerignore, variables, modelos y arranque con el layout de la imagen: 0 fallos",
-   "valor": "31/32",
-   "cumple": true,
+   "valor": "30/32",
+   "cumple": false,
    "nota": ""
   },
   "pruebas_escucha": {
@@ -297,9 +274,9 @@
   },
   "modelos_sha256": {
    "meta": "los pesos descargados coinciden con models.lock.json",
-   "valor": "12/12",
+   "valor": "5/6",
    "cumple": true,
-   "nota": ""
+   "nota": "modelos de evaluación no descargados: facebook/mms-1b-all"
   },
   "escucha_recupera_valores_simulados": {
    "meta": "el kit recupera el acierto y el MOS verdaderos dentro del IC 95 % (oyentes simulados)",
@@ -315,17 +292,17 @@
   "kit_real_construido": {
    "meta": "kit con audio real de MMS y eSpeak construido, con la clave fuera del zip",
    "valor": {
-    "construido": true,
-    "items": 53,
-    "audios_en_zip": 53,
-    "clave_fuera_del_zip": true
+    "construido": false,
+    "items": null,
+    "audios_en_zip": null,
+    "clave_fuera_del_zip": null
    },
-   "cumple": true,
-   "nota": ""
+   "cumple": "pendiente",
+   "nota": "ejecute: uv run python -m eval.listening.inteligibilidad_mos.build"
   },
   "carga_inicial": {
    "meta": "carga inicial de la PWA < 3 MB tras añadir seguridad y el flujo del experimento",
-   "valor": 0.0238,
+   "valor": 0.0363,
    "cumple": true,
    "nota": ""
   },
@@ -340,21 +317,21 @@
   },
   "pruebas_pytest": {
    "meta": "0 fallos",
-   "valor": "314/316",
-   "cumple": true,
+   "valor": "363/373",
+   "cumple": false,
    "nota": ""
   },
   "pruebas_vitest": {
    "meta": "0 fallos",
-   "valor": "65/65",
-   "cumple": true,
-   "nota": ""
+   "valor": null,
+   "cumple": "pendiente",
+   "nota": "sin resultados de vitest en eval/fase6/out/ (los deja scripts/verify.sh)"
   },
   "pruebas_e2e": {
    "meta": "0 fallos",
-   "valor": "27/27",
-   "cumple": true,
-   "nota": ""
+   "valor": null,
+   "cumple": "pendiente",
+   "nota": "sin resultados de e2e en eval/fase6/out/ (los deja scripts/verify.sh)"
   },
   "banco_en_servidor_6_3": {
    "meta": "repetir las mediciones de las Fases 2 a 4 en el servidor desplegado (local frente a servidor)",

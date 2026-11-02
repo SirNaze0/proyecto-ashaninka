@@ -1,5 +1,19 @@
 # Changelog
 
+## QuitarAdmin — Sin rol administrativo (2026-11-02)
+
+Decisión del responsable del proyecto: quitar la distinción Ciudadano/Administrador. Plan, prompts y
+resúmenes en `../QuitarAdmin/`.
+
+### Quitado
+- **Backend:** `require_admin`, `check_admin` y el resto del token de `backend/app/security.py`; las rutas `/api/news*` (incluido `DELETE`), `/api/events/summary`, `/api/experiment/export` y `engine` en `/api/synthesize` son públicas. `NA_ADMIN_TOKEN` y `NA_EXPORT_TOKEN` desaparecen de los `.env*.example` (si siguen en un `.env`, se ignoran).
+- **PWA:** `frontend/src/app/role.ts`, el selector de rol y el formulario del token; la Sala de redacción se ve siempre y no envía cabeceras. Claves i18n `role.*`, `masthead.access.admin`, `newsroom.guard` y `newsroom.error.forbidden`.
+
+### Cambiado
+- Pruebas (pytest, vitest y Playwright): las del 403 ahora comprueban el acceso abierto; `test_docs_fase6.py` exige que ninguna ruta responda 403 sin token.
+- Las dos pruebas axe emulan `prefers-reduced-motion` (evita una carrera previa: la opacidad de `.btn` se medía a mitad de su transición).
+- `eval/fase6` (criterio de seguridad y diagrama), `docs/architecture.md` regenerado, `docs/deployment.md`, `pwa.md`, `translation.md`, `metrics.md`, `limitations.md` (55 y 67 actualizadas; **77 nueva: la API no tiene autenticación**) y README.
+
 ## Fase 6 — Despliegue, seguridad y kit de escucha (2026-10-13)
 
 ### Añadido

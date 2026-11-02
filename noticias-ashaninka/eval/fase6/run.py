@@ -336,7 +336,7 @@ def criterios(d: dict) -> dict:
         c,
         d,
         "seguridad",
-        "endpoints administrativos cerrados por defecto, cabeceras, CSP, límite de tasa y salud: 0 fallos",
+        "sin rol administrativo (ninguna ruta da 403), cabeceras, CSP, límite de tasa y salud: 0 fallos",
     )
     _area(
         c,
