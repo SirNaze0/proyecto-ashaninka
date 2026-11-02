@@ -72,6 +72,10 @@ export interface CatalogItem {
   segmentos_bloqueados: number;
   duracion_s: number | null;
   manifest_url: string | null;
+  /** NoticiasTVPeru: traducción automática sin revisar y fuente (opcionales: servidores anteriores no los envían). */
+  traduccion_automatica?: boolean;
+  fuente_url?: string | null;
+  fuente_nombre?: string | null;
 }
 
 export interface CatalogSegment {
@@ -92,6 +96,9 @@ export interface CatalogDetail {
   manifest_url: string | null;
   parrafos: CatalogSegment[][];
   avisos: Record<string, string>;
+  traduccion_automatica?: boolean;
+  fuente_url?: string | null;
+  fuente_nombre?: string | null;
 }
 
 /** Metadatos sin texto del cuerpo (`/api/catalog/{id}/meta`). */

@@ -678,3 +678,36 @@ details > summary {
     transform: translateX(300%);
   }
 }
+
+/* ======== Noticias de TV Perú en el tablón (NoticiasTVPeru) ======== */
+.feedbar {
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+}
+.feedbar h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+}
+.feed-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.6rem 1rem;
+}
+.feed-controls .field {
+  margin: 0;
+}
+.feed-status {
+  margin: 0.5rem 0 0;
+  font-weight: 600;
+}
+.feedbar .tr-note {
+  margin: 0.4rem 0 0;
+}
+.auto-notice a {
+  font-weight: 700;
+}

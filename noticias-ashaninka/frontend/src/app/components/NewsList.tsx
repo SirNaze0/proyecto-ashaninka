@@ -1,6 +1,7 @@
 import { useEffect, useState } from "preact/hooks";
 import { useApp } from "../ctx";
 import { fetchCatalog } from "../data";
+import { FeedBar } from "./FeedBar";
 import { isSaved } from "../offline";
 import { newsHref } from "../router";
 import { CONDITIONS, type CatalogItem, type Condition } from "../types";
@@ -11,10 +12,17 @@ export function NewsList() {
   const [saved, setSaved] = useState<Set<number>>(new Set());
   const [error, setError] = useState(false);
   const [cond, setCond] = useState<Condition>("C3");
+  // se incrementa para recargar: al terminar un ciclo de TV Perú y cada 60 s con la pestaña visible
+  const [recarga, setRecarga] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => document.visibilityState === "visible" && setRecarga((n) => n + 1), 60_000);
+    return () => clearInterval(id);
+  }, []);
 
   useEffect(() => {
     let dead = false;
-    fetchCatalog()
+    fetchCatalog("recientes")
       .then(async (list) => {
         if (dead) return;
         setItems(list);
@@ -26,12 +34,13 @@ export function NewsList() {
     return () => {
       dead = true;
     };
-  }, [online]);
+  }, [online, recarga]);
 
   return (
     <section aria-labelledby="list-h">
       <h2 id="list-h">{t("list.title")}</h2>
       {!online && <p class="banner" role="status">{t("offline.banner")}</p>}
+      <FeedBar onActualizado={() => setRecarga((n) => n + 1)} />
       <label class="field">
         {t("list.condition")}
         <select value={cond} onChange={(e) => setCond((e.currentTarget as HTMLSelectElement).value as Condition)}>
@@ -58,6 +67,12 @@ export function NewsList() {
                 <span class="pill">{t("news.numbered", { n: n.id })}</span>
                 <span class="pill">{n.variante_dialectal}</span>
                 {n.procedencia_tipo === "corpus_americasnlp" && <span class="pill pill-warn">{t("list.pseudo")}</span>}
+                {n.traduccion_automatica && (
+                  <span class="pill pill-warn" data-testid="auto-tag">
+                    {t("list.autoTranslation")}
+                  </span>
+                )}
+                {n.fuente_nombre && <span class="pill">{t("list.source", { f: n.fuente_nombre })}</span>}
                 {n.segmentos_con_audio === 0 ? (
                   <span class="pill pill-warn">{t("list.noAudio")}</span>
                 ) : (

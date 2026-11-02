@@ -8,8 +8,10 @@ test("la lista muestra las noticias y enlaza con la condición elegida", async (
   await page.goto("/?nosw=1#/noticias");
   await expect(page.locator(".news-list li")).toHaveCount(3);
   await page.getByLabel("Modo de presentación").selectOption("C2");
-  await expect(page.locator(".news-link").first()).toHaveAttribute("href", "#/noticia/1?c=C2");
-  await page.locator(".news-link").first().click();
+  // el tablón va de lo más reciente a lo más antiguo (NoticiasTVPeru): la noticia 1 queda al final
+  const n1 = page.locator('.news-link[href^="#/noticia/1?"]');
+  await expect(n1).toHaveAttribute("href", "#/noticia/1?c=C2");
+  await n1.click();
   await expect(page.getByRole("heading", { level: 2 })).toHaveText("Noticia 1");
 });
 

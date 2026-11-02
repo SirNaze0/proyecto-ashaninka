@@ -3,7 +3,7 @@
 | Fase | Estado |
 |---|---|
 | 1 Backend | Culminada |
-| 2 PWA | Pendiente |
+| 2 PWA | Culminada |
 | 3 Documentación y medición | Pendiente |
 | 4 Verificación y README | Pendiente |
 

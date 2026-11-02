@@ -23,7 +23,7 @@ test("sin conexión: tras guardar la noticia, la app abre y se reproduce complet
 
   // la lista también abre sin red y marca la noticia guardada
   await page.goto("/#/noticias");
-  await expect(page.locator(".news-list li").first()).toContainText("Guardada para uso sin conexión");
+  await expect(page.locator(".news-list li", { has: page.locator('a[href^="#/noticia/1?"]') })).toContainText("Guardada para uso sin conexión");
   await context.setOffline(false);
 });
 

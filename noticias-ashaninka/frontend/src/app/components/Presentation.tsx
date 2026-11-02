@@ -396,6 +396,16 @@ export function Presentation({ id, condition, experiment = false, onDone }: Pres
         avatar={condition === "C4"}
         pseudo={!!meta && meta.procedencia_tipo === "corpus_americasnlp"}
       />
+      {!experiment && meta?.traduccion_automatica && (
+        <p class="banner auto-notice" role="note" data-testid="auto-notice">
+          {t("news.autoNotice", { f: meta.fuente_nombre ?? t("news.sourceUnknown") })}{" "}
+          {meta.fuente_url && (
+            <a href={meta.fuente_url} target="_blank" rel="noopener noreferrer" data-testid="source-link">
+              {t("news.sourceLink", { f: meta.fuente_nombre ?? meta.fuente_url })}
+            </a>
+          )}
+        </p>
+      )}
       {view.status === "loading" && <p role="status">{t("news.loading")}</p>}
       {view.status === "error" && <p role="alert">{t("news.error")}</p>}
       {audioMode && view.modo === "bajo-demanda" && (

@@ -57,7 +57,8 @@ async function catalogNetworkFirst(req: Request): Promise<Response> {
     if (net.ok) await cache.put(req, net.clone());
     return net;
   } catch {
-    const hit = await cache.match(req);
+    // sin red: la misma URL o, si no está, la misma ruta con otros parámetros (p. ej. otro orden)
+    const hit = (await cache.match(req)) ?? (await cache.match(req, { ignoreSearch: true }));
     if (hit) return hit;
     return new Response(JSON.stringify({ detail: "sin conexión" }), {
       status: 503,

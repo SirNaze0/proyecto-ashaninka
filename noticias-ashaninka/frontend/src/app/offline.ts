@@ -19,7 +19,8 @@ export async function saveNews(id: number, withAudio: boolean): Promise<number> 
   const cache = await caches.open(NEWS_CACHE);
   const catalog = await caches.open(CATALOG_CACHE);
   let n = 0;
-  for (const u of ["/api/catalog", `/api/catalog/${id}`, `/api/catalog/${id}/meta`]) {
+  // el tablón pide «recientes» (NoticiasTVPeru): se guardan las dos listas para abrirlo sin red
+  for (const u of ["/api/catalog", "/api/catalog?orden=recientes", `/api/catalog/${id}`, `/api/catalog/${id}/meta`]) {
     const r = await fetch(u);
     if (r.ok) {
       await catalog.put(new Request(u), r);

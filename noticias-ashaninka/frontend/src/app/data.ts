@@ -11,7 +11,9 @@ async function json<T>(url: string): Promise<T> {
   return (await r.json()) as T;
 }
 
-export const fetchCatalog = () => json<CatalogItem[]>("/api/catalog");
+/** Catálogo; el tablón lo pide con `recientes` (lo último primero, NoticiasTVPeru). */
+export const fetchCatalog = (orden: "id" | "recientes" = "id") =>
+  json<CatalogItem[]>(orden === "id" ? "/api/catalog" : `/api/catalog?orden=${orden}`);
 export const fetchDetail = (id: number) => json<CatalogDetail>(`/api/catalog/${id}`);
 export const fetchMeta = (id: number) => json<CatalogItem>(`/api/catalog/${id}/meta`);
 export const fetchTimings = (url: string) => json<SegTimings>(url);
