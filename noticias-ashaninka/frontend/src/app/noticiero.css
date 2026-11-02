@@ -39,8 +39,7 @@ a.btn {
   padding: 0.5rem 16px;
 }
 .top-strip,
-.top-main,
-.token-form {
+.top-main {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -58,44 +57,6 @@ a.btn {
   font-weight: 600;
   color: var(--muted);
 }
-.roles {
-  display: inline-flex;
-  padding: 0.2rem;
-  border: 1px solid var(--border-strong);
-  border-radius: 999px;
-  background: var(--pill-bg);
-}
-.role {
-  min-height: 44px;
-  padding: 0 1rem;
-  border: 0;
-  border-radius: 999px;
-  background: transparent;
-  color: var(--pill-fg);
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
-}
-.role[aria-checked="true"] {
-  background: var(--accent);
-  color: var(--accent-fg);
-}
-.role-admin[aria-checked="true"] {
-  background: var(--terracotta);
-  color: var(--terracotta-fg);
-}
-.token-form {
-  background: var(--warn-bg);
-  color: var(--warn-fg);
-  border-bottom: 1px solid var(--border);
-}
-.token-form .field {
-  margin: 0;
-}
-.token-form .tr-note {
-  color: var(--warn-fg);
-}
-.token-form input,
 .room input[type="text"],
 .room input[type="date"],
 .room select,
@@ -113,9 +74,6 @@ a.btn {
   margin: 0;
   color: var(--err);
   font-weight: 600;
-}
-.token-form .token-msg {
-  color: var(--warn-fg);
 }
 .top-main {
   justify-content: space-between;
@@ -530,7 +488,6 @@ details > summary {
    (axe los medía a mitad de camino y fallaba el contraste). */
 .news-link,
 .btn,
-.role,
 .drop,
 .card,
 .seg {

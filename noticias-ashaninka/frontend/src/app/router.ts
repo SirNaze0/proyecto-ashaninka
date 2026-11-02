@@ -16,7 +16,7 @@ const STEPS: ExperimentStep[] = ["bloque", "cuestionario", "final", "fin"];
 export const DEFAULT_CONDITION: Condition = "C3";
 /** Lista de noticias (antes en `#/`, que ahora es la pantalla de traducción). */
 export const NEWS_HREF = "#/noticias";
-/** Sala de redacción (solo administrador verificado). */
+/** Sala de redacción (abierta a todos; QuitarAdmin). */
 export const NEWSROOM_HREF = "#/redaccion";
 
 export function parseHash(hash: string): Route {

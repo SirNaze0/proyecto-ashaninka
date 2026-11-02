@@ -2,9 +2,6 @@ import { expect, type Page } from "@playwright/test";
 
 export type Cond = "C1" | "C2" | "C3" | "C4";
 
-/** Token administrativo del servidor de pruebas (scripts/e2e_server.py): /api/events/summary lo exige. */
-export const ADMIN = { "x-admin-token": "e2e-admin-token-0123456789" };
-
 /** Abre una noticia en una condición. `sw=false` evita registrar el Service Worker. */
 export async function openNews(page: Page, id: number, c: Cond, sw = false) {
   await page.goto(`/${sw ? "" : "?nosw=1"}#/noticia/${id}?c=${c}`);

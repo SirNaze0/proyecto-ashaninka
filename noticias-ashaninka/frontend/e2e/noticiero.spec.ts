@@ -1,20 +1,15 @@
-// Diseño de noticiero (v0): roles Ciudadano/Administrador, sala de redacción con carga de archivos,
+// Diseño de noticiero (v0): sin roles (QuitarAdmin), sala de redacción abierta con carga de archivos,
 // publicación real (news → process → build), estudio C4 centrado y accesibilidad en claro y oscuro.
 // Corre en su propio servidor (proyecto «noticiero»): publicar añade noticias a su base de datos.
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
 import { clickPlay, waitFinished } from "./helpers";
 
-const TOKEN = "e2e-admin-token-0123456789";
 // Texto del corpus de prueba del servidor E2E (el mismo de las noticias ficticias): no es asháninka inventado
 const CUERPO = "Tee otimimotena katsini.\n\nOkantzi kemetsa. Tzimatsi kitaiteri.";
 
-async function entrarComoAdmin(page: Page) {
+async function abrirPortada(page: Page) {
   await page.goto("/?nosw=1");
-  await page.getByTestId("role-admin").click();
-  await page.getByTestId("token-input").fill(TOKEN);
-  await page.getByTestId("token-submit").click();
-  await expect(page.getByTestId("token-ok")).toBeVisible();
 }
 
 const TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"];
@@ -23,45 +18,22 @@ async function serious(page: Page) {
   return r.violations.filter((v) => v.impact === "critical" || v.impact === "serious").map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(", ")}`);
 }
 
-test("Ciudadano: no ve la sala de redacción y #/redaccion lo devuelve a la portada", async ({ page }) => {
+test("Sin roles: cualquiera ve la sala de redacción, sin selector ni token", async ({ page }) => {
   await page.goto("/?nosw=1");
   const nav = page.getByRole("navigation", { name: "Principal" });
   await expect(nav.getByRole("link", { name: "Traductor" })).toBeVisible();
-  await expect(nav.getByRole("link", { name: "Sala de redacción" })).toHaveCount(0);
-  await expect(page.getByTestId("role-ciudadano")).toHaveAttribute("aria-checked", "true");
-  await page.goto("/?nosw=1#/redaccion");
-  await expect(page).toHaveURL(/#\/noticias$/);
-  await expect(page.locator(".news-list li")).toHaveCount(3);
-});
-
-test("Administrador: el token se verifica en el servidor, vive solo en memoria y desbloquea la redacción", async ({ page }) => {
-  await page.goto("/?nosw=1");
-  await page.getByTestId("role-admin").click();
-  await page.getByTestId("token-input").fill("token-equivocado-123456");
-  await page.getByTestId("token-submit").click();
-  await expect(page.getByTestId("token-msg")).toContainText("no es válido");
-  await expect(page.getByRole("navigation", { name: "Principal" }).getByRole("link", { name: "Sala de redacción" })).toHaveCount(0);
-
-  await page.getByTestId("token-input").fill(TOKEN);
-  await page.getByTestId("token-submit").click();
-  await expect(page.getByTestId("token-ok")).toBeVisible();
-  await page.getByRole("navigation", { name: "Principal" }).getByRole("link", { name: "Sala de redacción" }).click();
+  await expect(page.getByTestId("role-admin")).toHaveCount(0);
+  await expect(page.getByTestId("token-input")).toHaveCount(0);
+  await nav.getByRole("link", { name: "Sala de redacción" }).click();
   await expect(page.getByRole("heading", { level: 2 })).toHaveText("Sala de redacción");
-  await expect(page.getByTestId("room-pending")).toBeVisible();
-
-  // el token no se guarda en ningún almacenamiento del navegador
-  const guardado = await page.evaluate(
-    (tok) => JSON.stringify({ ...localStorage }) + JSON.stringify({ ...sessionStorage }) + document.cookie.includes(tok),
-    TOKEN,
-  );
-  expect(guardado).not.toContain(TOKEN);
-  await page.reload();
-  await expect(page).toHaveURL(/#\/noticias$/);
-  await expect(page.getByTestId("role-ciudadano")).toHaveAttribute("aria-checked", "true");
+  // entrar directamente por la URL también funciona
+  await page.goto("/?nosw=1#/redaccion");
+  await expect(page).toHaveURL(/#\/redaccion$/);
+  await expect(page.getByRole("heading", { level: 2 })).toHaveText("Sala de redacción");
 });
 
 test("Redacción: importa un lote JSON, publica con voz por lotes y la abre en el estudio C4", async ({ page }) => {
-  await entrarComoAdmin(page);
+  await abrirPortada(page);
   await page.getByRole("navigation", { name: "Principal" }).getByRole("link", { name: "Sala de redacción" }).click();
 
   const lote = [
@@ -93,7 +65,7 @@ test("Redacción: importa un lote JSON, publica con voz por lotes y la abre en e
 });
 
 test("Redacción: pegado rápido, procedencia obligatoria y errores del servidor visibles", async ({ page }) => {
-  await entrarComoAdmin(page);
+  await abrirPortada(page);
   await page.getByRole("navigation", { name: "Principal" }).getByRole("link", { name: "Sala de redacción" }).click();
   await page.getByTestId("room-publish").click();
   await expect(page.getByTestId("room-error")).toContainText("falta el título");
@@ -121,6 +93,8 @@ test("Estudio C4: alterna entre estudio centrado y lectura paralela", async ({ p
 });
 
 test("accesibilidad (axe) del noticiero en claro y oscuro: portada, estudio, redacción", async ({ page }) => {
+  // sin transiciones: axe medía la opacidad de .btn a mitad de camino (deshabilitado → habilitado)
+  await page.emulateMedia({ reducedMotion: "reduce" });
   for (const tema of ["light", "dark"] as const) {
     await page.goto("/?nosw=1#/ajustes");
     await page.getByTestId("theme-select").selectOption(tema);
@@ -135,7 +109,7 @@ test("accesibilidad (axe) del noticiero en claro y oscuro: portada, estudio, red
     await page.goto(`/?nosw=1#/ajustes`);
     expect(await serious(page), `ajustes ${tema}`).toEqual([]);
   }
-  await entrarComoAdmin(page);
+  await abrirPortada(page);
   await page.getByRole("navigation", { name: "Principal" }).getByRole("link", { name: "Sala de redacción" }).click();
   await expect(page.getByTestId("room-pending")).toBeVisible();
   expect(await serious(page), "redacción").toEqual([]);

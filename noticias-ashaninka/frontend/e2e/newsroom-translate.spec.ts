@@ -4,8 +4,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page, type Route } from "@playwright/test";
 
-const TOKEN = "e2e-admin-token-0123456789";
-
 const DISPONIBLE = { disponible: true, motivo: null, modelo: "BiTAM es2cni", version: "bitam_v5_run_e2e", dispositivo: "cuda:0", fake: false };
 const BORRADOR = {
   titulo_cni: "PRUEBA-CNI-TITULO Satipo",
@@ -28,10 +26,6 @@ const fulfill = (route: Route, status: number, body: unknown) =>
 async function abrirRedaccion(page: Page, estado: unknown = DISPONIBLE) {
   await page.route("**/api/news/translate/status", (r) => fulfill(r, 200, estado));
   await page.goto("/?nosw=1");
-  await page.getByTestId("role-admin").click();
-  await page.getByTestId("token-input").fill(TOKEN);
-  await page.getByTestId("token-submit").click();
-  await expect(page.getByTestId("token-ok")).toBeVisible();
   await page.getByRole("navigation", { name: "Principal" }).getByRole("link", { name: "Sala de redacción" }).click();
   await expect(page.getByTestId("room-translate-card")).toBeVisible();
 }
@@ -42,9 +36,9 @@ async function escribirCastellano(page: Page) {
 }
 
 test("traduce: rellena el borrador, muestra pares y aviso, y la procedencia queda automática no revisada", async ({ page }) => {
-  let peticion: { titulo_es?: string; cuerpo_es?: string; token?: string } = {};
+  let peticion: { titulo_es?: string; cuerpo_es?: string; token?: string | null } = {};
   await page.route("**/api/news/translate", async (route) => {
-    peticion = { ...(route.request().postDataJSON() as object), token: route.request().headers()["x-admin-token"] };
+    peticion = { ...(route.request().postDataJSON() as object), token: route.request().headers()["x-admin-token"] ?? null };
     await fulfill(route, 200, BORRADOR);
   });
   await abrirRedaccion(page);
@@ -53,7 +47,7 @@ test("traduce: rellena el borrador, muestra pares y aviso, y la procedencia qued
   await page.getByTestId("room-translate").click();
 
   await expect(page.getByTestId("room-tr-result")).toContainText("4 oraciones");
-  expect(peticion).toEqual({ titulo_es: "Lluvias en Satipo", cuerpo_es: "Llovió mucho. El río creció.\n\nNo hay heridos.", token: TOKEN });
+  expect(peticion).toEqual({ titulo_es: "Lluvias en Satipo", cuerpo_es: "Llovió mucho. El río creció.\n\nNo hay heridos.", token: null }); // QuitarAdmin: sin token
   await expect(page.getByTestId("room-title")).toHaveValue("PRUEBA-CNI-TITULO Satipo");
   await expect(page.getByTestId("room-par-0")).toHaveValue("PRUEBA-CNI-1 PRUEBA-CNI-2");
   await expect(page.getByTestId("room-par-1")).toHaveValue("PRUEBA-CNI-3");
@@ -95,7 +89,6 @@ for (const [status, detalle, esperado] of [
   [503, "Traductor no disponible: no se pudo conectar con el traductor", "no está disponible"],
   [422, "el cuerpo supera 8000 caracteres", "demasiado largo"],
   [502, "Error del traductor: el traductor respondió 500", "falló"],
-  [403, "token", "rechazó el token"],
 ] as const) {
   test(`error ${status} visible y el borrador queda intacto`, async ({ page }) => {
     await page.route("**/api/news/translate", (route) => fulfill(route, status, { detail: detalle }));

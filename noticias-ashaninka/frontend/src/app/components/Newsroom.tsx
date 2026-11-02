@@ -1,4 +1,4 @@
-// Sala de redacción (solo administrador): traducción castellano→asháninka con BiTAM (borrador que el
+// Sala de redacción (abierta a todos desde QuitarAdmin): traducción castellano→asháninka con BiTAM (borrador que el
 // SERVIDOR genera con el modelo de la tesis de una compañera), carga de texto ya en asháninka por
 // párrafos o archivos (.txt, .csv, .json), procedencia obligatoria y publicación real:
 // /api/news → process → build (audio por lotes). La traducción automática nunca se marca revisada.
@@ -33,7 +33,7 @@ import { newsHref } from "../router";
 const claveCastellano = (d: NewsDraft) => `${d.titulo_es.trim()}\u0000${d.cuerpo_es.trim()}`;
 
 export function Newsroom() {
-  const { t, token } = useApp();
+  const { t } = useApp();
   const [draft, setDraft] = useState<NewsDraft>(emptyDraft);
   const [queue, setQueue] = useState<NewsDraft[]>([]);
   const [current, setCurrent] = useState(0);
@@ -54,19 +54,17 @@ export function Newsroom() {
   const abortRef = useRef<AbortController | null>(null);
 
   async function comprobarTraductor() {
-    if (!token) return;
     setEstado(null);
-    setEstado(await estadoTraductor(token));
+    setEstado(await estadoTraductor());
   }
   useEffect(() => {
     void comprobarTraductor();
     return () => abortRef.current?.abort();
-  }, [token]);
+  }, []);
 
   function mensajeTraduccion(err: unknown): string {
     if (!(err instanceof TranslateError)) return String(err);
     if (err.cancelada) return t("newsroom.translate.cancelled");
-    if (err.status === 403) return t("newsroom.error.forbidden");
     if (err.status === 503) return t("newsroom.translate.unavailable", { m: err.message });
     if (err.status === 422) return t("newsroom.translate.tooLong", { m: err.message });
     return t("newsroom.translate.failed", { m: err.message });
@@ -75,7 +73,6 @@ export function Newsroom() {
   async function onTranslate() {
     const falta = validarCastellano(draft);
     if (falta) return setTrError(t("newsroom.translate.invalid", { m: falta }));
-    if (!token) return;
     // no se pisa texto en asháninka sin preguntar
     if (tieneTextoCni(draft) && !window.confirm(t("newsroom.translate.confirmReplace"))) return;
     const ctl = new AbortController();
@@ -85,7 +82,7 @@ export function Newsroom() {
     setTrError("");
     setTrResult(null);
     try {
-      const r = await traducir(draft, token, ctl.signal);
+      const r = await traducir(draft, ctl.signal);
       setDraft((d) => aplicarTraduccion(d, r));
       setResult(null);
       setTrResult(r);
@@ -144,15 +141,14 @@ export function Newsroom() {
   async function onPublish() {
     const falta = validar(draft);
     if (falta) return setError(t("newsroom.error.invalid", { m: falta }));
-    if (!token) return;
     setBusy(true);
     setError("");
     setResult(null);
     try {
-      setResult(await publicar(draft, token));
+      setResult(await publicar(draft));
     } catch (err) {
       if (err instanceof PublishError) {
-        setError(err.status === 403 ? t("newsroom.error.forbidden") : t("newsroom.error.step", { paso: err.paso, m: err.message }));
+        setError(t("newsroom.error.step", { paso: err.paso, m: err.message }));
       } else setError(String(err));
     } finally {
       setBusy(false);

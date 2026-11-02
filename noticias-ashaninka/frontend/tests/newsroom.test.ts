@@ -1,7 +1,6 @@
 // Sala de redacción: lectura de archivos al contrato de ingesta, validación y publicación.
 import { describe, expect, it, vi } from "vitest";
 import { PublishError, emptyDraft, parseCsv, parseJson, parsePlainText, publicar, toPayload, validar } from "../src/app/newsroom";
-import { puedeVerRedaccion, verificarToken } from "../src/app/role";
 
 describe("parsePlainText", () => {
   it("toma «Título:» y separa párrafos por línea en blanco", () => {
@@ -83,7 +82,7 @@ describe("validar y toPayload", () => {
 const ok = (body: unknown) => new Response(JSON.stringify(body), { status: 200 });
 
 describe("publicar", () => {
-  it("encadena crear → procesar → sintetizar → segmentos con el token", async () => {
+  it("encadena crear → procesar → sintetizar → segmentos sin token (QuitarAdmin)", async () => {
     const f = vi.fn(async (url: string | URL | Request, _init?: RequestInit) => {
       const u = String(url);
       if (u.endsWith("/process")) return ok({ segmentos: 3 });
@@ -92,33 +91,17 @@ describe("publicar", () => {
       return ok({ id: 7 });
     });
     const d = { ...emptyDraft(), titulo_cni: "T", paragraphs: ["p"] };
-    const r = await publicar(d, "tok", f as unknown as typeof fetch);
+    const r = await publicar(d, f as unknown as typeof fetch);
     expect(r).toEqual({ id: 7, segmentos: 3, conAudio: 2, bloqueados: 1 });
     expect(f.mock.calls.map((c) => String(c[0]))).toEqual(["/api/news", "/api/news/7/process", "/api/news/7/build", "/api/news/7/segments"]);
-    for (const c of f.mock.calls) expect((c[1] as RequestInit).headers).toMatchObject({ "x-admin-token": "tok" });
+    for (const c of f.mock.calls) expect((c[1] as RequestInit).headers).not.toHaveProperty("x-admin-token");
   });
   it("informa el paso que falló", async () => {
     const f = vi.fn(async (url: string | URL | Request) =>
       String(url).endsWith("/build") ? new Response(JSON.stringify({ detail: "boom" }), { status: 500 }) : ok({ id: 1, segmentos: 1 }),
     );
     const d = { ...emptyDraft(), titulo_cni: "T", paragraphs: ["p"] };
-    await expect(publicar(d, "tok", f as unknown as typeof fetch)).rejects.toMatchObject({ paso: "sintetizar", status: 500, message: "boom" });
-    await expect(publicar(d, "tok", (() => Promise.reject(new Error("x"))) as unknown as typeof fetch)).rejects.toBeInstanceOf(PublishError);
-  });
-});
-
-describe("rol y token", () => {
-  it("verificarToken distingue ok, rechazado y red", async () => {
-    const r = (status: number) => (async () => new Response("[]", { status })) as unknown as typeof fetch;
-    expect(await verificarToken("t", r(200))).toBe("ok");
-    expect(await verificarToken("t", r(403))).toBe("rechazado");
-    expect(await verificarToken("t", r(500))).toBe("red");
-    expect(await verificarToken("t", (() => Promise.reject(new Error("x"))) as unknown as typeof fetch)).toBe("red");
-    expect(await verificarToken("  ", r(200))).toBe("rechazado");
-  });
-  it("la redacción exige rol administrador y token verificado", () => {
-    expect(puedeVerRedaccion("ciudadano", "t")).toBe(false);
-    expect(puedeVerRedaccion("admin", null)).toBe(false);
-    expect(puedeVerRedaccion("admin", "t")).toBe(true);
+    await expect(publicar(d, f as unknown as typeof fetch)).rejects.toMatchObject({ paso: "sintetizar", status: 500, message: "boom" });
+    await expect(publicar(d, (() => Promise.reject(new Error("x"))) as unknown as typeof fetch)).rejects.toBeInstanceOf(PublishError);
   });
 });

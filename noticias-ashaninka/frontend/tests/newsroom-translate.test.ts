@@ -87,25 +87,24 @@ describe("validarCastellano y tieneTextoCni", () => {
 });
 
 describe("traducir", () => {
-  it("envía título y cuerpo con el token al endpoint administrativo", async () => {
+  it("envía título y cuerpo sin token (QuitarAdmin)", async () => {
     const f = vi.fn(async () => json(200, RESPUESTA));
-    const r = await traducir({ titulo_es: "  Título ", cuerpo_es: "Uno. " }, "tok-123", undefined, f as unknown as typeof fetch);
+    const r = await traducir({ titulo_es: "  Título ", cuerpo_es: "Uno. " }, undefined, f as unknown as typeof fetch);
     expect(r).toEqual(RESPUESTA);
     const [url, init] = f.mock.calls[0] as unknown as [string, RequestInit];
     expect(url).toBe("/api/news/translate");
     expect(init.method).toBe("POST");
-    expect((init.headers as Record<string, string>)["x-admin-token"]).toBe("tok-123");
+    expect(init.headers as Record<string, string>).not.toHaveProperty("x-admin-token");
     expect(JSON.parse(init.body as string)).toEqual({ titulo_es: "Título", cuerpo_es: "Uno." });
   });
 
   it.each([
-    [403, { detail: "token" }],
     [422, { detail: "el cuerpo supera 8000 caracteres" }],
     [502, { detail: "Error del traductor: el traductor respondió 500" }],
     [503, { detail: "Traductor no disponible: no se pudo conectar" }],
   ])("HTTP %i -> TranslateError con estado y detalle", async (status, body) => {
     const f = vi.fn(async () => json(status, body));
-    const err = await traducir({ titulo_es: "t", cuerpo_es: "c" }, "tok", undefined, f as unknown as typeof fetch).catch((e) => e);
+    const err = await traducir({ titulo_es: "t", cuerpo_es: "c" }, undefined, f as unknown as typeof fetch).catch((e) => e);
     expect(err).toBeInstanceOf(TranslateError);
     expect(err.status).toBe(status);
     expect(err.message).toBe(body.detail);
@@ -116,7 +115,7 @@ describe("traducir", () => {
     const f = vi.fn(async () => {
       throw new TypeError("fetch failed");
     });
-    const err = await traducir({ titulo_es: "t", cuerpo_es: "c" }, "tok", undefined, f as unknown as typeof fetch).catch((e) => e);
+    const err = await traducir({ titulo_es: "t", cuerpo_es: "c" }, undefined, f as unknown as typeof fetch).catch((e) => e);
     expect(err).toBeInstanceOf(TranslateError);
     expect(err.status).toBe(0);
     expect(err.cancelada).toBe(false);
@@ -128,7 +127,7 @@ describe("traducir", () => {
       (_url: string, init: RequestInit) =>
         new Promise<Response>((_res, rej) => init.signal?.addEventListener("abort", () => rej(new DOMException("abort", "AbortError")))),
     );
-    const p = traducir({ titulo_es: "t", cuerpo_es: "c" }, "tok", ctl.signal, f as unknown as typeof fetch).catch((e) => e);
+    const p = traducir({ titulo_es: "t", cuerpo_es: "c" }, ctl.signal, f as unknown as typeof fetch).catch((e) => e);
     ctl.abort();
     const err = await p;
     expect(err).toBeInstanceOf(TranslateError);
@@ -139,17 +138,15 @@ describe("traducir", () => {
 describe("estadoTraductor", () => {
   it("devuelve el estado del servidor", async () => {
     const f = vi.fn(async () => json(200, { disponible: true, motivo: null, modelo: "BiTAM es2cni", version: "v", dispositivo: "cuda:0" }));
-    const s = await estadoTraductor("tok", f as unknown as typeof fetch);
+    const s = await estadoTraductor(f as unknown as typeof fetch);
     expect(s).toMatchObject({ disponible: true, dispositivo: "cuda:0" });
-    const [url, init] = f.mock.calls[0] as unknown as [string, RequestInit];
+    const [url] = f.mock.calls[0] as unknown as [string];
     expect(url).toBe("/api/news/translate/status");
-    expect((init.headers as Record<string, string>)["x-admin-token"]).toBe("tok");
   });
   it("nunca lanza: error HTTP o de red -> no disponible con motivo", async () => {
-    const e403 = await estadoTraductor("tok", vi.fn(async () => json(403, { detail: "prohibido" })) as unknown as typeof fetch);
-    expect(e403).toEqual({ disponible: false, motivo: "prohibido" });
+    const e503 = await estadoTraductor(vi.fn(async () => json(503, { detail: "apagado" })) as unknown as typeof fetch);
+    expect(e503).toEqual({ disponible: false, motivo: "apagado" });
     const red = await estadoTraductor(
-      "tok",
       vi.fn(async () => {
         throw new TypeError("x");
       }) as unknown as typeof fetch,

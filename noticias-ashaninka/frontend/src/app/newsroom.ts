@@ -1,9 +1,9 @@
 // Sala de redacción: lectura de archivos (.txt, .csv, .json) al contrato de ingesta de
 // PLAN_DESARROLLO.md §2 (`NewsIn`), cliente de publicación (news → process → build) y cliente del
-// traductor BiTAM es→cni (`POST /api/news/translate`, solo administrador; MejoraEIntegracion F3).
+// traductor BiTAM es→cni (`POST /api/news/translate`; MejoraEIntegracion F3). Sin roles ni token
+// (QuitarAdmin): cualquiera puede publicar.
 // La traducción la hace el SERVIDOR (modelo de la tesis de una compañera); aquí solo se pide, se
 // muestra para revisar y se vuelca al borrador. Nada en este archivo genera texto en asháninka.
-import { adminHeaders } from "./role";
 
 export type ProvenanceTipo = "traduccion_humana" | "traduccion_automatica" | "automatica_revisada";
 export const PROVENANCE_TIPOS: ProvenanceTipo[] = ["traduccion_humana", "traduccion_automatica", "automatica_revisada"];
@@ -237,10 +237,10 @@ export class PublishError extends Error {
   }
 }
 
-async function call(token: string, paso: PublishError["paso"], url: string, init: RequestInit, f: typeof fetch): Promise<unknown> {
+async function call(paso: PublishError["paso"], url: string, init: RequestInit, f: typeof fetch): Promise<unknown> {
   let r: Response;
   try {
-    r = await f(url, { ...init, headers: { ...adminHeaders(token), "Content-Type": "application/json" } });
+    r = await f(url, { ...init, headers: { "Content-Type": "application/json" } });
   } catch {
     throw new PublishError(paso, 0, "sin conexión con el servidor");
   }
@@ -259,12 +259,12 @@ async function call(token: string, paso: PublishError["paso"], url: string, init
 }
 
 /** Contrato §2 → `process` (pipeline de texto) → `build` (audio por lotes). */
-export async function publicar(d: NewsDraft, token: string, f: typeof fetch = fetch): Promise<PublishResult> {
-  const created = (await call(token, "crear", "/api/news", { method: "POST", body: JSON.stringify(toPayload(d)) }, f)) as { id: number };
+export async function publicar(d: NewsDraft, f: typeof fetch = fetch): Promise<PublishResult> {
+  const created = (await call("crear", "/api/news", { method: "POST", body: JSON.stringify(toPayload(d)) }, f)) as { id: number };
   const id = created.id;
-  const proc = (await call(token, "procesar", `/api/news/${id}/process`, { method: "POST" }, f)) as { segmentos: number };
-  await call(token, "sintetizar", `/api/news/${id}/build`, { method: "POST" }, f);
-  const segs = (await call(token, "procesar", `/api/news/${id}/segments`, { method: "GET" }, f)) as { tts_ready: boolean }[];
+  const proc = (await call("procesar", `/api/news/${id}/process`, { method: "POST" }, f)) as { segmentos: number };
+  await call("sintetizar", `/api/news/${id}/build`, { method: "POST" }, f);
+  const segs = (await call("procesar", `/api/news/${id}/segments`, { method: "GET" }, f)) as { tts_ready: boolean }[];
   const conAudio = segs.filter((s) => s.tts_ready).length;
   return { id, segmentos: proc.segmentos, conAudio, bloqueados: segs.length - conAudio };
 }
@@ -336,7 +336,6 @@ export function validarCastellano(d: Pick<NewsDraft, "titulo_es" | "cuerpo_es">)
 /** `POST /api/news/translate`: borrador en asháninka (no guarda nada en el servidor). */
 export async function traducir(
   d: Pick<NewsDraft, "titulo_es" | "cuerpo_es">,
-  token: string,
   signal?: AbortSignal,
   f: typeof fetch = fetch,
 ): Promise<TranslateResponse> {
@@ -344,7 +343,7 @@ export async function traducir(
   try {
     r = await f("/api/news/translate", {
       method: "POST",
-      headers: { ...adminHeaders(token), "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ titulo_es: d.titulo_es.trim(), cuerpo_es: d.cuerpo_es.trim() }),
       signal,
     });
@@ -357,9 +356,9 @@ export async function traducir(
 }
 
 /** `GET /api/news/translate/status`. Nunca lanza: si algo falla, `disponible: false` con motivo. */
-export async function estadoTraductor(token: string, f: typeof fetch = fetch): Promise<TranslatorStatus> {
+export async function estadoTraductor(f: typeof fetch = fetch): Promise<TranslatorStatus> {
   try {
-    const r = await f("/api/news/translate/status", { headers: adminHeaders(token) });
+    const r = await f("/api/news/translate/status");
     if (!r.ok) return { disponible: false, motivo: await detalleDe(r) };
     return (await r.json()) as TranslatorStatus;
   } catch {

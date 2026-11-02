@@ -8,8 +8,8 @@
 //   2. Exponerla en el MISMO origen (ruta del backend): la CSP solo permite `connect-src 'self'`.
 //   3. Implementar `Translator` con `disponible: true` y pasarla a `TranslatePanel`.
 //   4. Voz y avatar del resultado: hoy solo existen para noticias guardadas (`/api/synthesize/{id}`,
-//      manifiesto por lotes); la vía prevista es el contrato `POST /api/news` (con token de
-//      administración) + `process` + `batch`, y luego `Presentation` en C2–C4.
+//      manifiesto por lotes); la vía prevista es el contrato `POST /api/news` (público desde
+//      QuitarAdmin) + `process` + `batch`, y luego `Presentation` en C2–C4.
 
 export interface Translator {
   /** `false` mientras el servicio no esté integrado: la pantalla lo declara y no promete resultado. */

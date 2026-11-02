@@ -4,7 +4,6 @@ import { useContext } from "preact/hooks";
 import type { EventQueue } from "./events";
 import type { ExperimentController } from "./experiment";
 import type { Lang } from "./i18n";
-import type { Role } from "./role";
 import type { Settings } from "./settings";
 
 export interface AppCtx {
@@ -15,9 +14,6 @@ export interface AppCtx {
   events: EventQueue;
   experiment: ExperimentController;
   online: boolean;
-  /** Rol de la interfaz y token administrativo (solo en memoria; ver role.ts). */
-  role: Role;
-  token: string | null;
 }
 
 export const Ctx = createContext<AppCtx>(null as unknown as AppCtx);

@@ -19,8 +19,7 @@ import {
 import { translate } from "./i18n";
 import { Masthead } from "./components/Masthead";
 import { Newsroom } from "./components/Newsroom";
-import { type Role, puedeVerRedaccion } from "./role";
-import { NEWS_HREF, type Route, newsHref, parseHash } from "./router";
+import { type Route, newsHref, parseHash } from "./router";
 import { TEXT_SCALES, loadSettings, saveSettings } from "./settings";
 
 function makeQueue(): EventQueue {
@@ -44,9 +43,6 @@ export function App() {
   const events = useMemo(makeQueue, []);
   const experiment = useMemo(() => makeExperiment(events), [events]);
   const [, setExpTick] = useState(0);
-  // Rol de la interfaz; el token vive solo en memoria (ver role.ts)
-  const [role, setRole] = useState<Role>("ciudadano");
-  const [token, setToken] = useState<string | null>(null);
   const [studioId, setStudioId] = useState<number | null>(null);
 
   useEffect(() => {
@@ -98,12 +94,6 @@ export function App() {
     if (route.name === "news") setStudioId(route.id);
   }, [route]);
 
-  // La sala de redacción solo existe para el administrador verificado
-  const redaccionOk = puedeVerRedaccion(role, token);
-  useEffect(() => {
-    if (route.name === "newsroom" && !redaccionOk) location.replace(NEWS_HREF);
-  }, [route, redaccionOk]);
-
   useEffect(() => {
     document.documentElement.dataset.theme = settings.theme === "auto" ? "" : settings.theme;
     document.documentElement.lang = "es"; // la interfaz cae al castellano mientras cni.json esté pendiente
@@ -119,10 +109,8 @@ export function App() {
       events,
       experiment,
       online,
-      role,
-      token,
     }),
-    [settings, events, experiment, online, role, token],
+    [settings, events, experiment, online],
   );
 
   const enSesion = experiment.state?.estado === "activa";
@@ -135,17 +123,13 @@ export function App() {
       <Masthead
         route={route}
         enSesion={enSesion}
-        role={role}
-        token={token}
-        onRole={setRole}
-        onToken={setToken}
         studioHref={studioId === null ? null : newsHref(studioId, "C4")}
       />
       <main id="main" tabIndex={-1} style={`--scale:${TEXT_SCALES[settings.textSize]}`}>
         {route.name === "translate" && <TranslatePanel />}
         {route.name === "list" && <NewsList />}
         {route.name === "settings" && <SettingsView />}
-        {route.name === "newsroom" && redaccionOk && <Newsroom />}
+        {route.name === "newsroom" && <Newsroom />}
         {route.name === "experiment" && <ExperimentFlow route={route} />}
         {route.name === "news" && <Presentation key={`${route.id}-${route.condition}`} id={route.id} condition={route.condition} />}
       </main>
