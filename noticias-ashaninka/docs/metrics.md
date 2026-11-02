@@ -392,3 +392,38 @@ Definido el 2026-11-02, **antes** de ejecutar `eval.tvperu.run`. Igual que en la
 - **Primer intento** (`eval/results/tvperu_intento1.json`): BiTAM disponible (cuda:0, fp16) y 15 noticias nuevas, pero **0 publicadas**. La primera traducción (una noticia de ≈ 13 oraciones en un lote) superó la espera de 120 s del cliente (`NA_TRANSLATOR_TIMEOUT`, pensada para la Redacción), y las 15 quedaron `pendiente`. La GPU estaba al 100 % y la VRAM llena (6.004 de 6.144 MiB).
 - **Cambio (del sistema, no de la medición):** el ciclo de fondo usa su propia espera, `NA_FEED_TRANSLATOR_TIMEOUT = 900 s`. No cambian el recorte, el parser, el pipeline, el material ni las métricas.
 - Se repite **una vez** con lo definido arriba. El primer intento se conserva y se informa.
+
+# Traducción en trozos dentro del ciclo de TV Perú (NoticiasTVPeru, Fase 5)
+
+Definido el 2026-11-02, **antes** de ejecutar `eval.tvperu.lotes` y `traductor/fidelidad.py --lote 4`. Se mide si enviar las oraciones a BiTAM en trozos de 4 (`NA_FEED_TRANSLATOR_LOTE=4`) acelera la traducción del ciclo frente a enviar la noticia entera en una petición (comportamiento hasta la Fase 4) y si cambia la fidelidad. **No evalúa la calidad de BiTAM** (contrato §2) y **no** se tocan los parámetros de generación del modelo.
+
+## Antecedente (ensayo exploratorio, no cuenta como medición)
+
+Una noticia del RSS del 2026-11-02 18:00 UTC (13 textos: título y oraciones), enviada una vez en cada configuración:
+
+| Envío | Tiempo |
+|---|---|
+| de 1 en 1 | 224 s |
+| de 2 en 2 | 185 s |
+| de 4 en 4 | 160 s |
+| todo junto | 255 s |
+
+Entre configuraciones cambiaron de 2 a 3 de las 13 salidas. De este ensayo sale **4** como valor por defecto; el valor queda fijado **antes** de la medición.
+
+## Velocidad (`eval/tvperu/lotes.py` → `eval/results/tvperu_lotes.json`)
+
+- **Material:** las **3 primeras noticias con texto** del RSS de TV Perú descargado una vez al empezar, recortadas igual que en el ciclo (≤ 12 oraciones y ≤ 2.500 caracteres). Se guardan el SHA-256 del RSS y las URL, no el texto.
+- **Configuraciones:** `lote = 4` y `lote = 0` (todo junto). Cada noticia se traduce **una vez** con cada una, en orden alternado (noticia 1: 4 y luego 0; noticia 2: 0 y luego 4; noticia 3: 4 y luego 0), tras una traducción de calentamiento que se descarta.
+- **Métricas:** s por noticia, s por texto, ahorro relativo por noticia y total (`1 − t4 / t0`), y número de salidas distintas entre las dos configuraciones (comparando hashes).
+- Servicio BiTAM en la GTX 1060 con fp16 y sin otra carga.
+
+## Fidelidad (`traductor/fidelidad.py --lote 4` → `eval/results/traductor_fidelidad_float16_lote4.json`)
+
+- Los **mismos 200 pares del dev** (semilla 13) que `traductor_fidelidad_float16.json`, que se envió en lotes de 32 desde el cliente (8 dentro del servicio). **Nunca el test.**
+- **Métricas:** chrF++ y chrF frente a esa referencia, y salidas idénticas oración a oración.
+- **Criterio fijado de antemano:** se acepta el cambio si la diferencia absoluta de chrF++ es **≤ 0,5 puntos**. Es un umbral pequeño frente al chrF++ de ≈ 26 de BiTAM; como referencia, el cambio bf16→fp16 aceptado en MejoraEIntegracion movió 0,02. Si la supera, se informa y el valor por defecto vuelve a 0.
+
+## Reglas
+
+- Una sola ejecución de cada script. **No se ajusta** el tamaño del trozo después de ver los resultados.
+- Si BiTAM no responde, la medición queda **pendiente**. Nunca se inventan cifras.

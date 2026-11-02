@@ -9,6 +9,7 @@ lo llama por HTTP. Ver ``MejoraEIntegracion/PLAN_INTEGRACION.md``.
 """
 
 from app.translation.client import (
+    EnTrozos,
     FakeTranslator,
     HttpTranslator,
     TraductorError,
@@ -27,6 +28,7 @@ from app.translation.service import (
 
 __all__ = [
     "BorradorTraduccion",
+    "EnTrozos",
     "FakeTranslator",
     "HttpTranslator",
     "TextoDemasiadoLargo",

@@ -150,3 +150,17 @@ def test_valores_por_defecto(monkeypatch) -> None:
         monkeypatch.delenv(v, raising=False)
     s = get_settings()
     assert (s.translator_engine, s.translator_url, s.translator_timeout) == ("http", "", 120.0)
+
+
+def test_en_trozos_conserva_el_orden_y_los_metadatos():
+    from app.translation import EnTrozos, FakeTranslator
+
+    fake = FakeTranslator()
+    textos = [f"Texto {i}" for i in range(10)]
+    r = EnTrozos(fake, 4).translate_batch(textos)
+    assert [len(x) for x in fake.llamadas] == [4, 4, 2]
+    assert r.translations == [f"texto {i} [fake-bitam]" for i in range(10)]
+    assert (r.modelo, r.version) == (fake.modelo, fake.version)
+    assert EnTrozos(fake, 0).translate_batch(textos).translations == r.translations  # todo junto
+    assert len(fake.llamadas[-1]) == 10
+    assert EnTrozos(fake, 4).translate_batch([]).translations == []

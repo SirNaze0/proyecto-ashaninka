@@ -72,6 +72,8 @@ class Settings:
     # Espera del traductor en el ciclo (en segundo plano): el lote de una noticia (≤ 13 oraciones) puede
     # superar los 120 s de NA_TRANSLATOR_TIMEOUT en una GPU de 6 GB (eval/results/tvperu_intento1.json)
     feed_translator_timeout: float = 900.0
+    # Textos por petición a BiTAM dentro del ciclo (Fase 5): 4 fue lo más rápido en el ensayo; 0 = todo junto
+    feed_translator_lote: int = 4
 
 
 def get_settings() -> Settings:
@@ -108,4 +110,5 @@ def get_settings() -> Settings:
         feed_timeout=float(os.getenv("NA_FEED_TIMEOUT") or "30"),
         feed_intervalo_min=int(os.getenv("NA_FEED_INTERVALO_MIN") or "0"),
         feed_translator_timeout=float(os.getenv("NA_FEED_TRANSLATOR_TIMEOUT") or "900"),
+        feed_translator_lote=int(os.getenv("NA_FEED_TRANSLATOR_LOTE") or "4"),
     )

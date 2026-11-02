@@ -104,6 +104,33 @@ class HttpTranslator:
         return TranslationResult(salidas, modelo or "BiTAM es2cni", version or "desconocida")
 
 
+class EnTrozos:
+    """Envía los textos al traductor en trozos de ``trozo`` (0 = todo junto) y une las salidas en orden.
+
+    NoticiasTVPeru, Fase 5: con oraciones largas y una GPU de 6 GB, un solo lote grande es más lento que
+    varios pequeños (ensayo: 13 textos en 255 s todo junto frente a 160 s de 4 en 4). Ojo: el agrupamiento
+    cambia algunas salidas (fp16); ver ``docs/tvperu.md``.
+    """
+
+    def __init__(self, translator: Translator, trozo: int) -> None:
+        self.translator = translator
+        self.trozo = trozo
+
+    def translate_batch(self, texts: Sequence[str]) -> TranslationResult:
+        textos = list(texts)
+        paso = self.trozo if self.trozo > 0 else max(1, len(textos))
+        salidas: list[str] = []
+        modelo = version = ""
+        for k in range(0, len(textos), paso):
+            r = self.translator.translate_batch(textos[k : k + paso])
+            salidas.extend(r.translations)
+            modelo, version = r.modelo, r.version
+        return TranslationResult(salidas, modelo, version)
+
+    def salud(self, timeout: float = 5.0) -> dict:
+        return self.translator.salud(timeout)
+
+
 class FakeTranslator:
     """Para pruebas: NO produce asháninka. Devuelve la entrada en minúsculas (como BiTAM, que
     normaliza a minúsculas) marcada con ``[fake-bitam]`` al final, para que nunca se confunda con

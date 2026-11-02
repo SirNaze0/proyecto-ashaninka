@@ -54,14 +54,16 @@ def main() -> None:
     ap.add_argument("--n", type=int, default=200)
     ap.add_argument("--semilla", type=int, default=13)
     ap.add_argument("--url", default="http://127.0.0.1:8100")
+    # NoticiasTVPeru, Fase 5: textos por petición (32 = lo usado en la comparación bf16/fp16)
+    ap.add_argument("--lote", type=int, default=32)
     args = ap.parse_args()
 
     pares = random.Random(args.semilla).sample(cargar_pares(args.corpus, args.split), args.n)
     salud = _pedir(f"{args.url}/salud")
     t0 = time.perf_counter()
     hip: list[str] = []
-    for k in range(0, len(pares), 32):
-        lote = [es for _, es, _ in pares[k : k + 32]]
+    for k in range(0, len(pares), args.lote):
+        lote = [es for _, es, _ in pares[k : k + args.lote]]
         hip.extend(_pedir(f"{args.url}/traducir", {"texts": lote})["translations"])
     segundos = time.perf_counter() - t0
     refs = [[cni for _, _, cni in pares]]
@@ -78,17 +80,24 @@ def main() -> None:
         "chrf_pp": round(CHRF(word_order=2).corpus_score(hip, refs).score, 2),
         "chrf": round(CHRF().corpus_score(hip, refs).score, 2),
         "segundos_total": round(segundos, 1),
-        "s_por_oracion_en_lotes_32": round(segundos / args.n, 3),
+        "lote_cliente": args.lote,
+        f"s_por_oracion_en_lotes_{args.lote}": round(segundos / args.n, 3),
         "sha256_salidas": [hashlib.sha256(h.encode("utf-8")).hexdigest()[:16] for h in hip],
     }
-    salida = RAIZ / "eval" / "results" / f"traductor_fidelidad_{salud['dtype']}.json"
+    sufijo = "" if args.lote == 32 else f"_lote{args.lote}"
+    salida = RAIZ / "eval" / "results" / f"traductor_fidelidad_{salud['dtype']}{sufijo}.json"
     salida.write_text(json.dumps(resultado, ensure_ascii=False, indent=2) + "\n", "utf-8")
     print(
         f"{salida.name}: chrF++={resultado['chrf_pp']} chrF={resultado['chrf']} ({segundos:.0f} s)"
     )
 
     otros = {"float16": "bfloat16", "bfloat16": "float16"}
-    otro = salida.with_name(f"traductor_fidelidad_{otros.get(salud['dtype'], '')}.json")
+    # con --lote distinto de 32 se compara con el mismo dtype en lotes de 32; si no, con el otro dtype
+    otro = salida.with_name(
+        f"traductor_fidelidad_{salud['dtype']}.json"
+        if sufijo
+        else f"traductor_fidelidad_{otros.get(salud['dtype'], '')}.json"
+    )
     if otro.exists():
         b = json.loads(otro.read_text("utf-8"))
         if b["lineas_dev"] == resultado["lineas_dev"]:

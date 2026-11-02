@@ -294,3 +294,30 @@ def test_el_ciclo_usa_su_propia_espera_del_traductor(entorno, monkeypatch):
     monkeypatch.setattr(servicio, "get_translator", capturar)
     servicio.ejecutar_ciclo()
     assert vistos == [900.0]
+
+
+@pytest.mark.parametrize(("lote", "esperado"), [("4", [4, 4, 1]), ("0", [9]), ("1", [1] * 9)])
+def test_el_ciclo_traduce_en_trozos_del_tamano_configurado(entorno, monkeypatch, lote, esperado):
+    # Fase 5: título + oraciones de la noticia en peticiones de NA_FEED_TRANSLATOR_LOTE textos
+    from app.feed import servicio
+    from app.translation import FakeTranslator
+
+    monkeypatch.setenv("NA_FEED_TRANSLATOR_LOTE", lote)
+    fake = FakeTranslator()
+    monkeypatch.setattr(servicio, "get_translator", lambda settings: fake)
+    monkeypatch.setattr(servicio, "_sintetizar", lambda news_id: {})
+    monkeypatch.setattr(
+        servicio.tvperu,
+        "recortar",
+        lambda parrafos, **k: ["Uno. Dos. Tres. Cuatro.", "Cinco. Seis. Siete. Ocho."],
+    )
+    from app.db.models import FeedConfig
+    from app.db.session import get_engine
+    from sqlmodel import Session
+
+    with Session(get_engine()) as s:
+        s.add(FeedConfig(id=1, max_por_ciclo=1))
+        s.commit()
+    res = servicio.ejecutar_ciclo()
+    assert len(res["publicadas"]) == 1
+    assert [len(x) for x in fake.llamadas] == esperado  # 1 título + 8 oraciones

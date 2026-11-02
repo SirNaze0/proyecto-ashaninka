@@ -6,6 +6,7 @@
 | 2 PWA | Culminada |
 | 3 Documentación y medición | Culminada |
 | 4 Verificación y README | Culminada |
+| 5 Traducción en trozos (mejora de velocidad) | En curso |
 
 ## Contexto
 El tablón (`#/noticias`) solo se llena a mano, desde la Sala de redacción o la CLI. El usuario quiere que se
@@ -184,3 +185,16 @@ uv run ruff check backend eval scripts && uv run pytest
 uv run python -m app.cli feed run      # con BiTAM encendido: 3 noticias publicadas
 curl http://127.0.0.1:8000/api/feed/status
 ```
+
+## Fase 5. Traducción en trozos (añadida el 2026-11-02 tras la medición de la Fase 3)
+- **Por qué:** el ciclo de 3 noticias tardó 933 s; casi todo es la traducción en un solo lote. Un ensayo
+  exploratorio (una noticia de 13 textos) dio: de 1 en 1 224 s, de 2 en 2 185 s, **de 4 en 4 160 s**, todo junto
+  255 s; y 2–3 de 13 salidas cambian según el agrupamiento (fp16).
+- **Qué:** `NA_FEED_TRANSLATOR_LOTE` (4 por defecto; 0 = todo junto, como antes). El ciclo envía el título y las
+  oraciones a BiTAM en trozos de ese tamaño (`EnTrozos` en `translation/client.py`). La Redacción no cambia.
+- **Medición** (definida antes en `docs/metrics.md`): velocidad con 3 noticias reales (lote 4 frente a todo
+  junto, orden alternado) y fidelidad en el dev de AmericasNLP (N = 200, semilla 13; lote 4 frente al lote 32
+  ya medido en `traductor_fidelidad_float16.json`).
+- **No se incluye** (decisión del usuario): recortar menos oraciones por noticia; queda como posible mejora
+  en el README.
+

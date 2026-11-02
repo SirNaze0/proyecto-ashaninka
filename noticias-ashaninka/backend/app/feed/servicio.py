@@ -36,6 +36,7 @@ from app.metrics.timing import Timer
 from app.schemas import NewsIn
 from app.services import Pipeline, import_payloads, process_news
 from app.translation import (
+    EnTrozos,
     TextoDemasiadoLargo,
     TraductorError,
     TraductorNoDisponible,
@@ -242,8 +243,11 @@ def _ciclo(s: Settings) -> dict[str, Any]:
         for item in candidatos:
             try:
                 # el ciclo no es interactivo: espera más que la Redacción (NA_FEED_TRANSLATOR_TIMEOUT)
-                translator = translator or get_translator(
-                    dataclasses.replace(s, translator_timeout=s.feed_translator_timeout)
+                translator = translator or EnTrozos(
+                    get_translator(
+                        dataclasses.replace(s, translator_timeout=s.feed_translator_timeout)
+                    ),
+                    s.feed_translator_lote,  # trozos pequeños: más rápido en GPU de 6 GB (Fase 5)
                 )
                 borrador = traducir_noticia(item.titulo_es, item.cuerpo_es, translator)
             except TraductorNoDisponible as e:
