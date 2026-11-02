@@ -56,6 +56,18 @@ def import_news(payloads: list[NewsIn], session: Session = Depends(get_session))
     return import_payloads(payloads, session)
 
 
+@router.get("/translate/status")
+def translate_status() -> dict:
+    """Estado del traductor BiTAM para la Redacción (administrativo, solo lectura, nunca falla).
+
+    ``{"disponible": bool, "motivo": str | None, "modelo", "version", "dispositivo", "fake"}``.
+    Sondea ``GET /salud`` del servicio con una espera corta (5 s).
+    """
+    from app.translation import estado_traductor
+
+    return estado_traductor()
+
+
 @router.post("/translate", response_model=TranslateOut)
 def translate_news(payload: TranslateIn) -> TranslateOut:
     """Borrador en asháninka de una noticia en castellano con BiTAM (MejoraEIntegracion, Fase 2).

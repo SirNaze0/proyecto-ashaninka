@@ -15,6 +15,7 @@ from app.translation.client import (
     TraductorNoDisponible,
     TranslationResult,
     Translator,
+    estado_traductor,
     get_translator,
 )
 from app.translation.service import (
@@ -33,6 +34,7 @@ __all__ = [
     "TraductorNoDisponible",
     "TranslationResult",
     "Translator",
+    "estado_traductor",
     "get_translator",
     "restaurar_mayusculas",
     "traducir_noticia",

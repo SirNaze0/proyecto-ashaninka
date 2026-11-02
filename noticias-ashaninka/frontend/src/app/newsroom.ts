@@ -1,6 +1,8 @@
 // Sala de redacción: lectura de archivos (.txt, .csv, .json) al contrato de ingesta de
-// PLAN_DESARROLLO.md §2 (`NewsIn`) y cliente de publicación (news → process → build).
-// El texto de entrada YA debe estar en asháninka: aquí no se traduce ni se adapta nada.
+// PLAN_DESARROLLO.md §2 (`NewsIn`), cliente de publicación (news → process → build) y cliente del
+// traductor BiTAM es→cni (`POST /api/news/translate`, solo administrador; MejoraEIntegracion F3).
+// La traducción la hace el SERVIDOR (modelo de la tesis de una compañera); aquí solo se pide, se
+// muestra para revisar y se vuelca al borrador. Nada en este archivo genera texto en asháninka.
 import { adminHeaders } from "./role";
 
 export type ProvenanceTipo = "traduccion_humana" | "traduccion_automatica" | "automatica_revisada";
@@ -265,4 +267,123 @@ export async function publicar(d: NewsDraft, token: string, f: typeof fetch = fe
   const segs = (await call(token, "procesar", `/api/news/${id}/segments`, { method: "GET" }, f)) as { tts_ready: boolean }[];
   const conAudio = segs.filter((s) => s.tts_ready).length;
   return { id, segmentos: proc.segmentos, conAudio, bloqueados: segs.length - conAudio };
+}
+
+// ------------------------------------------------------------------ traducción BiTAM (es → cni)
+// Límites del servidor (backend/app/translation/service.py): se validan también aquí para avisar
+// antes de enviar, pero el servidor es quien manda (422).
+export const MAX_TITULO_ES = 300;
+export const MAX_CUERPO_ES = 8000;
+
+export interface OracionTraducida {
+  parrafo: number; // -1 = título
+  es: string;
+  cni_modelo: string; // salida cruda del modelo (minúsculas)
+  cni: string; // con mayúsculas restauradas desde la fuente
+}
+
+export interface TranslateResponse {
+  titulo_cni: string;
+  paragraphs: string[];
+  oraciones: OracionTraducida[];
+  procedencia: { tipo: ProvenanceTipo; sistema: string | null; version: string | null; revisado_por_hablante: boolean; revisor_id: string | null };
+  modelo: string;
+  segundos: number;
+  avisos: string[];
+}
+
+export interface TranslatorStatus {
+  disponible: boolean;
+  motivo: string | null;
+  modelo?: string;
+  version?: string;
+  dispositivo?: string;
+  fake?: boolean;
+}
+
+/** Fallo al traducir. `status` 0 = sin conexión; `cancelada` = el usuario la abortó. */
+export class TranslateError extends Error {
+  constructor(
+    readonly status: number,
+    detalle: string,
+    readonly cancelada = false,
+  ) {
+    super(detalle);
+    this.name = "TranslateError";
+  }
+}
+
+async function detalleDe(r: Response): Promise<string> {
+  try {
+    const j = (await r.json()) as { detail?: unknown };
+    if (typeof j.detail === "string") return j.detail;
+    if (j.detail) return JSON.stringify(j.detail).slice(0, 200);
+  } catch {
+    /* cuerpo no JSON */
+  }
+  return `HTTP ${r.status}`;
+}
+
+/** Qué falta para poder traducir (o `null`). */
+export function validarCastellano(d: Pick<NewsDraft, "titulo_es" | "cuerpo_es">): string | null {
+  if (!d.titulo_es.trim()) return "falta el título en castellano";
+  if (!d.cuerpo_es.trim()) return "falta el cuerpo en castellano";
+  if (d.titulo_es.length > MAX_TITULO_ES) return `el título supera ${MAX_TITULO_ES} caracteres`;
+  if (d.cuerpo_es.length > MAX_CUERPO_ES) return `el cuerpo supera ${MAX_CUERPO_ES} caracteres`;
+  return null;
+}
+
+/** `POST /api/news/translate`: borrador en asháninka (no guarda nada en el servidor). */
+export async function traducir(
+  d: Pick<NewsDraft, "titulo_es" | "cuerpo_es">,
+  token: string,
+  signal?: AbortSignal,
+  f: typeof fetch = fetch,
+): Promise<TranslateResponse> {
+  let r: Response;
+  try {
+    r = await f("/api/news/translate", {
+      method: "POST",
+      headers: { ...adminHeaders(token), "Content-Type": "application/json" },
+      body: JSON.stringify({ titulo_es: d.titulo_es.trim(), cuerpo_es: d.cuerpo_es.trim() }),
+      signal,
+    });
+  } catch {
+    if (signal?.aborted) throw new TranslateError(0, "traducción cancelada", true);
+    throw new TranslateError(0, "sin conexión con el servidor");
+  }
+  if (!r.ok) throw new TranslateError(r.status, await detalleDe(r));
+  return (await r.json()) as TranslateResponse;
+}
+
+/** `GET /api/news/translate/status`. Nunca lanza: si algo falla, `disponible: false` con motivo. */
+export async function estadoTraductor(token: string, f: typeof fetch = fetch): Promise<TranslatorStatus> {
+  try {
+    const r = await f("/api/news/translate/status", { headers: adminHeaders(token) });
+    if (!r.ok) return { disponible: false, motivo: await detalleDe(r) };
+    return (await r.json()) as TranslatorStatus;
+  } catch {
+    return { disponible: false, motivo: "sin conexión con el servidor" };
+  }
+}
+
+/** ¿El borrador ya tiene texto en asháninka que una traducción nueva reemplazaría? */
+export function tieneTextoCni(d: NewsDraft): boolean {
+  return !!d.titulo_cni.trim() || d.paragraphs.some((p) => p.trim());
+}
+
+/** Respuesta del traductor → borrador (función pura). Conserva el castellano y los metadatos;
+ * la procedencia queda como traducción automática NO revisada (solo un hablante puede cambiarlo). */
+export function aplicarTraduccion(d: NewsDraft, r: TranslateResponse): NewsDraft {
+  return {
+    ...d,
+    titulo_cni: r.titulo_cni.replace(/\s+/g, " ").trim().slice(0, MAX_TITLE_CHARS),
+    paragraphs: clean(r.paragraphs),
+    procedencia: {
+      tipo: "traduccion_automatica",
+      sistema: r.procedencia.sistema ?? "BiTAM es2cni",
+      version: r.procedencia.version ?? "",
+      revisado_por_hablante: false,
+    },
+  };
 }

@@ -1,23 +1,36 @@
-// Sala de redacción (solo administrador): carga de texto por párrafos o de archivos (.txt, .csv, .json),
-// procedencia obligatoria y publicación real: /api/news → process → build (audio por lotes).
-// El texto debe venir YA en asháninka; la traducción es-cni sigue pendiente de integración.
-import { useRef, useState } from "preact/hooks";
+// Sala de redacción (solo administrador): traducción castellano→asháninka con BiTAM (borrador que el
+// SERVIDOR genera con el modelo de la tesis de una compañera), carga de texto ya en asháninka por
+// párrafos o archivos (.txt, .csv, .json), procedencia obligatoria y publicación real:
+// /api/news → process → build (audio por lotes). La traducción automática nunca se marca revisada.
+import { useEffect, useRef, useState } from "preact/hooks";
 import { useApp } from "../ctx";
 import {
   ACCEPTED_EXTENSIONS,
+  MAX_CUERPO_ES,
   MAX_PARAGRAPHS,
+  MAX_TITULO_ES,
   type NewsDraft,
   PLANTILLA_CSV,
   PROVENANCE_TIPOS,
   PublishError,
   type PublishResult,
+  TranslateError,
+  type TranslateResponse,
+  type TranslatorStatus,
+  aplicarTraduccion,
   emptyDraft,
+  estadoTraductor,
   parseNewsFile,
   parsePlainText,
   publicar,
+  tieneTextoCni,
+  traducir,
   validar,
+  validarCastellano,
 } from "../newsroom";
 import { newsHref } from "../router";
+
+const claveCastellano = (d: NewsDraft) => `${d.titulo_es.trim()}\u0000${d.cuerpo_es.trim()}`;
 
 export function Newsroom() {
   const { t, token } = useApp();
@@ -32,6 +45,60 @@ export function Newsroom() {
   const [error, setError] = useState("");
   const [result, setResult] = useState<PublishResult | null>(null);
   const input = useRef<HTMLInputElement>(null);
+  // traducción BiTAM
+  const [estado, setEstado] = useState<TranslatorStatus | null>(null); // null = comprobando
+  const [trBusy, setTrBusy] = useState(false);
+  const [trError, setTrError] = useState("");
+  const [trResult, setTrResult] = useState<TranslateResponse | null>(null);
+  const [trFuente, setTrFuente] = useState("");
+  const abortRef = useRef<AbortController | null>(null);
+
+  async function comprobarTraductor() {
+    if (!token) return;
+    setEstado(null);
+    setEstado(await estadoTraductor(token));
+  }
+  useEffect(() => {
+    void comprobarTraductor();
+    return () => abortRef.current?.abort();
+  }, [token]);
+
+  function mensajeTraduccion(err: unknown): string {
+    if (!(err instanceof TranslateError)) return String(err);
+    if (err.cancelada) return t("newsroom.translate.cancelled");
+    if (err.status === 403) return t("newsroom.error.forbidden");
+    if (err.status === 503) return t("newsroom.translate.unavailable", { m: err.message });
+    if (err.status === 422) return t("newsroom.translate.tooLong", { m: err.message });
+    return t("newsroom.translate.failed", { m: err.message });
+  }
+
+  async function onTranslate() {
+    const falta = validarCastellano(draft);
+    if (falta) return setTrError(t("newsroom.translate.invalid", { m: falta }));
+    if (!token) return;
+    // no se pisa texto en asháninka sin preguntar
+    if (tieneTextoCni(draft) && !window.confirm(t("newsroom.translate.confirmReplace"))) return;
+    const ctl = new AbortController();
+    abortRef.current = ctl;
+    const fuente = claveCastellano(draft);
+    setTrBusy(true);
+    setTrError("");
+    setTrResult(null);
+    try {
+      const r = await traducir(draft, token, ctl.signal);
+      setDraft((d) => aplicarTraduccion(d, r));
+      setResult(null);
+      setTrResult(r);
+      setTrFuente(fuente);
+    } catch (err) {
+      setTrError(mensajeTraduccion(err));
+    } finally {
+      setTrBusy(false);
+      abortRef.current = null;
+    }
+  }
+
+  const desactualizada = !!trResult && claveCastellano(draft) !== trFuente;
 
   const patch = (p: Partial<NewsDraft>) => {
     setDraft((d) => ({ ...d, ...p }));
@@ -93,7 +160,7 @@ export function Newsroom() {
   }
 
   const steps = [1, 2, 3, 4];
-  const step = result ? 4 : draft.titulo_cni.trim() && draft.paragraphs.some((p) => p.trim()) ? 3 : 1;
+  const step = result ? 4 : tieneTextoCni(draft) ? 3 : trBusy ? 2 : 1;
 
   return (
     <section class="room" aria-labelledby="room-h">
@@ -105,9 +172,110 @@ export function Newsroom() {
           </li>
         ))}
       </ol>
-      <p class="banner" role="note" data-testid="room-pending">
-        {t("newsroom.translatorPending")}
-      </p>
+      <div class="card" data-testid="room-translate-card">
+        <h3>{t("newsroom.translate.heading")}</h3>
+        <p class="tr-note">{t("newsroom.translate.hint")}</p>
+        {estado === null ? (
+          <p class="tr-note" role="status" data-testid="room-tr-checking">
+            {t("newsroom.translate.checking")}
+          </p>
+        ) : estado.disponible ? (
+          <p class="room-ok" role="status" data-testid="room-tr-ready">
+            {t("newsroom.translate.ready", { modelo: estado.modelo ?? "BiTAM", version: estado.version ?? "—", dispositivo: estado.dispositivo ?? "—" })}
+          </p>
+        ) : (
+          <div class="banner room-tr-down" role="note" data-testid="room-pending">
+            <span>{t("newsroom.translate.unavailable", { m: estado.motivo ?? "" })}</span>
+            <button type="button" class="btn btn-sm" data-testid="room-tr-recheck" onClick={() => void comprobarTraductor()}>
+              {t("newsroom.translate.recheck")}
+            </button>
+          </div>
+        )}
+        <label class="field">
+          {t("newsroom.field.titleEs")}
+          <input
+            type="text"
+            lang="es"
+            value={draft.titulo_es}
+            maxLength={MAX_TITULO_ES}
+            readOnly={trBusy}
+            data-testid="room-es-title"
+            onInput={(e) => patch({ titulo_es: (e.currentTarget as HTMLInputElement).value })}
+          />
+        </label>
+        <label class="field">
+          {t("newsroom.field.bodyEs")}
+          <textarea
+            rows={6}
+            lang="es"
+            value={draft.cuerpo_es}
+            maxLength={MAX_CUERPO_ES}
+            readOnly={trBusy}
+            data-testid="room-es-body"
+            aria-describedby="room-es-count"
+            onInput={(e) => patch({ cuerpo_es: (e.currentTarget as HTMLTextAreaElement).value })}
+          />
+        </label>
+        <p class="tr-note" id="room-es-count">
+          {t("newsroom.translate.count", { n: draft.cuerpo_es.length, max: MAX_CUERPO_ES })}
+        </p>
+        <div class="room-tr-actions">
+          <button type="button" class="btn primary" data-testid="room-translate" disabled={trBusy || !estado?.disponible} onClick={() => void onTranslate()}>
+            {t(trBusy ? "newsroom.translate.working" : "newsroom.translate.button")}
+          </button>
+          {trBusy && (
+            <button type="button" class="btn btn-sm" data-testid="room-tr-cancel" onClick={() => abortRef.current?.abort()}>
+              {t("newsroom.translate.cancel")}
+            </button>
+          )}
+        </div>
+        {trBusy && (
+          <div class="synth-bar" role="progressbar" aria-label={t("newsroom.translate.working")}>
+            <i />
+          </div>
+        )}
+        <p role="alert" class="token-msg" data-testid="room-tr-error">
+          {trError}
+        </p>
+        {trResult && (
+          <>
+            <p class="room-ok" role="status" data-testid="room-tr-result">
+              {t("newsroom.translate.done", { n: trResult.oraciones.length, s: trResult.segundos.toFixed(1) })}
+            </p>
+            {trResult.avisos.map((a, i) => (
+              <p key={i} class="banner" role="note" data-testid="room-tr-aviso">
+                {a}
+              </p>
+            ))}
+            {desactualizada && (
+              <p class="banner" role="note" data-testid="room-tr-stale">
+                {t("newsroom.translate.stale")}
+              </p>
+            )}
+            <details data-testid="room-tr-pairs">
+              <summary>{t("newsroom.translate.pairs", { n: trResult.oraciones.length })}</summary>
+              <div class="tr-pairs-wrap">
+                <table class="tr-pairs">
+                  <thead>
+                    <tr>
+                      <th scope="col">{t("newsroom.translate.colEs")}</th>
+                      <th scope="col">{t("newsroom.translate.colCni")}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {trResult.oraciones.map((o, i) => (
+                      <tr key={i} class={o.parrafo < 0 ? "tr-pairs-title" : ""}>
+                        <td lang="es">{o.es}</td>
+                        <td lang="cni">{o.cni}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </details>
+          </>
+        )}
+      </div>
 
       <div class="card">
         <h3>{t("newsroom.import")}</h3>
@@ -235,17 +403,6 @@ export function Newsroom() {
             <input type="text" value={draft.fuente_original} onInput={(e) => patch({ fuente_original: (e.currentTarget as HTMLInputElement).value })} />
           </label>
         </div>
-        <details>
-          <summary>{t("newsroom.field.titleEs")} / {t("newsroom.field.bodyEs")}</summary>
-          <label class="field">
-            {t("newsroom.field.titleEs")}
-            <input type="text" lang="es" value={draft.titulo_es} onInput={(e) => patch({ titulo_es: (e.currentTarget as HTMLInputElement).value })} />
-          </label>
-          <label class="field">
-            {t("newsroom.field.bodyEs")}
-            <textarea rows={3} lang="es" value={draft.cuerpo_es} onInput={(e) => patch({ cuerpo_es: (e.currentTarget as HTMLTextAreaElement).value })} />
-          </label>
-        </details>
       </div>
 
       <fieldset class="card">

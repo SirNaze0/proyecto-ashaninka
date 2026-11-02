@@ -451,6 +451,52 @@ a.btn {
   padding: 0.5rem 0.8rem;
   font-weight: 600;
 }
+/* traducción BiTAM (borrador automático) */
+.room-tr-down {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+.room-tr-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0.4rem 0;
+}
+.tr-pairs-wrap {
+  max-height: 22rem;
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.tr-pairs {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+.tr-pairs th,
+.tr-pairs td {
+  padding: 0.4rem 0.6rem;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+.tr-pairs th {
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+}
+.tr-pairs td[lang="es"] {
+  color: var(--muted);
+  width: 45%;
+}
+.tr-pairs-title td {
+  font-weight: 700;
+}
 .par-edit {
   display: flex;
   flex-direction: column;

@@ -18,7 +18,7 @@ resumen de culminación de cada fase.
 | [`PLAN_INTEGRACION.md`](PLAN_INTEGRACION.md) | Plan maestro: veredicto de compatibilidad, arquitectura, fases, criterios de aceptación y riesgos | Aprobado (2026-11-02) |
 | [`PROMPT_FASE1.md`](PROMPT_FASE1.md) | Fase 1: servicio BiTAM aparte (entorno propio y GPU) | **Culminada** (2026-11-02): ver [`RESUMEN_FASE1.md`](RESUMEN_FASE1.md) |
 | [`PROMPT_FASE2.md`](PROMPT_FASE2.md) | Fase 2: backend (cliente, mayúsculas, `POST /api/news/translate`) | **Culminada** (2026-11-02): ver [`RESUMEN_FASE2.md`](RESUMEN_FASE2.md) |
-| [`PROMPT_FASE3.md`](PROMPT_FASE3.md) | Fase 3: Redacción en la PWA (tarjeta «Traducir desde castellano») | Pendiente |
+| [`PROMPT_FASE3.md`](PROMPT_FASE3.md) | Fase 3: Redacción en la PWA (tarjeta «Traducir desde castellano») | **Culminada** (2026-11-02): ver [`RESUMEN_FASE3.md`](RESUMEN_FASE3.md) |
 | [`PROMPT_FASE4.md`](PROMPT_FASE4.md) | Fase 4: medición ortográfica, documentación, licencias y cierre | Pendiente |
 | `RESUMEN_FASE1.md` … `RESUMEN_FASE4.md` | Resumen de culminación de cada fase | Se escriben al cerrar cada fase |
 

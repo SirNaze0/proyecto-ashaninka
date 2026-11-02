@@ -45,6 +45,8 @@ class TranslationResult:
 class Translator(Protocol):
     def translate_batch(self, texts: Sequence[str]) -> TranslationResult: ...
 
+    def salud(self, timeout: float = 5.0) -> dict: ...
+
 
 class HttpTranslator:
     """Llama al servicio BiTAM local. Trocea en lotes de ``LOTE_MAX`` oraciones."""
@@ -53,30 +55,39 @@ class HttpTranslator:
         self.url = url.rstrip("/")
         self.timeout = timeout
 
-    def _post(self, texts: list[str]) -> dict:
+    def _request(self, ruta: str, cuerpo: dict | None = None, timeout: float | None = None) -> dict:
+        espera = self.timeout if timeout is None else timeout
         req = urllib.request.Request(
-            f"{self.url}/traducir",
-            data=json.dumps({"texts": texts}).encode("utf-8"),
+            f"{self.url}{ruta}",
+            data=None if cuerpo is None else json.dumps(cuerpo).encode("utf-8"),
             headers={"Content-Type": "application/json"},
-            method="POST",
+            method="GET" if cuerpo is None else "POST",
         )
         try:
-            with urllib.request.urlopen(req, timeout=self.timeout) as r:
-                return json.loads(r.read().decode("utf-8"))
+            with urllib.request.urlopen(req, timeout=espera) as r:
+                d = json.loads(r.read().decode("utf-8"))
         except urllib.error.HTTPError as e:  # antes que URLError: es subclase
             raise TraductorError(f"el traductor respondió {e.code}", status=e.code) from e
         except TimeoutError as e:  # incluye socket.timeout (alias desde Python 3.10)
-            raise TraductorNoDisponible(f"el traductor no respondió en {self.timeout:g} s") from e
+            raise TraductorNoDisponible(f"el traductor no respondió en {espera:g} s") from e
         except urllib.error.URLError as e:
             if isinstance(e.reason, TimeoutError):
-                raise TraductorNoDisponible(
-                    f"el traductor no respondió en {self.timeout:g} s"
-                ) from e
+                raise TraductorNoDisponible(f"el traductor no respondió en {espera:g} s") from e
             raise TraductorNoDisponible(f"no se pudo conectar con el traductor ({e.reason})") from e
         except (ConnectionError, OSError) as e:
             raise TraductorNoDisponible(f"no se pudo conectar con el traductor ({e})") from e
         except ValueError as e:  # JSON inválido
             raise TraductorError("respuesta del traductor no es JSON válido") from e
+        if not isinstance(d, dict):
+            raise TraductorError("respuesta del traductor con forma inesperada")
+        return d
+
+    def _post(self, texts: list[str]) -> dict:
+        return self._request("/traducir", {"texts": texts})
+
+    def salud(self, timeout: float = 5.0) -> dict:
+        """``GET /salud`` del servicio (modelo, run, dispositivo, dtype). Espera corta: es un sondeo."""
+        return self._request("/salud", timeout=timeout)
 
     def translate_batch(self, texts: Sequence[str]) -> TranslationResult:
         textos = list(texts)
@@ -108,6 +119,31 @@ class FakeTranslator:
         self.llamadas.append(list(texts))
         out = [f"{t.strip().lower()} [fake-bitam]" if t.strip() else "" for t in texts]
         return TranslationResult(out, self.modelo, self.version)
+
+    def salud(self, timeout: float = 5.0) -> dict:
+        return {
+            "modelo": self.modelo,
+            "version": self.version,
+            "dispositivo": "ninguno",
+            "fake": True,
+        }
+
+
+def estado_traductor(settings: Settings | None = None) -> dict:
+    """Estado para la Redacción: NUNCA lanza. ``disponible`` + ``motivo`` si no lo está."""
+    try:
+        t = get_translator(settings)
+        d = t.salud()
+    except (TraductorNoDisponible, TraductorError) as e:
+        return {"disponible": False, "motivo": str(e)}
+    return {
+        "disponible": True,
+        "motivo": None,
+        "modelo": str(d.get("modelo", "")),
+        "version": str(d.get("version", "")),
+        "dispositivo": str(d.get("dispositivo", "")),
+        "fake": bool(d.get("fake", False)),
+    }
 
 
 def get_translator(settings: Settings | None = None) -> Translator:

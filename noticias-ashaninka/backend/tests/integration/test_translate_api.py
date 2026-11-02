@@ -100,6 +100,35 @@ def test_servicio_caido_503(cliente, monkeypatch) -> None:
     assert r.status_code == 503
 
 
+# ------------------------------------------------------------------ estado (para la Redacción)
+def test_estado_sin_token_403(cliente) -> None:
+    assert cliente.get("/api/news/translate/status").status_code == 403
+
+
+def test_estado_con_motor_falso(cliente) -> None:
+    d = cliente.get("/api/news/translate/status", headers=ADMIN).json()
+    assert d["disponible"] is True and d["fake"] is True and d["motivo"] is None
+
+
+def test_estado_sin_url_no_falla(cliente, monkeypatch) -> None:
+    monkeypatch.setenv("NA_TRANSLATOR_ENGINE", "http")
+    monkeypatch.setenv("NA_TRANSLATOR_URL", "")
+    r = cliente.get("/api/news/translate/status", headers=ADMIN)
+    assert r.status_code == 200
+    assert r.json()["disponible"] is False
+    assert "NA_TRANSLATOR_URL" in r.json()["motivo"]
+
+
+def test_estado_servicio_caido_no_falla(cliente, monkeypatch) -> None:
+    with socket.socket() as sk:
+        sk.bind(("127.0.0.1", 0))
+        puerto = sk.getsockname()[1]
+    monkeypatch.setenv("NA_TRANSLATOR_ENGINE", "http")
+    monkeypatch.setenv("NA_TRANSLATOR_URL", f"http://127.0.0.1:{puerto}")
+    r = cliente.get("/api/news/translate/status", headers=ADMIN)
+    assert r.status_code == 200 and r.json()["disponible"] is False
+
+
 # ------------------------------------------------------------------ servicio real (opcional)
 @pytest.mark.traductor
 def test_servicio_bitam_real(cliente, monkeypatch) -> None:
