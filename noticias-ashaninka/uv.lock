@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = "==3.11.*"
 resolution-markers = [
     "sys_platform == 'win32'",
@@ -572,6 +572,7 @@ dependencies = [
 [package.dev-dependencies]
 dev = [
     { name = "httpx" },
+    { name = "pillow" },
     { name = "pre-commit" },
     { name = "psutil" },
     { name = "pytest" },
@@ -608,6 +609,7 @@ requires-dist = [
 [package.metadata.requires-dev]
 dev = [
     { name = "httpx", specifier = ">=0.27" },
+    { name = "pillow", specifier = ">=10.0" },
     { name = "pre-commit", specifier = ">=3.8" },
     { name = "psutil", specifier = ">=5.9" },
     { name = "pytest", specifier = ">=8.3" },

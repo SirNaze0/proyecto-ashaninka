@@ -28,6 +28,7 @@ dev = [
     "pre-commit>=3.8",
     "shellcheck-py>=0.10",
     "psutil>=5.9",
+    "pillow>=10.0",  # scripts/optimize_vrm.py: init.sh reduce el avatar provisional
 ]
 # Evaluación (métricas auxiliares). torch/transformers ya son dependencias principales.
 eval = [

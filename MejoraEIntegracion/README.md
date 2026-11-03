@@ -71,8 +71,8 @@ Si el puerto 8100 queda ocupado después de cerrar la consola (pasa en Windows),
 
 ### 2. Archivo que falta en el repositorio
 
-- **VRM de la presentadora** (`frontend/public/models/presentadora_provisional.vrm`). No está en
-  ninguna carpeta. Hay que copiarlo o regenerarlo con `scripts/optimize_vrm.py`.
+- **VRM de la presentadora** (`frontend/public/models/presentadora_provisional.vrm`). No está en git:
+  desde el 2026-11-03 lo descarga y reduce `./init.sh` (commit de three-vrm y SHA-256 fijados).
   - Sin él, en C4 el avatar 3D cae a una **imagen fija**.
   - Sin él, `test_dockerignore…` falla, las 4 E2E del avatar se saltan y `scripts/verify.sh` no
     termina en verde.

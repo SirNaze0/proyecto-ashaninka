@@ -30,6 +30,15 @@ MMS_VOCAB_PATH="backend/tests/fixtures/mms_cni_vocab.json"
 MMS_ASR_REPO="facebook/mms-1b-all"
 MMS_ASR_REVISION="3d33597edbdaaba14a8e858e2c8caa76e3cec0cd"
 MONO_URL="https://github.com/iapucp/multilingual-data-peru"
+# Avatar provisional (C4): VRM1_Constraint_Twist_Sample de pixiv, licencia VRM 1.0 (redistribución
+# permitida, ver LICENSES.md). Se fija el commit de three-vrm y el SHA-256 del original; luego se reduce
+# con scripts/optimize_vrm.py. NO es la presentadora final.
+VRM_COMMIT="5a3242b66124386c32b085c6693d9059040e72e5"
+VRM_URL="https://raw.githubusercontent.com/pixiv/three-vrm/${VRM_COMMIT}/packages/three-vrm/examples/models/VRM1_Constraint_Twist_Sample.vrm"
+VRM_SHA="12c2b97e95e700783a6a550dc0eee2d7880aeedccef9ae67bc4c5a2f0f2631a2"
+VRM_ORIGINAL="models/avatar/VRM1_Constraint_Twist_Sample.vrm"
+VRM_DEST="frontend/public/models/presentadora_provisional.vrm"
+VRM_EXPRESIONES="aa,ih,ou,ee,oh,blink"
 
 # ---------------------------------------------------------------- opciones
 WITH_DATA=0; WITH_MONO=0; WITH_AUDIO=0; WITH_ASR=0; WITH_TTS=0; CHECK=0; RESET_DB=0; YES=0
@@ -271,6 +280,27 @@ case "$rc" in
   4) fail "vocabulario MMS ausente" ;;
   *) die 2 "descarga del vocabulario MMS" ;;
 esac
+
+# ---------------------------------------------------------------- 7b. avatar provisional (C4)
+if [ "$CHECK" -eq 1 ]; then
+  if [ -f "$VRM_DEST" ]; then ok "avatar provisional presente"; else fail "avatar provisional ausente ($VRM_DEST)"; fi
+elif [ -f "$VRM_DEST" ]; then
+  ok "avatar provisional existente (no se regenera; bórrelo para rehacerlo)"
+else
+  log "Avatar provisional VRM1_Constraint_Twist_Sample (pixiv, licencia VRM 1.0, ~10 MB)."
+  set +e
+  fetch_verified "$VRM_URL" "$VRM_ORIGINAL" "$VRM_SHA"
+  rc=$?
+  set -e
+  case "$rc" in
+    0) ;;
+    3) die 3 "hash del avatar provisional no coincide" ;;
+    *) die 2 "descarga del avatar provisional" ;;
+  esac
+  mkdir -p "$(dirname "$VRM_DEST")"
+  run_py scripts/optimize_vrm.py "$VRM_ORIGINAL" "$VRM_DEST" --keep-expressions "$VRM_EXPRESIONES"     || die 2 "reducción del avatar provisional (scripts/optimize_vrm.py)"
+  ok "avatar provisional ($VRM_DEST; recompile la PWA para incluirlo en dist/)"
+fi
 
 # ---------------------------------------------------------------- 8. pre-commit
 # El proyecto puede ser la raíz del repositorio o una subcarpeta (p. ej. Proyecto/noticias-ashaninka):

@@ -17,7 +17,11 @@ npm run bench:size   # peso de las dos opciones de la tarea 3.1 (bench/)
 
 El modelo de la presentadora final (VRoid Studio, pista paralela) aún no existe. Mientras tanto se
 usa `VRM1_Constraint_Twist_Sample` (pixiv, VRM 1.0, redistribución permitida), reducido con
-`scripts/optimize_vrm.py`. **No se versiona** (`public/models/*.vrm` está en `.gitignore`):
+`scripts/optimize_vrm.py`. **No se versiona** (`public/models/*.vrm` está en `.gitignore`).
+
+**Lo hace `./init.sh`** (desde `noticias-ashaninka/`): descarga el original desde un commit fijado de three-vrm,
+verifica su SHA-256 y lo reduce. Si el archivo ya existe no lo regenera (bórrelo para rehacerlo); `./init.sh
+--check` informa si falta. Equivalente manual:
 
 ```bash
 # desde noticias-ashaninka/

@@ -132,9 +132,7 @@ uv run pytest                                  # backend (uv run pytest -m smoke
 Resultados de la última verificación (2026-11-02, en `RESUMEN_FASE4.md`): pytest 337 aprobadas, 9 omitidas
 y 1 fallo previo; vitest 102/102; E2E 39 aprobadas y 4 omitidas; traductor 15/15.
 
-**Fallo conocido:** `test_dockerignore_deja_pasar_lo_que_el_runtime_necesita_y_excluye_lo_sensible` exige
-`frontend/public/models/presentadora_provisional.vrm`, que no está en git. Copie el VRM provisional a esa ruta
-y la prueba pasa; mientras falte, `scripts/verify.sh` se detiene en el paso de pytest.
+**Avatar (resuelto el 2026-11-03):** `./init.sh` descarga y reduce el VRM provisional en `frontend/public/models/presentadora_provisional.vrm`, así que `test_dockerignore_…` ya pasa. Si clonó antes, vuelva a ejecutar `./init.sh` y recompile la PWA.
 
 ## Reglas del proyecto que siguen vigentes
 

@@ -1,5 +1,17 @@
 # Changelog
 
+## Avatar provisional automático (2026-11-03)
+
+### Añadido
+- `./init.sh` descarga `VRM1_Constraint_Twist_Sample` (pixiv, licencia VRM 1.0) desde el commit `5a3242b` de
+  three-vrm, verifica su SHA-256 y lo reduce con `scripts/optimize_vrm.py` (10,8 MB → 2,5 MB) a
+  `frontend/public/models/presentadora_provisional.vrm`. `--check` informa si falta.
+- `pillow` en el grupo `dev` (lo necesita `optimize_vrm.py` sin `--with-audio-eval`).
+
+### Corregido
+- `test_dockerignore_deja_pasar_lo_que_el_runtime_necesita_y_excluye_lo_sensible`, que fallaba en cada clon
+  porque el VRM no existía.
+
 ## NoticiasTVPeru — Tablón automático con noticias de TV Perú (2026-11-02)
 
 Plan, prompts y resúmenes en `../NoticiasTVPeru/`.

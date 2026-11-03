@@ -14,7 +14,7 @@ The project is a thesis artifact: a news service in Asháninka (`cni`) with TTS 
 ## Commands (from `noticias-ashaninka/`)
 
 ```bash
-./init.sh [--with-tts|--with-data|--check|...]   # bootstrap: uv, Python 3.11, deps, .env, SQLite, corpus (hash-verified), pre-commit
+./init.sh [--with-tts|--with-data|--check|...]   # bootstrap: uv, Python 3.11, deps, .env, SQLite, corpus + provisional VRM avatar (hash-verified), pre-commit
 uv run pytest                                    # all tests (testpaths = backend/tests)
 uv run pytest -m smoke                           # fast subset (also the pre-commit hook)
 uv run pytest backend/tests/unit/test_verbalize.py::test_name   # single test

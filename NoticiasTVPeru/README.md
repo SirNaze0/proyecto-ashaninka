@@ -95,7 +95,7 @@ de TV Perú se quedan en cola y la Redacción indica «traductor no disponible»
 ### 1. Instalación (una vez)
 
 ```bash
-./init.sh --with-tts                       # uv, Python 3.11, dependencias, .env, base SQLite y voz MMS
+./init.sh --with-tts                       # uv, Python 3.11, dependencias, .env, base SQLite, voz MMS y avatar
 (cd frontend && npm ci && npm run build)   # compila la PWA a frontend/dist (la sirve el backend)
 (cd traductor && uv sync)                  # entorno PROPIO de BiTAM (torch 2.6 cu124); no se mezcla con el backend
 cp .env.local.example .env                 # trae NA_TRANSLATOR_URL=http://127.0.0.1:8100 y NA_FEED_ENABLED=true
@@ -197,16 +197,14 @@ planificador sigue donde lo dejó.
 ```bash
 uv run pytest backend/tests/unit/test_feed_tvperu.py backend/tests/integration/test_feed_servicio.py
 (cd frontend && npx vitest run tests/feed.test.ts && npx playwright test e2e/tvperu.spec.ts)
-scripts/verify.sh                       # toda la batería (ver «Fallo conocido»)
+scripts/verify.sh                       # toda la batería
 ```
 
 Las pruebas **nunca contactan a TV Perú**: usan un RSS ficticio con la misma estructura
 (`backend/tests/fixtures/tvperu_rss_muestra.xml`) servido en local, el traductor `fake` y la voz `fake`. Las
 E2E simulan `/api/feed/*` con `page.route`. Resultados de la verificación final: `RESUMEN_FASE4.md`.
 
-**Fallo conocido, previo y ajeno a esta función:** `test_dockerignore_…` exige
-`frontend/public/models/presentadora_provisional.vrm`, que no está en git. Si copia el VRM provisional a esa
-ruta, la prueba pasa.
+**Avatar (resuelto el 2026-11-03):** `./init.sh` descarga y reduce el VRM provisional en `frontend/public/models/presentadora_provisional.vrm`, así que `test_dockerignore_…` ya pasa. Si clonó antes, vuelva a ejecutar `./init.sh` y recompile la PWA.
 
 ## Rendimiento medido (2026-11-02, GTX 1060 de 6 GB)
 

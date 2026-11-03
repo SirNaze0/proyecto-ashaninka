@@ -68,6 +68,9 @@ El script hace lo siguiente:
 - Instala `uv` y Python 3.11, y luego las dependencias.
 - Crea `.env` y la base SQLite.
 - Descarga el corpus AmericasNLP 2021 y el vocabulario de `mms-tts-cni`, ambos en versiones fijadas y verificados por SHA-256.
+- Descarga el **avatar provisional** (`VRM1_Constraint_Twist_Sample` de pixiv, licencia VRM 1.0, commit y SHA-256
+  fijados) y lo reduce con `scripts/optimize_vrm.py` a `frontend/public/models/presentadora_provisional.vrm`
+  (≈ 2,5 MB). El VRM no se versiona; ejecute `./init.sh` **antes** de `npm run build` para que entre en `dist/`.
 - Configura `pre-commit` y valida los recursos YAML.
 - Ejecuta la prueba rápida.
 
